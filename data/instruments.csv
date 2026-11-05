@@ -1,0 +1,59 @@
+group,symbol,name_en,name_no,kind,decimals
+equity,^GSPC,S&P 500,S&P 500,price,0
+equity,^IXIC,Nasdaq Composite,Nasdaq Composite,price,0
+equity,^DJI,Dow Jones Industrial,Dow Jones Industrial,price,0
+equity,^RUT,Russell 2000,Russell 2000,price,0
+equity,^STOXX,STOXX Europe 600,STOXX Europe 600,price,1
+equity,^STOXX50E,Euro Stoxx 50,Euro Stoxx 50,price,0
+equity,^GDAXI,DAX,DAX,price,0
+equity,^FTSE,FTSE 100,FTSE 100,price,0
+equity,^FCHI,CAC 40,CAC 40,price,0
+equity,OSEBX.OL,Oslo Børs Benchmark (OSEBX),Oslo Børs hovedindeks (OSEBX),price,1
+equity,^OMX,OMX Stockholm 30,OMX Stockholm 30,price,0
+equity,^N225,Nikkei 225,Nikkei 225,price,0
+equity,^HSI,Hang Seng,Hang Seng,price,0
+equity,000001.SS,Shanghai Composite,Shanghai Composite,price,0
+equity,^KS11,KOSPI,KOSPI,price,0
+equity,EEM,MSCI Emerging Markets (EEM ETF),MSCI fremvoksende markeder (EEM ETF),price,2
+equity,^VIX,VIX,VIX,price,1
+sector,XLK,Technology,Teknologi,price,2
+sector,XLC,Communication services,Kommunikasjonstjenester,price,2
+sector,XLY,Consumer discretionary,Sykliske konsumvarer,price,2
+sector,XLP,Consumer staples,Stabile konsumvarer,price,2
+sector,XLV,Health care,Helse,price,2
+sector,XLF,Financials,Finans,price,2
+sector,XLI,Industrials,Industri,price,2
+sector,XLB,Materials,Materialer,price,2
+sector,XLE,Energy,Energi,price,2
+sector,XLU,Utilities,Kraft og forsyning,price,2
+sector,XLRE,Real estate,Eiendom,price,2
+rates,^IRX,US 3-month bill,USA 3-måneders statskasseveksel,yield,2
+rates,^FVX,US 5-year Treasury,USA 5-års statsobligasjon,yield,2
+rates,^TNX,US 10-year Treasury,USA 10-års statsobligasjon,yield,2
+rates,^TYX,US 30-year Treasury,USA 30-års statsobligasjon,yield,2
+rates,ZN=F,US 10-year note future,USA 10-års statsobligasjonsfuture,price,2
+rates,ZB=F,US 30-year bond future,USA 30-års statsobligasjonsfuture,price,2
+commodity,^SPGSCI,S&P GSCI commodity index,S&P GSCI råvareindeks,price,1
+commodity,BZ=F,Brent crude (USD/bbl),Brent-olje (USD/fat),price,2
+commodity,CL=F,WTI crude (USD/bbl),WTI-olje (USD/fat),price,2
+commodity,NG=F,Henry Hub natural gas (USD/MMBtu),Henry Hub-gass (USD/MMBtu),price,2
+commodity,TTF=F,Dutch TTF gas (EUR/MWh),Nederlandsk TTF-gass (EUR/MWh),price,2
+commodity,GC=F,Gold (USD/oz),Gull (USD/unse),price,0
+commodity,SI=F,Silver (USD/oz),Sølv (USD/unse),price,2
+commodity,HG=F,Copper (USD/lb),Kobber (USD/pund),price,3
+commodity,ALI=F,Aluminium (USD/t),Aluminium (USD/tonn),price,0
+commodity,PL=F,Platinum (USD/oz),Platina (USD/unse),price,0
+commodity,ZW=F,Wheat (USc/bu),Hvete (USc/bushel),price,0
+commodity,ZC=F,Corn (USc/bu),Mais (USc/bushel),price,0
+commodity,ZS=F,Soybeans (USc/bu),Soyabønner (USc/bushel),price,0
+fx,DX-Y.NYB,US dollar index (DXY),Dollarindeksen (DXY),fx,2
+fx,EURUSD=X,EUR/USD,EUR/USD,fx,4
+fx,GBPUSD=X,GBP/USD,GBP/USD,fx,4
+fx,USDJPY=X,USD/JPY,USD/JPY,fx,2
+fx,USDCHF=X,USD/CHF,USD/CHF,fx,4
+fx,USDCNY=X,USD/CNY,USD/CNY,fx,4
+fx,AUDUSD=X,AUD/USD,AUD/USD,fx,4
+fx,EURNOK=X,EUR/NOK,EUR/NOK,fx,4
+fx,USDNOK=X,USD/NOK,USD/NOK,fx,4
+fx,EURSEK=X,EUR/SEK,EUR/SEK,fx,4
+fx,BTC-USD,Bitcoin (USD),Bitcoin (USD),price,0

@@ -1,0 +1,9 @@
+{
+  // Public site (Cloudflare Workers static assets): https://market-summary.jskjeltorp.workers.dev
+  // Build first (python -X utf8 pipeline/fetch.py; python -X utf8 build.py), then: npx wrangler deploy
+  "name": "market-summary",
+  "compatibility_date": "2026-09-18",
+  "assets": { "directory": "./site" },
+  "workers_dev": true,
+  "preview_urls": false
+}

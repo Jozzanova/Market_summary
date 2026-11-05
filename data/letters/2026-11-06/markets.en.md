@@ -1,0 +1,28 @@
+# Markets letter, Friday 6 November 2026
+
+**Summary.** Risk sentiment deteriorated sharply in the United States on Thursday. The S&P 500 fell 4.4 per cent and the Nasdaq 5.5 per cent, the largest daily declines since April 2025, with the semiconductor index down about 12 per cent. The move was concentrated in technology and reflected a reassessment of the regulatory outlook for AI data centres after the Democratic sweep of Congress in Tuesday's midterm elections, compounded by weak guidance from several chip makers. Treasury yields fell, the dollar softened, oil rebounded on renewed attacks on shipping near the Strait of Hormuz, and the krone weakened for a third day despite a hawkish hold from Norges Bank.
+
+{chart: ^GSPC,^IXIC,^STOXX,OSEBX.OL,^N225 | 3m | indexed}
+
+## Equities
+
+- **United States.** The S&P 500 closed at 7,354 (−4.4 per cent) and the Nasdaq Composite at 24,315 (−5.5 per cent), leaving the Nasdaq more than 10 per cent below its October record. The Dow lost 1,833 points (−3.4 per cent) and the Russell 2000 4.5 per cent. Technology fell 8 per cent on the day; no sector rose. Nvidia lost about 9 per cent, Broadcom about 10 per cent and Micron and AMD about 15 per cent after Qualcomm's weak outlook; SpaceX and Tesla fell more than 9 per cent. Retail investors were net sellers of 358 million dollars, the heaviest since March 2020. The VIX closed at 28.2, up from 16.6. ([CNBC](https://www.cnbc.com/2026/11/04/stock-market-today-live-updates.html), [Yahoo Finance](https://finance.yahoo.com/markets/live/stock-market-today-thursday-november-5-dow-sp-500-nasdaq-plunge-chip-stocks-melt-down-193726491.html))
+- **Europe.** The STOXX Europe 600 closed 0.4 per cent lower at 654.9 after approaching a record intraday; the DAX and FTSE 100 each lost 0.4 per cent and the CAC 40 gained 0.3 per cent. European technology names fell with the US regulatory concerns, and Rheinmetall dropped about 17 per cent after cutting its 2026 sales forecast. Over the week the index is up 1.7 per cent. ([Yahoo Finance](https://finance.yahoo.com/markets/stocks/articles/tech-drag-defence-weakness-weigh-164047028.html))
+- **Norway.** The Oslo Børs benchmark fell about 1 per cent to 2,081. BP sold about 5 per cent of Aker BP for NOK 9.8 billion at NOK 311 per share, a 12 per cent discount; Aker BP lost 9.8 per cent, Aker 5.6 per cent and Vår Energi 4.7 per cent, while Equinor was little changed. The index remains 23 per cent higher for the year. ([E24](https://e24.no/bors/nyheter/a/306142?pinnedEntry=306142), [Finansavisen](https://www.finansavisen.no/finans/2026/11/05/8393390/oslo-bors-apner-rett-ned))
+- **Asia.** Thursday's session was already weak: the KOSPI fell 5.3 per cent (Samsung −7.6, SK hynix −9.5 per cent) and the Nikkei 225 1.8 per cent, its fourth consecutive decline, while the Hang Seng rose 3.7 per cent. No reliable report of Friday's Asian session was available when this letter was written. ([Trading Economics](https://tradingeconomics.com/south-korea/stock-market))
+
+## Fixed income and credit
+
+- The US 10-year Treasury yield fell about 6 basis points to 4.84 per cent, the lowest since early September; the 2-year is at 4.58 per cent and the curve 32 basis points steep. Fed funds futures now price roughly a 70 per cent probability of a hike at the 9 December meeting, down from 83 per cent on Wednesday. ([Kitco](https://www.kitco.com/news/article/2026-11-05/gold-holds-gains-silver-slips-wall-street-plunges-fed-hike-bets-ease-kitco))
+- The 10-year Bund is near 3.3 per cent, close to its August lows after the week's fall in oil. Gilts underperformed after the Bank of England's hike: the 10-year rose 2 basis points to about 5.15 per cent and the 2-year 4 basis points to 4.78 per cent. The Norwegian 10-year government yield was 4.37 per cent at Wednesday's fix.
+- Credit spreads were tighter in the data available (US high yield 332 basis points on 4 November, −8 on the day); the reaction to Thursday's equity fall will appear in Friday's fixes.
+
+## Commodities and currencies
+
+- Oil rebounded after Wednesday's fall of about 8 per cent on hopes of a US–Iran agreement: Brent settled at 98.3 dollars (+3.9 per cent) and traded near 99 dollars overnight, WTI at 90.5 dollars (+2.7 per cent), on renewed attacks on shipping near the Strait of Hormuz. Brent remains well below last week's peak of 117 dollars. Gold rose 0.6 per cent to 4,087 dollars, its best level since 20 October, on lower yields and a softer dollar; silver slipped 0.8 per cent. Copper fell 3.1 per cent to 6.18 dollars per pound, a 17-week low, on concern that data-centre regulation reduces demand. ([Kitco](https://www.kitco.com/news/article/2026-11-05/gold-holds-gains-silver-slips-wall-street-plunges-fed-hike-bets-ease-kitco), [Trading Economics](https://tradingeconomics.com/commodity/copper))
+- The dollar was comparatively soft after the midterms; the yen strengthened 0.7 per cent to 157.3 per dollar. Sterling was flat after reaching a post-Brexit high on Wednesday. The krone weakened for a third day: Norges Bank's EUR/NOK fix was 10.44 on Thursday against 10.32 on Monday, despite the rebound in oil and a hawkish hold.
+
+## Today
+
+- 14:30 Oslo: the US employment report for October. Consensus looks for payroll growth of 59,000 to 65,000 after 29,000 in September, an unemployment rate of 4.2 per cent and average hourly earnings up 0.3 per cent on the month. ([BLS](https://www.bls.gov/schedule/news_release/empsit.htm), [CNBC preview](https://www.cnbc.com/2026/11/05/october-jobs-report-preview.html))
+- Statistics Norway publishes industrial production for September and the October foreign-exchange reserves; the October CPI follows on Tuesday 10 November.

@@ -1,0 +1,28 @@
+# Markedsbrev, fredag 6. november 2026
+
+**Oppsummering.** Risikoviljen falt kraftig i USA torsdag. S&P 500 falt 4,4 prosent og Nasdaq 5,5 prosent, de største dagsfallene siden april 2025, og halvlederindeksen falt om lag 12 prosent. Bevegelsen var konsentrert i teknologi og gjenspeilte en ny vurdering av reguleringsutsiktene for KI-datasentre etter at Demokratene vant begge kamrene i Kongressen ved tirsdagens mellomvalg, forsterket av svake utsikter fra flere brikkeprodusenter. Amerikanske statsrenter falt, dollaren svekket seg, oljeprisen tok seg opp etter nye angrep på skipsfart nær Hormuzstredet, og kronen svekket seg for tredje dag på rad til tross for en haukete rentebeslutning fra Norges Bank.
+
+{chart: ^GSPC,^IXIC,^STOXX,OSEBX.OL,^N225 | 3m | indexed}
+
+## Aksjer
+
+- **USA.** S&P 500 sluttet på 7 354 (−4,4 prosent) og Nasdaq Composite på 24 315 (−5,5 prosent), slik at Nasdaq nå ligger mer enn 10 prosent under rekorden fra oktober. Dow falt 1 833 poeng (−3,4 prosent) og Russell 2000 4,5 prosent. Teknologisektoren falt 8 prosent; ingen sektor steg. Nvidia falt om lag 9 prosent, Broadcom om lag 10 prosent og Micron og AMD om lag 15 prosent etter svake utsikter fra Qualcomm; SpaceX og Tesla falt mer enn 9 prosent. Privatinvestorer var nettoselgere for 358 millioner dollar, det største siden mars 2020. VIX sluttet på 28,2, opp fra 16,6. ([CNBC](https://www.cnbc.com/2026/11/04/stock-market-today-live-updates.html), [Yahoo Finance](https://finance.yahoo.com/markets/live/stock-market-today-thursday-november-5-dow-sp-500-nasdaq-plunge-chip-stocks-melt-down-193726491.html))
+- **Europa.** STOXX Europe 600 sluttet 0,4 prosent lavere på 654,9 etter å ha vært nær rekord i løpet av dagen; DAX og FTSE 100 falt 0,4 prosent hver, mens CAC 40 steg 0,3 prosent. Europeiske teknologiselskaper falt med den amerikanske reguleringsuroen, og Rheinmetall falt om lag 17 prosent etter å ha kuttet salgsprognosen for 2026. For uken er indeksen opp 1,7 prosent. ([Yahoo Finance](https://finance.yahoo.com/markets/stocks/articles/tech-drag-defence-weakness-weigh-164047028.html))
+- **Norge.** Hovedindeksen på Oslo Børs falt om lag 1 prosent til 2 081. BP solgte om lag 5 prosent av Aker BP for 9,8 milliarder kroner til 311 kroner per aksje, en rabatt på 12 prosent; Aker BP falt 9,8 prosent, Aker 5,6 prosent og Vår Energi 4,7 prosent, mens Equinor var lite endret. Indeksen er fortsatt 23 prosent høyere enn ved årsskiftet. ([E24](https://e24.no/bors/nyheter/a/306142?pinnedEntry=306142), [Finansavisen](https://www.finansavisen.no/finans/2026/11/05/8393390/oslo-bors-apner-rett-ned))
+- **Asia.** Torsdagens handel var allerede svak: KOSPI falt 5,3 prosent (Samsung −7,6, SK hynix −9,5 prosent) og Nikkei 225 1,8 prosent, fjerde nedgangsdag på rad, mens Hang Seng steg 3,7 prosent. Det fantes ingen pålitelig rapport om fredagens asiatiske handel da brevet ble skrevet. ([Trading Economics](https://tradingeconomics.com/south-korea/stock-market))
+
+## Renter og kreditt
+
+- Den amerikanske tiårsrenten falt om lag 6 basispunkter til 4,84 prosent, det laveste siden tidlig i september; toårsrenten er 4,58 prosent og kurven 32 basispunkter bratt. Fed funds-futures priser nå om lag 70 prosent sannsynlighet for en renteheving på møtet 9. desember, ned fra 83 prosent onsdag. ([Kitco](https://www.kitco.com/news/article/2026-11-05/gold-holds-gains-silver-slips-wall-street-plunges-fed-hike-bets-ease-kitco))
+- Tysk tiårsrente ligger nær 3,3 prosent, nær bunnivåene fra august etter ukens oljeprisfall. Britiske statsobligasjoner gjorde det svakere etter Bank of Englands renteheving: tiårsrenten steg 2 basispunkter til om lag 5,15 prosent og toårsrenten 4 basispunkter til 4,78 prosent. Den norske tiårsrenten var 4,37 prosent ved onsdagens notering.
+- Kredittpåslagene var strammere i de tilgjengelige tallene (amerikansk high yield 332 basispunkter 4. november, −8 på dagen); reaksjonen på torsdagens aksjefall vises først i fredagens noteringer.
+
+## Råvarer og valuta
+
+- Oljeprisen tok seg opp etter onsdagens fall på om lag 8 prosent på håp om en avtale mellom USA og Iran: Brent sluttet på 98,3 dollar (+3,9 prosent) og handlet nær 99 dollar gjennom natten, WTI på 90,5 dollar (+2,7 prosent), etter nye angrep på skipsfart nær Hormuzstredet. Brent ligger fortsatt godt under forrige ukes topp på 117 dollar. Gull steg 0,6 prosent til 4 087 dollar, det høyeste siden 20. oktober, på lavere renter og en svakere dollar; sølv falt 0,8 prosent. Kobber falt 3,1 prosent til 6,18 dollar per pund, det laveste på 17 uker, på bekymring for at regulering av datasentre reduserer etterspørselen. ([Kitco](https://www.kitco.com/news/article/2026-11-05/gold-holds-gains-silver-slips-wall-street-plunges-fed-hike-bets-ease-kitco), [Trading Economics](https://tradingeconomics.com/commodity/copper))
+- Dollaren var forholdsvis svak etter mellomvalget; yenen styrket seg 0,7 prosent til 157,3 per dollar. Pundet var uendret etter å ha nådd det sterkeste nivået siden brexit onsdag. Kronen svekket seg for tredje dag på rad: Norges Banks EUR/NOK-notering var 10,44 torsdag mot 10,32 mandag, til tross for oppgangen i oljeprisen og en haukete rentebeslutning.
+
+## I dag
+
+- Klokken 14.30: den amerikanske sysselsettingsrapporten for oktober. Konsensus venter en sysselsettingsvekst på 59 000 til 65 000 etter 29 000 i september, en ledighet på 4,2 prosent og en timelønnsvekst på 0,3 prosent fra måneden før. ([BLS](https://www.bls.gov/schedule/news_release/empsit.htm), [CNBC](https://www.cnbc.com/2026/11/05/october-jobs-report-preview.html))
+- Statistisk sentralbyrå publiserer industriproduksjonen for september og valutareservene for oktober; konsumprisindeksen for oktober kommer tirsdag 10. november.
