@@ -70,6 +70,19 @@ tr.sect td { font-weight: 600; color: var(--accent); padding-top: .7rem; border-
 .dot.high { background: var(--warn); } .dot.medium { background: var(--accent); }
 /* letters */
 .letter { max-width: 78ch; font-size: 1rem; line-height: 1.6; }
+details.nw { border-bottom: 1px solid var(--line); }
+details.nw > summary { display: grid; grid-template-columns: 9.5rem 1fr auto; gap: .8rem; align-items: baseline; padding: .5rem .2rem; cursor: pointer; list-style: none; }
+details.nw > summary::-webkit-details-marker { display: none; }
+details.nw > summary::before { content: "▸"; color: var(--muted); position: absolute; margin-left: -1rem; }
+details.nw[open] > summary::before { content: "▾"; }
+details.nw > summary:hover { background: var(--accent-soft); }
+.nw-t { color: var(--muted); font-size: .82rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.nw-h { font-weight: 600; color: var(--fg); }
+.nw-s { white-space: nowrap; }
+.nw-b { padding: 0 .2rem .7rem 10.3rem; }
+.nw-b p { margin: 0 0 .35rem; }
+#nwList { padding-left: 1rem; }
+@media (max-width: 640px) { details.nw > summary { grid-template-columns: 1fr auto; gap: .2rem .6rem; } .nw-t { grid-column: 1 / -1; } .nw-b { padding-left: .2rem; } }
 .letter details.snap { border: 1px solid var(--line, #ddd); border-radius: 8px; margin: 0 0 .7rem; padding: .2rem .9rem; }
 .letter details.snap > summary { cursor: pointer; font-weight: 600; font-size: 1.05rem; padding: .45rem 0; color: var(--fg); }
 .letter details.snap[open] > summary { border-bottom: 1px solid var(--line, #ddd); margin-bottom: .4rem; }
@@ -470,8 +483,9 @@ function drawNews() {
   $$("#nwSrc .chip").forEach(c => c.onclick = () => { NWSRC = c.dataset.v; drawNews(); });
   $$("#nwCat .chip").forEach(c => c.onclick = () => { NWCAT = c.dataset.v; drawNews(); });
   const show = items.filter(i => (NWSRC === "all" || i.source === NWSRC) && (NWCAT === "all" || i.category === NWCAT)).slice(0, 150);
-  const fmtTime = s => { if (!s) return ""; const d = new Date(s); return isNaN(d) ? "" : d.toLocaleString(LANG === "no" ? "nb-NO" : "en-GB", {weekday: "short", hour: "2-digit", minute: "2-digit", timeZone: "Europe/Oslo"}); };
-  $("#nwList").innerHTML = show.length ? `<table><tbody>${show.map(i => `<tr><td class="num muted small" style="width:6.5rem;white-space:nowrap">${esc(fmtTime(i.time))}</td><td style="width:8rem"><span class="tag">${esc(i.source)}</span></td><td><a href="${esc(i.link)}" target="_blank" rel="noopener"><b>${esc(i.title)}</b></a>${i.snippet ? `<div class="muted small">${esc(i.snippet)}</div>` : ""}</td></tr>`).join("")}</tbody></table>` : `<p class="empty">${t("no_events")}</p>`;
+  const fmtTime = s => { if (!s) return ""; const d = new Date(s); return isNaN(d) ? "" : d.toLocaleString(LANG === "no" ? "nb-NO" : "en-GB", {weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit", timeZone: "Europe/Oslo"}); };
+  // every headline is a collapsed row (date and time, title, source); opening it shows the snippet and the link
+  $("#nwList").innerHTML = show.length ? show.map(i => `<details class="nw"><summary><span class="nw-t">${esc(fmtTime(i.time))}</span><span class="nw-h">${esc(i.title)}</span><span class="tag nw-s">${esc(i.source)}</span></summary><div class="nw-b">${i.snippet ? `<p>${esc(i.snippet)}</p>` : `<p class="muted small">${LANG === "no" ? "Ingen utdrag fra denne kilden." : "No snippet from this source."}</p>`}<a href="${esc(i.link)}" target="_blank" rel="noopener">${LANG === "no" ? "Les saken" : "Open the article"} ↗</a></div></details>`).join("") : `<p class="empty">${t("no_events")}</p>`;
   $("#nwNote").textContent = `${t("nw_note")} ${nw.fetched ? (LANG === "no" ? "Hentet " : "Fetched ") + nw.fetched + "." : ""}${nw.failed && nw.failed.length ? " " + (LANG === "no" ? "Ikke tilgjengelig denne gangen: " : "Unavailable this time: ") + nw.failed.map(f => f.split(" (")[0]).join(", ") + "." : ""}`;
 }
 
