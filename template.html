@@ -438,8 +438,8 @@ function drawEquities() {
   const sel = $("#eqSet"); const cur = sel.value || "majors"; sel.innerHTML = Object.keys(SETS).map(k => `<option value="${k}"${k === cur ? " selected" : ""}>${t("set_" + k)}</option>`).join(""); sel.onchange = drawEquities;
   plot("#eqPlot", indexedTraces(SETS[sel.value], RANGE.eq), {yaxis: {title: ""}});
   const secs = group("sector").filter(v => v[RANGE.sec] != null).sort((a, b) => a[RANGE.sec] - b[RANGE.sec]);
-  plot("#secPlot", [{type: "bar", orientation: "h", x: secs.map(v => v[RANGE.sec]), y: secs.map(v => nameOf(v)), marker: {color: secs.map(v => v[RANGE.sec] >= 0 ? cssv("--ok") : cssv("--bad"))}, text: secs.map(v => `${v[RANGE.sec] > 0 ? "+" : ""}${fmt(v[RANGE.sec], 1)} %`), textposition: "outside", hovertemplate: "%{y}: %{x:+.2f}%<extra></extra>"}],
-    {margin: {l: 150, r: 50, t: 10, b: 36}, xaxis: {ticksuffix: " %", zeroline: true, zerolinecolor: cssv("--axis")}, showlegend: false, hovermode: "closest"});
+  plot("#secPlot", [{type: "bar", orientation: "h", x: secs.map(v => v[RANGE.sec]), y: secs.map(v => nameOf(v)), marker: {color: secs.map(v => v[RANGE.sec] >= 0 ? cssv("--ok") : cssv("--bad"))}, text: secs.map(v => `${v[RANGE.sec] > 0 ? "+" : ""}${fmt(v[RANGE.sec], 1)} %`), textposition: "outside", cliponaxis: false, hovertemplate: "%{y}: %{x:+.2f}%<extra></extra>"}],
+    {margin: {l: 150, r: 60, t: 10, b: 36}, xaxis: {ticksuffix: " %", zeroline: true, zerolinecolor: cssv("--axis"), range: (() => { const xs = secs.map(v => v[RANGE.sec]); const lo = Math.min(0, ...xs), hi = Math.max(0, ...xs), pad = Math.max(0.6, 0.28 * (hi - lo)); return [lo - (lo < 0 ? pad : 0.3), hi + (hi > 0 ? pad : 0.3)]; })()}, showlegend: false, hovermode: "closest"});
 }
 
 /* ---------- rates ---------- */
