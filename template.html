@@ -82,7 +82,7 @@ tr.sect td { font-weight: 600; color: var(--accent); padding-top: .7rem; border-
 .letteraside .snapshot table { table-layout: auto; width: 100%; }
 .letterwrap { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 1rem; align-items: start; }
 .letterwrap > .card { margin: 0; } .letteraside .card { margin: 0 0 1rem; }
-.letteraside .fig { position: relative; margin: 0 0 1rem; } .letteraside .fig .plot { height: 250px; }
+.letteraside .fig { position: relative; margin: 0 0 1rem; } .letteraside .fig .plot { height: 300px; }
 .letteraside .fig .cap { font-size: .8rem; color: var(--muted); margin-top: .1rem; }
 @media (max-width: 1100px) { .letterwrap { grid-template-columns: 1fr; } }
 .kinds { margin-bottom: .8rem; }
@@ -355,7 +355,8 @@ function drawLetterFigs(root) {
     const syms = el.dataset.syms.split(",").map(s => s.trim()).filter(s => bySym(s)); if (!syms.length) return;
     const range = el.dataset.range, mode = el.dataset.mode;
     const traces = mode === "level" ? levelTraces(syms, range) : indexedTraces(syms, range);
-    plot(el, traces, {margin: {l: 44, r: 8, t: 10, b: 36}, yaxis: {title: mode === "level" ? "" : t("eq_perf_s")}});
+    // in the narrow figure column the legend goes below the plot, so it never overlaps the lines
+    plot(el, traces, {margin: {l: 44, r: 8, t: 8, b: 30}, legend: {orientation: "h", x: 0, y: -0.18, yanchor: "top", font: {size: 11}}, yaxis: {title: mode === "level" ? "" : {text: t("eq_perf_s"), font: {size: 10}}}});
   });
 }
 const SNAP_PICKS = ["^GSPC", "^IXIC", "^STOXX", "OSEBX.OL", "^N225", "^HSI", "^VIX", "^TNX", "DGS2", "EA_SR_10Y", "nok_10y", "BAMLH0A0HYM2", "BZ=F", "GC=F", "HG=F", "TTF=F", "DX-Y.NYB", "EURUSD=X", "USDJPY=X", "EURNOK=X", "USDNOK=X", "nok_i44"];
@@ -380,7 +381,7 @@ function drawLetters() {
   if (!text) { body.innerHTML = `<p class="empty">${t("no_letter")}</p>`; $("#figCard").style.display = "none"; return; }
   body.innerHTML = (entry && !entry[LANG] ? `<p class="lettermeta">${LANG === "no" ? "Norsk versjon mangler for denne datoen; engelsk vises." : "English version missing for this date; showing the Norwegian one."}</p>` : "") + md(text);
   // the letter's figures are shown beside the text, under the snapshot table, not in the text flow
-  body.querySelectorAll(".fig").forEach(f => { const syms = f.querySelector(".plot").dataset.syms.split(",").map(s => bySym(s.trim())).filter(Boolean); figs.appendChild(f); f.insertAdjacentHTML("beforeend", `<div class="cap">${esc(syms.map(nameOf).join(", "))}</div>`); });
+  body.querySelectorAll(".fig").forEach(f => figs.appendChild(f));
   $("#figCard").style.display = figs.children.length ? "" : "none";
   drawLetterFigs(figs);
 }
