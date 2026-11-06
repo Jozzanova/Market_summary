@@ -17,6 +17,7 @@ Live: https://market-summary.jskjeltorp.workers.dev (public)
 | Commodities | Energy, metals and grains with changes and indexed charts |
 | Currencies | The dollar index and the main pairs including EUR/NOK and USD/NOK |
 | Central banks | Policy rates, last and next decisions; Norwegian policy and market rates; the next central bank events |
+| Norges Bank | A daily letter on everything said about Norges Bank (the bank, economists, the press, market pricing); policy rate, next decision, CPI and CPI-ATE against the 2 per cent target, the krone, Norwegian rates, the next Norges Bank dates |
 | Update | Data status, how the page is made, sources; the Excel button downloads every table |
 
 ## Rebuild
@@ -28,7 +29,7 @@ python -X utf8 build.py                      # inline data and letters into temp
 npx wrangler deploy                          # Cloudflare Workers static assets, worker "market-summary"
 ```
 
-Letters live in `data/letters/YYYY-MM-DD/<kind>.<lang>.md` (kind: markets, macro, politics; lang: en, no). The policy-rate
+Letters live in `data/letters/YYYY-MM-DD/<kind>.<lang>.md` (kind: markets, macro, politics, norgesbank; lang: en, no). The policy-rate
 table is `data/policy_rates.csv` and the calendar `data/events.csv`; both are kept by the agent. The instrument universe
 is `data/instruments.csv`.
 

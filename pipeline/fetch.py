@@ -214,6 +214,29 @@ def fetch_nb():
     return out
 
 
+def fetch_ssb():
+    """Norwegian CPI and CPI-ATE, 12-month rates, monthly (Statistics Norway table 14706)."""
+    def producer():
+        q = {"query": [{"code": "KPIavledetSerie", "selection": {"filter": "item", "values": ["KPI", "KPI-JAE"]}},
+                       {"code": "ContentsCode", "selection": {"filter": "item", "values": ["Tolvmanedersendring"]}},
+                       {"code": "Tid", "selection": {"filter": "top", "values": ["60"]}}], "response": {"format": "json-stat2"}}
+        req = urllib.request.Request("https://data.ssb.no/api/v0/en/table/14706", data=json.dumps(q).encode(), headers={"User-Agent": UA, "Content-Type": "application/json"})
+        with urllib.request.urlopen(req, timeout=60) as r:
+            return r.read()
+    j = json.loads(cached("ssb_14706.json", 6, producer))
+    dims = j["dimension"]; series_codes = list(dims["KPIavledetSerie"]["category"]["index"]); months = list(dims["Tid"]["category"]["index"])
+    vals = j["value"]; n_t = len(months)
+    out = {}
+    for i, code in enumerate(series_codes):
+        obs = [(m[:4] + "-" + m[5:7] + "-01", vals[i * n_t + k]) for k, m in enumerate(months) if vals[i * n_t + k] is not None]
+        s = {"dates": [o[0] for o in obs], "values": [float(o[1]) for o in obs]}
+        key = "cpi_12m" if code == "KPI" else "cpiate_12m"
+        out[key] = {"name_en": "Norway CPI, 12-month change" if code == "KPI" else "Norway CPI-ATE, 12-month change", "name_no": "KPI, tolvmånedersvekst" if code == "KPI" else "KPI-JAE, tolvmånedersvekst",
+                    "group": "norway", "kind": "yield", "decimals": 1, **s, "last": s["values"][-1], "last_date": s["dates"][-1], "prev": s["values"][-2] if len(s["values"]) > 1 else None, "unit": "pp"}
+    log(f"ssb: CPI {out['cpi_12m']['last']}% and CPI-ATE {out['cpiate_12m']['last']}% in {out['cpi_12m']['last_date'][:7]}")
+    return out
+
+
 # ----------------------------------------------------------------------------------------------------------------------
 def read_csv(name):
     p = DATA / name
@@ -230,7 +253,7 @@ def main():
     yahoo, failed = fetch_yahoo(prev.get("yahoo", {}))
     kept += [f"yahoo:{s}" for s in failed if s in yahoo]
     blocks = {}
-    for name, fn in (("fred", fetch_fred), ("ecb", fetch_ecb), ("nb", fetch_nb)):
+    for name, fn in (("fred", fetch_fred), ("ecb", fetch_ecb), ("nb", fetch_nb), ("ssb", fetch_ssb)):
         log(f"{name}")
         try:
             blocks[name] = fn()

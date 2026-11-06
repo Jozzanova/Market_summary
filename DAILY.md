@@ -40,10 +40,10 @@ not verify, and say so when something could not be confirmed (for example "no re
   Add what you learn (central bank meetings, CPI, payrolls, GDP, PMIs, Norwegian CPI and Norges Bank dates, elections,
   summits, fiscal deadlines), keep the dates verified, and delete rows older than yesterday.
 
-## 4. Write the three letters, in English and in Norwegian
+## 4. Write the four letters, in English and in Norwegian
 
-Create the folder `data/letters/YYYY-MM-DD/` (today's date, UTC) with six files: `markets.en.md`, `markets.no.md`,
-`macro.en.md`, `macro.no.md`, `politics.en.md`, `politics.no.md`. The Norwegian versions carry the same facts in
+Create the folder `data/letters/YYYY-MM-DD/` (today's date, UTC) with eight files: `markets.en.md`, `markets.no.md`,
+`macro.en.md`, `macro.no.md`, `politics.en.md`, `politics.no.md`, `norgesbank.en.md`, `norgesbank.no.md`. The Norwegian versions carry the same facts in
 Norwegian bokmål (not a word-for-word translation; Norwegian number style: comma decimals, space thousands, "prosent").
 Format: Markdown with a `# Title, weekday day month year` heading, `##` sections, bullets, bold lead-ins, Markdown tables
 where a table says it better, and links in the text `([Source](url))`. A line `{chart: SYM1,SYM2 | 3m | indexed}` draws a
@@ -63,6 +63,16 @@ exclamation, no advice, no speculation presented as fact; "per cent" and "basis 
   on the balance of risks.
 - **Politics letter** (`politics`): the political developments that matter for markets, by region (United States, Europe,
   Middle East and energy, Asia, Norway, as relevant), each with the market channel; a Dates to watch section.
+- **Norges Bank letter** (`norgesbank`, shown on the Norges Bank tab): everything said about Norges Bank in the last 24
+  hours and what it means. Sources to check every day: norges-bank.no (press releases, the policy rate page, speeches,
+  the Monetary Policy Report, the Regional Network, the Financial Stability Report, minutes and the oil fund NBIM when it
+  is major news), the Norwegian press (E24, DN, Finansavisen, NRK), bank economists' comments (DNB Carnegie, Nordea,
+  Handelsbanken, SEB, Danske, Swedbank), international coverage (Bloomberg, Reuters, FXStreet notes from Nomura,
+  Commerzbank and others), market pricing of the rate path and the krone. Structure: a bold summary; What Norges Bank
+  said (quote the statement where possible); What economists and the market say (named, with links); The krone and
+  rates; Dates (next decision, CPI, Regional Network, MPR). On a day with no Norges Bank news, say so in one line and
+  summarise the standing view and the next dates. 250-450 words. The tab shows the policy rate, next decision, CPI and
+  CPI-ATE, the 10-year yield and EUR/NOK automatically, so the text should interpret rather than list.
 
 ## 5. Build and deploy
 
