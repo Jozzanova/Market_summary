@@ -99,7 +99,7 @@ details.nw > summary:hover { background: var(--accent-soft); }
 .letteraside .snapshot table { table-layout: auto; width: 100%; } .snapshot tr.sect td { padding-top: .4rem; font-size: .62rem; }
 .letterwrap { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 1rem; align-items: start; }
 .letterwrap > .card { margin: 0; } .letteraside .card { margin: 0 0 1rem; }
-.letteraside .fig { position: relative; margin: 0 0 1rem; } .letteraside .fig .plot { height: 300px; } #i44Plot { height: 220px; }
+.letteraside .fig { position: relative; margin: 0 0 1rem; } .letteraside .fig .plot { height: 300px; } #i44Plot, #brentPlot { height: 220px; }
 .letteraside .fig .cap { font-size: .8rem; color: var(--muted); margin-top: .1rem; }
 @media (max-width: 1100px) { .letterwrap { grid-template-columns: 1fr; } }
 .kinds { margin-bottom: .8rem; }
@@ -145,6 +145,7 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
       <div class="card snapshot" id="snapCard"><h2 data-i="snap_title">The last 24 hours at a glance</h2><div id="snapTable"></div></div>
       <div class="card" id="figCard"><h2 data-i="fig_title">Figures</h2><div id="letterFigs"></div></div>
       <div class="card" id="i44Card"><h2 data-i="i44_title">The krone: I-44 <small data-i="i44_s">Norges Bank's import-weighted index, three months; up = weaker krone</small></h2><div class="plot short" id="i44Plot"></div></div>
+      <div class="card" id="brentCard"><h2 data-i="brent_title">Brent oil <small data-i="brent_s">USD per barrel, three months</small></h2><div class="plot short" id="brentPlot"></div></div>
     </aside>
   </div>
 </section>
@@ -255,7 +256,7 @@ const T = {
   t_policy: ["policy rate", "styringsrente"], t_next: ["next decision", "neste beslutning"], t_cpi: ["CPI, 12-month", "KPI, tolvmåneders"], t_cpiate: ["CPI-ATE, 12-month", "KPI-JAE, tolvmåneders"], t_10y: ["10-year yield", "10-årsrente"], t_eurnok: ["EUR/NOK", "EUR/NOK"], t_target: ["target 2 %", "mål 2 %"],
   k_markets: ["Markets", "Markeder"], k_intraday: ["Intraday", "Intradag"], k_macro: ["Macro", "Makro"], k_politics: ["Politics", "Politikk"], run_now: ["Update now", "Oppdater nå"],
   snap_title: ["The last 24 hours at a glance", "Det siste døgnet i korte trekk"], fig_title: ["Figures", "Figurer"],
-  i44_title: ["The krone: I-44", "Kronen: I-44"], i44_s: ["Norges Bank's import-weighted index, three months; up = weaker krone", "Norges Banks importveide indeks, tre måneder; opp = svakere krone"],
+  brent_title: ["Brent oil", "Brent-olje"], brent_s: ["USD per barrel, three months", "USD per fat, tre måneder"], i44_title: ["The krone: I-44", "Kronen: I-44"], i44_s: ["Norges Bank's import-weighted index, three months; up = weaker krone", "Norges Banks importveide indeks, tre måneder; opp = svakere krone"],
   g_equities: ["Equities", "Aksjer"], r_us: ["United States", "USA"], r_europe: ["Europe", "Europa"], r_nordic: ["Nordics", "Norden"], r_asia: ["Asia", "Asia"], r_em: ["Emerging markets", "Fremvoksende markeder"], r_vol: ["Volatility", "Volatilitet"], g_bonds: ["Bonds and credit", "Obligasjoner og kreditt"], g_commodities: ["Commodities", "Råvarer"], g_fx: ["Currencies", "Valuta"],
   ev_title: ["Upcoming events", "Kommende hendelser"], ev_note: ["Central bank decisions, data releases and political dates kept by the daily agent; times are Oslo time. Importance: high (orange), medium (blue), low.", "Sentralbankmøter, statistikkslipp og politiske datoer, vedlikeholdt av den daglige agenten; tidene er norsk tid. Viktighet: høy (oransje), middels (blå), lav."],
   eq_title: ["Equity indices", "Aksjeindekser"], ai_title: ["AI and semiconductors", "KI og halvledere"], ai_s: ["the indices and ETFs the market uses as AI proxies", "indeksene og ETF-ene markedet bruker som KI-indikatorer"], set_ai: ["AI and semiconductors", "KI og halvledere"], eq_perf: ["Indexed performance", "Indeksert utvikling"], eq_perf_s: ["start of period = 100, local currency", "start av perioden = 100, lokal valuta"],
@@ -449,6 +450,10 @@ function drawI44() {
   const tr = levelTraces(["nok_i44"], "3m", 2); tr[0].name = "I-44";
   const ys = tr[0].y, lo = Math.min(...ys), hi = Math.max(...ys), pad = Math.max(0.3, 0.08 * (hi - lo));
   plot("#i44Plot", tr, {margin: {l: 44, r: 8, t: 8, b: 30}, showlegend: false, yaxis: {range: [lo - pad, hi + pad]}});
+  const b = Y["BZ=F"]; if (!b) { $("#brentCard").style.display = "none"; return; }
+  const bt = levelTraces(["BZ=F"], "3m", 2); bt[0].name = "Brent"; bt[0].line.color = COLORS()[1];
+  const bl = Math.min(...bt[0].y), bh = Math.max(...bt[0].y), bp = Math.max(1, 0.08 * (bh - bl));
+  plot("#brentPlot", bt, {margin: {l: 44, r: 8, t: 8, b: 30}, showlegend: false, yaxis: {range: [bl - bp, bh + bp], tickprefix: "$"}});
 }
 
 /* ---------- events ---------- */
