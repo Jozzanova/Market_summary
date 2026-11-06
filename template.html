@@ -78,7 +78,8 @@ tr.sect td { font-weight: 600; color: var(--accent); padding-top: .7rem; border-
 .letter table { font-size: .86rem; margin: .5rem 0 1rem; } .letter hr { border: 0; border-top: 1px solid var(--line); margin: 1.2rem 0; }
 .letter .fig { position: relative; margin: .8rem 0 1.2rem; } .letter .fig .plot { height: 320px; }
 .letter .fig .cap { font-size: .82rem; color: var(--muted); margin-top: .2rem; }
-.snapshot td, .snapshot th { padding: .25rem .45rem; }
+.snapshot table { font-size: .76rem; } .snapshot td, .snapshot th { padding: .18rem .3rem; white-space: nowrap; } .snapshot th { font-size: .66rem; } .snapshot td:first-child { white-space: normal; }
+.letteraside .snapshot table { table-layout: auto; width: 100%; }
 .letterwrap { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 1rem; align-items: start; }
 .letterwrap > .card { margin: 0; } .letteraside .card { margin: 0 0 1rem; }
 .letteraside .fig { position: relative; margin: 0 0 1rem; } .letteraside .fig .plot { height: 250px; }
