@@ -720,7 +720,7 @@ $("#xlBtn").onclick = () => {
    One document: title and date, the snapshot table, then the markets, macro, politics and Norges Bank letters of the
    selected date in the current language. The letters' Markdown is rendered with md() and the resulting elements are
    walked into a small block model, which feeds pdfmake (loaded on first use) and a hand-written .docx. */
-const DOC_KINDS = ["markets", "intraday", "macro", "politics", "norgesbank"];
+const DOC_KINDS = ["markets", "macro", "politics", "norgesbank"];   // the intraday snapshots stay on the page only
 function runsOf(node) {
   const out = [];
   const walk = (n, st) => {
