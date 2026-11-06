@@ -11,6 +11,7 @@ Live: https://market-summary.jskjeltorp.workers.dev (public)
 | Tab | What is on it |
 |---|---|
 | Letters | The markets, macro and politics letters by date, in English or Norwegian (toggle at the top); a snapshot table of key prices above the markets letter; charts embedded by the letters |
+| Alerts | Market-moving events, the last 20: large moves in the krone (I-44, EUR/NOK, USD/NOK), the main indices, the VIX, US yields, oil, gas and metals, flagged by a worker every five minutes against the previous close (plus shock keywords in the Reuters, Bloomberg, FT and WSJ feeds), and events added by an agent that reviews the news every two hours on weekdays (playbook ALERTS.md). The tab turns red, orange or green by the last 24 hours |
 | News | Recent headlines with snippets from FT, WSJ, Bloomberg, CNBC, The Economist, The Guardian, E24, the ECB, the Federal Reserve and the Bank of England (public feeds) and Reuters, DN, Finansavisen and Norges Bank (through Google News), filterable by source and category; refreshed with the data |
 | Upcoming events | Central bank meetings, data releases and political dates for the weeks ahead, by category |
 | Equities | Indices, an AI and semiconductor group (SOX, NYSE FANG+, semiconductor, Magnificent 7 and AI ETFs) and US sectors with 1-day, 1-week, 1-month and year-to-date changes; indexed performance; sector bars |

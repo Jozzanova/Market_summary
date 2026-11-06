@@ -1,9 +1,14 @@
 {
   // Public site (Cloudflare Workers static assets): https://market-summary.jskjeltorp.workers.dev
   // Build first (python -X utf8 pipeline/fetch.py; python -X utf8 build.py), then: npx wrangler deploy
+  // src/worker.js serves /api/alerts (the live alert list, kept in a Durable Object) and runs the five-minute sniffer.
   "name": "market-summary",
+  "main": "src/worker.js",
   "compatibility_date": "2026-09-18",
-  "assets": { "directory": "./site" },
+  "assets": { "directory": "./site", "binding": "ASSETS", "run_worker_first": ["/api/*"] },
+  "triggers": { "crons": ["*/5 * * * *"] },
+  "durable_objects": { "bindings": [{ "name": "ALERTS_DO", "class_name": "AlertsStore" }] },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["AlertsStore"] }],
   "workers_dev": true,
   "preview_urls": false
 }

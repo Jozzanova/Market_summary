@@ -10,6 +10,7 @@ standard library is enough; Node is used for the deploy. Do not end the run befo
 
     git pull --rebase origin main
     python -X utf8 pipeline/fetch.py --refresh     # 1-3 minutes; give it a 10-minute timeout
+    python -X utf8 pipeline/alerts.py              # data alerts (large moves) into data/alerts.json, the Alerts tab
     python -X utf8 pipeline/brief.py               # the numbers; live Yahoo prints include the current session
 
 Read today's morning letters in `data/letters/YYYY-MM-DD/` (today's date, UTC) so you know what was already said.

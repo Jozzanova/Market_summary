@@ -43,6 +43,12 @@ nav.tabs { display: flex; gap: .15rem; flex-wrap: wrap; margin-top: .3rem; }
 nav.tabs a { padding: .45rem .8rem; border-radius: 8px 8px 0 0; color: var(--muted); font-weight: 600; font-size: .9rem; border-bottom: 2px solid transparent; }
 nav.tabs a.on { color: var(--accent); border-bottom-color: var(--accent); background: var(--accent-soft); }
 nav.tabs a:hover { text-decoration: none; color: var(--accent); }
+nav.tabs a.al-red { color: var(--bad); } nav.tabs a.al-orange { color: var(--warn); } nav.tabs a.al-green { color: var(--ok); }
+nav.tabs a.al-red::before, nav.tabs a.al-orange::before, nav.tabs a.al-green::before { content: "●"; margin-right: .35rem; font-size: .7em; vertical-align: middle; }
+.tag.red { background: rgba(174,31,38,.18); color: var(--bad); } .tag.orange { background: rgba(214,82,24,.18); color: var(--warn); } .tag.green { background: rgba(0,117,95,.18); color: var(--ok); }
+.alert { display: grid; grid-template-columns: 7.5rem 1fr; gap: .4rem 1rem; padding: .5rem 0; border-bottom: 1px solid var(--line2); }
+.alert .when { color: var(--muted); font-size: .8rem; white-space: nowrap; } .alert .txt { font-size: .93rem; } .alert .src { color: var(--muted); font-size: .8rem; }
+.alert .sev { display: inline-block; width: .6rem; height: .6rem; border-radius: 50%; margin-right: .4rem; vertical-align: middle; } .sev.high { background: var(--bad); } .sev.medium { background: var(--warn); }
 main { max-width: 1280px; margin: 0 auto; padding: 1rem 16px 3rem; }
 .pane { display: none; } .pane.on { display: block; }
 .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1rem 1.2rem; box-shadow: var(--shadow); margin: 0 0 1rem; }
@@ -153,6 +159,15 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
   </div>
 </section>
 
+<section class="pane" id="pane-alerts">
+  <div class="card">
+    <div class="row" style="justify-content:space-between"><h2 style="margin:0" data-i="al_title">Market-moving events</h2><span id="alStatus" class="tag"></span></div>
+    <p class="note" data-i="al_note">A worker checks the krone (I-44, EUR/NOK, USD/NOK), the main equity indices, the VIX, US yields, oil, gas and metals every five minutes against the previous close, and scans the Reuters, Bloomberg, FT and WSJ feeds for shock keywords; an agent reviews the news every two hours on weekdays and adds events with a note and a source. The last 20 are kept. Red: a high-severity event in the last 24 hours; orange: a medium one; green: nothing.</p>
+    <div id="alList"></div>
+    <p class="note" id="alMeta"></p>
+  </div>
+</section>
+
 <section class="pane" id="pane-news">
   <div class="card">
     <h2 data-i="nw_title">Recent headlines</h2>
@@ -251,7 +266,10 @@ const T = {
   title: ["Market summary", "Markedsoppsummering"],
   sub: ["A daily review of equity, bond, commodity and currency markets over the last 24 hours, a macro letter on central banks, a politics letter, a Norges Bank letter and the events ahead. Written by a scheduled agent each morning from the market data and news available at 06:00 Oslo time, with an intraday update on weekdays around 12:00 and 17:00.",
         "En daglig gjennomgang av aksje-, rente-, råvare- og valutamarkedene det siste døgnet, et makrobrev om sentralbankene, et politisk brev, et Norges Bank-brev og hendelsene som kommer. Skrevet av en planlagt agent hver morgen ut fra markedsdata og nyheter tilgjengelige klokken 06.00 norsk tid, med en intradagoppdatering på hverdager rundt klokken 12.00 og 17.00."],
-  tab_letters: ["Letters", "Brev"], tab_news: ["News", "Nyheter"], nw_title: ["Recent headlines", "Siste overskrifter"],
+  tab_letters: ["Letters", "Brev"], tab_alerts: ["Alerts", "Varsler"], al_title: ["Market-moving events", "Markedsbevegende hendelser"],
+  al_note: ["A worker checks the krone (I-44, EUR/NOK, USD/NOK), the main equity indices, the VIX, US yields, oil, gas and metals every five minutes against the previous close, and scans the Reuters, Bloomberg, FT and WSJ feeds for shock keywords; an agent reviews the news every two hours on weekdays and adds events with a note and a source. The last 20 are kept. Red: a high-severity event in the last 24 hours; orange: a medium one; green: nothing.", "En tjeneste sjekker kronen (I-44, EUR/NOK, USD/NOK), de viktigste aksjeindeksene, VIX, amerikanske renter, olje, gass og metaller hvert femte minutt mot forrige sluttkurs, og leter etter sjokkord i nyhetsstrømmene fra Reuters, Bloomberg, FT og WSJ; en agent går gjennom nyhetene annenhver time på hverdager og legger til hendelser med en merknad og kilde. De siste 20 beholdes. Rødt: en alvorlig hendelse siste døgn; oransje: en middels; grønt: ingenting."],
+  al_red: ["Market-moving event in the last 24 hours", "Markedsbevegende hendelse siste døgn"], al_orange: ["Notable move in the last 24 hours", "Merkbar bevegelse siste døgn"], al_green: ["No market-moving events in the last 24 hours", "Ingen markedsbevegende hendelser siste døgn"],
+  al_meta: ["Live list updated", "Listen oppdatert"], al_none: ["No events recorded yet.", "Ingen hendelser registrert ennå."], tab_news: ["News", "Nyheter"], nw_title: ["Recent headlines", "Siste overskrifter"],
   nw_note: ["Headlines and snippets from the outlets' public feeds, refreshed with the data (morning and intraday runs); items from the last 36 hours, newest first. Reuters, DN, Finansavisen and Norges Bank come through Google News and have no snippet. Times are Oslo time.", "Overskrifter og utdrag fra medienes åpne nyhetsstrømmer, oppdatert sammen med dataene (morgen- og intradagkjøringene); saker fra de siste 36 timene, nyeste først. Reuters, DN, Finansavisen og Norges Bank hentes via Google Nyheter og har ikke utdrag. Tidene er norsk tid."],
   nc_markets: ["Markets", "Markeder"], nc_economy: ["Economy", "Økonomi"], "nc_central bank": ["Central banks", "Sentralbanker"], nc_norway: ["Norway", "Norge"], nc_politics: ["Politics", "Politikk"], tab_events: ["Upcoming events", "Kommende hendelser"], tab_equities: ["Equities", "Aksjer"], tab_rates: ["Rates & credit", "Renter og kreditt"],
   tab_commodities: ["Commodities", "Råvarer"], tab_fx: ["Currencies", "Valuta"], tab_central: ["Central banks", "Sentralbanker"], tab_norgesbank: ["Norges Bank", "Norges Bank"], tab_update: ["Update", "Oppdatering"],
@@ -301,7 +319,7 @@ const COLORS = () => ["--s1", "--s2", "--s3", "--s4", "--s5", "--s6", "--s7", "-
 const cssv = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 
 /* ---------- tabs, language, theme ---------- */
-const TABS = ["letters", "news", "events", "equities", "rates", "commodities", "fx", "central", "norgesbank", "update"];
+const TABS = ["letters", "alerts", "news", "events", "equities", "rates", "commodities", "fx", "central", "norgesbank", "update"];
 const drawn = new Set();
 function currentTab() { const h = location.hash.replace("#", ""); return TABS.includes(h) ? h : "letters"; }
 function showTab(name, force) {
@@ -315,7 +333,7 @@ function setLang(l) {
   document.documentElement.lang = l === "no" ? "nb" : "en"; document.documentElement.dataset.lang = l;
   $$("[data-i]").forEach(el => { el.innerHTML = t(el.dataset.i).replace("S&P", "S&amp;P"); });
   $$("#langSeg button").forEach(b => b.classList.toggle("on", b.dataset.v === l));
-  $("#tabs").innerHTML = TABS.map(n => `<a href="#${n}" data-tab="${n}">${t("tab_" + n)}</a>`).join("");
+  $("#tabs").innerHTML = TABS.map(n => `<a href="#${n}" data-tab="${n}">${t("tab_" + n)}</a>`).join(""); paintAlertTab();
   drawn.clear(); showTab(currentTab(), true);
 }
 function isDark() { return document.documentElement.dataset.theme === "dark" || (!document.documentElement.dataset.theme && matchMedia("(prefers-color-scheme: dark)").matches); }
@@ -480,6 +498,36 @@ function drawEvents() {
   }
   $("#evList").innerHTML = html;
 }
+
+/* ---------- alerts: the repository's list merged with the live list from the worker ---------- */
+let LIVE_ALERTS = null;
+function alertEvents() {
+  const m = new Map();
+  for (const e of ((D.alerts || {}).events || [])) m.set(e.id, e);
+  for (const e of ((LIVE_ALERTS || {}).events || [])) if (!m.has(e.id) || m.get(e.id).origin !== "agent") m.set(e.id, e);
+  return [...m.values()].sort((a, b) => b.time.localeCompare(a.time)).slice(0, 20);
+}
+function alertLevel(evs) {
+  const cut = Date.now() - 24 * 3600e3; let lvl = "green";
+  for (const e of evs) { if (new Date(e.time).getTime() < cut) continue; if (e.severity === "high") return "red"; lvl = "orange"; }
+  return lvl;
+}
+function paintAlertTab() {
+  const lvl = alertLevel(alertEvents()); const a = document.querySelector('nav.tabs a[data-tab="alerts"]'); if (a) { a.classList.remove("al-red", "al-orange", "al-green"); a.classList.add("al-" + lvl); }
+  return lvl;
+}
+function drawAlerts() {
+  const evs = alertEvents(); const lvl = paintAlertTab();
+  const st = $("#alStatus"); st.className = "tag " + lvl; st.textContent = t("al_" + lvl);
+  const fmtT = s => { const d = new Date(s); return isNaN(d) ? s : d.toLocaleString(LANG === "no" ? "nb-NO" : "en-GB", {day: "numeric", month: "short", hour: "2-digit", minute: "2-digit", timeZone: "Europe/Oslo"}); };
+  $("#alList").innerHTML = evs.length ? evs.map(e => `<div class="alert"><div class="when">${esc(fmtT(e.time))}</div><div><div class="txt"><span class="sev ${esc(e.severity)}"></span>${esc(LANG === "no" ? (e.text_no || e.text_en) : e.text_en)}</div><div class="src">${esc(e.source || "")}${e.url ? ` · <a href="${esc(e.url)}" target="_blank" rel="noopener">${LANG === "no" ? "kilde" : "source"} ↗</a>` : ""}${e.origin === "agent" ? ` · ${LANG === "no" ? "agent" : "agent"}` : e.headline ? ` · ${LANG === "no" ? "overskrift" : "headline"}` : ""}</div></div></div>`).join("") : `<p class="empty">${t("al_none")}</p>`;
+  const upd = (LIVE_ALERTS && LIVE_ALERTS.updated) || (D.alerts || {}).updated;
+  $("#alMeta").textContent = upd ? `${t("al_meta")} ${fmtT(upd)}.` : "";
+}
+async function loadLiveAlerts() {
+  try { const r = await fetch("/api/alerts", {cache: "no-store"}); if (r.ok) { LIVE_ALERTS = await r.json(); paintAlertTab(); if (currentTab() === "alerts") drawAlerts(); } } catch (e) {}
+}
+loadLiveAlerts(); setInterval(loadLiveAlerts, 5 * 60 * 1000);
 
 /* ---------- news ---------- */
 let NWSRC = "all", NWCAT = "all";
@@ -857,7 +905,7 @@ $("#pdfBtn").onclick = () => exportPdf().catch(e => alert(e.message));
 $("#docxBtn").onclick = exportDocx;
 
 /* ---------- boot ---------- */
-const DRAW = {letters: drawLetters, news: drawNews, events: drawEvents, equities: drawEquities, rates: drawRates, commodities: drawCommodities, fx: drawFx, central: drawCentral, norgesbank: drawNorgesBank, update: drawUpdate};
+const DRAW = {letters: drawLetters, alerts: drawAlerts, news: drawNews, events: drawEvents, equities: drawEquities, rates: drawRates, commodities: drawCommodities, fx: drawFx, central: drawCentral, norgesbank: drawNorgesBank, update: drawUpdate};
 $("#foot").innerHTML = `Market summary · built ${esc(D.generated)} · data ${esc(D.asof)}`;
 setLang(LANG);
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { if (!document.documentElement.dataset.theme) { drawn.clear(); showTab(currentTab(), true); } });

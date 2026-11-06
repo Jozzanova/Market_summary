@@ -1,0 +1,107 @@
+{
+ "updated": "2026-11-06T14:33:19Z",
+ "events": [
+  {
+   "id": "USDNOK=X:2026-11-06",
+   "time": "2026-11-06T11:13:00Z",
+   "severity": "medium",
+   "kind": "fx",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/USDNOK%3DX",
+   "text_en": "USD/NOK rose 1.0 per cent to 9.3887 on 6 November 2026. A rise is a weaker krone.",
+   "text_no": "USD/NOK steg 1,0 prosent til 9,3887 2026-11-06. Oppgang betyr svakere krone.",
+   "value": {
+    "symbol": "USDNOK=X",
+    "last": 9.38867,
+    "d1": 1.014,
+    "unit": "%"
+   }
+  },
+  {
+   "id": "^N225:2026-11-06",
+   "time": "2026-11-06T06:45:00Z",
+   "severity": "high",
+   "kind": "equity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/%5EN225",
+   "text_en": "The Nikkei 225 fell 6.0 per cent to 57,435 on 6 November 2026.",
+   "text_no": "Nikkei 225 falt 6,0 prosent til 57 435 2026-11-06.",
+   "value": {
+    "symbol": "^N225",
+    "last": 57434.769531,
+    "d1": -5.965,
+    "unit": "%"
+   }
+  },
+  {
+   "id": "^KS11:2026-11-06",
+   "time": "2026-11-06T06:32:00Z",
+   "severity": "high",
+   "kind": "equity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/%5EKS11",
+   "text_en": "The KOSPI fell 6.0 per cent to 5,060 on 6 November 2026.",
+   "text_no": "KOSPI falt 6,0 prosent til 5 060 2026-11-06.",
+   "value": {
+    "symbol": "^KS11",
+    "last": 5059.689941,
+    "d1": -6.02,
+    "unit": "%"
+   }
+  },
+  {
+   "id": "^IXIC:2026-11-05",
+   "time": "2026-11-05T22:15:00Z",
+   "severity": "high",
+   "kind": "equity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/%5EIXIC",
+   "text_en": "The Nasdaq Composite fell 5.5 per cent to 24,315 on 5 November 2026.",
+   "text_no": "Nasdaq Composite falt 5,5 prosent til 24 315 2026-11-05.",
+   "value": {
+    "symbol": "^IXIC",
+    "last": 24315.0,
+    "d1": -5.523,
+    "unit": "%"
+   }
+  },
+  {
+   "id": "^SOX:2026-11-05",
+   "time": "2026-11-05T22:15:00Z",
+   "severity": "high",
+   "kind": "equity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/%5ESOX",
+   "text_en": "The SOX semiconductor index fell 12.2 per cent to 9,011 on 5 November 2026.",
+   "text_no": "Halvlederindeksen SOX falt 12,2 prosent til 9 011 2026-11-05.",
+   "value": {
+    "symbol": "^SOX",
+    "last": 9011.139648,
+    "d1": -12.246,
+    "unit": "%"
+   }
+  },
+  {
+   "id": "^GSPC:2026-11-05",
+   "time": "2026-11-05T21:34:00Z",
+   "severity": "high",
+   "kind": "equity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/%5EGSPC",
+   "text_en": "The S&P 500 fell 4.4 per cent to 7,354 on 5 November 2026.",
+   "text_no": "S&P 500 falt 4,4 prosent til 7 354 2026-11-05.",
+   "value": {
+    "symbol": "^GSPC",
+    "last": 7353.72998,
+    "d1": -4.356,
+    "unit": "%"
+   }
+  }
+ ]
+}

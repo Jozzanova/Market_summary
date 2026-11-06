@@ -54,6 +54,8 @@ def letters():
 def main():
     data = json.loads((ROOT / "data" / "data.json").read_text(encoding="utf-8"))
     data["letters"] = letters()
+    ap = ROOT / "data" / "alerts.json"
+    data["alerts"] = json.loads(ap.read_text(encoding="utf-8")) if ap.exists() else {"updated": None, "events": []}
     data["generated"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     template = (ROOT / "template.html").read_text(encoding="utf-8")
     payload = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")

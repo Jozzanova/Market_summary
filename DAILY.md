@@ -9,6 +9,7 @@ done and the letters are committed.
 
     git pull --rebase origin main
     python -X utf8 pipeline/fetch.py --refresh     # 1-3 minutes; give it a 10-minute timeout
+    python -X utf8 pipeline/alerts.py              # data alerts (large moves) into data/alerts.json, the Alerts tab
     python -X utf8 pipeline/brief.py               # the numbers for the letters
 
 `fetch.py` downloads one year of daily prices for every instrument in `data/instruments.csv` from Yahoo Finance, the
