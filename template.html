@@ -79,6 +79,11 @@ tr.sect td { font-weight: 600; color: var(--accent); padding-top: .7rem; border-
 .letter .fig { position: relative; margin: .8rem 0 1.2rem; } .letter .fig .plot { height: 320px; }
 .letter .fig .cap { font-size: .82rem; color: var(--muted); margin-top: .2rem; }
 .snapshot td, .snapshot th { padding: .25rem .45rem; }
+.letterwrap { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 1rem; align-items: start; }
+.letterwrap > .card { margin: 0; } .letteraside .card { margin: 0 0 1rem; }
+.letteraside .fig { position: relative; margin: 0 0 1rem; } .letteraside .fig .plot { height: 250px; }
+.letteraside .fig .cap { font-size: .8rem; color: var(--muted); margin-top: .1rem; }
+@media (max-width: 1100px) { .letterwrap { grid-template-columns: 1fr; } }
 .kinds { margin-bottom: .8rem; }
 .lettermeta { color: var(--muted); font-size: .85rem; margin-bottom: .8rem; }
 .empty { color: var(--muted); padding: 1rem 0; }
@@ -115,8 +120,13 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
     <div class="seg" id="kindSeg"><button data-v="markets" data-i="k_markets">Markets</button><button data-v="macro" data-i="k_macro">Macro</button><button data-v="politics" data-i="k_politics">Politics</button></div>
     <select id="letterDate"></select>
   </div>
-  <div class="card snapshot" id="snapCard"><h2 data-i="snap_title">The last 24 hours at a glance</h2><div id="snapTable"></div></div>
-  <div class="card"><div class="letter" id="letterBody"></div></div>
+  <div class="letterwrap">
+    <div class="card"><div class="letter" id="letterBody"></div></div>
+    <aside class="letteraside">
+      <div class="card snapshot" id="snapCard"><h2 data-i="snap_title">The last 24 hours at a glance</h2><div id="snapTable"></div></div>
+      <div class="card" id="figCard"><h2 data-i="fig_title">Figures</h2><div id="letterFigs"></div></div>
+    </aside>
+  </div>
 </section>
 
 <section class="pane" id="pane-events">
@@ -208,10 +218,10 @@ const T = {
   tab_letters: ["Letters", "Brev"], tab_events: ["Upcoming events", "Kommende hendelser"], tab_equities: ["Equities", "Aksjer"], tab_rates: ["Rates & credit", "Renter og kreditt"],
   tab_commodities: ["Commodities", "Råvarer"], tab_fx: ["Currencies", "Valuta"], tab_central: ["Central banks", "Sentralbanker"], tab_norgesbank: ["Norges Bank", "Norges Bank"], tab_update: ["Update", "Oppdatering"],
   nb_letter: ["Norges Bank letter", "Norges Bank-brev"], nb_infl: ["Inflation against the 2 per cent target", "Inflasjon mot målet på 2 prosent"], nb_infl_s: ["12-month change, Statistics Norway", "tolvmånedersvekst, Statistisk sentralbyrå"],
-  nb_krone: ["The krone", "Kronen"], nb_krone_s: ["EUR/NOK and USD/NOK, one year", "EUR/NOK og USD/NOK, ett år"], nb_next: ["Next Norges Bank dates", "Neste Norges Bank-datoer"],
+  nb_krone: ["The krone", "Kronen"], nb_krone_s: ["EUR/NOK (left) and the I-44 index (right), one year; up = weaker krone", "EUR/NOK (venstre) og I-44-indeksen (høyre), ett år; opp = svakere krone"], nb_next: ["Next Norges Bank dates", "Neste Norges Bank-datoer"],
   t_policy: ["policy rate", "styringsrente"], t_next: ["next decision", "neste beslutning"], t_cpi: ["CPI, 12-month", "KPI, tolvmåneders"], t_cpiate: ["CPI-ATE, 12-month", "KPI-JAE, tolvmåneders"], t_10y: ["10-year yield", "10-årsrente"], t_eurnok: ["EUR/NOK", "EUR/NOK"], t_target: ["target 2 %", "mål 2 %"],
   k_markets: ["Markets", "Markeder"], k_macro: ["Macro", "Makro"], k_politics: ["Politics", "Politikk"],
-  snap_title: ["The last 24 hours at a glance", "Det siste døgnet i korte trekk"],
+  snap_title: ["The last 24 hours at a glance", "Det siste døgnet i korte trekk"], fig_title: ["Figures", "Figurer"],
   ev_title: ["Upcoming events", "Kommende hendelser"], ev_note: ["Central bank decisions, data releases and political dates kept by the daily agent; times are Oslo time. Importance: high (orange), medium (blue), low.", "Sentralbankmøter, statistikkslipp og politiske datoer, vedlikeholdt av den daglige agenten; tidene er norsk tid. Viktighet: høy (oransje), middels (blå), lav."],
   eq_title: ["Equity indices", "Aksjeindekser"], eq_perf: ["Indexed performance", "Indeksert utvikling"], eq_perf_s: ["start of period = 100, local currency", "start av perioden = 100, lokal valuta"],
   sec_title: ["US sectors", "Amerikanske sektorer"], sec_s: ["S&P 500 sector ETFs", "S&P 500 sektor-ETF-er"],
@@ -265,7 +275,9 @@ function setLang(l) {
   drawn.clear(); showTab(currentTab(), true);
 }
 function isDark() { return document.documentElement.dataset.theme === "dark" || (!document.documentElement.dataset.theme && matchMedia("(prefers-color-scheme: dark)").matches); }
-$("#themeBtn").onclick = () => { document.documentElement.dataset.theme = isDark() ? "light" : "dark"; drawn.clear(); showTab(currentTab(), true); };
+// dark is the default; a visitor's choice is remembered in this browser
+try { document.documentElement.dataset.theme = localStorage.getItem("ms_theme") === "light" ? "light" : "dark"; } catch (e) { document.documentElement.dataset.theme = "dark"; }
+$("#themeBtn").onclick = () => { const next = isDark() ? "light" : "dark"; document.documentElement.dataset.theme = next; try { localStorage.setItem("ms_theme", next); } catch (e) {} drawn.clear(); showTab(currentTab(), true); };
 $$("#langSeg button").forEach(b => b.onclick = () => setLang(b.dataset.v));
 window.addEventListener("hashchange", () => showTab(currentTab()));
 $$(".rangeSeg").forEach(seg => seg.querySelectorAll("button").forEach(b => b.onclick = () => { seg.querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b)); RANGE[seg.dataset.for] = b.dataset.v; DRAW[currentTab()](); }));
@@ -344,7 +356,7 @@ function drawLetterFigs(root) {
     plot(el, traces, {margin: {l: 44, r: 8, t: 10, b: 36}, yaxis: {title: mode === "level" ? "" : t("eq_perf_s")}});
   });
 }
-const SNAP_PICKS = ["^GSPC", "^IXIC", "^STOXX", "OSEBX.OL", "^N225", "^HSI", "^VIX", "^TNX", "DGS2", "EA_SR_10Y", "nok_10y", "BAMLH0A0HYM2", "BZ=F", "GC=F", "HG=F", "TTF=F", "DX-Y.NYB", "EURUSD=X", "USDJPY=X", "EURNOK=X", "USDNOK=X"];
+const SNAP_PICKS = ["^GSPC", "^IXIC", "^STOXX", "OSEBX.OL", "^N225", "^HSI", "^VIX", "^TNX", "DGS2", "EA_SR_10Y", "nok_10y", "BAMLH0A0HYM2", "BZ=F", "GC=F", "HG=F", "TTF=F", "DX-Y.NYB", "EURUSD=X", "USDJPY=X", "EURNOK=X", "USDNOK=X", "nok_i44"];
 const chgText = (v, unit) => v == null || !isFinite(v) ? "–" : unit === "bp" ? `${v > 0 ? "+" : ""}${fmt(v, 0)} bp` : `${v > 0 ? "+" : ""}${fmt(v, 2)} %`;
 function snapRows() {
   return {head: ["", t("last"), t("d1"), t("w1"), t("ytd"), t("date")], num: [false, true, true, true, true, true],
@@ -362,9 +374,13 @@ function drawLetters() {
   if (KIND === "markets") $("#snapTable").innerHTML = snapshot();
   const body = $("#letterBody");
   const entry = (LETTERS[LDATE] || {})[KIND]; const text = entry && (entry[LANG] || entry.en || entry.no);
-  if (!text) { body.innerHTML = `<p class="empty">${t("no_letter")}</p>`; return; }
+  const figs = $("#letterFigs"); figs.innerHTML = "";
+  if (!text) { body.innerHTML = `<p class="empty">${t("no_letter")}</p>`; $("#figCard").style.display = "none"; return; }
   body.innerHTML = (entry && !entry[LANG] ? `<p class="lettermeta">${LANG === "no" ? "Norsk versjon mangler for denne datoen; engelsk vises." : "English version missing for this date; showing the Norwegian one."}</p>` : "") + md(text);
-  drawLetterFigs(body);
+  // the letter's figures are shown beside the text, under the snapshot table, not in the text flow
+  body.querySelectorAll(".fig").forEach(f => { const syms = f.querySelector(".plot").dataset.syms.split(",").map(s => bySym(s.trim())).filter(Boolean); figs.appendChild(f); f.insertAdjacentHTML("beforeend", `<div class="cap">${esc(syms.map(nameOf).join(", "))}</div>`); });
+  $("#figCard").style.display = figs.children.length ? "" : "none";
+  drawLetterFigs(figs);
 }
 
 /* ---------- events ---------- */
@@ -420,7 +436,11 @@ function drawRates() {
 
 /* ---------- commodities, fx ---------- */
 function drawCommodities() { $("#cmTable").innerHTML = instrTable(group("commodity")); plot("#cmPlot", indexedTraces(["BZ=F", "TTF=F", "NG=F", "GC=F", "HG=F", "^SPGSCI"], RANGE.cm)); }
-function drawFx() { $("#fxTable").innerHTML = instrTable(group("fx")); plot("#fxPlot", indexedTraces(["DX-Y.NYB", "EURUSD=X", "USDJPY=X", "EURNOK=X", "USDNOK=X"], RANGE.fx)); }
+function drawFx() {
+  const rows = [...group("fx")]; if (NB.nok_i44) rows.push({section: LANG === "no" ? "Norges Banks kroneindeks (daglig notering kl. 14.15)" : "Norges Bank's krone index (daily fix at 14:15 CET)"}, {sym: "nok_i44", ...NB.nok_i44});
+  $("#fxTable").innerHTML = instrTable(rows);
+  plot("#fxPlot", indexedTraces(["DX-Y.NYB", "EURUSD=X", "USDJPY=X", "EURNOK=X", "USDNOK=X", "nok_i44"], RANGE.fx));
+}
 
 /* ---------- central banks ---------- */
 function drawCentral() {
@@ -455,7 +475,7 @@ function drawNorgesBank() {
   const inf = levelTraces(["cpi_12m", "cpiate_12m"], "1y").map(q => ({...q, x: q.x.map(d => d.slice(0, 7))}));
   if (inf.length) inf.push({x: inf[0].x, y: inf[0].x.map(() => 2), name: t("t_target"), type: "scatter", mode: "lines", line: {width: 1.5, dash: "dot", color: cssv("--muted")}, hoverinfo: "skip"});
   plot("#nbInflPlot", inf, {yaxis: {ticksuffix: " %"}, xaxis: {type: "category", nticks: 8}});
-  const kr = levelTraces(["EURNOK=X", "USDNOK=X"], "1y", 2); if (kr[1]) kr[1].yaxis = "y2";
+  const kr = levelTraces(["EURNOK=X", "nok_i44"], "1y", 2); if (kr[1]) kr[1].yaxis = "y2";
   plot("#nbKronePlot", kr, {margin: {l: 48, r: 48, t: 10, b: 40}, yaxis2: {overlaying: "y", side: "right", gridcolor: "rgba(0,0,0,0)", tickfont: {color: cssv("--muted")}}});
   const today = new Date().toISOString().slice(0, 10);
   const evs = (D.events || []).filter(e => e.date >= today && (e.region === "NO" || /norges bank/i.test(e.event))).sort((a, b) => a.date.localeCompare(b.date)).slice(0, 12);

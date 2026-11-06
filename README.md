@@ -15,7 +15,7 @@ Live: https://market-summary.jskjeltorp.workers.dev (public)
 | Equities | Indices and US sectors with 1-day, 1-week, 1-month and year-to-date changes; indexed performance; sector bars |
 | Rates & credit | US, euro-area and Norwegian yields and policy rates; credit spreads; 10-year and short-end charts; the US curve and real yields |
 | Commodities | Energy, metals and grains with changes and indexed charts |
-| Currencies | The dollar index and the main pairs including EUR/NOK and USD/NOK |
+| Currencies | The dollar index and the main pairs including EUR/NOK and USD/NOK, and Norges Bank's import-weighted krone index I-44 |
 | Central banks | Policy rates, last and next decisions; Norwegian policy and market rates; the next central bank events |
 | Norges Bank | A daily letter on everything said about Norges Bank (the bank, economists, the press, market pricing); policy rate, next decision, CPI and CPI-ATE against the 2 per cent target, the krone, Norwegian rates, the next Norges Bank dates |
 | Update | Data status, how the page is made, sources |

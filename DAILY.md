@@ -56,7 +56,8 @@ exclamation, no advice, no speculation presented as fact; "per cent" and "basis 
 400-600 words, macro 400-600 words, politics 250-450 words.
 
 - **Markets letter** (`markets`): a bold summary paragraph; sections Equities (US, Europe, Norway, Asia), Fixed income and
-  credit, Commodities and currencies, Today (the calendar for the day with consensus where known). The page shows a table
+  credit, Commodities and currencies (always the krone: EUR/NOK, USD/NOK and Norges Bank's import-weighted index I-44, where
+  a rise is a weaker krone; the brief prints all three), Today (the calendar for the day with consensus where known). The page shows a table
   of key prices above the letter automatically, so the text should explain rather than list.
 - **Macro letter** (`macro`): central banks and the business cycle. A bold summary; a table of this week's or the latest
   decisions when there were any; a section per central bank that acted or spoke; the data of note; an Assessment section
@@ -70,7 +71,7 @@ exclamation, no advice, no speculation presented as fact; "per cent" and "basis 
   Handelsbanken, SEB, Danske, Swedbank), international coverage (Bloomberg, Reuters, FXStreet notes from Nomura,
   Commerzbank and others), market pricing of the rate path and the krone. Structure: a bold summary; What Norges Bank
   said (quote the statement where possible); What economists and the market say (named, with links); The krone and
-  rates; Dates (next decision, CPI, Regional Network, MPR). On a day with no Norges Bank news, say so in one line and
+  rates (EUR/NOK and the I-44 index, both in the brief); Dates (next decision, CPI, Regional Network, MPR). On a day with no Norges Bank news, say so in one line and
   summarise the standing view and the next dates. 250-450 words. The tab shows the policy rate, next decision, CPI and
   CPI-ATE, the 10-year yield and EUR/NOK automatically, so the text should interpret rather than list.
 

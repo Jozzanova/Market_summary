@@ -210,7 +210,12 @@ def fetch_nb():
     obs = sorted((r["TIME_PERIOD"], float(r["OBS_VALUE"])) for r in csv.DictReader(io.StringIO(raw.decode("utf-8", "ignore")), delimiter=";") if r.get("OBS_VALUE"))
     s = {"dates": [o[0] for o in obs], "values": [o[1] for o in obs]}
     out["nok_policy"] = {"name_en": "Norges Bank policy rate", "group": "rates", "kind": "yield", "decimals": 2, **s, **stats(s, "yield")}
-    log(f"norges bank: {len(out)} series, latest {max(v['last_date'] for v in out.values())}")
+    # the import-weighted krone index I-44 (1995 = 100; a rise is a weaker krone), Norges Bank's own measure of the krone
+    raw = cached("nb_i44.csv", 6, lambda: get("https://data.norges-bank.no/api/data/EXR/B.I44.NOK.SP?format=csv&lastNObservations=280"))
+    obs = sorted((r["TIME_PERIOD"], float(r["OBS_VALUE"])) for r in csv.DictReader(io.StringIO(raw.decode("utf-8", "ignore")), delimiter=";") if r.get("OBS_VALUE"))
+    s = {"dates": [o[0] for o in obs], "values": [o[1] for o in obs]}
+    out["nok_i44"] = {"name_en": "Krone index I-44 (up = weaker krone)", "name_no": "Kroneindeksen I-44 (opp = svakere krone)", "group": "fx", "kind": "price", "decimals": 2, **s, **stats(s, "price")}
+    log(f"norges bank: {len(out)} series, latest {max(v['last_date'] for v in out.values())}; I-44 {out['nok_i44']['last']} ({out['nok_i44']['last_date']})")
     return out
 
 
