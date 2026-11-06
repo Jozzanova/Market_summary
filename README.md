@@ -1,7 +1,7 @@
 # Market summary
 
 A daily review of equity, bond, commodity and currency markets over the last 24 hours, a macro letter on central banks,
-a politics letter and a calendar of upcoming events, in English and Norwegian, written each weekday morning by a
+a politics letter and a calendar of upcoming events, in English and Norwegian, written each morning by a
 scheduled cloud agent (playbook: `DAILY.md`).
 
 Live: https://market-summary.jskjeltorp.workers.dev (public)
@@ -35,4 +35,4 @@ Letters live in `data/letters/YYYY-MM-DD/<kind>.<lang>.md` (kind: markets, macro
 table is `data/policy_rates.csv` and the calendar `data/events.csv`; both are kept by the agent. The instrument universe
 is `data/instruments.csv`.
 
-The repository is `https://github.com/Jozzanova/market_summary`; the routine runs weekdays at 06:30 Oslo time.
+The repository is `https://github.com/Jozzanova/market_summary`; the routine runs every morning at 06:05 Oslo time.

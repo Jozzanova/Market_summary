@@ -1,6 +1,6 @@
 # Daily market summary routine
 
-This file is the playbook for the scheduled cloud agent that writes the market summary every weekday morning. You start
+This file is the playbook for the scheduled cloud agent that writes the market summary every morning. You start
 with a fresh clone of this repository and no other context; read this file first, then do the steps in order. Python's
 standard library is enough (no packages to install); Node is used for the deploy. Do not end the run before step 6 is
 done and the letters are committed.

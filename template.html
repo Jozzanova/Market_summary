@@ -96,7 +96,7 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
   <div class="titlerow">
     <div>
       <h1 data-i="title">Market summary</h1>
-      <p class="sub" data-i="sub">A daily review of equity, bond, commodity and currency markets over the last 24 hours, a macro letter on central banks, a politics letter and the events ahead. Written each weekday morning by a scheduled agent from public market data and the day's news.</p>
+      <p class="sub" data-i="sub">A daily review of equity, bond, commodity and currency markets over the last 24 hours, a macro letter on central banks, a politics letter and the events ahead. Written each morning by a scheduled agent from public market data and the day's news.</p>
     </div>
     <div class="ctl">
       <div class="seg" id="langSeg"><button data-v="en">English</button><button data-v="no">Norsk</button></div>
@@ -203,8 +203,8 @@ const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&
 /* ---------- translations ---------- */
 const T = {
   title: ["Market summary", "Markedsoppsummering"],
-  sub: ["A daily review of equity, bond, commodity and currency markets over the last 24 hours, a macro letter on central banks, a politics letter and the events ahead. Written each weekday morning by a scheduled agent from public market data and the day's news.",
-        "En daglig gjennomgang av aksje-, rente-, råvare- og valutamarkedene det siste døgnet, et makrobrev om sentralbankene, et politisk brev og hendelsene som kommer. Skrevet hver ukedagsmorgen av en planlagt agent ut fra offentlige markedsdata og dagens nyheter."],
+  sub: ["A daily review of equity, bond, commodity and currency markets over the last 24 hours, a macro letter on central banks, a politics letter and the events ahead. Written each morning by a scheduled agent from public market data and the day's news.",
+        "En daglig gjennomgang av aksje-, rente-, råvare- og valutamarkedene det siste døgnet, et makrobrev om sentralbankene, et politisk brev og hendelsene som kommer. Skrevet hver morgen av en planlagt agent ut fra offentlige markedsdata og dagens nyheter."],
   tab_letters: ["Letters", "Brev"], tab_events: ["Upcoming events", "Kommende hendelser"], tab_equities: ["Equities", "Aksjer"], tab_rates: ["Rates & credit", "Renter og kreditt"],
   tab_commodities: ["Commodities", "Råvarer"], tab_fx: ["Currencies", "Valuta"], tab_central: ["Central banks", "Sentralbanker"], tab_norgesbank: ["Norges Bank", "Norges Bank"], tab_update: ["Update", "Oppdatering"],
   nb_letter: ["Norges Bank letter", "Norges Bank-brev"], nb_infl: ["Inflation against the 2 per cent target", "Inflasjon mot målet på 2 prosent"], nb_infl_s: ["12-month change, Statistics Norway", "tolvmånedersvekst, Statistisk sentralbyrå"],
@@ -467,8 +467,8 @@ function drawUpdate() {
   const kept = D.kept_from_previous || [];
   $("#upStatus").innerHTML = `<p>${t("asof")} <b>${esc(D.asof)}</b>; ${t("generated")} ${esc(D.generated)}.</p>${kept.length ? `<p class="neg">${t("kept")} ${esc(kept.join(", "))}</p>` : ""}<p class="small muted">${t("letters_on")} ${DATES.map(fmtDate).join(", ") || "–"}</p>`;
   $("#upHow").innerHTML = LANG === "no"
-    ? `<p>En planlagt agent kjører hver ukedag klokken 06.30 norsk tid. Den henter markedsdata (Yahoo Finance, FRED, ECB, Norges Bank), leser gjennom døgnets nyheter om markeder, sentralbanker og politikk, og skriver tre daterte brev på engelsk og norsk: et markedsbrev om det siste døgnet, et makrobrev om sentralbankene og konjunkturene, og et politisk brev. Den holder også tabellen over styringsrenter og kalenderen over kommende hendelser ved like. Brevene er skrevet i en nøktern, sentralbankaktig stil; lenker i brevene går til kildene. Nedlastingsknappen gir alle tabellene som Excel-arbeidsbok.</p>`
-    : `<p>A scheduled agent runs every weekday at 06:30 Oslo time. It fetches the market data (Yahoo Finance, FRED, the ECB, Norges Bank), reads the day's news on markets, central banks and politics, and writes three dated letters in English and Norwegian: a markets letter on the last 24 hours, a macro letter on central banks and the business cycle, and a politics letter. It also keeps the policy-rate table and the calendar of upcoming events current. The letters are written in a measured, central-bank style; links in the letters go to the sources. The Excel button downloads every table as a workbook.</p>`;
+    ? `<p>En planlagt agent kjører hver morgen klokken 06.05 norsk tid. Den henter markedsdata (Yahoo Finance, FRED, ECB, Norges Bank), leser gjennom døgnets nyheter om markeder, sentralbanker og politikk, og skriver tre daterte brev på engelsk og norsk: et markedsbrev om det siste døgnet, et makrobrev om sentralbankene og konjunkturene, og et politisk brev. Den holder også tabellen over styringsrenter og kalenderen over kommende hendelser ved like. Brevene er skrevet i en nøktern, sentralbankaktig stil; lenker i brevene går til kildene. Nedlastingsknappen gir alle tabellene som Excel-arbeidsbok.</p>`
+    : `<p>A scheduled agent runs every morning at 06:05 Oslo time. It fetches the market data (Yahoo Finance, FRED, the ECB, Norges Bank), reads the day's news on markets, central banks and politics, and writes three dated letters in English and Norwegian: a markets letter on the last 24 hours, a macro letter on central banks and the business cycle, and a politics letter. It also keeps the policy-rate table and the calendar of upcoming events current. The letters are written in a measured, central-bank style; links in the letters go to the sources. The Excel button downloads every table as a workbook.</p>`;
   $("#upSources").innerHTML = `<ul class="small">
     <li>Yahoo Finance chart API: equity indices, sector ETFs, US Treasury yields and futures, commodity futures, currencies (one year of daily closes and the latest print).</li>
     <li>FRED (Federal Reserve Bank of St. Louis): US Treasury constant-maturity yields (DGS2, DGS10, DGS30), 10-year TIPS yield (DFII10), 10-year breakeven (T10YIE), ICE BofA option-adjusted spreads (US IG, US HY, euro HY, EM corporate).</li>
