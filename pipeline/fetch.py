@@ -260,6 +260,32 @@ def read_csv(name):
         return list(csv.DictReader(f))
 
 
+def fetch_heatmap(n=150):
+    """The largest US-listed stocks by market cap with the day's change (Yahoo's predefined large-cap screener, which
+    needs no login). Used for the treemap on the Equities tab. One share class per company (GOOGL, BRK-B)."""
+    raw = cached("yahoo_screener_large_caps.json", 2, lambda: get(
+        "https://query1.finance.yahoo.com/v1/finance/screener/predefined/saved?scrIds=large_cap_stocks&count=250"))
+    quotes = json.loads(raw)["finance"]["result"][0]["quotes"]
+    quotes = [q for q in quotes if q.get("marketCap") and q.get("regularMarketChangePercent") is not None and q.get("quoteType") == "EQUITY"]
+    quotes.sort(key=lambda q: -q["marketCap"])
+    seen, items = set(), []
+    for q in quotes:
+        name = (q.get("longName") or q.get("shortName") or q["symbol"]).strip()
+        key = name.lower().replace(" new", "").rstrip(".")   # GOOG/GOOGL, BRK-A/BRK-B: keep the larger listing only
+        if key in seen:
+            continue
+        seen.add(key)
+        t = q.get("regularMarketTime")
+        items.append({"s": q["symbol"], "n": name, "cap": q["marketCap"], "chg": round(q["regularMarketChangePercent"], 3),
+                      "t": datetime.fromtimestamp(t, tz=timezone.utc).strftime("%Y-%m-%d %H:%M UTC") if t else None})
+        if len(items) >= n:
+            break
+    if len(items) < 20:
+        raise ValueError(f"only {len(items)} stocks from the screener")
+    log(f"heatmap: {len(items)} stocks, latest print {max(i['t'] or '' for i in items)}")
+    return {"fetched": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"), "items": items}
+
+
 def main():
     prev = json.loads((DATA / "data.json").read_text(encoding="utf-8")) if (DATA / "data.json").exists() else {}
     kept = []
@@ -267,7 +293,7 @@ def main():
     yahoo, failed = fetch_yahoo(prev.get("yahoo", {}))
     kept += [f"yahoo:{s}" for s in failed if s in yahoo]
     blocks = {}
-    for name, fn in (("fred", fetch_fred), ("ecb", fetch_ecb), ("nb", fetch_nb), ("ssb", fetch_ssb), ("news", fetch_news)):
+    for name, fn in (("fred", fetch_fred), ("ecb", fetch_ecb), ("nb", fetch_nb), ("ssb", fetch_ssb), ("news", fetch_news), ("heatmap", fetch_heatmap)):
         log(f"{name}")
         try:
             blocks[name] = fn()

@@ -198,6 +198,9 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
       <div class="row"><div class="seg rangeSeg" data-for="sec"><button data-v="d1" class="on">1D</button><button data-v="w1">1W</button><button data-v="m1">1M</button><button data-v="ytd">YTD</button></div></div>
       <div class="plot" id="secPlot"></div></div>
   </div>
+  <div class="card"><h2 data-i="hm_title">Largest US stocks, latest session <small data-i="hm_s">box size = market capitalisation, colour = change on the day</small></h2>
+    <div id="hmPlot" style="height:min(620px, 120vw)"></div>
+    <p class="note" id="hmNote"></p></div>
 </section>
 
 <section class="pane" id="pane-rates">
@@ -282,6 +285,7 @@ const T = {
   g_equities: ["Equities", "Aksjer"], r_us: ["United States", "USA"], r_europe: ["Europe", "Europa"], r_nordic: ["Nordics", "Norden"], r_asia: ["Asia", "Asia"], r_em: ["Emerging markets", "Fremvoksende markeder"], r_vol: ["Volatility", "Volatilitet"], g_bonds: ["Bonds and credit", "Obligasjoner og kreditt"], g_commodities: ["Commodities", "Råvarer"], g_fx: ["Currencies", "Valuta"],
   ev_title: ["Upcoming events", "Kommende hendelser"], ev_note: ["Central bank decisions, data releases and political dates kept by the daily agent; times are Oslo time. Importance: high (orange), medium (blue), low.", "Sentralbankmøter, statistikkslipp og politiske datoer, vedlikeholdt av den daglige agenten; tidene er norsk tid. Viktighet: høy (oransje), middels (blå), lav."],
   eq_title: ["Equity indices", "Aksjeindekser"], ai_title: ["AI and semiconductors", "KI og halvledere"], ai_s: ["the indices and ETFs the market uses as AI proxies", "indeksene og ETF-ene markedet bruker som KI-indikatorer"], set_ai: ["AI and semiconductors", "KI og halvledere"], eq_perf: ["Indexed performance", "Indeksert utvikling"], eq_perf_s: ["start of period = 100, local currency", "start av perioden = 100, lokal valuta"],
+  hm_title: ["Largest US stocks, latest session", "De største amerikanske aksjene, siste handelsdag"], hm_s: ["box size = market capitalisation, colour = change on the day", "boksstørrelse = markedsverdi, farge = endring på dagen"],
   sec_title: ["US sectors", "Amerikanske sektorer"], sec_s: ["S&P 500 sector ETFs", "S&P 500 sektor-ETF-er"],
   rt_title: ["Government yields, policy rates and credit spreads", "Statsrenter, styringsrenter og kredittpåslag"],
   rt_note: ["US Treasury rows marked \"live\" are Yahoo prints and can include the current session; the official fixes (FRED, ECB AAA curve, Norges Bank) are one business day behind. Changes in basis points.", "Amerikanske statsrenter merket «live» er Yahoo-kurser og kan omfatte inneværende handelsdag; de offisielle noteringene (FRED, ECBs AAA-kurve, Norges Bank) er én virkedag bak. Endringer i basispunkter."],
@@ -555,9 +559,32 @@ function drawEquities() {
   $("#aiTable").innerHTML = instrTable(group("ai"));
   const sel = $("#eqSet"); const cur = sel.value || "majors"; sel.innerHTML = Object.keys(SETS).map(k => `<option value="${k}"${k === cur ? " selected" : ""}>${t("set_" + k)}</option>`).join(""); sel.onchange = drawEquities;
   plot("#eqPlot", indexedTraces(SETS[sel.value], RANGE.eq), {yaxis: {title: ""}});
+  drawHeatmap();
   const secs = group("sector").filter(v => v[RANGE.sec] != null).sort((a, b) => a[RANGE.sec] - b[RANGE.sec]);
   plot("#secPlot", [{type: "bar", orientation: "h", x: secs.map(v => v[RANGE.sec]), y: secs.map(v => nameOf(v)), marker: {color: secs.map(v => v[RANGE.sec] >= 0 ? cssv("--ok") : cssv("--bad"))}, text: secs.map(v => `${v[RANGE.sec] > 0 ? "+" : ""}${fmt(v[RANGE.sec], 1)} %`), textposition: "outside", cliponaxis: false, hovertemplate: "%{y}: %{x:+.2f}%<extra></extra>"}],
     {margin: {l: 150, r: 60, t: 10, b: 36}, xaxis: {ticksuffix: " %", zeroline: true, zerolinecolor: cssv("--axis"), range: (() => { const xs = secs.map(v => v[RANGE.sec]); const lo = Math.min(0, ...xs), hi = Math.max(0, ...xs), pad = Math.max(0.6, 0.28 * (hi - lo)); return [lo - (lo < 0 ? pad : 0.3), hi + (hi > 0 ? pad : 0.3)]; })()}, showlegend: false, hovermode: "closest"});
+}
+
+function drawHeatmap() {
+  const hm = D.heatmap || {}; const items = hm.items || [];
+  if (!items.length) { $("#hmPlot").innerHTML = `<p class="empty">–</p>`; $("#hmNote").textContent = ""; return; }
+  const no = LANG === "no", pct = v => `${v > 0 ? "+" : ""}${fmt(v, 2)} %`;
+  const capTxt = c => c >= 1e12 ? `${fmt(c / 1e12, 2)} ${no ? "bill." : "tn"} USD` : `${fmt(c / 1e9, 0)} ${no ? "mrd." : "bn"} USD`;
+  // red to green around zero, saturating at ±5 per cent; the dark middle keeps the labels readable in both themes
+  const scale = [[0, "#8b1219"], [0.3, "#c0262f"], [0.5, "#3a3f4b"], [0.7, "#1f8a4c"], [1, "#0b5d2e"]];
+  const lab = items.map(i => `<b>${esc(i.s)}</b><br>${pct(i.chg)}`);
+  plot("#hmPlot", [{type: "treemap", labels: items.map(i => i.s), parents: items.map(() => ""), values: items.map(i => i.cap), branchvalues: "total",
+    text: lab, texttemplate: "%{text}", textposition: "middle center", textfont: {color: "#ffffff", family: "system-ui, sans-serif"},
+    customdata: items.map(i => [i.n, capTxt(i.cap), pct(i.chg)]),
+    hovertemplate: "<b>%{label}</b> %{customdata[0]}<br>%{customdata[2]}<br>" + (no ? "Markedsverdi " : "Market cap ") + "%{customdata[1]}<extra></extra>",
+    marker: {colors: items.map(i => Math.max(-5, Math.min(5, i.chg))), colorscale: scale, cmin: -5, cmax: 5, cmid: 0, line: {width: 1, color: cssv("--bg")}, showscale: innerWidth > 640,
+      colorbar: {thickness: 10, len: 0.6, ticksuffix: " %", tickvals: [-5, -2.5, 0, 2.5, 5], tickfont: {color: cssv("--muted"), size: 10}, outlinewidth: 0}},
+    tiling: {pad: 0}, pathbar: {visible: false}, sort: true}],
+    {margin: {l: 0, r: 0, t: 0, b: 0}, hovermode: "closest", uniformtext: {minsize: 9, mode: "hide"}});
+  const last = items.map(i => i.t || "").sort().pop();
+  $("#hmNote").textContent = no
+    ? `De ${items.length} største amerikansknoterte aksjene etter markedsverdi (én aksjeklasse per selskap), fra Yahoo Finance. Endring mot forrige sluttkurs; i åpningstiden er det siste omsetning. Siste kurs ${last}. Fargeskalaen stopper ved ±5 prosent.`
+    : `The ${items.length} largest US-listed stocks by market capitalisation (one share class per company), from Yahoo Finance. Change against the previous close; during trading hours it is the latest print. Latest price ${last}. The colour scale stops at ±5 per cent.`;
 }
 
 /* ---------- rates ---------- */
