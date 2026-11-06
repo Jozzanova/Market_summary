@@ -225,7 +225,7 @@ const T = {
   t_policy: ["policy rate", "styringsrente"], t_next: ["next decision", "neste beslutning"], t_cpi: ["CPI, 12-month", "KPI, tolvmåneders"], t_cpiate: ["CPI-ATE, 12-month", "KPI-JAE, tolvmåneders"], t_10y: ["10-year yield", "10-årsrente"], t_eurnok: ["EUR/NOK", "EUR/NOK"], t_target: ["target 2 %", "mål 2 %"],
   k_markets: ["Markets", "Markeder"], k_intraday: ["Intraday", "Intradag"], k_macro: ["Macro", "Makro"], k_politics: ["Politics", "Politikk"], run_now: ["Update now", "Oppdater nå"],
   snap_title: ["The last 24 hours at a glance", "Det siste døgnet i korte trekk"], fig_title: ["Figures", "Figurer"],
-  g_equities: ["Equities", "Aksjer"], g_bonds: ["Bonds and credit", "Obligasjoner og kreditt"], g_commodities: ["Commodities", "Råvarer"], g_fx: ["Currencies", "Valuta"],
+  g_equities: ["Equities", "Aksjer"], r_us: ["United States", "USA"], r_europe: ["Europe", "Europa"], r_nordic: ["Nordics", "Norden"], r_asia: ["Asia", "Asia"], r_em: ["Emerging markets", "Fremvoksende markeder"], r_vol: ["Volatility", "Volatilitet"], g_bonds: ["Bonds and credit", "Obligasjoner og kreditt"], g_commodities: ["Commodities", "Råvarer"], g_fx: ["Currencies", "Valuta"],
   ev_title: ["Upcoming events", "Kommende hendelser"], ev_note: ["Central bank decisions, data releases and political dates kept by the daily agent; times are Oslo time. Importance: high (orange), medium (blue), low.", "Sentralbankmøter, statistikkslipp og politiske datoer, vedlikeholdt av den daglige agenten; tidene er norsk tid. Viktighet: høy (oransje), middels (blå), lav."],
   eq_title: ["Equity indices", "Aksjeindekser"], ai_title: ["AI and semiconductors", "KI og halvledere"], ai_s: ["the indices and ETFs the market uses as AI proxies", "indeksene og ETF-ene markedet bruker som KI-indikatorer"], set_ai: ["AI and semiconductors", "KI og halvledere"], eq_perf: ["Indexed performance", "Indeksert utvikling"], eq_perf_s: ["start of period = 100, local currency", "start av perioden = 100, lokal valuta"],
   sec_title: ["US sectors", "Amerikanske sektorer"], sec_s: ["S&P 500 sector ETFs", "S&P 500 sektor-ETF-er"],
@@ -423,7 +423,9 @@ function drawEvents() {
 /* ---------- equities ---------- */
 const SETS = {majors: ["^GSPC", "^IXIC", "^STOXX", "^GDAXI", "^FTSE", "OSEBX.OL", "^N225", "^HSI"], ai: ["^SOX", "^NYFANG", "MAGS", "AIQ", "BOTZ", "^GSPC"], us: ["^GSPC", "^IXIC", "^DJI", "^RUT", "^VIX"], europe: ["^STOXX", "^STOXX50E", "^GDAXI", "^FTSE", "^FCHI", "OSEBX.OL", "^OMX"], asia: ["^N225", "^HSI", "000001.SS", "^KS11", "EEM"], nordic: ["OSEBX.OL", "^OMX", "^STOXX"]};
 function drawEquities() {
-  $("#eqTable").innerHTML = instrTable(group("equity"));
+  const REGIONS = [["r_us", ["^GSPC", "^IXIC", "^DJI", "^RUT"]], ["r_europe", ["^STOXX", "^STOXX50E", "^GDAXI", "^FTSE", "^FCHI"]], ["r_nordic", ["OSEBX.OL", "^OMX"]], ["r_asia", ["^N225", "^HSI", "000001.SS", "^KS11"]], ["r_em", ["EEM"]], ["r_vol", ["^VIX"]]];
+  const eqRows = REGIONS.flatMap(([r, syms]) => { const rs = syms.map(sym => Y[sym] && {sym, ...Y[sym]}).filter(Boolean); return rs.length ? [{section: t(r)}, ...rs] : []; });
+  $("#eqTable").innerHTML = instrTable(eqRows);
   $("#aiTable").innerHTML = instrTable(group("ai"));
   const sel = $("#eqSet"); const cur = sel.value || "majors"; sel.innerHTML = Object.keys(SETS).map(k => `<option value="${k}"${k === cur ? " selected" : ""}>${t("set_" + k)}</option>`).join(""); sel.onchange = drawEquities;
   plot("#eqPlot", indexedTraces(SETS[sel.value], RANGE.eq), {yaxis: {title: ""}});
