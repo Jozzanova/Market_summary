@@ -21,6 +21,15 @@ def letters():
     base = ROOT / "data" / "letters"
     for day in sorted(p for p in base.iterdir() if p.is_dir() and re.fullmatch(r"\d{4}-\d{2}-\d{2}", p.name)):
         entry, snaps = {}, {}
+        # a plain intraday.<lang>.md (older playbook wording) is renamed to a timed snapshot, so the next run cannot
+        # overwrite it; the time comes from its heading ("as of 12:05" / "per kl. 12.05")
+        for lang in ("en", "no"):
+            p = day / f"intraday.{lang}.md"
+            if p.exists():
+                first = (p.read_text(encoding="utf-8").splitlines() or [""])[0]
+                hm = re.search(r"(\d{1,2})[:.](\d{2})\s*(?:Oslo|$)", first) or re.search(r"(\d{1,2})[:.](\d{2})", first)
+                if hm:
+                    p.rename(day / f"intraday-{int(hm.group(1)):02d}{hm.group(2)}.{lang}.md")
         for p in day.glob("*.md"):
             m = re.fullmatch(r"(markets|intraday|macro|politics|norgesbank)\.(en|no)\.md", p.name)
             if m:
