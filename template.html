@@ -314,10 +314,10 @@ function levelTraces(syms, range, dec = 2) {
 }
 function plot(el, traces, layout = {}) {
   const node = typeof el === "string" ? $(el) : el;
-  const base = {margin: {l: 48, r: 12, t: 10, b: 40}, paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)", font: {family: "system-ui, sans-serif", size: 12, color: cssv("--fg")},
+  const base = {margin: {l: 48, r: 12, t: 10, b: 64}, paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)", font: {family: "system-ui, sans-serif", size: 12, color: cssv("--fg")},
     xaxis: {gridcolor: cssv("--grid"), zeroline: false, linecolor: cssv("--axis"), tickfont: {color: cssv("--muted")}}, yaxis: {gridcolor: cssv("--grid"), zeroline: false, tickfont: {color: cssv("--muted")}},
-    legend: {orientation: "h", y: 1.12, x: 0, font: {size: 11}}, hovermode: "x unified", hoverlabel: {bgcolor: cssv("--card"), bordercolor: cssv("--line"), font: {color: cssv("--fg")}}};
-  const lay = Object.assign({}, base, layout); lay.xaxis = Object.assign({}, base.xaxis, layout.xaxis || {}); lay.yaxis = Object.assign({}, base.yaxis, layout.yaxis || {});
+    legend: {orientation: "h", y: -0.16, yanchor: "top", x: 0, font: {size: 11}}, hovermode: "x unified", hoverlabel: {bgcolor: cssv("--card"), bordercolor: cssv("--line"), font: {color: cssv("--fg")}}};
+  const lay = Object.assign({}, base, layout); lay.xaxis = Object.assign({}, base.xaxis, layout.xaxis || {}); lay.yaxis = Object.assign({}, base.yaxis, layout.yaxis || {}); lay.margin = Object.assign({}, base.margin, layout.margin || {}); lay.legend = Object.assign({}, base.legend, layout.legend || {});
   Plotly.react(node, traces, lay, {displayModeBar: false, responsive: true});
   if (!node.__iso) { node.__iso = true; node.on("plotly_legendclick", ev => { const n = ev.data.length, cur = ev.curveNumber, vis = ev.data.map(tr => tr.visible !== "legendonly"); const only = vis.filter(Boolean).length === 1 && vis[cur]; Plotly.restyle(node, {visible: ev.data.map((_, i) => only || i === cur ? true : "legendonly")}); return false; }); }
 }
@@ -493,7 +493,7 @@ function drawNorgesBank() {
   if (inf.length) inf.push({x: inf[0].x, y: inf[0].x.map(() => 2), name: t("t_target"), type: "scatter", mode: "lines", line: {width: 1.5, dash: "dot", color: cssv("--muted")}, hoverinfo: "skip"});
   plot("#nbInflPlot", inf, {yaxis: {ticksuffix: " %"}, xaxis: {type: "category", nticks: 8}});
   const kr = levelTraces(["EURNOK=X", "nok_i44"], "1y", 2); if (kr[1]) kr[1].yaxis = "y2";
-  plot("#nbKronePlot", kr, {margin: {l: 48, r: 48, t: 10, b: 40}, yaxis2: {overlaying: "y", side: "right", gridcolor: "rgba(0,0,0,0)", tickfont: {color: cssv("--muted")}}});
+  plot("#nbKronePlot", kr, {margin: {l: 48, r: 48, t: 10}, yaxis2: {overlaying: "y", side: "right", gridcolor: "rgba(0,0,0,0)", tickfont: {color: cssv("--muted")}}});
   const today = new Date().toISOString().slice(0, 10);
   const evs = (D.events || []).filter(e => e.date >= today && (e.region === "NO" || /norges bank/i.test(e.event))).sort((a, b) => a.date.localeCompare(b.date)).slice(0, 12);
   $("#nbEvents").innerHTML = evs.length ? `<table><tbody>${evs.map(e => `<tr><td class="num muted small" style="width:7rem">${fmtDate(e.date)}</td><td><span class="dot ${esc((e.importance || "").toLowerCase())}"></span>${esc(e.event)}${(LANG === "no" ? e.note_no : e.note_en) ? ` <span class="muted small">— ${esc(LANG === "no" ? e.note_no : e.note_en)}</span>` : ""}</td></tr>`).join("")}</tbody></table>` : `<p class="empty">${t("no_events")}</p>`;
