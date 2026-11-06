@@ -18,7 +18,7 @@ In an interview with Nettavisen, Governor Ida Wolden Bache said that "a stronger
 
 ## The krone and rates
 
-EUR/NOK is at 10.43 this morning, close to Thursday's fix of 10.44 and above 10.32 on Monday: the global sell-off in equities has outweighed both the hawkish wording and Brent near 100 dollars. The 3-month bill yields 4.73 per cent and the 10-year bond 4.37 per cent. A further weakening of the krone is the channel most economists identify for a December hike.
+EUR/NOK is at 10.43 this morning, close to Thursday's fix of 10.44 and above 10.32 on Monday: the global sell-off in equities has outweighed both the hawkish wording and Brent near 100 dollars. The import-weighted index I-44 was fixed at 107.76 on Thursday, 0.5 per cent weaker than on Wednesday but 10.1 per cent stronger than at the start of the year; Tuesday's 106.65 was the strongest level in a year, which is the appreciation the Committee referred to ([Norges Bank](https://data.norges-bank.no/api/data/EXR/B.I44.NOK.SP?format=csv&lastNObservations=10)). The 3-month bill yields 4.73 per cent and the 10-year bond 4.37 per cent. A further weakening of the krone is the channel most economists identify for a December hike.
 
 ## Dates
 

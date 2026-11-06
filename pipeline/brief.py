@@ -39,9 +39,12 @@ def main():
     y = D["yahoo"]
     for grp, title in (("equity", "Equity indices (local currency; 1d = last close vs previous close, or the live print if the market is open)"),
                        ("sector", "US sectors (S&P 500 sector ETFs)"), ("rates", "US Treasury yields and futures (Yahoo, live prints)"),
-                       ("commodity", "Commodities"), ("fx", "FX (quoted as named; a rise in EUR/NOK is a weaker krone)")):
-        table([(v["name_en"], v) for s, v in y.items() if v["group"] == grp], title)
-    table([(v["name_en"], v) for v in D.get("fred", {}).values() if v["group"] == "rates"] + [(v["name_en"], v) for v in D.get("ecb", {}).values()] + [(v["name_en"], v) for v in D.get("nb", {}).values()],
+                       ("commodity", "Commodities"), ("fx", "FX (quoted as named; a rise in EUR/NOK, USD/NOK or the I-44 is a weaker krone; the I-44 is Norges Bank's daily fix, one day behind the live prints)")):
+        rows = [(v["name_en"], v) for s, v in y.items() if v["group"] == grp]
+        if grp == "fx":
+            rows += [(v["name_en"], v) for v in D.get("nb", {}).values() if v["group"] == "fx"]
+        table(rows, title)
+    table([(v["name_en"], v) for v in D.get("fred", {}).values() if v["group"] == "rates"] + [(v["name_en"], v) for v in D.get("ecb", {}).values()] + [(v["name_en"], v) for v in D.get("nb", {}).values() if v["group"] == "rates"],
           "Government yields and policy rate, official daily fixes (FRED, ECB AAA curve, Norges Bank; one day behind the live prints)")
     table([(v["name_en"], v) for v in D.get("fred", {}).values() if v["group"] == "credit"], "Credit spreads, ICE BofA option-adjusted spreads in per cent (FRED)")
     # movers
@@ -56,6 +59,12 @@ def main():
     ecb, nb = D.get("ecb", {}), D.get("nb", {})
     if "EA_SR_10Y" in ecb and "DGS10" in fr:
         print(f"  US-euro 10y spread: {100 * (fr['DGS10']['last'] - ecb['EA_SR_10Y']['last']):+.0f} bp; NOK-euro 10y spread: {100 * (nb['nok_10y']['last'] - ecb['EA_SR_10Y']['last']):+.0f} bp" if "nok_10y" in nb else "")
+    i44 = nb.get("nok_i44")
+    if i44:
+        print(f"\n## The krone\n  I-44 (import-weighted index, Norges Bank fix {i44['last_date']}): {f(i44['last'])}; 1d {ch(i44.get('d1'), '%')}, 1w {ch(i44.get('w1'), '%')}, 1m {ch(i44.get('m1'), '%')}, ytd {ch(i44.get('ytd'), '%')}; 52-week range {f(i44.get('lo52'))}-{f(i44.get('hi52'))} (a rise is a weaker krone)")
+        for sym in ("EURNOK=X", "USDNOK=X"):
+            if sym in y:
+                print(f"  {y[sym]['name_en']}: {f(y[sym]['last'], 4)} ({y[sym]['last_date']}); 1d {ch(y[sym].get('d1'), '%')}, ytd {ch(y[sym].get('ytd'), '%')}")
     print("\n## Policy rates on file (data/policy_rates.csv; verify after any meeting)")
     for r in D.get("policy_rates", []):
         print(f"  {r['bank']:<24} {r['rate']:<12} last {r['last_decision']} ({r['last_move']}), next {r['next_meeting']}")

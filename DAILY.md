@@ -12,9 +12,9 @@ done and the letters are committed.
     python -X utf8 pipeline/brief.py               # the numbers for the letters
 
 `fetch.py` downloads one year of daily prices for every instrument in `data/instruments.csv` from Yahoo Finance, the
-US yields and credit spreads from FRED, the euro-area AAA curve from the ECB and the Norwegian rates from Norges Bank, and
-writes `data/data.json`. A source that fails keeps the previous run's block and is listed under `kept_from_previous`;
-mention it in the report. `403 Forbidden` from the proxy means the cloud environment's network allowlist lacks that host.
+US yields and credit spreads from FRED, the euro-area AAA curve from the ECB, and the Norwegian rates and the import-weighted
+krone exchange rate index (I-44, key `nok_i44`; a rise is a weaker krone) from Norges Bank, and writes `data/data.json`. A
+source that fails keeps the previous run's block and is listed under `kept_from_previous`; mention it in the report. `403 Forbidden` from the proxy means the cloud environment's network allowlist lacks that host.
 
 `brief.py` prints every table with one-day, one-week, one-month and year-to-date changes, the largest moves, the curve,
 the policy rates on file and the upcoming events on file. Use its numbers in the letters; do not type numbers from memory.
@@ -48,7 +48,7 @@ Norwegian bokmål (not a word-for-word translation; Norwegian number style: comm
 Format: Markdown with a `# Title, weekday day month year` heading, `##` sections, bullets, bold lead-ins, Markdown tables
 where a table says it better, and links in the text `([Source](url))`. A line `{chart: SYM1,SYM2 | 3m | indexed}` draws a
 chart of the named instruments (symbols as in `data/instruments.csv`, or the FRED/ECB/Norges Bank keys `DGS2`, `DGS10`,
-`EA_SR_10Y`, `nok_10y`, `nok_policy`, `BAMLH0A0HYM2`); range `1m`, `3m`, `ytd` or `1y`; mode `indexed` (start = 100) or
+`EA_SR_10Y`, `nok_10y`, `nok_policy`, `nok_i44`, `BAMLH0A0HYM2`); range `1m`, `3m`, `ytd` or `1y`; mode `indexed` (start = 100) or
 `level`. Use one or two charts per letter where they help.
 
 Tone: measured, factual, central-bank style. State what happened, how much, and the likely reason, in that order; no
@@ -56,8 +56,11 @@ exclamation, no advice, no speculation presented as fact; "per cent" and "basis 
 400-600 words, macro 400-600 words, politics 250-450 words.
 
 - **Markets letter** (`markets`): a bold summary paragraph; sections Equities (US, Europe, Norway, Asia), Fixed income and
-  credit, Commodities and currencies, Today (the calendar for the day with consensus where known). The page shows a table
-  of key prices above the letter automatically, so the text should explain rather than list.
+  credit, Commodities and currencies, Today (the calendar for the day with consensus where known). The krone is always
+  covered with the I-44 index (Norges Bank's import-weighted krone exchange rate: the latest fix, its one-day change and
+  the year-to-date change, from `brief.py`) as well as EUR/NOK and USD/NOK; say in which direction the krone moved, since
+  a rise in the I-44 is a weaker krone. The page shows a table of key prices above the letter automatically, so the text
+  should explain rather than list.
 - **Macro letter** (`macro`): central banks and the business cycle. A bold summary; a table of this week's or the latest
   decisions when there were any; a section per central bank that acted or spoke; the data of note; an Assessment section
   on the balance of risks.
@@ -70,9 +73,11 @@ exclamation, no advice, no speculation presented as fact; "per cent" and "basis 
   Handelsbanken, SEB, Danske, Swedbank), international coverage (Bloomberg, Reuters, FXStreet notes from Nomura,
   Commerzbank and others), market pricing of the rate path and the krone. Structure: a bold summary; What Norges Bank
   said (quote the statement where possible); What economists and the market say (named, with links); The krone and
-  rates; Dates (next decision, CPI, Regional Network, MPR). On a day with no Norges Bank news, say so in one line and
-  summarise the standing view and the next dates. 250-450 words. The tab shows the policy rate, next decision, CPI and
-  CPI-ATE, the 10-year yield and EUR/NOK automatically, so the text should interpret rather than list.
+  rates (the I-44 level with its one-day and year-to-date change, EUR/NOK, USD/NOK and the Norwegian yields, and how the
+  krone compares with what Norges Bank assumed in its latest Monetary Policy Report where that is known); Dates (next
+  decision, CPI, Regional Network, MPR). On a day with no Norges Bank news, say so in one line and summarise the standing
+  view and the next dates. 250-450 words. The tab shows the policy rate, next decision, CPI and CPI-ATE, the 10-year
+  yield, EUR/NOK and the I-44 automatically, so the text should interpret rather than list.
 
 ## 5. Build and deploy
 

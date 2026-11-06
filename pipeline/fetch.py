@@ -10,7 +10,7 @@ Sources (all free, no keys):
   Yahoo Finance chart API v8 (one year of daily closes for every instrument in data/instruments.csv, plus the latest print)
   FRED (US Treasury yields, TIPS, breakevens, ICE BofA credit OAS indices)
   ECB Data Portal (euro-area AAA yield curve, 2y and 10y)
-  Norges Bank open data (policy rate, 3y and 10y government bond yields, 3m treasury bill)
+  Norges Bank open data (policy rate, 3y and 10y government bond yields, 3m treasury bill, the import-weighted krone index I-44)
 
 A source that fails keeps the previous data.json's block for it (listed under kept_from_previous), so one outage does
 not empty the page. Everything is in per cent for yields and index points / prices otherwise.
@@ -199,17 +199,23 @@ def fetch_ecb():
     return out
 
 
+def nb_series(cache_name, path):
+    """One Norges Bank open-data series (semicolon CSV, last 280 observations) as {dates, values}."""
+    raw = cached(cache_name, 6, lambda: get(f"https://data.norges-bank.no/api/data/{path}?format=csv&lastNObservations=280"))
+    obs = sorted((r["TIME_PERIOD"], float(r["OBS_VALUE"])) for r in csv.DictReader(io.StringIO(raw.decode("utf-8", "ignore")), delimiter=";") if r.get("OBS_VALUE"))
+    return {"dates": [o[0] for o in obs], "values": [o[1] for o in obs]}
+
+
 def fetch_nb():
     out = {}
     for key, (sid, label) in NB_SERIES.items():
-        raw = cached(f"nb_{sid}.csv", 6, lambda key=key: get(f"https://data.norges-bank.no/api/data/GOVT_GENERIC_RATES/{key}?format=csv&lastNObservations=280"))
-        obs = sorted((r["TIME_PERIOD"], float(r["OBS_VALUE"])) for r in csv.DictReader(io.StringIO(raw.decode("utf-8", "ignore")), delimiter=";") if r.get("OBS_VALUE"))
-        s = {"dates": [o[0] for o in obs], "values": [o[1] for o in obs]}
+        s = nb_series(f"nb_{sid}.csv", f"GOVT_GENERIC_RATES/{key}")
         out[sid] = {"name_en": label, "group": "rates", "kind": "yield", "decimals": 2, **s, **stats(s, "yield")}
-    raw = cached("nb_policy.csv", 6, lambda: get("https://data.norges-bank.no/api/data/IR/B.KPRA.SD.?format=csv&lastNObservations=280"))
-    obs = sorted((r["TIME_PERIOD"], float(r["OBS_VALUE"])) for r in csv.DictReader(io.StringIO(raw.decode("utf-8", "ignore")), delimiter=";") if r.get("OBS_VALUE"))
-    s = {"dates": [o[0] for o in obs], "values": [o[1] for o in obs]}
+    s = nb_series("nb_policy.csv", "IR/B.KPRA.SD.")
     out["nok_policy"] = {"name_en": "Norges Bank policy rate", "group": "rates", "kind": "yield", "decimals": 2, **s, **stats(s, "yield")}
+    # the import-weighted krone exchange rate index I-44 (daily fix at 14:15 CET; a rise is a weaker krone)
+    s = nb_series("nb_i44.csv", "EXR/B.I44.NOK.SP")
+    out["nok_i44"] = {"name_en": "Import-weighted krone index (I-44)", "name_no": "Importveid kronekurs (I-44)", "group": "fx", "kind": "fx", "decimals": 2, **s, **stats(s, "fx")}
     log(f"norges bank: {len(out)} series, latest {max(v['last_date'] for v in out.values())}")
     return out
 

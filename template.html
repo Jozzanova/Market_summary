@@ -160,7 +160,7 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
 </section>
 
 <section class="pane" id="pane-fx">
-  <div class="card"><h2 data-i="fx_title">Currencies</h2><div id="fxTable"></div><p class="note" data-i="fx_note">Quoted as named: a rise in EUR/NOK or USD/NOK is a weaker krone; a rise in EUR/USD is a weaker dollar.</p></div>
+  <div class="card"><h2 data-i="fx_title">Currencies</h2><div id="fxTable"></div><p class="note" data-i="fx_note">Quoted as named: a rise in EUR/NOK, USD/NOK or the I-44 is a weaker krone; a rise in EUR/USD is a weaker dollar. The I-44 is Norges Bank's import-weighted krone exchange rate index, a daily fix at 14:15 CET, one business day behind the live prints.</p></div>
   <div class="card"><h2 data-i="fx_perf">Indexed performance <small data-i="eq_perf_s">start of period = 100</small></h2>
     <div class="row"><div class="seg rangeSeg" data-for="fx"><button data-v="1m">1M</button><button data-v="3m" class="on">3M</button><button data-v="ytd">YTD</button><button data-v="1y">1Y</button></div></div>
     <div class="plot" id="fxPlot"></div></div>
@@ -181,7 +181,7 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
   <div class="grid2">
     <div class="card"><h2 data-i="cb_nb">Norway: policy rate and market rates</h2><div class="plot" id="nbRatesPlot"></div></div>
     <div class="card"><h2 data-i="nb_infl">Inflation against the 2 per cent target <small data-i="nb_infl_s">12-month change, Statistics Norway</small></h2><div class="plot" id="nbInflPlot"></div></div>
-    <div class="card"><h2 data-i="nb_krone">The krone <small data-i="nb_krone_s">EUR/NOK and USD/NOK, one year</small></h2><div class="plot" id="nbKronePlot"></div></div>
+    <div class="card"><h2 data-i="nb_krone">The krone <small data-i="nb_krone_s">EUR/NOK and USD/NOK (left axis) and the I-44 import-weighted index (right axis), one year; a rise is a weaker krone</small></h2><div class="plot" id="nbKronePlot"></div></div>
     <div class="card"><h2 data-i="nb_next">Next Norges Bank dates</h2><div id="nbEvents"></div></div>
   </div>
 </section>
@@ -208,8 +208,8 @@ const T = {
   tab_letters: ["Letters", "Brev"], tab_events: ["Upcoming events", "Kommende hendelser"], tab_equities: ["Equities", "Aksjer"], tab_rates: ["Rates & credit", "Renter og kreditt"],
   tab_commodities: ["Commodities", "Råvarer"], tab_fx: ["Currencies", "Valuta"], tab_central: ["Central banks", "Sentralbanker"], tab_norgesbank: ["Norges Bank", "Norges Bank"], tab_update: ["Update", "Oppdatering"],
   nb_letter: ["Norges Bank letter", "Norges Bank-brev"], nb_infl: ["Inflation against the 2 per cent target", "Inflasjon mot målet på 2 prosent"], nb_infl_s: ["12-month change, Statistics Norway", "tolvmånedersvekst, Statistisk sentralbyrå"],
-  nb_krone: ["The krone", "Kronen"], nb_krone_s: ["EUR/NOK and USD/NOK, one year", "EUR/NOK og USD/NOK, ett år"], nb_next: ["Next Norges Bank dates", "Neste Norges Bank-datoer"],
-  t_policy: ["policy rate", "styringsrente"], t_next: ["next decision", "neste beslutning"], t_cpi: ["CPI, 12-month", "KPI, tolvmåneders"], t_cpiate: ["CPI-ATE, 12-month", "KPI-JAE, tolvmåneders"], t_10y: ["10-year yield", "10-årsrente"], t_eurnok: ["EUR/NOK", "EUR/NOK"], t_target: ["target 2 %", "mål 2 %"],
+  nb_krone: ["The krone", "Kronen"], nb_krone_s: ["EUR/NOK and USD/NOK (left axis) and the I-44 import-weighted index (right axis), one year; a rise is a weaker krone", "EUR/NOK og USD/NOK (venstre akse) og den importveide indeksen I-44 (høyre akse), ett år; en oppgang er en svakere krone"], nb_next: ["Next Norges Bank dates", "Neste Norges Bank-datoer"],
+  t_policy: ["policy rate", "styringsrente"], t_next: ["next decision", "neste beslutning"], t_cpi: ["CPI, 12-month", "KPI, tolvmåneders"], t_cpiate: ["CPI-ATE, 12-month", "KPI-JAE, tolvmåneders"], t_10y: ["10-year yield", "10-årsrente"], t_eurnok: ["EUR/NOK", "EUR/NOK"], t_i44: ["I-44 krone index", "I-44 kroneindeks"], t_target: ["target 2 %", "mål 2 %"],
   k_markets: ["Markets", "Markeder"], k_macro: ["Macro", "Makro"], k_politics: ["Politics", "Politikk"],
   snap_title: ["The last 24 hours at a glance", "Det siste døgnet i korte trekk"],
   ev_title: ["Upcoming events", "Kommende hendelser"], ev_note: ["Central bank decisions, data releases and political dates kept by the daily agent; times are Oslo time. Importance: high (orange), medium (blue), low.", "Sentralbankmøter, statistikkslipp og politiske datoer, vedlikeholdt av den daglige agenten; tidene er norsk tid. Viktighet: høy (oransje), middels (blå), lav."],
@@ -219,7 +219,7 @@ const T = {
   rt_note: ["US Treasury rows marked \"live\" are Yahoo prints and can include the current session; the official fixes (FRED, ECB AAA curve, Norges Bank) are one business day behind. Changes in basis points.", "Amerikanske statsrenter merket «live» er Yahoo-kurser og kan omfatte inneværende handelsdag; de offisielle noteringene (FRED, ECBs AAA-kurve, Norges Bank) er én virkedag bak. Endringer i basispunkter."],
   rt_10y: ["10-year yields", "10-årsrenter"], rt_2y: ["Short end", "Kort ende"], rt_oas: ["Credit spreads", "Kredittpåslag"], rt_oas_s: ["ICE BofA option-adjusted spreads, per cent", "ICE BofA opsjonsjusterte påslag, prosent"], rt_curve: ["US curve and real yields", "Amerikansk kurve og realrenter"],
   cm_title: ["Commodities", "Råvarer"], cm_perf: ["Indexed performance", "Indeksert utvikling"],
-  fx_title: ["Currencies", "Valuta"], fx_note: ["Quoted as named: a rise in EUR/NOK or USD/NOK is a weaker krone; a rise in EUR/USD is a weaker dollar.", "Notert som navngitt: en oppgang i EUR/NOK eller USD/NOK er en svakere krone; en oppgang i EUR/USD er en svakere dollar."], fx_perf: ["Indexed performance", "Indeksert utvikling"],
+  fx_title: ["Currencies", "Valuta"], fx_note: ["Quoted as named: a rise in EUR/NOK, USD/NOK or the I-44 is a weaker krone; a rise in EUR/USD is a weaker dollar. The I-44 is Norges Bank's import-weighted krone exchange rate index, a daily fix at 14:15 CET, one business day behind the live prints.", "Notert som navngitt: en oppgang i EUR/NOK, USD/NOK eller I-44 er en svakere krone; en oppgang i EUR/USD er en svakere dollar. I-44 er Norges Banks importveide kronekursindeks, en daglig notering klokken 14.15 CET, én virkedag bak de løpende kursene."], fx_perf: ["Indexed performance", "Indeksert utvikling"],
   cb_title: ["Policy rates and the next decisions", "Styringsrenter og de neste beslutningene"], cb_note: ["Kept by the daily agent and checked after every meeting; the source link is the bank's own page.", "Vedlikeholdt av den daglige agenten og sjekket etter hvert møte; kildelenken går til bankens egen side."],
   cb_nb: ["Norway: policy rate and market rates", "Norge: styringsrente og markedsrenter"], cb_next: ["Next central bank events", "Neste sentralbankhendelser"],
   up_title: ["Update status", "Oppdateringsstatus"], up_how: ["How the page is made", "Slik lages siden"], up_src: ["Sources", "Kilder"],
@@ -344,7 +344,7 @@ function drawLetterFigs(root) {
     plot(el, traces, {margin: {l: 44, r: 8, t: 10, b: 36}, yaxis: {title: mode === "level" ? "" : t("eq_perf_s")}});
   });
 }
-const SNAP_PICKS = ["^GSPC", "^IXIC", "^STOXX", "OSEBX.OL", "^N225", "^HSI", "^VIX", "^TNX", "DGS2", "EA_SR_10Y", "nok_10y", "BAMLH0A0HYM2", "BZ=F", "GC=F", "HG=F", "TTF=F", "DX-Y.NYB", "EURUSD=X", "USDJPY=X", "EURNOK=X", "USDNOK=X"];
+const SNAP_PICKS = ["^GSPC", "^IXIC", "^STOXX", "OSEBX.OL", "^N225", "^HSI", "^VIX", "^TNX", "DGS2", "EA_SR_10Y", "nok_10y", "BAMLH0A0HYM2", "BZ=F", "GC=F", "HG=F", "TTF=F", "DX-Y.NYB", "EURUSD=X", "USDJPY=X", "EURNOK=X", "USDNOK=X", "nok_i44"];
 const chgText = (v, unit) => v == null || !isFinite(v) ? "–" : unit === "bp" ? `${v > 0 ? "+" : ""}${fmt(v, 0)} bp` : `${v > 0 ? "+" : ""}${fmt(v, 2)} %`;
 function snapRows() {
   return {head: ["", t("last"), t("d1"), t("w1"), t("ytd"), t("date")], num: [false, true, true, true, true, true],
@@ -420,7 +420,8 @@ function drawRates() {
 
 /* ---------- commodities, fx ---------- */
 function drawCommodities() { $("#cmTable").innerHTML = instrTable(group("commodity")); plot("#cmPlot", indexedTraces(["BZ=F", "TTF=F", "NG=F", "GC=F", "HG=F", "^SPGSCI"], RANGE.cm)); }
-function drawFx() { $("#fxTable").innerHTML = instrTable(group("fx")); plot("#fxPlot", indexedTraces(["DX-Y.NYB", "EURUSD=X", "USDJPY=X", "EURNOK=X", "USDNOK=X"], RANGE.fx)); }
+const fxRows = () => [...group("fx"), ...(NB.nok_i44 ? [{...NB.nok_i44, sym: "nok_i44", tag: t("fix")}] : [])];
+function drawFx() { $("#fxTable").innerHTML = instrTable(fxRows()); plot("#fxPlot", indexedTraces(["DX-Y.NYB", "EURUSD=X", "USDJPY=X", "EURNOK=X", "USDNOK=X", "nok_i44"], RANGE.fx)); }
 
 /* ---------- central banks ---------- */
 function drawCentral() {
@@ -436,7 +437,7 @@ function drawCentral() {
 let NBDATE = null;
 function drawNorgesBank() {
   const pr = (D.policy_rates || []).find(r => /norges/i.test(r.bank)) || {};
-  const cpi = SSB.cpi_12m, ate = SSB.cpiate_12m, y10 = NB.nok_10y, eurnok = Y["EURNOK=X"], pol = NB.nok_policy;
+  const cpi = SSB.cpi_12m, ate = SSB.cpiate_12m, y10 = NB.nok_10y, eurnok = Y["EURNOK=X"], pol = NB.nok_policy, i44 = NB.nok_i44;
   const tiles = [
     [pol ? fmt(pol.last, 2) + " %" : esc(pr.rate || "–"), t("t_policy"), pr.last_decision ? `${fmtDate(pr.last_decision)} · ${t(pr.last_move) || esc(pr.last_move)}` : ""],
     [pr.next_meeting ? fmtDate(pr.next_meeting) : "–", t("t_next"), esc(pr.remaining_2026 || "")],
@@ -444,6 +445,7 @@ function drawNorgesBank() {
     [ate ? fmt(ate.last, 1) + " %" : "–", t("t_cpiate"), ate ? fmtMonth(ate.last_date) : ""],
     [y10 ? fmt(y10.last, 2) + " %" : "–", t("t_10y"), y10 ? `${chg(y10.d1, "bp")} · ${fmtDate(y10.last_date)}` : ""],
     [eurnok ? fmt(eurnok.last, 2) : "–", t("t_eurnok"), eurnok ? `${chg(eurnok.d1, "%")} · ${chg(eurnok.ytd, "%")} ${t("ytd").toLowerCase()}` : ""],
+    [i44 ? fmt(i44.last, 2) : "–", t("t_i44"), i44 ? `${chg(i44.d1, "%")} · ${chg(i44.ytd, "%")} ${t("ytd").toLowerCase()} · ${fmtDate(i44.last_date)}` : ""],
   ];
   $("#nbTiles").innerHTML = tiles.map(([n, l, s]) => `<div class="tile"><div class="n">${n}</div><div class="l">${l}</div><div class="s">${s}</div></div>`).join("");
   const dates = DATES.filter(d => LETTERS[d].norgesbank); if (!NBDATE || !dates.includes(NBDATE)) NBDATE = dates[0];
@@ -455,7 +457,7 @@ function drawNorgesBank() {
   const inf = levelTraces(["cpi_12m", "cpiate_12m"], "1y").map(q => ({...q, x: q.x.map(d => d.slice(0, 7))}));
   if (inf.length) inf.push({x: inf[0].x, y: inf[0].x.map(() => 2), name: t("t_target"), type: "scatter", mode: "lines", line: {width: 1.5, dash: "dot", color: cssv("--muted")}, hoverinfo: "skip"});
   plot("#nbInflPlot", inf, {yaxis: {ticksuffix: " %"}, xaxis: {type: "category", nticks: 8}});
-  const kr = levelTraces(["EURNOK=X", "USDNOK=X"], "1y", 2); if (kr[1]) kr[1].yaxis = "y2";
+  const kr = levelTraces(["EURNOK=X", "USDNOK=X", "nok_i44"], "1y", 2); const krI44 = kr.find(q => q.name === nameOf(NB.nok_i44 || {})); if (krI44) krI44.yaxis = "y2";
   plot("#nbKronePlot", kr, {margin: {l: 48, r: 48, t: 10, b: 40}, yaxis2: {overlaying: "y", side: "right", gridcolor: "rgba(0,0,0,0)", tickfont: {color: cssv("--muted")}}});
   const today = new Date().toISOString().slice(0, 10);
   const evs = (D.events || []).filter(e => e.date >= today && (e.region === "NO" || /norges bank/i.test(e.event))).sort((a, b) => a.date.localeCompare(b.date)).slice(0, 12);
@@ -473,7 +475,7 @@ function drawUpdate() {
     <li>Yahoo Finance chart API: equity indices, sector ETFs, US Treasury yields and futures, commodity futures, currencies (one year of daily closes and the latest print).</li>
     <li>FRED (Federal Reserve Bank of St. Louis): US Treasury constant-maturity yields (DGS2, DGS10, DGS30), 10-year TIPS yield (DFII10), 10-year breakeven (T10YIE), ICE BofA option-adjusted spreads (US IG, US HY, euro HY, EM corporate).</li>
     <li>ECB Data Portal: euro-area AAA government yield curve, 2-year and 10-year spot rates.</li>
-    <li>Norges Bank open data: policy rate; 3-month treasury bill, 3-year and 10-year government bond yields.</li>
+    <li>Norges Bank open data: policy rate; 3-month treasury bill, 3-year and 10-year government bond yields; the import-weighted krone exchange rate index I-44 (daily fix at 14:15 CET; a rise is a weaker krone).</li>
     <li>Policy rates and the events calendar: kept by the agent from the central banks' own pages and statistics agencies' release calendars (data/policy_rates.csv, data/events.csv).</li>
     <li>News: the links in each letter.</li></ul>`;
 }
@@ -592,7 +594,7 @@ $("#xlBtn").onclick = () => {
   const fixes = [...Object.values(FR), ...Object.values(EC), ...Object.values(NB)];
   const ev = D.events || [], pr = D.policy_rates || [];
   xlSave([xlAbout("Market summary", [`Market data as of ${D.asof}. Changes: per cent for prices and FX, basis points for yields and spreads.`]),
-    xlInstr("Equities", group("equity")), xlInstr("Sectors", group("sector")), xlInstr("Rates live", group("rates")), xlInstr("Rates and credit fixes", fixes), xlInstr("Commodities", group("commodity")), xlInstr("FX", group("fx")),
+    xlInstr("Equities", group("equity")), xlInstr("Sectors", group("sector")), xlInstr("Rates live", group("rates")), xlInstr("Rates and credit fixes", fixes), xlInstr("Commodities", group("commodity")), xlInstr("FX", fxRows()),
     {name: "Policy rates", cols: [26, 12, 14, 10, 14, 40, 50], freeze: 1, rows: [xhd(["Bank", "Rate", "Last decision", "Move", "Next meeting", "Remaining 2026", "Source"]), ...pr.map(r => [xc(r.bank), xc(r.rate), xc(r.last_decision), xc(r.last_move), xc(r.next_meeting), xc(r.remaining_2026), xc(r.source_url)])]},
     {name: "Events", cols: [12, 8, 8, 12, 50, 10, 50, 50], freeze: 1, rows: [xhd(["Date", "Time", "Region", "Category", "Event", "Importance", "Note", "Source"]), ...ev.map(e => [xc(e.date), xc(e.time_oslo), xc(e.region), xc(e.category), xc(e.event), xc(e.importance), xc(e.note_en), xc(e.source_url)])]}], "market_summary");
 };
