@@ -403,8 +403,9 @@ function drawLetters() {
 }
 function drawI44() {
   if (!NB.nok_i44) { $("#i44Card").style.display = "none"; return; }
-  const tr = levelTraces(["nok_i44"], "3m", 2); tr[0].fill = "tozeroy"; tr[0].fillcolor = "rgba(62,157,255,.10)"; tr[0].name = "I-44";
-  plot("#i44Plot", tr, {margin: {l: 44, r: 8, t: 8, b: 30}, showlegend: false, yaxis: {rangemode: "normal"}});
+  const tr = levelTraces(["nok_i44"], "3m", 2); tr[0].name = "I-44";
+  const ys = tr[0].y, lo = Math.min(...ys), hi = Math.max(...ys), pad = Math.max(0.3, 0.08 * (hi - lo));
+  plot("#i44Plot", tr, {margin: {l: 44, r: 8, t: 8, b: 30}, showlegend: false, yaxis: {range: [lo - pad, hi + pad]}});
 }
 
 /* ---------- events ---------- */
