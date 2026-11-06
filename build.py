@@ -4,7 +4,8 @@
     python -X utf8 build.py              # this
     npx wrangler deploy                  # Cloudflare Workers static assets, worker "market-summary"
 
-Letters live in data/letters/YYYY-MM-DD/<kind>.<lang>.md with kind in markets, macro, politics and lang in en, no."""
+Letters live in data/letters/YYYY-MM-DD/<kind>.<lang>.md with kind in markets, macro, politics and lang in en, no.
+Intraday snapshots are data/letters/YYYY-MM-DD/intraday-HHMM.<lang>.md (Oslo time); every snapshot of the day is kept."""
 import json
 import re
 import sys
@@ -19,11 +20,23 @@ def letters():
     out = {}
     base = ROOT / "data" / "letters"
     for day in sorted(p for p in base.iterdir() if p.is_dir() and re.fullmatch(r"\d{4}-\d{2}-\d{2}", p.name)):
-        entry = {}
+        entry, snaps = {}, {}
         for p in day.glob("*.md"):
             m = re.fullmatch(r"(markets|intraday|macro|politics|norgesbank)\.(en|no)\.md", p.name)
             if m:
                 entry.setdefault(m.group(1), {})[m.group(2)] = p.read_text(encoding="utf-8")
+            # intraday snapshots: intraday-HHMM.<lang>.md (Oslo time), one pair per run, all kept
+            m = re.fullmatch(r"intraday-(\d{4})\.(en|no)\.md", p.name)
+            if m:
+                snaps.setdefault(m.group(1), {"time": m.group(1)})[m.group(2)] = p.read_text(encoding="utf-8")
+        if "intraday" in entry:   # a legacy single intraday file counts as one snapshot, timed from its heading
+            txt = entry["intraday"].get("en") or entry["intraday"].get("no") or ""
+            hm = re.search(r"(\d{1,2})[:.](\d{2})", txt.splitlines()[0] if txt else "")
+            key = f"{int(hm.group(1)):02d}{hm.group(2)}" if hm else "0000"
+            snaps.setdefault(key, {"time": key, **entry["intraday"]})
+        if snaps:
+            entry["intraday_snaps"] = [snaps[k] for k in sorted(snaps, reverse=True)]   # newest first
+            entry["intraday"] = {k: v for k, v in entry["intraday_snaps"][0].items() if k != "time"}
         if entry:
             out[day.name] = entry
     return out

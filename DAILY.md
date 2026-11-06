@@ -44,7 +44,7 @@ not verify, and say so when something could not be confirmed (for example "no re
 
 ## 4. Write the four letters, in English and in Norwegian
 
-(The intraday letter, `intraday.en.md` / `intraday.no.md`, is written by the separate intraday routine, playbook `INTRADAY.md`; leave any existing intraday files alone.)
+(The intraday snapshots, `intraday-HHMM.en.md` / `intraday-HHMM.no.md`, are written by the separate intraday routine, playbook `INTRADAY.md`; leave any existing intraday files alone.)
 
 Create the folder `data/letters/YYYY-MM-DD/` (today's date, UTC) with eight files: `markets.en.md`, `markets.no.md`,
 `macro.en.md`, `macro.no.md`, `politics.en.md`, `politics.no.md`, `norgesbank.en.md`, `norgesbank.no.md`. The Norwegian versions carry the same facts in

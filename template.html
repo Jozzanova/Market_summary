@@ -70,6 +70,10 @@ tr.sect td { font-weight: 600; color: var(--accent); padding-top: .7rem; border-
 .dot.high { background: var(--warn); } .dot.medium { background: var(--accent); }
 /* letters */
 .letter { max-width: 78ch; font-size: 1rem; line-height: 1.6; }
+.letter details.snap { border: 1px solid var(--line, #ddd); border-radius: 8px; margin: 0 0 .7rem; padding: .2rem .9rem; }
+.letter details.snap > summary { cursor: pointer; font-weight: 600; font-size: 1.05rem; padding: .45rem 0; color: var(--fg); }
+.letter details.snap[open] > summary { border-bottom: 1px solid var(--line, #ddd); margin-bottom: .4rem; }
+.letter .snaptag { font-size: .72rem; font-weight: 600; color: var(--accent); background: var(--accent-soft); border-radius: 4px; padding: .1rem .4rem; margin-left: .4rem; vertical-align: middle; }
 .letter h1 { font-size: 1.5rem; color: var(--fg); margin: 0 0 .3rem; letter-spacing: -.01em; }
 .letter h2 { font-size: 1.12rem; margin: 1.4rem 0 .4rem; color: var(--accent); }
 .letter h3 { font-size: 1rem; margin: 1rem 0 .3rem; }
@@ -405,6 +409,20 @@ function drawLetters() {
   const body = $("#letterBody");
   const entry = (LETTERS[LDATE] || {})[KIND]; const text = entry && (entry[LANG] || entry.en || entry.no);
   const figs = $("#letterFigs"); figs.innerHTML = "";
+  const snaps = KIND === "intraday" ? ((LETTERS[LDATE] || {}).intraday_snaps || []) : [];
+  if (snaps.length) {
+    // every intraday snapshot of the day as a collapsible section, newest first and open
+    body.innerHTML = snaps.map((sn, i) => {
+      const txt = sn[LANG] || sn.en || sn.no || "";
+      const lines = txt.split("\n"); const h = (lines[0] || "").replace(/^#\s*/, "");
+      const head = h || `${sn.time.slice(0, 2)}:${sn.time.slice(2)}`;
+      return `<details class="snap"${i === 0 ? " open" : ""}><summary>${esc(head)}${i === 0 ? ` <span class="snaptag">${LANG === "no" ? "siste" : "latest"}</span>` : ""}</summary><div class="snapbody">${md(lines.slice(h ? 1 : 0).join("\n"))}</div></details>`;
+    }).join("");
+    $("#figCard").style.display = "none";
+    drawLetterFigs(body);
+    drawI44();
+    return;
+  }
   if (!text) { body.innerHTML = `<p class="empty">${t("no_letter")}</p>`; $("#figCard").style.display = "none"; return; }
   body.innerHTML = (entry && !entry[LANG] ? `<p class="lettermeta">${LANG === "no" ? "Norsk versjon mangler for denne datoen; engelsk vises." : "English version missing for this date; showing the Norwegian one."}</p>` : "") + md(text);
   // the letter's figures are shown beside the text, under the snapshot table, not in the text flow

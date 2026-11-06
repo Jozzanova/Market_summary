@@ -24,8 +24,10 @@ effect. Always cover Norway. Every fact needs a source you can link; say what co
 
 ## 3. Write the intraday letter, in English and in Norwegian
 
-Write `data/letters/YYYY-MM-DD/intraday.en.md` and `intraday.no.md` (overwrite the midday version in the afternoon run;
-the afternoon letter covers the whole day so far). Heading: `# Intraday update, <weekday day month year>, as of HH:MM
+Write a new pair of files `data/letters/YYYY-MM-DD/intraday-HHMM.en.md` and `intraday-HHMM.no.md`, where HHMM is the
+as-of time in Oslo time (for example `intraday-1205.en.md`). Never overwrite or delete an earlier snapshot: every run
+adds its own pair, and the page shows all of the day's snapshots as collapsible sections, newest first and open. The
+afternoon letter covers the whole day so far. Heading: `# Intraday update, <weekday day month year>, as of HH:MM
 Oslo time` (Norwegian: `# Intradagoppdatering, <ukedag dag. måned år>, per kl. HH.MM`). Format and tone as in DAILY.md:
 a bold summary paragraph, then short sections (Equities; Rates and currencies; Commodities; Data and central banks;
 What to watch for the rest of the day), bullets, links in the text, 250-400 words. A `{chart: ...}` line is allowed
