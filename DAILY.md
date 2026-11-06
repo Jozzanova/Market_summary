@@ -57,7 +57,7 @@ Tone: measured, factual, central-bank style. State what happened, how much, and 
 exclamation, no advice, no speculation presented as fact; "per cent" and "basis points" written out. Length: markets
 400-600 words, macro 400-600 words, politics 250-450 words.
 
-- **Markets letter** (`markets`): a bold summary paragraph; sections Equities (US, Europe, Norway, Asia), Fixed income and
+- **Markets letter** (`markets`): a bold summary paragraph; sections Equities (US, Europe, Norway, Asia; say how the AI and semiconductor proxies in the brief, SOX, NYSE FANG+, the Magnificent 7 and AI ETFs, did against the market), Fixed income and
   credit, Commodities and currencies (always the krone: EUR/NOK, USD/NOK and Norges Bank's import-weighted index I-44, where
   a rise is a weaker krone; the brief prints all three), Today (the calendar for the day with consensus where known). The page shows a table
   of key prices above the letter automatically, so the text should explain rather than list.

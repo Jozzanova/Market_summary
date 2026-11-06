@@ -16,6 +16,14 @@ equity,000001.SS,Shanghai Composite,Shanghai Composite,price,0
 equity,^KS11,KOSPI,KOSPI,price,0
 equity,EEM,MSCI Emerging Markets (EEM ETF),MSCI fremvoksende markeder (EEM ETF),price,2
 equity,^VIX,VIX,VIX,price,1
+ai,^SOX,PHLX Semiconductor (SOX),PHLX halvlederindeks (SOX),price,0
+ai,^NYFANG,NYSE FANG+,NYSE FANG+,price,0
+ai,SOXX,iShares Semiconductor ETF (SOXX),iShares Semiconductor ETF (SOXX),price,2
+ai,SMH,VanEck Semiconductor ETF (SMH),VanEck Semiconductor ETF (SMH),price,2
+ai,MAGS,Magnificent Seven ETF (MAGS),Magnificent Seven ETF (MAGS),price,2
+ai,AIQ,Global X AI & Technology ETF (AIQ),Global X AI & Technology ETF (AIQ),price,2
+ai,BOTZ,Global X Robotics & AI ETF (BOTZ),Global X Robotics & AI ETF (BOTZ),price,2
+ai,ROBT,First Trust Nasdaq AI & Robotics ETF (ROBT),First Trust Nasdaq AI & Robotics ETF (ROBT),price,2
 sector,XLK,Technology,Teknologi,price,2
 sector,XLC,Communication services,Kommunikasjonstjenester,price,2
 sector,XLY,Consumer discretionary,Sykliske konsumvarer,price,2

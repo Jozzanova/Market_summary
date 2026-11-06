@@ -12,7 +12,7 @@ Live: https://market-summary.jskjeltorp.workers.dev (public)
 |---|---|
 | Letters | The markets, macro and politics letters by date, in English or Norwegian (toggle at the top); a snapshot table of key prices above the markets letter; charts embedded by the letters |
 | Upcoming events | Central bank meetings, data releases and political dates for the weeks ahead, by category |
-| Equities | Indices and US sectors with 1-day, 1-week, 1-month and year-to-date changes; indexed performance; sector bars |
+| Equities | Indices, an AI and semiconductor group (SOX, NYSE FANG+, semiconductor, Magnificent 7 and AI ETFs) and US sectors with 1-day, 1-week, 1-month and year-to-date changes; indexed performance; sector bars |
 | Rates & credit | US, euro-area and Norwegian yields and policy rates; credit spreads; 10-year and short-end charts; the US curve and real yields |
 | Commodities | Energy, metals and grains with changes and indexed charts |
 | Currencies | The dollar index and the main pairs including EUR/NOK and USD/NOK, and Norges Bank's import-weighted krone index I-44 |

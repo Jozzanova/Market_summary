@@ -38,7 +38,7 @@ def main():
         print(f"kept from the previous run (source down): {', '.join(D['kept_from_previous'])}")
     y = D["yahoo"]
     for grp, title in (("equity", "Equity indices (local currency; 1d = last close vs previous close, or the live print if the market is open)"),
-                       ("sector", "US sectors (S&P 500 sector ETFs)"), ("rates", "US Treasury yields and futures (Yahoo, live prints)"),
+                       ("ai", "AI and semiconductor proxies (SOX, NYSE FANG+, semiconductor, Magnificent 7 and AI ETFs)"), ("sector", "US sectors (S&P 500 sector ETFs)"), ("rates", "US Treasury yields and futures (Yahoo, live prints)"),
                        ("commodity", "Commodities"), ("fx", "FX (quoted as named; a rise in EUR/NOK is a weaker krone)")):
         table([(v["name_en"], v) for s, v in y.items() if v["group"] == grp], title)
     table([(v["name_en"], v) for v in D.get("fred", {}).values() if v["group"] == "rates"] + [(v["name_en"], v) for v in D.get("ecb", {}).values()] + [(v["name_en"], v) for v in D.get("nb", {}).values()],

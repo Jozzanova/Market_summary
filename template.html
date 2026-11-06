@@ -142,6 +142,7 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
 
 <section class="pane" id="pane-equities">
   <div class="card"><h2 data-i="eq_title">Equity indices</h2><div id="eqTable"></div></div>
+  <div class="card"><h2 data-i="ai_title">AI and semiconductors <small data-i="ai_s">the indices and ETFs the market uses as AI proxies</small></h2><div id="aiTable"></div></div>
   <div class="grid2">
     <div class="card"><h2 data-i="eq_perf">Indexed performance <small data-i="eq_perf_s">start of period = 100, local currency</small></h2>
       <div class="row"><select id="eqSet"></select><div class="seg rangeSeg" data-for="eq"><button data-v="1m">1M</button><button data-v="3m" class="on">3M</button><button data-v="ytd">YTD</button><button data-v="1y">1Y</button></div></div>
@@ -226,7 +227,7 @@ const T = {
   snap_title: ["The last 24 hours at a glance", "Det siste døgnet i korte trekk"], fig_title: ["Figures", "Figurer"],
   g_equities: ["Equities", "Aksjer"], g_bonds: ["Bonds and credit", "Obligasjoner og kreditt"], g_commodities: ["Commodities", "Råvarer"], g_fx: ["Currencies", "Valuta"],
   ev_title: ["Upcoming events", "Kommende hendelser"], ev_note: ["Central bank decisions, data releases and political dates kept by the daily agent; times are Oslo time. Importance: high (orange), medium (blue), low.", "Sentralbankmøter, statistikkslipp og politiske datoer, vedlikeholdt av den daglige agenten; tidene er norsk tid. Viktighet: høy (oransje), middels (blå), lav."],
-  eq_title: ["Equity indices", "Aksjeindekser"], eq_perf: ["Indexed performance", "Indeksert utvikling"], eq_perf_s: ["start of period = 100, local currency", "start av perioden = 100, lokal valuta"],
+  eq_title: ["Equity indices", "Aksjeindekser"], ai_title: ["AI and semiconductors", "KI og halvledere"], ai_s: ["the indices and ETFs the market uses as AI proxies", "indeksene og ETF-ene markedet bruker som KI-indikatorer"], set_ai: ["AI and semiconductors", "KI og halvledere"], eq_perf: ["Indexed performance", "Indeksert utvikling"], eq_perf_s: ["start of period = 100, local currency", "start av perioden = 100, lokal valuta"],
   sec_title: ["US sectors", "Amerikanske sektorer"], sec_s: ["S&P 500 sector ETFs", "S&P 500 sektor-ETF-er"],
   rt_title: ["Government yields, policy rates and credit spreads", "Statsrenter, styringsrenter og kredittpåslag"],
   rt_note: ["US Treasury rows marked \"live\" are Yahoo prints and can include the current session; the official fixes (FRED, ECB AAA curve, Norges Bank) are one business day behind. Changes in basis points.", "Amerikanske statsrenter merket «live» er Yahoo-kurser og kan omfatte inneværende handelsdag; de offisielle noteringene (FRED, ECBs AAA-kurve, Norges Bank) er én virkedag bak. Endringer i basispunkter."],
@@ -365,9 +366,9 @@ function drawLetterFigs(root) {
   });
 }
 // the snapshot table beside the letter: four groups, short names
-const SNAP_GROUPS = [["g_equities", ["^GSPC", "^IXIC", "^STOXX", "OSEBX.OL", "^N225", "^HSI", "^VIX"]], ["g_bonds", ["^TNX", "DGS2", "EA_SR_10Y", "nok_10y", "BAMLH0A0HYM2"]],
+const SNAP_GROUPS = [["g_equities", ["^GSPC", "^IXIC", "^SOX", "^STOXX", "OSEBX.OL", "^N225", "^HSI", "^VIX"]], ["g_bonds", ["^TNX", "DGS2", "EA_SR_10Y", "nok_10y", "BAMLH0A0HYM2"]],
   ["g_commodities", ["BZ=F", "GC=F", "HG=F", "TTF=F"]], ["g_fx", ["DX-Y.NYB", "EURUSD=X", "USDJPY=X", "EURNOK=X", "USDNOK=X", "nok_i44"]]];
-const SHORT = {"^GSPC": ["S&P 500", "S&P 500"], "^IXIC": ["Nasdaq", "Nasdaq"], "^STOXX": ["STOXX 600", "STOXX 600"], "OSEBX.OL": ["OSEBX", "OSEBX"], "^N225": ["Nikkei 225", "Nikkei 225"], "^HSI": ["Hang Seng", "Hang Seng"], "^VIX": ["VIX", "VIX"],
+const SHORT = {"^GSPC": ["S&P 500", "S&P 500"], "^IXIC": ["Nasdaq", "Nasdaq"], "^STOXX": ["STOXX 600", "STOXX 600"], "^SOX": ["SOX (semis)", "SOX (halvledere)"], "OSEBX.OL": ["OSEBX", "OSEBX"], "^N225": ["Nikkei 225", "Nikkei 225"], "^HSI": ["Hang Seng", "Hang Seng"], "^VIX": ["VIX", "VIX"],
   "^TNX": ["US 10y (live)", "USA 10 år (live)"], "DGS2": ["US 2y", "USA 2 år"], "EA_SR_10Y": ["Euro area 10y", "Eurosonen 10 år"], "nok_10y": ["Norway 10y", "Norge 10 år"], "BAMLH0A0HYM2": ["US HY spread", "USA high yield-påslag"],
   "BZ=F": ["Brent, USD/bbl", "Brent, USD/fat"], "GC=F": ["Gold, USD/oz", "Gull, USD/unse"], "HG=F": ["Copper, USD/lb", "Kobber, USD/pund"], "TTF=F": ["TTF gas, EUR/MWh", "TTF-gass, EUR/MWh"],
   "DX-Y.NYB": ["Dollar index", "Dollarindeksen"], "EURUSD=X": ["EUR/USD", "EUR/USD"], "USDJPY=X": ["USD/JPY", "USD/JPY"], "EURNOK=X": ["EUR/NOK", "EUR/NOK"], "USDNOK=X": ["USD/NOK", "USD/NOK"], "nok_i44": ["I-44 (up = weaker NOK)", "I-44 (opp = svakere krone)"]};
@@ -420,9 +421,10 @@ function drawEvents() {
 }
 
 /* ---------- equities ---------- */
-const SETS = {majors: ["^GSPC", "^IXIC", "^STOXX", "^GDAXI", "^FTSE", "OSEBX.OL", "^N225", "^HSI"], us: ["^GSPC", "^IXIC", "^DJI", "^RUT", "^VIX"], europe: ["^STOXX", "^STOXX50E", "^GDAXI", "^FTSE", "^FCHI", "OSEBX.OL", "^OMX"], asia: ["^N225", "^HSI", "000001.SS", "^KS11", "EEM"], nordic: ["OSEBX.OL", "^OMX", "^STOXX"]};
+const SETS = {majors: ["^GSPC", "^IXIC", "^STOXX", "^GDAXI", "^FTSE", "OSEBX.OL", "^N225", "^HSI"], ai: ["^SOX", "^NYFANG", "MAGS", "AIQ", "BOTZ", "^GSPC"], us: ["^GSPC", "^IXIC", "^DJI", "^RUT", "^VIX"], europe: ["^STOXX", "^STOXX50E", "^GDAXI", "^FTSE", "^FCHI", "OSEBX.OL", "^OMX"], asia: ["^N225", "^HSI", "000001.SS", "^KS11", "EEM"], nordic: ["OSEBX.OL", "^OMX", "^STOXX"]};
 function drawEquities() {
   $("#eqTable").innerHTML = instrTable(group("equity"));
+  $("#aiTable").innerHTML = instrTable(group("ai"));
   const sel = $("#eqSet"); const cur = sel.value || "majors"; sel.innerHTML = Object.keys(SETS).map(k => `<option value="${k}"${k === cur ? " selected" : ""}>${t("set_" + k)}</option>`).join(""); sel.onchange = drawEquities;
   plot("#eqPlot", indexedTraces(SETS[sel.value], RANGE.eq), {yaxis: {title: ""}});
   const secs = group("sector").filter(v => v[RANGE.sec] != null).sort((a, b) => a[RANGE.sec] - b[RANGE.sec]);
@@ -629,7 +631,7 @@ $("#xlBtn").onclick = () => {
   const fixes = [...Object.values(FR), ...Object.values(EC), ...Object.values(NB)];
   const ev = D.events || [], pr = D.policy_rates || [];
   xlSave([xlAbout("Market summary", [`Market data as of ${D.asof}. Changes: per cent for prices and FX, basis points for yields and spreads.`]),
-    xlInstr("Equities", group("equity")), xlInstr("Sectors", group("sector")), xlInstr("Rates live", group("rates")), xlInstr("Rates and credit fixes", fixes), xlInstr("Commodities", group("commodity")), xlInstr("FX", group("fx")),
+    xlInstr("Equities", group("equity")), xlInstr("AI and semis", group("ai")), xlInstr("Sectors", group("sector")), xlInstr("Rates live", group("rates")), xlInstr("Rates and credit fixes", fixes), xlInstr("Commodities", group("commodity")), xlInstr("FX", group("fx")),
     {name: "Policy rates", cols: [26, 12, 14, 10, 14, 40, 50], freeze: 1, rows: [xhd(["Bank", "Rate", "Last decision", "Move", "Next meeting", "Remaining 2026", "Source"]), ...pr.map(r => [xc(r.bank), xc(r.rate), xc(r.last_decision), xc(r.last_move), xc(r.next_meeting), xc(r.remaining_2026), xc(r.source_url)])]},
     {name: "Events", cols: [12, 8, 8, 12, 50, 10, 50, 50], freeze: 1, rows: [xhd(["Date", "Time", "Region", "Category", "Event", "Importance", "Note", "Source"]), ...ev.map(e => [xc(e.date), xc(e.time_oslo), xc(e.region), xc(e.category), xc(e.event), xc(e.importance), xc(e.note_en), xc(e.source_url)])]}], "market_summary");
 };
