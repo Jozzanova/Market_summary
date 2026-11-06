@@ -79,7 +79,7 @@ tr.sect td { font-weight: 600; color: var(--accent); padding-top: .7rem; border-
 .letter .fig { position: relative; margin: .8rem 0 1.2rem; } .letter .fig .plot { height: 320px; }
 .letter .fig .cap { font-size: .82rem; color: var(--muted); margin-top: .2rem; }
 .snapshot table { font-size: .76rem; } .snapshot td, .snapshot th { padding: .18rem .3rem; white-space: nowrap; } .snapshot th { font-size: .66rem; } .snapshot td:first-child { white-space: normal; }
-.letteraside .snapshot table { table-layout: auto; width: 100%; }
+.letteraside .snapshot table { table-layout: auto; width: 100%; } .snapshot tr.sect td { padding-top: .5rem; font-size: .68rem; }
 .letterwrap { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 1rem; align-items: start; }
 .letterwrap > .card { margin: 0; } .letteraside .card { margin: 0 0 1rem; }
 .letteraside .fig { position: relative; margin: 0 0 1rem; } .letteraside .fig .plot { height: 300px; }
@@ -224,6 +224,7 @@ const T = {
   t_policy: ["policy rate", "styringsrente"], t_next: ["next decision", "neste beslutning"], t_cpi: ["CPI, 12-month", "KPI, tolvmåneders"], t_cpiate: ["CPI-ATE, 12-month", "KPI-JAE, tolvmåneders"], t_10y: ["10-year yield", "10-årsrente"], t_eurnok: ["EUR/NOK", "EUR/NOK"], t_target: ["target 2 %", "mål 2 %"],
   k_markets: ["Markets", "Markeder"], k_intraday: ["Intraday", "Intradag"], k_macro: ["Macro", "Makro"], k_politics: ["Politics", "Politikk"], run_now: ["Update now", "Oppdater nå"],
   snap_title: ["The last 24 hours at a glance", "Det siste døgnet i korte trekk"], fig_title: ["Figures", "Figurer"],
+  g_equities: ["Equities", "Aksjer"], g_bonds: ["Bonds and credit", "Obligasjoner og kreditt"], g_commodities: ["Commodities", "Råvarer"], g_fx: ["Currencies", "Valuta"],
   ev_title: ["Upcoming events", "Kommende hendelser"], ev_note: ["Central bank decisions, data releases and political dates kept by the daily agent; times are Oslo time. Importance: high (orange), medium (blue), low.", "Sentralbankmøter, statistikkslipp og politiske datoer, vedlikeholdt av den daglige agenten; tidene er norsk tid. Viktighet: høy (oransje), middels (blå), lav."],
   eq_title: ["Equity indices", "Aksjeindekser"], eq_perf: ["Indexed performance", "Indeksert utvikling"], eq_perf_s: ["start of period = 100, local currency", "start av perioden = 100, lokal valuta"],
   sec_title: ["US sectors", "Amerikanske sektorer"], sec_s: ["S&P 500 sector ETFs", "S&P 500 sektor-ETF-er"],
@@ -249,7 +250,11 @@ const T = {
   letters_on: ["Letters on file:", "Brev på fil:"],
 };
 const t = k => (T[k] || [k, k])[LANG === "no" ? 1 : 0];
-const nameOf = v => LANG === "no" && v.name_no ? v.name_no : v.name_en;
+const NO_NAMES = {"US 2-year": "USA 2-års", "US 10-year": "USA 10-års", "US 30-year": "USA 30-års", "US 10-year real (TIPS)": "USA 10-års realrente (TIPS)", "US 10-year breakeven": "USA 10-års breakeven-inflasjon",
+  "US IG OAS": "USA IG-påslag", "US HY OAS": "USA high yield-påslag", "Euro HY OAS": "Europa high yield-påslag", "EM corporate OAS": "Fremvoksende markeder, selskapspåslag",
+  "Euro area AAA 2-year": "Eurosonen AAA 2-års", "Euro area AAA 10-year": "Eurosonen AAA 10-års", "Norges Bank policy rate": "Norges Banks styringsrente",
+  "Norway 10-year government bond": "Norge 10-års statsobligasjon", "Norway 3-year government bond": "Norge 3-års statsobligasjon", "Norway 3-month treasury bill": "Norge 3-måneders statskasseveksel"};
+const nameOf = v => LANG === "no" ? (v.name_no || NO_NAMES[v.name_en] || v.name_en) : v.name_en;
 const NF = {}; const fmt = (x, d = 2) => { if (x == null || !isFinite(x)) return "–"; const k = LANG + d; NF[k] = NF[k] || new Intl.NumberFormat(LANG === "no" ? "nb-NO" : "en-GB", {minimumFractionDigits: d, maximumFractionDigits: d}); return NF[k].format(x); };
 const fmtDate = s => { if (!s) return "–"; const d = new Date(s.slice(0, 10) + "T00:00:00Z"); return isNaN(d) ? s : d.toLocaleDateString(LANG === "no" ? "nb-NO" : "en-GB", {day: "numeric", month: "short", year: "numeric", timeZone: "UTC"}); };
 const fmtMonth = s => { if (!s) return "–"; const d = new Date(s.slice(0, 10) + "T00:00:00Z"); return isNaN(d) ? s : d.toLocaleDateString(LANG === "no" ? "nb-NO" : "en-GB", {month: "long", year: "numeric", timeZone: "UTC"}); };
@@ -359,14 +364,21 @@ function drawLetterFigs(root) {
     plot(el, traces, {margin: {l: 44, r: 8, t: 8, b: 30}, legend: {orientation: "h", x: 0, y: -0.18, yanchor: "top", font: {size: 11}}, yaxis: {title: mode === "level" ? "" : {text: t("eq_perf_s"), font: {size: 10}}}});
   });
 }
-const SNAP_PICKS = ["^GSPC", "^IXIC", "^STOXX", "OSEBX.OL", "^N225", "^HSI", "^VIX", "^TNX", "DGS2", "EA_SR_10Y", "nok_10y", "BAMLH0A0HYM2", "BZ=F", "GC=F", "HG=F", "TTF=F", "DX-Y.NYB", "EURUSD=X", "USDJPY=X", "EURNOK=X", "USDNOK=X", "nok_i44"];
+// the snapshot table beside the letter: four groups, short names
+const SNAP_GROUPS = [["g_equities", ["^GSPC", "^IXIC", "^STOXX", "OSEBX.OL", "^N225", "^HSI", "^VIX"]], ["g_bonds", ["^TNX", "DGS2", "EA_SR_10Y", "nok_10y", "BAMLH0A0HYM2"]],
+  ["g_commodities", ["BZ=F", "GC=F", "HG=F", "TTF=F"]], ["g_fx", ["DX-Y.NYB", "EURUSD=X", "USDJPY=X", "EURNOK=X", "USDNOK=X", "nok_i44"]]];
+const SHORT = {"^GSPC": ["S&P 500", "S&P 500"], "^IXIC": ["Nasdaq", "Nasdaq"], "^STOXX": ["STOXX 600", "STOXX 600"], "OSEBX.OL": ["OSEBX", "OSEBX"], "^N225": ["Nikkei 225", "Nikkei 225"], "^HSI": ["Hang Seng", "Hang Seng"], "^VIX": ["VIX", "VIX"],
+  "^TNX": ["US 10y (live)", "USA 10 år (live)"], "DGS2": ["US 2y", "USA 2 år"], "EA_SR_10Y": ["Euro area 10y", "Eurosonen 10 år"], "nok_10y": ["Norway 10y", "Norge 10 år"], "BAMLH0A0HYM2": ["US HY spread", "USA high yield-påslag"],
+  "BZ=F": ["Brent, USD/bbl", "Brent, USD/fat"], "GC=F": ["Gold, USD/oz", "Gull, USD/unse"], "HG=F": ["Copper, USD/lb", "Kobber, USD/pund"], "TTF=F": ["TTF gas, EUR/MWh", "TTF-gass, EUR/MWh"],
+  "DX-Y.NYB": ["Dollar index", "Dollarindeksen"], "EURUSD=X": ["EUR/USD", "EUR/USD"], "USDJPY=X": ["USD/JPY", "USD/JPY"], "EURNOK=X": ["EUR/NOK", "EUR/NOK"], "USDNOK=X": ["USD/NOK", "USD/NOK"], "nok_i44": ["I-44 (up = weaker NOK)", "I-44 (opp = svakere krone)"]};
+const shortName = (sym, v) => (SHORT[sym] || [nameOf(v), nameOf(v)])[LANG === "no" ? 1 : 0];
 const chgText = (v, unit) => v == null || !isFinite(v) ? "–" : unit === "bp" ? `${v > 0 ? "+" : ""}${fmt(v, 0)} bp` : `${v > 0 ? "+" : ""}${fmt(v, 2)} %`;
 function snapRows() {
   return {head: ["", t("last"), t("d1"), t("w1"), t("ytd"), t("date")], num: [false, true, true, true, true, true],
-    rows: SNAP_PICKS.map(bySym).filter(v => v && v.last != null).map(v => [nameOf(v), fmt(v.last, +v.decimals), chgText(v.d1, v.unit), chgText(v.w1, v.unit), chgText(v.ytd, v.unit), fmtDate(v.last_date)])};
+    rows: SNAP_GROUPS.flatMap(([g, syms]) => { const rs = syms.map(s => [s, bySym(s)]).filter(([, v]) => v && v.last != null); return rs.length ? [{section: t(g)}, ...rs.map(([s, v]) => [shortName(s, v), fmt(v.last, +v.decimals), chgText(v.d1, v.unit), chgText(v.w1, v.unit), chgText(v.ytd, v.unit), fmtDate(v.last_date)])] : []; })};
 }
 function snapshot() {
-  const rows = SNAP_PICKS.map(bySym).filter(v => v && v.last != null).map(v => `<tr><td>${esc(nameOf(v))}</td><td class="num">${fmt(v.last, +v.decimals)}</td><td class="num">${chg(v.d1, v.unit)}</td><td class="num">${chg(v.w1, v.unit)}</td><td class="num">${chg(v.ytd, v.unit)}</td><td class="num muted small">${fmtDate(v.last_date)}</td></tr>`);
+  const rows = SNAP_GROUPS.flatMap(([g, syms]) => { const rs = syms.map(s => [s, bySym(s)]).filter(([, v]) => v && v.last != null); return rs.length ? [`<tr class="sect"><td colspan="6">${t(g)}</td></tr>`, ...rs.map(([s, v]) => `<tr><td>${esc(shortName(s, v))}</td><td class="num">${fmt(v.last, +v.decimals)}</td><td class="num">${chg(v.d1, v.unit)}</td><td class="num">${chg(v.w1, v.unit)}</td><td class="num">${chg(v.ytd, v.unit)}</td><td class="num muted small">${fmtDate(v.last_date)}</td></tr>`)] : []; });
   return `<table><thead><tr><th></th><th class="num">${t("last")}</th><th class="num">${t("d1")}</th><th class="num">${t("w1")}</th><th class="num">${t("ytd")}</th><th class="num">${t("date")}</th></tr></thead><tbody>${rows.join("")}</tbody></table>`;
 }
 function drawLetters() {
@@ -694,7 +706,8 @@ function pdfDefinition(m) {
     else if (b.type === "ol") node = {ol: b.items.map(it => ({text: runs(it), style: "p", margin: [0, 0, 0, 3]})), margin: [0, 0, 0, 6]};
     else if (b.type === "table") {
       const widths = b.head.map((_, j) => j === 0 ? "*" : "auto");
-      const body = [b.head.map((h, j) => ({text: h, style: "th", alignment: b.num[j] ? "right" : "left"})), ...b.rows.map(r => r.map((c, j) => ({text: c, style: "td", alignment: b.num[j] ? "right" : "left"})))];
+      const n = b.head.length;
+      const body = [b.head.map((h, j) => ({text: h, style: "th", alignment: b.num[j] ? "right" : "left"})), ...b.rows.map(r => r.section ? [{text: r.section, colSpan: n, style: "td", bold: true, color: ACC, margin: [0, 4, 0, 0]}, ...Array(n - 1).fill({})] : r.map((c, j) => ({text: c, style: "td", alignment: b.num[j] ? "right" : "left"})))];
       node = {table: {headerRows: 1, widths, body}, layout: {hLineWidth: (i, n) => i === 0 || i === 1 || i === n.table.body.length ? 0.6 : 0.25, vLineWidth: () => 0, hLineColor: () => "#C9CDD4", paddingTop: () => 3, paddingBottom: () => 3, paddingLeft: () => 4, paddingRight: () => 4}, margin: [0, 2, 0, 10]};
     }
     if (!node) continue;
@@ -730,7 +743,7 @@ function exportDocx() {
     else if (b.type === "ol") { const id = ++nums; numDefs.push(id); b.items.forEach(it => body.push(para(it, "ListParagraph", `<w:numPr><w:ilvl w:val="0"/><w:numId w:val="${id}"/></w:numPr>`))); }
     else if (b.type === "table") {
       const cell = (txt, j, head) => `<w:tc><w:tcPr>${head ? '<w:shd w:val="clear" w:color="auto" w:fill="EEF0F4"/>' : ""}</w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/>${b.num[j] ? '<w:jc w:val="right"/>' : ""}</w:pPr><w:r><w:rPr>${head ? "<w:b/>" : ""}<w:sz w:val="18"/></w:rPr><w:t xml:space="preserve">${xe(txt)}</w:t></w:r></w:p></w:tc>`;
-      body.push(`<w:tbl><w:tblPr><w:tblStyle w:val="TableGrid"/><w:tblW w:w="5000" w:type="pct"/><w:tblLook w:val="04A0" w:firstRow="1"/></w:tblPr><w:tblGrid>${b.head.map(() => "<w:gridCol/>").join("")}</w:tblGrid><w:tr><w:trPr><w:tblHeader/></w:trPr>${b.head.map((h, j) => cell(h, j, true)).join("")}</w:tr>${b.rows.map(r => `<w:tr>${r.map((c, j) => cell(c, j, false)).join("")}</w:tr>`).join("")}</w:tbl><w:p/>`);
+      body.push(`<w:tbl><w:tblPr><w:tblStyle w:val="TableGrid"/><w:tblW w:w="5000" w:type="pct"/><w:tblLook w:val="04A0" w:firstRow="1"/></w:tblPr><w:tblGrid>${b.head.map(() => "<w:gridCol/>").join("")}</w:tblGrid><w:tr><w:trPr><w:tblHeader/></w:trPr>${b.head.map((h, j) => cell(h, j, true)).join("")}</w:tr>${b.rows.map(r => r.section ? `<w:tr><w:tc><w:tcPr><w:gridSpan w:val="${b.head.length}"/></w:tcPr><w:p><w:pPr><w:spacing w:before="80" w:after="40"/></w:pPr><w:r><w:rPr><w:b/><w:color w:val="0026FF"/><w:sz w:val="18"/></w:rPr><w:t xml:space="preserve">${xe(r.section)}</w:t></w:r></w:p></w:tc></w:tr>` : `<w:tr>${r.map((c, j) => cell(c, j, false)).join("")}</w:tr>`).join("")}</w:tbl><w:p/>`);
     }
   }
   const W = 'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"';
