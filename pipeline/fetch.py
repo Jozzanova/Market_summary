@@ -26,6 +26,9 @@ import zipfile
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from news import fetch_news   # noqa: E402
+
 ROOT = Path(__file__).resolve().parent.parent
 DATA, RAW = ROOT / "data", ROOT / "rawData"
 RAW.mkdir(exist_ok=True)
@@ -258,7 +261,7 @@ def main():
     yahoo, failed = fetch_yahoo(prev.get("yahoo", {}))
     kept += [f"yahoo:{s}" for s in failed if s in yahoo]
     blocks = {}
-    for name, fn in (("fred", fetch_fred), ("ecb", fetch_ecb), ("nb", fetch_nb), ("ssb", fetch_ssb)):
+    for name, fn in (("fred", fetch_fred), ("ecb", fetch_ecb), ("nb", fetch_nb), ("ssb", fetch_ssb), ("news", fetch_news)):
         log(f"{name}")
         try:
             blocks[name] = fn()

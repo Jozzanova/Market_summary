@@ -21,6 +21,8 @@ the policy rates on file and the upcoming events on file. Use its numbers in the
 
 ## 2. Read the news
 
+`brief.py` ends with the latest headlines from the outlets' feeds (FT, WSJ, Bloomberg, Reuters, CNBC, E24, DN, Finansavisen, the central banks) with links: start there, open the articles you use, and search the web for what the feeds miss.
+
 Search the web for what moved markets in the last 24 hours and why: US close, European close, the Asian session this
 morning, government bonds, credit, oil, gas, metals, FX; central bank decisions, speeches, minutes and reports; the macro
 data released yesterday and due today; and the political developments that matter for markets (elections, fiscal policy,

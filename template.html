@@ -132,6 +132,16 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
   </div>
 </section>
 
+<section class="pane" id="pane-news">
+  <div class="card">
+    <h2 data-i="nw_title">Recent headlines</h2>
+    <div class="row"><div class="chips" id="nwSrc"></div></div>
+    <div class="row"><div class="chips" id="nwCat"></div></div>
+    <div id="nwList"></div>
+    <p class="note" id="nwNote"></p>
+  </div>
+</section>
+
 <section class="pane" id="pane-events">
   <div class="card">
     <h2 data-i="ev_title">Upcoming events</h2>
@@ -219,7 +229,9 @@ const T = {
   title: ["Market summary", "Markedsoppsummering"],
   sub: ["A daily review of equity, bond, commodity and currency markets over the last 24 hours, a macro letter on central banks, a politics letter, a Norges Bank letter and the events ahead. Written by a scheduled agent each morning from the market data and news available at 06:00 Oslo time, with an intraday update on weekdays around 12:00 and 17:00.",
         "En daglig gjennomgang av aksje-, rente-, råvare- og valutamarkedene det siste døgnet, et makrobrev om sentralbankene, et politisk brev, et Norges Bank-brev og hendelsene som kommer. Skrevet av en planlagt agent hver morgen ut fra markedsdata og nyheter tilgjengelige klokken 06.00 norsk tid, med en intradagoppdatering på hverdager rundt klokken 12.00 og 17.00."],
-  tab_letters: ["Letters", "Brev"], tab_events: ["Upcoming events", "Kommende hendelser"], tab_equities: ["Equities", "Aksjer"], tab_rates: ["Rates & credit", "Renter og kreditt"],
+  tab_letters: ["Letters", "Brev"], tab_news: ["News", "Nyheter"], nw_title: ["Recent headlines", "Siste overskrifter"],
+  nw_note: ["Headlines and snippets from the outlets' public feeds, refreshed with the data (morning and intraday runs); items from the last 36 hours, newest first. Reuters, DN, Finansavisen and Norges Bank come through Google News and have no snippet. Times are Oslo time.", "Overskrifter og utdrag fra medienes åpne nyhetsstrømmer, oppdatert sammen med dataene (morgen- og intradagkjøringene); saker fra de siste 36 timene, nyeste først. Reuters, DN, Finansavisen og Norges Bank hentes via Google Nyheter og har ikke utdrag. Tidene er norsk tid."],
+  nc_markets: ["Markets", "Markeder"], nc_economy: ["Economy", "Økonomi"], "nc_central bank": ["Central banks", "Sentralbanker"], nc_norway: ["Norway", "Norge"], nc_politics: ["Politics", "Politikk"], tab_events: ["Upcoming events", "Kommende hendelser"], tab_equities: ["Equities", "Aksjer"], tab_rates: ["Rates & credit", "Renter og kreditt"],
   tab_commodities: ["Commodities", "Råvarer"], tab_fx: ["Currencies", "Valuta"], tab_central: ["Central banks", "Sentralbanker"], tab_norgesbank: ["Norges Bank", "Norges Bank"], tab_update: ["Update", "Oppdatering"],
   nb_letter: ["Norges Bank letter", "Norges Bank-brev"], nb_infl: ["Inflation against the 2 per cent target", "Inflasjon mot målet på 2 prosent"], nb_infl_s: ["12-month change, Statistics Norway", "tolvmånedersvekst, Statistisk sentralbyrå"],
   nb_krone: ["The krone", "Kronen"], nb_krone_s: ["EUR/NOK (left) and the I-44 index (right), one year; up = weaker krone", "EUR/NOK (venstre) og I-44-indeksen (høyre), ett år; opp = svakere krone"], nb_next: ["Next Norges Bank dates", "Neste Norges Bank-datoer"],
@@ -267,7 +279,7 @@ const COLORS = () => ["--s1", "--s2", "--s3", "--s4", "--s5", "--s6", "--s7", "-
 const cssv = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 
 /* ---------- tabs, language, theme ---------- */
-const TABS = ["letters", "events", "equities", "rates", "commodities", "fx", "central", "norgesbank", "update"];
+const TABS = ["letters", "news", "events", "equities", "rates", "commodities", "fx", "central", "norgesbank", "update"];
 const drawn = new Set();
 function currentTab() { const h = location.hash.replace("#", ""); return TABS.includes(h) ? h : "letters"; }
 function showTab(name, force) {
@@ -427,6 +439,22 @@ function drawEvents() {
     const next = show[show.indexOf(e) + 1]; if (!next || next.date !== day) html += "</tbody></table>";
   }
   $("#evList").innerHTML = html;
+}
+
+/* ---------- news ---------- */
+let NWSRC = "all", NWCAT = "all";
+function drawNews() {
+  const nw = D.news || {items: []}; const items = nw.items || [];
+  const sources = [...new Set(items.map(i => i.source))].sort();
+  $("#nwSrc").innerHTML = [["all", t("all")], ...sources.map(s => [s, s])].map(([k, l]) => `<span class="chip${NWSRC === k ? " on" : ""}" data-v="${esc(k)}">${esc(l)}</span>`).join("");
+  const cats = ["markets", "economy", "central bank", "norway", "politics"];
+  $("#nwCat").innerHTML = [["all", t("all")], ...cats.map(c => [c, t("nc_" + c)])].map(([k, l]) => `<span class="chip${NWCAT === k ? " on" : ""}" data-v="${esc(k)}">${esc(l)}</span>`).join("");
+  $$("#nwSrc .chip").forEach(c => c.onclick = () => { NWSRC = c.dataset.v; drawNews(); });
+  $$("#nwCat .chip").forEach(c => c.onclick = () => { NWCAT = c.dataset.v; drawNews(); });
+  const show = items.filter(i => (NWSRC === "all" || i.source === NWSRC) && (NWCAT === "all" || i.category === NWCAT)).slice(0, 150);
+  const fmtTime = s => { if (!s) return ""; const d = new Date(s); return isNaN(d) ? "" : d.toLocaleString(LANG === "no" ? "nb-NO" : "en-GB", {weekday: "short", hour: "2-digit", minute: "2-digit", timeZone: "Europe/Oslo"}); };
+  $("#nwList").innerHTML = show.length ? `<table><tbody>${show.map(i => `<tr><td class="num muted small" style="width:6.5rem;white-space:nowrap">${esc(fmtTime(i.time))}</td><td style="width:8rem"><span class="tag">${esc(i.source)}</span></td><td><a href="${esc(i.link)}" target="_blank" rel="noopener"><b>${esc(i.title)}</b></a>${i.snippet ? `<div class="muted small">${esc(i.snippet)}</div>` : ""}</td></tr>`).join("")}</tbody></table>` : `<p class="empty">${t("no_events")}</p>`;
+  $("#nwNote").textContent = `${t("nw_note")} ${nw.fetched ? (LANG === "no" ? "Hentet " : "Fetched ") + nw.fetched + "." : ""}${nw.failed && nw.failed.length ? " " + (LANG === "no" ? "Ikke tilgjengelig denne gangen: " : "Unavailable this time: ") + nw.failed.map(f => f.split(" (")[0]).join(", ") + "." : ""}`;
 }
 
 /* ---------- equities ---------- */
@@ -788,7 +816,7 @@ $("#pdfBtn").onclick = () => exportPdf().catch(e => alert(e.message));
 $("#docxBtn").onclick = exportDocx;
 
 /* ---------- boot ---------- */
-const DRAW = {letters: drawLetters, events: drawEvents, equities: drawEquities, rates: drawRates, commodities: drawCommodities, fx: drawFx, central: drawCentral, norgesbank: drawNorgesBank, update: drawUpdate};
+const DRAW = {letters: drawLetters, news: drawNews, events: drawEvents, equities: drawEquities, rates: drawRates, commodities: drawCommodities, fx: drawFx, central: drawCentral, norgesbank: drawNorgesBank, update: drawUpdate};
 $("#foot").innerHTML = `Market summary · built ${esc(D.generated)} · data ${esc(D.asof)}`;
 setLang(LANG);
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { if (!document.documentElement.dataset.theme) { drawn.clear(); showTab(currentTab(), true); } });
