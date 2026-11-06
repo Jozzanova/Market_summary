@@ -12,7 +12,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-KINDS = ("markets", "macro", "politics", "norgesbank")
+KINDS = ("markets", "intraday", "macro", "politics", "norgesbank")
 
 
 def letters():
@@ -21,7 +21,7 @@ def letters():
     for day in sorted(p for p in base.iterdir() if p.is_dir() and re.fullmatch(r"\d{4}-\d{2}-\d{2}", p.name)):
         entry = {}
         for p in day.glob("*.md"):
-            m = re.fullmatch(r"(markets|macro|politics|norgesbank)\.(en|no)\.md", p.name)
+            m = re.fullmatch(r"(markets|intraday|macro|politics|norgesbank)\.(en|no)\.md", p.name)
             if m:
                 entry.setdefault(m.group(1), {})[m.group(2)] = p.read_text(encoding="utf-8")
         if entry:

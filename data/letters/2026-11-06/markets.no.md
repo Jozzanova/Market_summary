@@ -19,7 +19,7 @@
 ## Råvarer og valuta
 
 - Brent handles til 99,7 dollar (+1,5 prosent) og WTI til 91,6 dollar etter at Irans revolusjonsgarde meldte om nye branner på tankskip i Hormuzstredet. Gull har falt 1,4 prosent til 4 056 dollar, og kobber er lite endret på 6,23 dollar per pund etter torsdagens fall på 3 prosent. ([Al Arabiya](https://english.alarabiya.net/amp/News/middle-east/2026/11/05/iran-says-two-tankers-and-tugboat-caught-fire-in-strait-of-hormuz))
-- Dollarindeksen er 0,2 prosent sterkere på 101,8. Den australske dollaren har falt 1,4 prosent sammen med asiatiske aksjer, og bitcoin 6,1 prosent til om lag 75 500 dollar. EUR/NOK er 10,43, nær torsdagens notering fra Norges Bank på 10,44, mot 10,32 mandag.
+- Dollarindeksen er 0,2 prosent sterkere på 101,8. Den australske dollaren har falt 1,4 prosent sammen med asiatiske aksjer, og bitcoin 6,1 prosent til om lag 75 500 dollar. EUR/NOK er 10,43, nær torsdagens notering fra Norges Bank på 10,44, mot 10,32 mandag. Norges Banks importveide kroneindeks I-44 var 107,76 ved torsdagens notering, 0,5 prosent svakere på dagen, men 10 prosent lavere, det vil si en sterkere krone, enn ved årsskiftet.
 
 ## I dag
 

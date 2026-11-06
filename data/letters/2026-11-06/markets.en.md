@@ -19,7 +19,7 @@
 ## Commodities and currencies
 
 - Brent trades at 99.7 dollars (+1.5 per cent) and WTI at 91.6 dollars after Iran's Revolutionary Guard reported further tanker fires in the Strait of Hormuz. Gold has eased 1.4 per cent to 4,056 dollars and copper is little changed at 6.23 dollars per pound after Thursday's 3 per cent fall. ([Al Arabiya](https://english.alarabiya.net/amp/News/middle-east/2026/11/05/iran-says-two-tankers-and-tugboat-caught-fire-in-strait-of-hormuz))
-- The dollar index is 0.2 per cent firmer at 101.8. The Australian dollar has fallen 1.4 per cent with Asian equities, and Bitcoin 6.1 per cent to about 75,500 dollars. EUR/NOK is at 10.43, near Thursday's Norges Bank fix of 10.44, against 10.32 on Monday.
+- The dollar index is 0.2 per cent firmer at 101.8. The Australian dollar has fallen 1.4 per cent with Asian equities, and Bitcoin 6.1 per cent to about 75,500 dollars. EUR/NOK is at 10.43, near Thursday's Norges Bank fix of 10.44, against 10.32 on Monday. Norges Bank's import-weighted krone index I-44 was 107.76 at Thursday's fix, 0.5 per cent weaker on the day but 10 per cent lower, that is a stronger krone, than at the start of the year.
 
 ## Today
 

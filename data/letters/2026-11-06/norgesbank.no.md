@@ -18,7 +18,7 @@ Til Nettavisen sa sentralbanksjef Ida Wolden Bache at «en sterkere kronekurs gj
 
 ## Kronen og rentene
 
-EUR/NOK er 10,43 i morges, nær torsdagens notering på 10,44 og over 10,32 mandag: det globale aksjefallet har veid tyngre enn både de haukete formuleringene og en Brent-pris nær 100 dollar. Tremåneders statskasseveksler gir 4,73 prosent og tiårs statsobligasjoner 4,37 prosent. En videre kronesvekkelse er kanalen de fleste økonomene peker på for en heving i desember.
+EUR/NOK er 10,43 i morges, nær torsdagens notering på 10,44 og over 10,32 mandag: det globale aksjefallet har veid tyngre enn både de haukete formuleringene og en Brent-pris nær 100 dollar. Tremåneders statskasseveksler gir 4,73 prosent og tiårs statsobligasjoner 4,37 prosent. Den importveide indeksen I-44, bankens eget mål på kronen, var 107,76 ved torsdagens notering, 0,5 prosent svakere på dagen. En videre kronesvekkelse er kanalen de fleste økonomene peker på for en heving i desember.
 
 ## Datoer
 
