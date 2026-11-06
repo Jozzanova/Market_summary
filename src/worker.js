@@ -138,7 +138,7 @@ async function sniff(env) {
         const pub = (it.match(/<pubDate>([\s\S]*?)<\/pubDate>/) || [])[1]?.trim();
         if (!title || !link) continue;
         const low = " " + title.toLowerCase() + " ";
-        const hit = w => new RegExp("(^|[^a-z])" + w.trim().replace(/[.*+?^${}()|[\]\]/g, "\$&") + "([^a-z]|$)").test(low);   // whole words only ("stumble" is not "tumble")
+        const hit = w => { const k = low.indexOf(w); return k >= 0 && !/[a-z]/.test(low[k - 1] || " ") && !/[a-z]/.test(low[k + w.length] || " "); };   // whole words only ("stumble" is not "tumble")
         const high = HIGH_WORDS.some(hit), med = MEDIUM_WORDS.some(hit);
         if (!high && !med) continue;
         const when = pub ? new Date(pub) : new Date();
