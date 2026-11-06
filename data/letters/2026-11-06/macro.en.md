@@ -1,6 +1,6 @@
 # Macro letter, Friday 6 November 2026
 
-**Summary.** The tightening cycle broadened this week. The Bank of England raised Bank Rate by 25 basis points to 4.00 per cent, its first increase since 2023, and the Riksbank and the Reserve Bank of Australia also raised rates. Norges Bank, the Federal Reserve and the ECB held, each with language that keeps further tightening on the table. The common thread is inflation that has been pushed up by energy prices and has proved slower to recede than expected, set against labour markets that are cooling only gradually. Thursday's fall in US equities, which spread to Asia this morning with the Nikkei 225 down close to 6 per cent, and the decline in Treasury yields have, at the margin, lowered the market-implied probability of a Federal Reserve hike in December to about 70 per cent.
+**Summary.** The tightening cycle broadened this week. The Bank of England raised Bank Rate by 25 basis points to 4.00 per cent, its first increase since 2023, and the Riksbank and the Reserve Bank of Australia also raised rates. Norges Bank, the Federal Reserve and the ECB held, each with language that keeps further tightening on the table. The common thread is inflation that has been pushed up by energy prices and has proved slower to recede than expected, set against labour markets that are cooling only gradually. Thursday's fall in US equities, which spread to Asia overnight, with the Nikkei 225 closing 6.0 per cent lower, and to Europe this morning, and the decline in Treasury yields have, at the margin, lowered the market-implied probability of a Federal Reserve hike in December to about 70 per cent.
 
 ## Decisions this week
 
@@ -32,6 +32,12 @@ The FOMC held the target range at 3.75 to 4.00 per cent on 28 October with two d
 ## ECB and the Nordics
 
 The ECB held the deposit facility rate at 2.50 per cent on 29 October, after the increase in September, with euro-area inflation at 3.8 per cent in September. President Lagarde announced that she will leave office on 7 February 2027, which adds a leadership transition to the December and February meetings. The Riksbank raised its policy rate to 2.00 per cent on 4 November and said further increases are likely over the coming year. ([Euronews](https://www.euronews.com/2026/10/29/ecb-holds-rates-at-25-as-lagarde-announces-early-exit-with-inflation-near-double-the-targe), [Riksbank](https://www.riksbank.se/globalassets/media/nyheter--pressmeddelanden/pressmeddelanden/2026/261104_nr1-upp/prm-4-november-2026-styrrantan-hojs-till-2-procent.pdf))
+
+## Data of note
+
+- **Germany.** Industrial production rose 0.7 per cent in September against expectations of no change, a second monthly increase, although August was revised down to 1.0 per cent. ([FXStreet](https://www.fxstreet.com/news/germanys-industrial-production-rises-07-mom-in-september-beats-0-estimates-202611060702), [Bloomberg](https://www.bloomberg.com/news/articles/2026-11-06/german-industrial-production-rises-in-latest-boost-for-economy))
+- **Norway.** Manufacturing output was unchanged from August to September and 0.1 per cent higher in the third quarter than in the second, with shipbuilding and oil platforms (+2.4 per cent) offsetting lower output in chemicals and metals. ([Statistics Norway](https://www.ssb.no/energi-og-industri/industri-og-bergverksdrift/statistikk/produksjonsindeks-for-olje-og-gass-industri-bergverk-og-kraftforsyning/artikler/nesten-uendra-industriproduksjon-i-3.kvartal))
+- **United Kingdom.** House prices fell 0.6 per cent in October according to Lloyds Banking Group, the steepest fall in more than three years, as higher mortgage rates weigh on the market. ([The Guardian](https://www.theguardian.com/business/2026/nov/06/uk-house-prices-fall-at-steepest-rate-in-more-than-three-years))
 
 ## Assessment
 

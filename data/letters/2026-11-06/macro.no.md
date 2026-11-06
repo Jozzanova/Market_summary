@@ -1,6 +1,6 @@
 # Makrobrev, fredag 6. november 2026
 
-**Oppsummering.** Innstrammingen ble bredere denne uken. Bank of England hevet styringsrenten med 25 basispunkter til 4,00 prosent, den første hevingen siden 2023, og Riksbanken og Reserve Bank of Australia hevet også. Norges Bank, Federal Reserve og ESB holdt rentene uendret, alle med formuleringer som holder døren åpen for videre innstramming. Fellesnevneren er en inflasjon som er drevet opp av energiprisene og har vist seg tregere å få ned enn ventet, mot arbeidsmarkeder som bare gradvis kjølner. Torsdagens aksjefall i USA, som i morges spredte seg til Asia med et fall i Nikkei 225 på nær 6 prosent, og nedgangen i amerikanske statsrenter har på marginen senket den markedsimpliserte sannsynligheten for en renteheving fra Federal Reserve i desember til om lag 70 prosent.
+**Oppsummering.** Innstrammingen ble bredere denne uken. Bank of England hevet styringsrenten med 25 basispunkter til 4,00 prosent, den første hevingen siden 2023, og Riksbanken og Reserve Bank of Australia hevet også. Norges Bank, Federal Reserve og ESB holdt rentene uendret, alle med formuleringer som holder døren åpen for videre innstramming. Fellesnevneren er en inflasjon som er drevet opp av energiprisene og har vist seg tregere å få ned enn ventet, mot arbeidsmarkeder som bare gradvis kjølner. Torsdagens aksjefall i USA, som spredte seg til Asia i natt, der Nikkei 225 stengte 6,0 prosent lavere, og til Europa i morges, og nedgangen i amerikanske statsrenter har på marginen senket den markedsimpliserte sannsynligheten for en renteheving fra Federal Reserve i desember til om lag 70 prosent.
 
 ## Ukens beslutninger
 
@@ -32,6 +32,12 @@ FOMC holdt målintervallet uendret på 3,75 til 4,00 prosent 28. oktober, med to
 ## ESB og Norden
 
 ESB holdt innskuddsrenten uendret på 2,50 prosent 29. oktober, etter hevingen i september, med en inflasjon i eurosonen på 3,8 prosent i september. President Lagarde varslet at hun går av 7. februar 2027, noe som legger et lederskifte til møtene i desember og februar. Riksbanken hevet styringsrenten til 2,00 prosent 4. november og sa at flere hevinger er sannsynlige det kommende året. ([Euronews](https://www.euronews.com/2026/10/29/ecb-holds-rates-at-25-as-lagarde-announces-early-exit-with-inflation-near-double-the-targe), [Riksbanken](https://www.riksbank.se/globalassets/media/nyheter--pressmeddelanden/pressmeddelanden/2026/261104_nr1-upp/prm-4-november-2026-styrrantan-hojs-till-2-procent.pdf))
+
+## Nøkkeltall
+
+- **Tyskland.** Industriproduksjonen steg 0,7 prosent i september, mot ventet uendret, den andre månedlige økningen på rad, selv om august ble nedjustert til 1,0 prosent. ([FXStreet](https://www.fxstreet.com/news/germanys-industrial-production-rises-07-mom-in-september-beats-0-estimates-202611060702), [Bloomberg](https://www.bloomberg.com/news/articles/2026-11-06/german-industrial-production-rises-in-latest-boost-for-economy))
+- **Norge.** Industriproduksjonen var uendret fra august til september og 0,1 prosent høyere i tredje kvartal enn i andre. Bygging av skip og oljeplattformer (+2,4 prosent) veide opp for lavere produksjon i kjemisk industri og metallindustri. ([SSB](https://www.ssb.no/energi-og-industri/industri-og-bergverksdrift/statistikk/produksjonsindeks-for-olje-og-gass-industri-bergverk-og-kraftforsyning/artikler/nesten-uendra-industriproduksjon-i-3.kvartal))
+- **Storbritannia.** Boligprisene falt 0,6 prosent i oktober ifølge Lloyds Banking Group, det største fallet på over tre år, ettersom høyere boliglånsrenter tynger markedet. ([The Guardian](https://www.theguardian.com/business/2026/nov/06/uk-house-prices-fall-at-steepest-rate-in-more-than-three-years))
 
 ## Vurdering
 

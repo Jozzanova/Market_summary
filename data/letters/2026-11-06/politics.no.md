@@ -14,11 +14,12 @@
 
 ## Asia
 
-- Reprisingen av KI-relaterte aksjer spredte seg til Japan, Sør-Korea og Taiwan i morges; fallet i KOSPI på opptil 8,6 prosent utløste en handelspause på 20 minutter. Den politiske kanalen er den samme: forventninger om amerikansk regulering av datasentre, som vil redusere etterspørselen etter asiatiske brikker og minne. ([CNBC](https://www.cnbc.com/2026/11/05/stock-market-today-live-updates.html))
+- Reprisingen av KI-relaterte aksjer spredte seg til Japan, Sør-Korea og Taiwan i natt: Nikkei 225 og KOSPI stengte begge 6,0 prosent lavere, og fallet i KOSPI på opptil 8,6 prosent i løpet av dagen utløste en handelspause på 20 minutter. Den politiske kanalen er den samme: forventninger om amerikansk regulering av datasentre, som vil redusere etterspørselen etter asiatiske brikker og minne. ([CNBC](https://www.cnbc.com/2026/11/05/stock-market-today-live-updates.html), [FT](https://www.ft.com/content/642b32dc-e3a1-4df8-ae91-5c84bdeb89e0))
 
 ## Europa
 
-- **ESBs ledelse.** President Lagarde varslet 29. oktober at hun går av 7. februar 2027. Etterfølgeren velges av eurosonens regjeringssjefer; møtene i desember og februar holdes under en avtroppende president. ([Euronews](https://www.euronews.com/2026/10/29/ecb-holds-rates-at-25-as-lagarde-announces-early-exit-with-inflation-near-double-the-targe))
+- **ESBs ledelse.** President Lagarde varslet 29. oktober at hun går av 7. februar 2027. Etterfølgeren velges av eurosonens regjeringssjefer; møtene i desember og februar holdes under en avtroppende president. Fristen for å nominere kandidater går ut i dag. ([Euronews](https://www.euronews.com/2026/10/29/ecb-holds-rates-at-25-as-lagarde-announces-early-exit-with-inflation-near-double-the-targe), [Bloomberg](https://www.bloomberg.com/news/articles/2026-11-06/ecb-deadline-will-show-if-lagarde-succession-is-a-two-horse-race))
+- **Frankrike.** Over en halv million mennesker deltok torsdag i protester mot høye levekostnader, noe som øker presset på en regjering som strever med å få vedtatt budsjettet. ([Bloomberg](https://www.bloomberg.com/news/videos/2026-11-06/more-than-half-a-million-people-join-french-protests-video))
 - **Forsvar.** Rheinmetall kuttet salgsprognosen for 2026 og falt om lag 17 prosent, en påminnelse om at den europeiske forsvarsanskaffelsessyklusen er ujevn til tross for de politiske forpliktelsene om høyere utgifter. ([Yahoo Finance](https://finance.yahoo.com/markets/stocks/articles/tech-drag-defence-weakness-weigh-164047028.html))
 
 ## Norge

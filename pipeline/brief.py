@@ -66,8 +66,7 @@ def main():
         if today <= e["date"] <= horizon:
             print(f"  {e['date']} {e.get('time_oslo', ''):>5} {e['region']:<6} {e['category']:<12} {e['event']} [{e['importance']}]")
     news = D.get("news", {})
-    print(f"
-## Latest headlines (RSS, {news.get('fetched', 'n/a')}; newest first, time UTC; open the link before using a fact)")
+    print(f"\n## Latest headlines (RSS, {news.get('fetched', 'n/a')}; newest first, time UTC; open the link before using a fact)")
     for it in news.get("items", [])[:60]:
         print(f"  {(it.get('time') or '')[:16]:<16} {it['source']:<14} {it['title'][:110]}  {it['link']}")
         if it.get("snippet"):

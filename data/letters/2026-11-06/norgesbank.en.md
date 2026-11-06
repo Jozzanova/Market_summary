@@ -8,6 +8,8 @@ The unanimous decision states that "inflation is too high", that it "will likely
 
 In an interview with Nettavisen, Governor Ida Wolden Bache said that "a stronger krone makes what we import from abroad cheaper" and that the rate is set "on the basis of conditions in the Norwegian economy", while higher rates abroad tend to pull Norwegian rates up. On AI, she noted that these investments "have increasingly been financed with debt", which may have contributed to higher interest rates, and that markets must be prepared for volatility. ([Nettavisen](https://www.nettavisen.no/okonomi/sentralbanksjefen-om-kronekurs-renter-og-ki-gjeld-norges-bank/s/80-95-222675))
 
+At the press conference the Governor added that, with inflation above target for a long time, the Bank is "particularly on guard against signs that inflationary pressures remain elevated", since persistent inflation can become harder to bring down ([E24](https://e24.no/norsk-oekonomi/i/Og4dgV/sentralbanksjefen-er-saerlig-paa-vakt)). Separately, Executive Director Torbjørn Hægeland spoke on payment-system security on Thursday, without reference to monetary policy ([Norges Bank](https://www.norges-bank.no/en/news-events/news/Speeches/2026/2026-11-05-hageland/)). There has been no further statement from the Bank this morning; its report on the management of the foreign exchange reserves is due at 10:00.
+
 ## What economists and the market say
 
 - **DNB Carnegie.** Kjersti Haugland: "Our starting point is that the peak has been reached", though she does not expect domestic inflation to fall enough within three years, "but Norges Bank does. We will see who is right." ([Børsen](https://borsen.dagbladet.no/nyheter/forberedt-pa-a-sette-opp-renta/85382226), [E24](https://e24.no/norsk-oekonomi/i/p1o20V/sjefoekonom-de-holder-muligheten-aapne-for-en-heving-til))
@@ -18,10 +20,12 @@ In an interview with Nettavisen, Governor Ida Wolden Bache said that "a stronger
 
 ## The krone and rates
 
-EUR/NOK is at 10.43 this morning, close to Thursday's fix of 10.44 and above 10.32 on Monday: the global sell-off in equities has outweighed both the hawkish wording and Brent near 100 dollars. The 3-month bill yields 4.73 per cent and the 10-year bond 4.37 per cent. The import-weighted index I-44, the Bank's own measure of the krone, was 107.76 at Thursday's fix, 0.5 per cent weaker on the day. A further weakening of the krone is the channel most economists identify for a December hike.
+EUR/NOK has risen to 10.48 this morning (+0.4 per cent) and USD/NOK to 9.37 (+0.8 per cent), against 10.32 on Monday: the global sell-off in equities has outweighed both the hawkish wording and Brent near 100 dollars. At Thursday's fixes the 3-month bill yielded 4.72 per cent, the 3-year bond 4.60 per cent and the 10-year bond 4.31 per cent, the last two down 4 and 6 basis points on the day. The import-weighted index I-44, the Bank's own measure of the krone, was 107.76 at Thursday's fix, 0.5 per cent weaker on the day. A further weakening of the krone is the channel most economists identify for a December hike.
 
 ## Dates
 
 - 10 November: CPI for October (Statistics Norway).
+- 11 November: Financial Stability Report 2026 H2; 19 November: Expectations Survey Q4.
+- 10 December: Regional Network report 4/26 and CPI for November.
 - 17 December: rate decision with Monetary Policy Report 4/26.
 - 21 January 2027: first decision of the year.

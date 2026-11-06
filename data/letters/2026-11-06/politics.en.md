@@ -14,11 +14,12 @@
 
 ## Asia
 
-- The repricing of AI-related equities spread to Japan, South Korea and Taiwan this morning; the KOSPI's fall of as much as 8.6 per cent triggered a 20-minute trading halt. The political channel is the same: expectations of US regulation of data centres, which would reduce demand for Asian chips and memory. ([CNBC](https://www.cnbc.com/2026/11/05/stock-market-today-live-updates.html))
+- The repricing of AI-related equities spread to Japan, South Korea and Taiwan overnight: the Nikkei 225 and the KOSPI both closed 6.0 per cent lower, and the KOSPI's intraday fall of as much as 8.6 per cent triggered a 20-minute trading halt. The political channel is the same: expectations of US regulation of data centres, which would reduce demand for Asian chips and memory. ([CNBC](https://www.cnbc.com/2026/11/05/stock-market-today-live-updates.html), [FT](https://www.ft.com/content/642b32dc-e3a1-4df8-ae91-5c84bdeb89e0))
 
 ## Europe
 
-- **ECB leadership.** President Lagarde announced on 29 October that she will leave office on 7 February 2027. The succession will be decided by the euro-area heads of government; the December and February meetings will be held under a departing president. ([Euronews](https://www.euronews.com/2026/10/29/ecb-holds-rates-at-25-as-lagarde-announces-early-exit-with-inflation-near-double-the-targe))
+- **ECB leadership.** President Lagarde announced on 29 October that she will leave office on 7 February 2027. The succession will be decided by the euro-area heads of government; the December and February meetings will be held under a departing president. The deadline for nominations falls today and will show the field of candidates. ([Euronews](https://www.euronews.com/2026/10/29/ecb-holds-rates-at-25-as-lagarde-announces-early-exit-with-inflation-near-double-the-targe), [Bloomberg](https://www.bloomberg.com/news/articles/2026-11-06/ecb-deadline-will-show-if-lagarde-succession-is-a-two-horse-race))
+- **France.** More than half a million people joined protests over the cost of living on Thursday, adding pressure on a government that is struggling to pass its budget. ([Bloomberg](https://www.bloomberg.com/news/videos/2026-11-06/more-than-half-a-million-people-join-french-protests-video))
 - **Defence.** Rheinmetall cut its 2026 sales forecast and fell about 17 per cent, a reminder that the European defence procurement cycle is uneven despite the political commitments to higher spending. ([Yahoo Finance](https://finance.yahoo.com/markets/stocks/articles/tech-drag-defence-weakness-weigh-164047028.html))
 
 ## Norway

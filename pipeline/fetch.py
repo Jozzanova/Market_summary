@@ -84,9 +84,15 @@ def yahoo_chart(sym):
             continue
         dates.append(datetime.fromtimestamp(t, tz=timezone.utc).strftime("%Y-%m-%d"))
         vals.append(round(float(c), 6))
+    # drop obviously bad prints (a value more than 3x or less than 1/3 of the one before it, e.g. a wrong opening tick)
+    sane = lambda x, ref: ref is None or ref <= 0 or x is None or (ref / 3 < x < ref * 3)
+    while len(vals) > 1 and not sane(vals[-1], vals[-2]):
+        dates.pop(); vals.pop()
     # the latest print (may be an intraday value for a market that is open now)
     last = meta.get("regularMarketPrice")
     last_t = meta.get("regularMarketTime")
+    if vals and not sane(last, vals[-1]):
+        last, last_t = None, None
     return {"name": meta.get("shortName") or meta.get("longName") or sym, "currency": meta.get("currency"), "tz": tz,
             "dates": dates, "values": vals, "last": last, "last_time": datetime.fromtimestamp(last_t, tz=timezone.utc).strftime("%Y-%m-%d %H:%M UTC") if last_t else None,
             "prev_close": meta.get("previousClose") or meta.get("chartPreviousClose")}

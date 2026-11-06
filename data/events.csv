@@ -1,13 +1,24 @@
 date,time_oslo,region,category,event,importance,note_en,note_no,source_url
-2026-11-06,14:30,US,data,"US employment report, October",high,Consensus: payrolls +59k to +65k after +29k in September; unemployment 4.2%,"Konsensus: sysselsetting +59k til +65k etter +29k i september; ledighet 4,2 %",https://www.bls.gov/schedule/news_release/empsit.htm
+2026-11-06,,EA,politics,Deadline for nominations to succeed ECB President Lagarde,medium,Shows the field of candidates,Viser kandidatfeltet,https://www.bloomberg.com/news/articles/2026-11-06/ecb-deadline-will-show-if-lagarde-succession-is-a-two-horse-race
 2026-11-06,08:00,NO,data,"Statistics Norway: industrial production (September), FX reserves (October), bank statistics (Q3)",low,,,https://www.ssb.no/en/kalender
+2026-11-06,10:00,NO,central bank,Norges Bank: report on the management of the foreign exchange reserves,low,,,https://www.norges-bank.no/en/news-events/calendar/
+2026-11-06,14:30,US,data,"US employment report, October",high,Consensus: payrolls +59k to +65k after +29k in September; unemployment 4.2%,"Konsensus: sysselsetting +59k til +65k etter +29k i september; ledighet 4,2 %",https://www.bls.gov/schedule/news_release/empsit.htm
 2026-11-10,08:00,NO,data,"Norway CPI, October",high,"September: CPI 3.4%, CPI-ATE 3.0%","September: KPI 3,4 %, KPI-JAE 3,0 %",https://www.ssb.no/en/kalender
 2026-11-10,14:30,US,data,"US consumer prices, October (date from third-party calendars)",high,Last CPI before the 9 December FOMC; confirm the date on bls.gov,Siste KPI før rentemøtet 9. desember; dato fra tredjepartskalendere,https://www.bls.gov/schedule/news_release/cpi.htm
+2026-11-11,08:30,NO,central bank,Norges Bank: Financial Stability Report 2026 H2,medium,"Assessment of vulnerabilities, including household debt and market volatility","Vurdering av sårbarheter, blant annet husholdningsgjeld og markedsuro",https://www.norges-bank.no/en/news-events/calendar/
+2026-11-12,08:00,NO,data,"Statistics Norway: investment intentions in oil and gas, manufacturing and power (Q4 survey)",medium,First estimates for 2027 petroleum investment,Første anslag for petroleumsinvesteringer i 2027,https://www.ssb.no/en/kalender
+2026-11-16,08:00,NO,data,"Statistics Norway: external trade in goods, October",low,,,https://www.ssb.no/en/kalender
+2026-11-19,10:00,NO,central bank,"Norges Bank: Expectations Survey, Q4",medium,"Inflation expectations of economists, social partners and businesses","Inflasjonsforventninger blant økonomer, partene i arbeidslivet og bedrifter",https://www.norges-bank.no/en/news-events/calendar/
+2026-11-24,08:00,NO,data,"Statistics Norway: credit indicator, October",low,,,https://www.ssb.no/en/kalender
+2026-11-25,08:00,NO,data,Statistics Norway: labour force survey,medium,,,https://www.ssb.no/en/kalender
+2026-11-26,08:00,NO,data,"Statistics Norway: national accounts, Q3 (mainland GDP)",high,,,https://www.ssb.no/en/kalender
 2026-12-07,,AU,central bank,Reserve Bank of Australia board meeting (decision 8 Dec),medium,,,https://www.rba.gov.au/schedules-events/board-meeting-schedules.html
 2026-12-08,,US,central bank,"FOMC meeting, first day",high,,,https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm
-2026-12-09,20:00,US,central bank,FOMC decision and press conference,high,Target range 3.75–4.00% after the October hold,"Målintervall 3,75–4,00 % etter oktoberbeslutningen om uendret rente",https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm
 2026-12-09,15:45,CA,central bank,Bank of Canada rate decision,medium,,,https://www.bankofcanada.ca/core-functions/monetary-policy/key-interest-rate/schedule/
+2026-12-09,20:00,US,central bank,FOMC decision and press conference,high,Target range 3.75–4.00% after the October hold,"Målintervall 3,75–4,00 % etter oktoberbeslutningen om uendret rente",https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm
+2026-12-10,08:00,NO,data,"Norway CPI, November",high,Last CPI before the 17 December decision,Siste KPI før rentemøtet 17. desember,https://www.ssb.no/en/kalender
 2026-12-10,09:30,CH,central bank,Swiss National Bank monetary policy assessment (date from third-party calendars),medium,,,https://www.snb.ch/en/ifor/media/id/media_events
+2026-12-10,10:00,NO,central bank,Norges Bank: Regional Network report 4/26,high,Input to the December rate decision,Grunnlag for rentemøtet i desember,https://www.norges-bank.no/en/news-events/calendar/
 2026-12-16,09:30,SE,central bank,Riksbank rate decision,medium,Policy rate 2.00% after the November hike,"Styringsrente 2,00 % etter hevingen i november",https://www.riksbank.se/en-gb/press-and-published/calendar/calendar-2027/
 2026-12-17,10:00,NO,central bank,Norges Bank rate decision with Monetary Policy Report 4/26,high,Policy rate 4.50%; new forecasts,"Styringsrente 4,50 %; nye prognoser",https://www.norges-bank.no/aktuelt/kalender/rentemoter/
 2026-12-17,13:00,UK,central bank,Bank of England rate decision,high,Bank Rate 4.00% after the November hike,"Bank Rate 4,00 % etter hevingen i november",https://www.bankofengland.co.uk/monetary-policy/upcoming-mpc-dates
