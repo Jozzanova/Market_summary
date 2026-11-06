@@ -100,7 +100,9 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
     </div>
     <div class="ctl">
       <div class="seg" id="langSeg"><button data-v="en">English</button><button data-v="no">Norsk</button></div>
-      <button class="btn" id="xlBtn">Excel</button>
+      <button class="btn" id="pdfBtn" title="The selected day's letters as a PDF">PDF</button>
+      <button class="btn" id="docxBtn" title="The selected day's letters as a Word document">Word</button>
+      <button class="btn" id="xlBtn" title="Every table as an Excel workbook">Excel</button>
       <button class="btn" id="themeBtn" title="Light / dark">☾</button>
     </div>
   </div>
@@ -342,9 +344,14 @@ function drawLetterFigs(root) {
     plot(el, traces, {margin: {l: 44, r: 8, t: 10, b: 36}, yaxis: {title: mode === "level" ? "" : t("eq_perf_s")}});
   });
 }
+const SNAP_PICKS = ["^GSPC", "^IXIC", "^STOXX", "OSEBX.OL", "^N225", "^HSI", "^VIX", "^TNX", "DGS2", "EA_SR_10Y", "nok_10y", "BAMLH0A0HYM2", "BZ=F", "GC=F", "HG=F", "TTF=F", "DX-Y.NYB", "EURUSD=X", "USDJPY=X", "EURNOK=X", "USDNOK=X"];
+const chgText = (v, unit) => v == null || !isFinite(v) ? "–" : unit === "bp" ? `${v > 0 ? "+" : ""}${fmt(v, 0)} bp` : `${v > 0 ? "+" : ""}${fmt(v, 2)} %`;
+function snapRows() {
+  return {head: ["", t("last"), t("d1"), t("w1"), t("ytd"), t("date")], num: [false, true, true, true, true, true],
+    rows: SNAP_PICKS.map(bySym).filter(v => v && v.last != null).map(v => [nameOf(v), fmt(v.last, +v.decimals), chgText(v.d1, v.unit), chgText(v.w1, v.unit), chgText(v.ytd, v.unit), fmtDate(v.last_date)])};
+}
 function snapshot() {
-  const picks = [["^GSPC"], ["^IXIC"], ["^STOXX"], ["OSEBX.OL"], ["^N225"], ["^HSI"], ["^VIX"], ["^TNX"], ["DGS2"], ["EA_SR_10Y"], ["nok_10y"], ["BAMLH0A0HYM2"], ["BZ=F"], ["GC=F"], ["HG=F"], ["TTF=F"], ["DX-Y.NYB"], ["EURUSD=X"], ["USDJPY=X"], ["EURNOK=X"], ["USDNOK=X"]];
-  const rows = picks.map(([s]) => bySym(s)).filter(Boolean).map(v => `<tr><td>${esc(nameOf(v))}</td><td class="num">${fmt(v.last, +v.decimals)}</td><td class="num">${chg(v.d1, v.unit)}</td><td class="num">${chg(v.w1, v.unit)}</td><td class="num">${chg(v.ytd, v.unit)}</td><td class="num muted small">${fmtDate(v.last_date)}</td></tr>`);
+  const rows = SNAP_PICKS.map(bySym).filter(v => v && v.last != null).map(v => `<tr><td>${esc(nameOf(v))}</td><td class="num">${fmt(v.last, +v.decimals)}</td><td class="num">${chg(v.d1, v.unit)}</td><td class="num">${chg(v.w1, v.unit)}</td><td class="num">${chg(v.ytd, v.unit)}</td><td class="num muted small">${fmtDate(v.last_date)}</td></tr>`);
   return `<table><thead><tr><th></th><th class="num">${t("last")}</th><th class="num">${t("d1")}</th><th class="num">${t("w1")}</th><th class="num">${t("ytd")}</th><th class="num">${t("date")}</th></tr></thead><tbody>${rows.join("")}</tbody></table>`;
 }
 function drawLetters() {
@@ -531,7 +538,7 @@ const XL = (() => {
     sheets.forEach((x, i) => files.push([`xl/worksheets/sheet${i + 1}.xml`, sheetXml(x, i === 0)]));
     return zip(files);
   }
-  return {workbook};
+  return {workbook, zip};
 })();
 
 /* ---------- Deals ---------- */
@@ -589,6 +596,145 @@ $("#xlBtn").onclick = () => {
     {name: "Policy rates", cols: [26, 12, 14, 10, 14, 40, 50], freeze: 1, rows: [xhd(["Bank", "Rate", "Last decision", "Move", "Next meeting", "Remaining 2026", "Source"]), ...pr.map(r => [xc(r.bank), xc(r.rate), xc(r.last_decision), xc(r.last_move), xc(r.next_meeting), xc(r.remaining_2026), xc(r.source_url)])]},
     {name: "Events", cols: [12, 8, 8, 12, 50, 10, 50, 50], freeze: 1, rows: [xhd(["Date", "Time", "Region", "Category", "Event", "Importance", "Note", "Source"]), ...ev.map(e => [xc(e.date), xc(e.time_oslo), xc(e.region), xc(e.category), xc(e.event), xc(e.importance), xc(e.note_en), xc(e.source_url)])]}], "market_summary");
 };
+
+/* ---------- PDF and Word export of the selected day's letters ----------
+   One document: title and date, the snapshot table, then the markets, macro, politics and Norges Bank letters of the
+   selected date in the current language. The letters' Markdown is rendered with md() and the resulting elements are
+   walked into a small block model, which feeds pdfmake (loaded on first use) and a hand-written .docx. */
+const DOC_KINDS = ["markets", "macro", "politics", "norgesbank"];
+function runsOf(node) {
+  const out = [];
+  const walk = (n, st) => {
+    if (n.nodeType === 3) { if (n.textContent) out.push({text: n.textContent, ...st}); return; }
+    if (n.nodeType !== 1) return;
+    const tag = n.tagName.toLowerCase();
+    const st2 = {...st};
+    if (tag === "b" || tag === "strong") st2.bold = true;
+    if (tag === "i" || tag === "em") st2.italic = true;
+    if (tag === "a") st2.link = n.getAttribute("href");
+    if (tag === "br") { out.push({text: "\n", ...st}); return; }
+    n.childNodes.forEach(c => walk(c, st2));
+  };
+  node.childNodes.forEach(c => walk(c, {}));
+  return out;
+}
+function docModel() {
+  const date = LDATE; const blocks = [];
+  blocks.push({type: "title", text: `${t("title")}`}, {type: "meta", text: `${fmtDateLong(date)} · market-summary.jskjeltorp.workers.dev · ${LANG === "no" ? "skrevet av en planlagt agent ut fra offentlige markedsdata og dagens nyheter" : "written by a scheduled agent from public market data and the day's news"}`});
+  const sn = snapRows(); blocks.push({type: "h2", runs: [{text: t("snap_title")}]}, {type: "table", head: sn.head, num: sn.num, rows: sn.rows});
+  let first = true;
+  for (const kind of DOC_KINDS) {
+    const entry = (LETTERS[date] || {})[kind]; const text = entry && (entry[LANG] || entry.en || entry.no); if (!text) continue;
+    const div = document.createElement("div"); div.innerHTML = md(text);
+    let firstBlock = true;
+    for (const el of div.children) {
+      const tag = el.tagName.toLowerCase(); let b = null;
+      if (tag === "h1") b = {type: "h1", runs: runsOf(el)};
+      else if (tag === "h2") b = {type: "h2", runs: runsOf(el)};
+      else if (tag === "h3") b = {type: "h3", runs: runsOf(el)};
+      else if (tag === "p") b = {type: "p", runs: runsOf(el)};
+      else if (tag === "ul" || tag === "ol") b = {type: tag, items: [...el.children].map(li => runsOf(li))};
+      else if (tag === "blockquote") b = {type: "quote", runs: runsOf(el)};
+      else if (tag === "hr") b = {type: "hr"};
+      else if (tag === "table") { const trs = [...el.querySelectorAll("tr")]; const cells = tr => [...tr.children].map(c => c.textContent.trim()); const num = [...trs[0].children].map(c => c.classList.contains("num")); b = {type: "table", head: cells(trs[0]), num, rows: trs.slice(1).map(cells)}; }
+      if (!b) continue;
+      if (firstBlock) b.pageBreak = true;
+      firstBlock = false; blocks.push(b);
+    }
+    first = false;
+  }
+  return {date, blocks, name: `${LANG === "no" ? "markedsoppsummering" : "market_summary"}_${date}_${LANG}`};
+}
+function loadScript(src) { return new Promise((res, rej) => { if (document.querySelector(`script[src="${src}"]`)) return res(); const s = document.createElement("script"); s.src = src; s.onload = res; s.onerror = () => rej(new Error("could not load " + src)); document.head.appendChild(s); }); }
+async function exportPdf() {
+  const m = docModel();
+  if (!window.pdfMake) { await loadScript("https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.12/pdfmake.min.js"); await loadScript("https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.12/vfs_fonts.min.js"); }
+  pdfMake.createPdf(pdfDefinition(m)).download(m.name + ".pdf");
+}
+function pdfDefinition(m) {
+  const ACC = "#0026FF", INK = "#001538";
+  const runs = rs => rs.map(r => ({text: r.text, bold: !!r.bold, italics: !!r.italic, ...(r.link ? {link: r.link, color: ACC, decoration: "underline"} : {})}));
+  const content = [];
+  for (const b of m.blocks) {
+    let node;
+    if (b.type === "title") node = {text: b.text, style: "title"};
+    else if (b.type === "meta") node = {text: b.text, style: "meta", margin: [0, 2, 0, 14]};
+    else if (b.type === "h1") node = {text: runs(b.runs), style: "h1"};
+    else if (b.type === "h2") node = {text: runs(b.runs), style: "h2"};
+    else if (b.type === "h3") node = {text: runs(b.runs), style: "h3"};
+    else if (b.type === "p") node = {text: runs(b.runs), style: "p"};
+    else if (b.type === "quote") node = {text: runs(b.runs), style: "quote"};
+    else if (b.type === "hr") node = {canvas: [{type: "line", x1: 0, y1: 0, x2: 483, y2: 0, lineWidth: 0.5, lineColor: "#C9CDD4"}], margin: [0, 6, 0, 10]};
+    else if (b.type === "ul") node = {ul: b.items.map(it => ({text: runs(it), style: "p", margin: [0, 0, 0, 3]})), margin: [0, 0, 0, 6]};
+    else if (b.type === "ol") node = {ol: b.items.map(it => ({text: runs(it), style: "p", margin: [0, 0, 0, 3]})), margin: [0, 0, 0, 6]};
+    else if (b.type === "table") {
+      const widths = b.head.map((_, j) => j === 0 ? "*" : "auto");
+      const body = [b.head.map((h, j) => ({text: h, style: "th", alignment: b.num[j] ? "right" : "left"})), ...b.rows.map(r => r.map((c, j) => ({text: c, style: "td", alignment: b.num[j] ? "right" : "left"})))];
+      node = {table: {headerRows: 1, widths, body}, layout: {hLineWidth: (i, n) => i === 0 || i === 1 || i === n.table.body.length ? 0.6 : 0.25, vLineWidth: () => 0, hLineColor: () => "#C9CDD4", paddingTop: () => 3, paddingBottom: () => 3, paddingLeft: () => 4, paddingRight: () => 4}, margin: [0, 2, 0, 10]};
+    }
+    if (!node) continue;
+    if (b.pageBreak) node.pageBreak = "before";
+    content.push(node);
+  }
+  const dd = {pageSize: "A4", pageMargins: [56, 64, 56, 64], info: {title: `${t("title")} ${m.date}`, author: "Market summary"},
+    header: () => ({text: `${t("title")} · ${fmtDateLong(m.date)}`, style: "meta", alignment: "right", margin: [56, 28, 56, 0]}),
+    footer: (cur, total) => ({columns: [{text: "market-summary.jskjeltorp.workers.dev", style: "meta"}, {text: `${cur} / ${total}`, style: "meta", alignment: "right"}], margin: [56, 24, 56, 0]}),
+    content, defaultStyle: {fontSize: 10, lineHeight: 1.3, color: INK},
+    styles: {title: {fontSize: 22, bold: true, color: ACC}, meta: {fontSize: 8.5, color: "#5A6478"}, h1: {fontSize: 16, bold: true, color: ACC, margin: [0, 0, 0, 8]}, h2: {fontSize: 12.5, bold: true, color: INK, margin: [0, 12, 0, 4]}, h3: {fontSize: 11, bold: true, margin: [0, 8, 0, 3]},
+      p: {margin: [0, 0, 0, 7]}, quote: {italics: true, color: "#5A6478", margin: [12, 0, 0, 7]}, th: {bold: true, fontSize: 8.5, fillColor: "#EEF0F4", color: "#35445F"}, td: {fontSize: 8.5}}};
+  return dd;
+}
+function exportDocx() {
+  const m = docModel();
+  const xe = v => String(v).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  const rels = []; let nums = 2; const numDefs = [];
+  const run = r => { const rp = `${r.bold ? "<w:b/>" : ""}${r.italic ? "<w:i/>" : ""}${r.link ? '<w:rStyle w:val="Hyperlink"/>' : ""}`; const parts = String(r.text).split("\n"); const rx = parts.map((p, i) => `${i ? "<w:br/>" : ""}<w:t xml:space="preserve">${xe(p)}</w:t>`).join(""); const rr = `<w:r>${rp ? `<w:rPr>${rp}</w:rPr>` : ""}${rx}</w:r>`; if (r.link) { const id = `rIdH${rels.length + 1}`; rels.push([id, r.link]); return `<w:hyperlink r:id="${id}">${rr}</w:hyperlink>`; } return rr; };
+  const para = (runs, style, extra = "") => `<w:p><w:pPr>${style ? `<w:pStyle w:val="${style}"/>` : ""}${extra}</w:pPr>${runs.map(run).join("")}</w:p>`;
+  const body = [];
+  for (const b of m.blocks) {
+    if (b.pageBreak) body.push('<w:p><w:r><w:br w:type="page"/></w:r></w:p>');
+    if (b.type === "title") body.push(para([{text: b.text}], "Title"));
+    else if (b.type === "meta") body.push(para([{text: b.text}], "Meta"));
+    else if (b.type === "h1") body.push(para(b.runs, "Heading1"));
+    else if (b.type === "h2") body.push(para(b.runs, "Heading2"));
+    else if (b.type === "h3") body.push(para(b.runs, "Heading3"));
+    else if (b.type === "p") body.push(para(b.runs, null));
+    else if (b.type === "quote") body.push(para(b.runs, "Quote"));
+    else if (b.type === "hr") body.push('<w:p><w:pPr><w:pBdr><w:bottom w:val="single" w:sz="4" w:space="1" w:color="C9CDD4"/></w:pBdr></w:pPr></w:p>');
+    else if (b.type === "ul") b.items.forEach(it => body.push(para(it, "ListParagraph", '<w:numPr><w:ilvl w:val="0"/><w:numId w:val="1"/></w:numPr>')));
+    else if (b.type === "ol") { const id = ++nums; numDefs.push(id); b.items.forEach(it => body.push(para(it, "ListParagraph", `<w:numPr><w:ilvl w:val="0"/><w:numId w:val="${id}"/></w:numPr>`))); }
+    else if (b.type === "table") {
+      const cell = (txt, j, head) => `<w:tc><w:tcPr>${head ? '<w:shd w:val="clear" w:color="auto" w:fill="EEF0F4"/>' : ""}</w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/>${b.num[j] ? '<w:jc w:val="right"/>' : ""}</w:pPr><w:r><w:rPr>${head ? "<w:b/>" : ""}<w:sz w:val="18"/></w:rPr><w:t xml:space="preserve">${xe(txt)}</w:t></w:r></w:p></w:tc>`;
+      body.push(`<w:tbl><w:tblPr><w:tblStyle w:val="TableGrid"/><w:tblW w:w="5000" w:type="pct"/><w:tblLook w:val="04A0" w:firstRow="1"/></w:tblPr><w:tblGrid>${b.head.map(() => "<w:gridCol/>").join("")}</w:tblGrid><w:tr><w:trPr><w:tblHeader/></w:trPr>${b.head.map((h, j) => cell(h, j, true)).join("")}</w:tr>${b.rows.map(r => `<w:tr>${r.map((c, j) => cell(c, j, false)).join("")}</w:tr>`).join("")}</w:tbl><w:p/>`);
+    }
+  }
+  const W = 'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"';
+  const hdr = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
+  const docXml = `${hdr}<w:document ${W}><w:body>${body.join("")}<w:sectPr><w:footerReference w:type="default" r:id="rIdFooter"/><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1300" w:right="1300" w:bottom="1200" w:left="1300" w:header="600" w:footer="600" w:gutter="0"/></w:sectPr></w:body></w:document>`;
+  const footer = `${hdr}<w:ftr ${W}><w:p><w:pPr><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:color w:val="5A6478"/><w:sz w:val="16"/></w:rPr><w:t xml:space="preserve">${xe(t("title"))} · ${xe(fmtDateLong(m.date))} · </w:t></w:r><w:r><w:rPr><w:color w:val="5A6478"/><w:sz w:val="16"/></w:rPr><w:fldChar w:fldCharType="begin"/></w:r><w:r><w:rPr><w:color w:val="5A6478"/><w:sz w:val="16"/></w:rPr><w:instrText xml:space="preserve"> PAGE </w:instrText></w:r><w:r><w:fldChar w:fldCharType="separate"/></w:r><w:r><w:rPr><w:color w:val="5A6478"/><w:sz w:val="16"/></w:rPr><w:t>1</w:t></w:r><w:r><w:fldChar w:fldCharType="end"/></w:r></w:p></w:ftr>`;
+  const styles = `${hdr}<w:styles ${W}><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:eastAsia="Calibri" w:cs="Calibri"/><w:sz w:val="22"/><w:szCs w:val="22"/><w:lang w:val="${LANG === "no" ? "nb-NO" : "en-GB"}"/><w:color w:val="001538"/></w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:after="140" w:line="276" w:lineRule="auto"/></w:pPr></w:pPrDefault></w:docDefaults>
+<w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/><w:qFormat/></w:style>
+<w:style w:type="paragraph" w:styleId="Title"><w:name w:val="Title"/><w:basedOn w:val="Normal"/><w:qFormat/><w:pPr><w:spacing w:after="60"/></w:pPr><w:rPr><w:b/><w:color w:val="0026FF"/><w:sz w:val="48"/></w:rPr></w:style>
+<w:style w:type="paragraph" w:styleId="Meta"><w:name w:val="Meta"/><w:basedOn w:val="Normal"/><w:pPr><w:spacing w:after="320"/></w:pPr><w:rPr><w:color w:val="5A6478"/><w:sz w:val="18"/></w:rPr></w:style>
+<w:style w:type="paragraph" w:styleId="Heading1"><w:name w:val="heading 1"/><w:basedOn w:val="Normal"/><w:qFormat/><w:pPr><w:keepNext/><w:spacing w:before="120" w:after="160"/><w:outlineLvl w:val="0"/></w:pPr><w:rPr><w:b/><w:color w:val="0026FF"/><w:sz w:val="34"/></w:rPr></w:style>
+<w:style w:type="paragraph" w:styleId="Heading2"><w:name w:val="heading 2"/><w:basedOn w:val="Normal"/><w:qFormat/><w:pPr><w:keepNext/><w:spacing w:before="280" w:after="100"/><w:outlineLvl w:val="1"/></w:pPr><w:rPr><w:b/><w:color w:val="001538"/><w:sz w:val="26"/></w:rPr></w:style>
+<w:style w:type="paragraph" w:styleId="Heading3"><w:name w:val="heading 3"/><w:basedOn w:val="Normal"/><w:qFormat/><w:pPr><w:keepNext/><w:spacing w:before="200" w:after="60"/><w:outlineLvl w:val="2"/></w:pPr><w:rPr><w:b/><w:sz w:val="23"/></w:rPr></w:style>
+<w:style w:type="paragraph" w:styleId="ListParagraph"><w:name w:val="List Paragraph"/><w:basedOn w:val="Normal"/><w:pPr><w:spacing w:after="80"/><w:ind w:left="720"/><w:contextualSpacing/></w:pPr></w:style>
+<w:style w:type="paragraph" w:styleId="Quote"><w:name w:val="Quote"/><w:basedOn w:val="Normal"/><w:pPr><w:ind w:left="567"/><w:pBdr><w:left w:val="single" w:sz="12" w:space="8" w:color="0026FF"/></w:pBdr></w:pPr><w:rPr><w:i/><w:color w:val="5A6478"/></w:rPr></w:style>
+<w:style w:type="character" w:styleId="Hyperlink"><w:name w:val="Hyperlink"/><w:rPr><w:color w:val="0026FF"/><w:u w:val="single"/></w:rPr></w:style>
+<w:style w:type="table" w:styleId="TableGrid"><w:name w:val="Table Grid"/><w:tblPr><w:tblBorders><w:top w:val="single" w:sz="6" w:color="9AA3B2"/><w:bottom w:val="single" w:sz="6" w:color="9AA3B2"/><w:insideH w:val="single" w:sz="4" w:color="D9DDE3"/></w:tblBorders><w:tblCellMar><w:left w:w="80" w:type="dxa"/><w:right w:w="80" w:type="dxa"/></w:tblCellMar></w:tblPr></w:style></w:styles>`;
+  const numbering = `${hdr}<w:numbering ${W}><w:abstractNum w:abstractNumId="0"><w:multiLevelType w:val="hybridMultilevel"/><w:lvl w:ilvl="0"><w:start w:val="1"/><w:numFmt w:val="bullet"/><w:lvlText w:val="•"/><w:lvlJc w:val="left"/><w:pPr><w:ind w:left="720" w:hanging="360"/></w:pPr></w:lvl></w:abstractNum><w:abstractNum w:abstractNumId="1"><w:multiLevelType w:val="hybridMultilevel"/><w:lvl w:ilvl="0"><w:start w:val="1"/><w:numFmt w:val="decimal"/><w:lvlText w:val="%1."/><w:lvlJc w:val="left"/><w:pPr><w:ind w:left="720" w:hanging="360"/></w:pPr></w:lvl></w:abstractNum><w:num w:numId="1"><w:abstractNumId w:val="0"/></w:num>${numDefs.map(id => `<w:num w:numId="${id}"><w:abstractNumId w:val="1"/><w:lvlOverride w:ilvl="0"><w:startOverride w:val="1"/></w:lvlOverride></w:num>`).join("")}</w:numbering>`;
+  const R = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
+  const docRels = `${hdr}<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rIdStyles" Type="${R}/styles" Target="styles.xml"/><Relationship Id="rIdNum" Type="${R}/numbering" Target="numbering.xml"/><Relationship Id="rIdFooter" Type="${R}/footer" Target="footer1.xml"/>${rels.map(([id, url]) => `<Relationship Id="${id}" Type="${R}/hyperlink" Target="${xe(url)}" TargetMode="External"/>`).join("")}</Relationships>`;
+  const ct = "application/vnd.openxmlformats-officedocument.wordprocessingml.";
+  const files = [["[Content_Types].xml", `${hdr}<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="${ct}document.main+xml"/><Override PartName="/word/styles.xml" ContentType="${ct}styles+xml"/><Override PartName="/word/numbering.xml" ContentType="${ct}numbering+xml"/><Override PartName="/word/footer1.xml" ContentType="${ct}footer+xml"/></Types>`],
+    ["_rels/.rels", `${hdr}<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="${R}/officeDocument" Target="word/document.xml"/></Relationships>`],
+    ["word/document.xml", docXml], ["word/_rels/document.xml.rels", docRels], ["word/styles.xml", styles], ["word/numbering.xml", numbering], ["word/footer1.xml", footer]];
+  const blob = new Blob([XL.zip(files)], {type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"});
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = m.name + ".docx"; a.click();
+}
+$("#pdfBtn").onclick = () => exportPdf().catch(e => alert(e.message));
+$("#docxBtn").onclick = exportDocx;
 
 /* ---------- boot ---------- */
 const DRAW = {letters: drawLetters, events: drawEvents, equities: drawEquities, rates: drawRates, commodities: drawCommodities, fx: drawFx, central: drawCentral, norgesbank: drawNorgesBank, update: drawUpdate};
