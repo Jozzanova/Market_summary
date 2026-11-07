@@ -1,6 +1,40 @@
 {
- "updated": "2026-11-06T16:17:25Z",
+ "updated": "2026-11-07T05:06:27Z",
  "events": [
+  {
+   "id": "USDNOK=X:2026-11-07",
+   "time": "2026-11-07T00:07:00Z",
+   "severity": "high",
+   "kind": "fx",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/USDNOK%3DX",
+   "text_en": "USD/NOK rose 1.7 per cent to 9.4537 on 7 November 2026. A rise is a weaker krone.",
+   "text_no": "USD/NOK steg 1,7 prosent til 9,4537 2026-11-07. Oppgang betyr svakere krone.",
+   "value": {
+    "symbol": "USDNOK=X",
+    "last": 9.4537,
+    "d1": 1.653,
+    "unit": "%"
+   }
+  },
+  {
+   "id": "^SOX:2026-11-06",
+   "time": "2026-11-06T22:15:00Z",
+   "severity": "medium",
+   "kind": "equity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/%5ESOX",
+   "text_en": "The SOX semiconductor index rose 4.2 per cent to 9,390 on 6 November 2026.",
+   "text_no": "Halvlederindeksen SOX steg 4,2 prosent til 9 390 2026-11-06.",
+   "value": {
+    "symbol": "^SOX",
+    "last": 9390.25,
+    "d1": 4.207,
+    "unit": "%"
+   }
+  },
   {
    "id": "USDNOK=X:2026-11-06",
    "time": "2026-11-06T11:13:00Z",
