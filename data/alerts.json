@@ -1,6 +1,57 @@
 {
- "updated": "2026-11-09T11:07:09Z",
+ "updated": "2026-11-09T16:06:25Z",
  "events": [
+  {
+   "id": "^GSPC:2026-11-09",
+   "time": "2026-11-09T16:05:00Z",
+   "severity": "medium",
+   "kind": "equity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/%5EGSPC",
+   "text_en": "The S&P 500 rose 2.1 per cent to 7,531 on 9 November 2026.",
+   "text_no": "S&P 500 steg 2,1 prosent til 7 531 2026-11-09.",
+   "value": {
+    "symbol": "^GSPC",
+    "last": 7530.779785,
+    "d1": 2.087,
+    "unit": "%"
+   }
+  },
+  {
+   "id": "^IXIC:2026-11-09",
+   "time": "2026-11-09T16:05:00Z",
+   "severity": "medium",
+   "kind": "equity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/%5EIXIC",
+   "text_en": "The Nasdaq Composite rose 2.6 per cent to 25,208 on 9 November 2026.",
+   "text_no": "Nasdaq Composite steg 2,6 prosent til 25 208 2026-11-09.",
+   "value": {
+    "symbol": "^IXIC",
+    "last": 25207.878906,
+    "d1": 2.557,
+    "unit": "%"
+   }
+  },
+  {
+   "id": "^SOX:2026-11-09",
+   "time": "2026-11-09T16:05:00Z",
+   "severity": "medium",
+   "kind": "equity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/%5ESOX",
+   "text_en": "The SOX semiconductor index rose 6.6 per cent to 10,014 on 9 November 2026.",
+   "text_no": "Halvlederindeksen SOX steg 6,6 prosent til 10 014 2026-11-09.",
+   "value": {
+    "symbol": "^SOX",
+    "last": 10014.462891,
+    "d1": 6.647,
+    "unit": "%"
+   }
+  },
   {
    "id": "USDNOK=X:2026-11-09",
    "time": "2026-11-09T05:05:00Z",
