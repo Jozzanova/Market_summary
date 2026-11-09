@@ -1,6 +1,40 @@
 {
- "updated": "2026-11-08T05:06:20Z",
+ "updated": "2026-11-09T05:06:37Z",
  "events": [
+  {
+   "id": "USDNOK=X:2026-11-09",
+   "time": "2026-11-09T05:05:00Z",
+   "severity": "high",
+   "kind": "fx",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/USDNOK%3DX",
+   "text_en": "USD/NOK rose 1.5 per cent to 9.4405 on 9 November 2026. A rise is a weaker krone.",
+   "text_no": "USD/NOK steg 1,5 prosent til 9,4405 2026-11-09. Oppgang betyr svakere krone.",
+   "value": {
+    "symbol": "USDNOK=X",
+    "last": 9.44045,
+    "d1": 1.51,
+    "unit": "%"
+   }
+  },
+  {
+   "id": "^N225:2026-11-09",
+   "time": "2026-11-09T04:50:00Z",
+   "severity": "medium",
+   "kind": "equity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/%5EN225",
+   "text_en": "The Nikkei 225 rose 3.2 per cent to 59,276 on 9 November 2026.",
+   "text_no": "Nikkei 225 steg 3,2 prosent til 59 276 2026-11-09.",
+   "value": {
+    "symbol": "^N225",
+    "last": 59276.5,
+    "d1": 3.207,
+    "unit": "%"
+   }
+  },
   {
    "id": "USDNOK=X:2026-11-07",
    "time": "2026-11-07T00:07:00Z",
