@@ -288,7 +288,8 @@ def fetch_bis():
     """Daily policy rates from the BIS (dataset WS_CBPOL) for the nine banks of the table, one year back, forward-filled
     over weekends and holidays. The BIS series run about a week behind, so each is extended to today with the rate in
     data/policy_rates.csv: when the table has a newer decision the step is put at its last_decision date. For the Fed
-    the BIS gives the midpoint of the target range, and the table's range is reduced to its midpoint the same way."""
+    the BIS gives the midpoint of the 25 bp target range; 12.5 bp is added so the series is the upper bound of the range,
+    the figure usually quoted as the policy rate, and the table's range is read as its upper bound the same way."""
     import re
     start = (datetime.now(timezone.utc) - timedelta(days=380)).strftime("%Y-%m-%d")
     raw = cached("bis_cbpol.csv", 20, lambda: get(f"https://stats.bis.org/api/v2/data/dataflow/BIS/WS_CBPOL/1.0/D.{'+'.join(BIS_AREAS)}?startPeriod={start}&format=csv"))
@@ -299,7 +300,7 @@ def fetch_bis():
         except ValueError:
             continue
         if v == v and r.get("REF_AREA") in BIS_AREAS:
-            obs.setdefault(r["REF_AREA"], {})[r["TIME_PERIOD"]] = v
+            obs.setdefault(r["REF_AREA"], {})[r["TIME_PERIOD"]] = v + 0.125 if r["REF_AREA"] == "US" else v
     table = {}
     for row in read_csv("policy_rates.csv"):
         nums = [float(x.replace(",", ".")) for x in re.findall(r"-?\d+(?:[.,]\d+)?", row.get("rate") or "")]
@@ -307,7 +308,7 @@ def fetch_bis():
             continue
         for area, rx in BIS_TABLE.items():
             if re.search(rx, row.get("bank") or "", re.I):
-                table[area] = (sum(nums) / len(nums), (row.get("last_decision") or "")[:10])
+                table[area] = (max(nums), (row.get("last_decision") or "")[:10])
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     out = {}
     for area, (name_en, name_no, short) in BIS_AREAS.items():
