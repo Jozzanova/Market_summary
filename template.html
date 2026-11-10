@@ -1146,7 +1146,7 @@ async function exportPdf() {
     const m = docModel();
     if (!window.pdfMake) { await loadScript("https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.12/pdfmake.min.js"); await loadScript("https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.12/vfs_fonts.min.js"); }
     await renderPdfFigs(m, btn);
-    pdfMake.createPdf(pdfDefinition(m)).download(m.name + ".pdf");
+    pdfMake.createPdf(await pdfDefinition(m)).download(m.name + ".pdf");
   } finally { btn.disabled = false; btn.textContent = label0; }
 }
 /* small topical charts for the letter PDF: four per letter, two across, in Norges Bank's palette (midnight, accent
@@ -1181,13 +1181,14 @@ const PDF_PAL = ["#001538", "#0026FF", "#2FB0C8", "#B8905A", "#7A8699", "#8FD3E2
 const PDF_SHORT = {cb_US: ["Fed", "Fed"], cb_XM: ["ECB", "ESB"], cb_GB: ["BoE", "BoE"], cb_NO: ["Norges Bank", "Norges Bank"], DGS10: ["US 10y", "USA 10 år"], DGS2: ["US 2y", "USA 2 år"], EA_SR_10Y: ["Euro AAA 10y", "Euro AAA 10 år"],
   nok_policy: ["Policy rate", "Styringsrente"], nok_3m: ["Norway 3m", "Norge 3 md."], nok_3y: ["Norway 3y", "Norge 3 år"], nok_10y: ["Norway 10y", "Norge 10 år"], nok_i44: ["I-44", "I-44"], cpi_12m: ["CPI", "KPI"], cpiate_12m: ["CPI-ATE", "KPI-JAE"],
   T10YIE: ["Breakeven", "Breakeven"], DFII10: ["Real yield", "Realrente"], "TTF=F": ["TTF", "TTF"], "DX-Y.NYB": ["DXY", "DXY"], BAMLH0A0HYM2: ["HY spread", "HY-påslag"], "^SOX": ["SOX", "SOX"], "^N225": ["Nikkei", "Nikkei"], "^KS11": ["KOSPI", "KOSPI"], "^HSI": ["Hang Seng", "Hang Seng"],
-  diff_nok_eur_policy: ["Policy rate", "Styringsrente"], diff_nok_eur_short: ["Short end (3y − 2y)", "Kort ende (3 år − 2 år)"], diff_nok_eur_10y: ["10-year", "10 år"],
+  diff_nok_eur_policy: ["Policy rate", "Styringsrente"], diff_nok_eur_short: ["Short end (3y−2y)", "Kort ende (3−2 år)"], diff_nok_eur_10y: ["10-year", "10 år"],
   "mc:USA.cpi": ["US", "USA"], "mc:EA.cpi": ["Euro area", "Eurosonen"], "mc:GBR.cpi": ["UK", "Storbritannia"], "mc:NOR.cpi": ["Norway", "Norge"]};
 const pdfName = (sym, v) => (PDF_SHORT[sym] || SHORT[sym] || [nameOf(v), nameOf(v)])[LANG === "no" ? 1 : 0];
 const pdfSource = syms => { const src = new Set(); syms.forEach(s => { if (Y[s]) src.add("Yahoo Finance"); else if (FR[s]) src.add("FRED"); else if (EC[s]) src.add("ECB"); else if (NB[s]) src.add("Norges Bank"); else if (SSB[s]) src.add("SSB"); else if (s.startsWith("cb_")) src.add("BIS"); else if (s.startsWith("mc:")) src.add("OECD"); else if (DIFF[s]) { src.add("Norges Bank"); src.add("ECB"); } });
   return (LANG === "no" ? "Kilde: " : "Source: ") + [...src].join(", "); };
 // one chart as a PNG data URL, w × h points, drawn off-screen in the print style: no legend, every line is named and
-// valued at its end (labels nudged apart when two lines end close together), month ticks in the letter's language
+// valued at its end (labels nudged apart when two lines end close together), month ticks in the letter's language.
+// When the names would eat the plot, the ends carry values only and the names come back as a colour-coded caption line.
 async function pdfChart(syms, range, mode, w, h, dec = 2, names) {
   const ss = syms.filter(s => bySym(s)); if (!ss.length) return null;
   const el = document.createElement("div"); el.style.cssText = `position:absolute;left:-20000px;top:0;width:${w}px;height:${h}px`; document.body.appendChild(el);
@@ -1196,10 +1197,13 @@ async function pdfChart(syms, range, mode, w, h, dec = 2, names) {
     const traces = mode === "level" || dual ? levelTraces(ss, range, dec) : indexedTraces(ss, range);
     traces.forEach((tr, i) => { tr.line = {width: 1.5, color: PDF_PAL[i % PDF_PAL.length]}; tr.name = names && names[i] ? names[i][no ? 1 : 0] : pdfName(ss[i], bySym(ss[i])); });
     if (dual) traces.slice(1).forEach(tr => { tr.yaxis = "y2"; });
-    // end labels: "name value", one per line, sorted and nudged apart in pixel space
-    const fs = 6.5, ends = traces.map((tr, i) => { let k = tr.y.length - 1; while (k >= 0 && (tr.y[k] == null || !isFinite(tr.y[k]))) k--; return k < 0 ? null : {i, x: tr.x[k], y: tr.y[k], ax: tr.yaxis === "y2" ? "y2" : "y", color: tr.line.color, text: (traces.length > 1 ? tr.name + "  " : "") + fmt(tr.y[k], mode === "indexed" ? 1 : dec) + (tr.yaxis === "y2" ? " pp" : "")}; }).filter(Boolean);
-    const labW = Math.max(...ends.map(e => e.text.length)) * fs * 0.6 + 10, xs0 = dual ? 36 : 4;
-    const mar = {l: 30, r: Math.min(110, Math.max(24, labW)), t: 6, b: 18};
+    const fs = 6.5, val = tr => { let k = tr.y.length - 1; while (k >= 0 && (tr.y[k] == null || !isFinite(tr.y[k]))) k--; return k; };
+    const ends = traces.map((tr, i) => { const k = val(tr); return k < 0 ? null : {i, x: tr.x[k], y: tr.y[k], ax: tr.yaxis === "y2" ? "y2" : "y", color: tr.line.color, v: fmt(tr.y[k], mode === "indexed" ? 1 : dec) + (tr.yaxis === "y2" ? " pp" : "")}; }).filter(Boolean);
+    const width = txt => txt.length * fs * 0.55 + 10;
+    let valuesOnly = traces.length > 1 && Math.max(...ends.map(e => width(traces[e.i].name + "  " + e.v))) > 0.46 * w;
+    ends.forEach(e => { e.text = valuesOnly || traces.length === 1 ? e.v : traces[e.i].name + "  " + e.v; });
+    const labW = Math.max(...ends.map(e => width(e.text)));
+    const mar = {l: 30, r: Math.max(24, labW), t: 6, b: 18};
     const ann = [], marks = [];
     for (const ax of ["y", "y2"]) {
       const E = ends.filter(e => e.ax === ax).sort((a, b) => b.y - a.y); if (!E.length) continue;
@@ -1207,7 +1211,7 @@ async function pdfChart(syms, range, mode, w, h, dec = 2, names) {
       const lo = Math.min(...ys), hi = Math.max(...ys), pxu = (h - mar.t - mar.b) / ((hi - lo) * 1.1 || 1);
       let lastPx = Infinity;
       E.forEach(e => { let px = e.y * pxu; if (lastPx - px < fs + 2.5) px = lastPx - (fs + 2.5); lastPx = px;
-        ann.push({x: 1, xref: "paper", y: e.y, yref: ax, xanchor: "left", yanchor: "middle", xshift: xs0, yshift: px - e.y * pxu, showarrow: false, text: e.text, font: {size: fs, color: e.color}});
+        ann.push({x: 1, xref: "paper", y: e.y, yref: ax, xanchor: "left", yanchor: "middle", xshift: 4, yshift: px - e.y * pxu, showarrow: false, text: e.text, font: {size: fs, color: e.color}});
         marks.push({x: [e.x], y: [e.y], type: "scatter", mode: "markers", marker: {size: 4, color: e.color}, yaxis: ax, showlegend: false, hoverinfo: "skip", cliponaxis: false}); });
     }
     // ticks: the first of each month (every n-th month on long ranges), or Mondays on the one-month range
@@ -1217,65 +1221,123 @@ async function pdfChart(syms, range, mode, w, h, dec = 2, names) {
     else { const months = []; for (let d = new Date(x0.slice(0, 7) + "-01T00:00:00Z"); d.toISOString().slice(0, 10) <= x1; d.setUTCMonth(d.getUTCMonth() + 1)) if (d.toISOString().slice(0, 10) >= x0) months.push(new Date(d));
       const step = Math.max(1, Math.ceil(months.length / 5)); months.forEach((d, i) => { if (i % step) return; tickvals.push(d.toISOString().slice(0, 10)); ticktext.push(range === "3m" ? MON[d.getUTCMonth()] : `${MON[d.getUTCMonth()]} ${String(d.getUTCFullYear()).slice(2)}`); }); }
     const grid = "#E6E6E6", muted = "#5A6478";
-    const lay = {width: w, height: h, margin: mar, paper_bgcolor: "#FFFFFF", plot_bgcolor: "#FFFFFF", showlegend: false, annotations: ann,
+    const lay = {width: w, height: h, margin: mar, paper_bgcolor: "#FFFFFF", plot_bgcolor: "#FFFFFF", showlegend: false, annotations: ann, separators: no ? ", " : ".,",
       font: {family: "Helvetica, Arial, sans-serif", size: 7.5, color: "#001538"},
-      xaxis: {gridcolor: grid, linecolor: "#D7D7D7", zeroline: false, tickfont: {size: 7, color: muted}, tickvals, ticktext, range: [x0, x1]},
+      xaxis: {gridcolor: grid, linecolor: "#D7D7D7", zeroline: false, tickfont: {size: 7, color: muted}, tickvals, ticktext, range: [x0, x1], tickangle: 0},
       yaxis: {gridcolor: grid, zeroline: false, tickfont: {size: 7, color: muted}, nticks: 5},
-      ...(dual ? {yaxis2: {overlaying: "y", side: "right", ticksuffix: " pp", gridcolor: "rgba(0,0,0,0)", zeroline: false, tickfont: {size: 7, color: muted}, nticks: 5}} : {})};
-    if (dual) { lay.margin.r = Math.max(lay.margin.r, xs0 + labW); }
-    lay.separators = no ? ", " : ".,";
+      ...(dual ? {yaxis2: {overlaying: "y", side: "right", showticklabels: false, gridcolor: "rgba(0,0,0,0)", zeroline: false}} : {})};
     await Plotly.newPlot(el, [...traces, ...marks], lay, {displayModeBar: false, staticPlot: true});
-    return await Plotly.toImage(el, {format: "png", width: w, height: h, scale: 3});
+    const image = await Plotly.toImage(el, {format: "png", width: w, height: h, scale: 3});
+    return {image, legend: valuesOnly ? traces.map(tr => ({text: tr.name + (tr.yaxis === "y2" ? (no ? " (h.a., pp)" : " (rhs, pp)") : ""), color: tr.line.color})) : null};
   } catch (e) { console.warn("pdf chart", syms, e); return null; }
   finally { try { Plotly.purge(el); } catch (e) {} el.remove(); }
 }
 async function renderPdfFigs(m, btn) {
   let n = 0;
   for (const b of m.blocks) {
-    if (b.type === "fig") { btn.textContent = `… ${++n}`; b.image = await pdfChart(b.syms, b.range, b.mode, 483, 170); }
-    else if (b.type === "figs") for (const f of b.figs) { btn.textContent = `… ${++n}`; f.image = await pdfChart(f.syms, f.range, f.mode, 236, 128, f.dec, f.names); }
+    if (b.type === "fig") { btn.textContent = `… ${++n}`; Object.assign(b, await pdfChart(b.syms, b.range, b.mode, 236, 126) || {}); }
+    else if (b.type === "figs") for (const f of b.figs) { btn.textContent = `… ${++n}`; Object.assign(f, await pdfChart(f.syms, f.range, f.mode, 236, 112, f.dec, f.names) || {}); }
   }
 }
-function pdfDefinition(m) {
+/* the letter PDF: a title page with the snapshot table, then every letter as a heading and a full-width lead paragraph
+   above two columns of text with the small charts set into the columns. pdfmake does not flow text from one column to
+   the next, so every block is first measured in a dry layout pass at column width and the columns are then filled
+   block by block, page by page, headings kept with the block that follows them. */
+async function pdfDefinition(m) {
   // Norges Bank's palette: midnight for text and headings, accent blue for links and rules, sky and sand as tints
   const ACC = "#0026FF", INK = "#001538", SKY = "#F5F2EB", SAND = "#F2DABB", GRAY = "#D7D7D7", MUTED = "#5A6478", no = LANG === "no";
-  const figNode = (f, w) => f.image ? {stack: [{text: f.t ? f.t[no ? 1 : 0] : f.syms.map(s => pdfName(s, bySym(s))).join(", "), style: "figcap"}, {image: f.image, width: w}, {text: pdfSource(f.syms), style: "figsrc"}], unbreakable: true} : null;
+  const PW = 595.28, PH = 841.89, MX = 56, MY = 64, COLW = 236, GAP = 11, BODY = PH - 2 * MY, FULLW = PW - 2 * MX;
   const runs = rs => rs.map(r => ({text: r.text, bold: !!r.bold, italics: !!r.italic, ...(r.link ? {link: r.link, color: ACC, decoration: "underline"} : {})}));
-  const content = [];
+  const rule = () => ({canvas: [{type: "line", x1: 0, y1: 0, x2: 54, y2: 0, lineWidth: 2.5, lineColor: ACC}], margin: [0, 2, 0, 12]});
+  const figNode = (f, w) => f.image ? {stack: [{text: f.t ? f.t[no ? 1 : 0] : f.syms.map(s => pdfName(s, bySym(s))).join(", "), style: "figcap"},
+    ...(f.legend ? [{text: f.legend.flatMap((l, i) => [...(i ? [{text: "  ·  ", color: MUTED}] : []), {text: l.text, color: l.color, bold: true}]), style: "figsrc", margin: [0, 0, 0, 2]}] : []),
+    {image: f.image, width: w}, {text: pdfSource(f.syms), style: "figsrc"}], margin: [0, 3, 0, 6]} : null;
+  const tableNode = (b, w) => {
+    const n = b.head.length, small = w < 300;
+    const body = [b.head.map((h, j) => ({text: h, style: "th", alignment: b.num[j] ? "right" : "left"})), ...b.rows.map(r => r.section ? [{text: r.section, colSpan: n, style: "td", bold: true, color: ACC, margin: [0, 4, 0, 0]}, ...Array(n - 1).fill({})] : r.map((c, j) => ({text: c, style: "td", alignment: b.num[j] ? "right" : "left"})))];
+    return {table: {headerRows: 1, widths: b.head.map((_, j) => j === 0 ? "*" : "auto"), body, dontBreakRows: true}, fontSize: small ? 7.5 : 8.5,
+      layout: {hLineWidth: (i, t) => i === 0 || i === 1 || i === t.table.body.length ? 0.8 : 0.25, vLineWidth: () => 0, hLineColor: (i, t) => i === 0 || i === 1 || i === t.table.body.length ? INK : GRAY, paddingTop: () => 2.5, paddingBottom: () => 2.5, paddingLeft: () => small ? 2 : 4, paddingRight: () => small ? 2 : 4}, margin: [0, 2, 0, 10]};
+  };
+  // one block of the document model as pdfmake node(s) for a given width; lists become one node per item so columns
+  // can break between items
+  const nodeOf = (b, w) => {
+    if (b.type === "title") return {stack: [{text: b.text, style: "title"}, {canvas: [{type: "line", x1: 0, y1: 0, x2: 54, y2: 0, lineWidth: 2.5, lineColor: ACC}], margin: [0, 8, 0, 8]}]};
+    if (b.type === "meta") return {text: b.text, style: "meta", margin: [0, 0, 0, 22]};
+    if (b.type === "h1") return {stack: [{text: runs(b.runs), style: "h1"}, rule()]};
+    if (b.type === "h2") return {text: runs(b.runs), style: "h2"};
+    if (b.type === "h3") return {text: runs(b.runs), style: "h3"};
+    if (b.type === "p") return {text: runs(b.runs), style: "p"};
+    if (b.type === "quote") return {text: runs(b.runs), style: "quote"};
+    if (b.type === "hr") return {canvas: [{type: "line", x1: 0, y1: 0, x2: w, y2: 0, lineWidth: 0.5, lineColor: GRAY}], margin: [0, 6, 0, 10]};
+    if (b.type === "ul" || b.type === "ol") return b.items.map((it, i) => ({[b.type]: [{text: runs(it), style: "p", margin: [0, 0, 0, 0]}], ...(b.type === "ol" ? {start: i + 1} : {}), margin: [0, 0, 0, i === b.items.length - 1 ? 7 : 3]}));
+    if (b.type === "table") return tableNode(b, w);
+    if (b.type === "fig") return figNode({syms: b.syms, image: b.image, legend: b.legend}, w);
+    if (b.type === "figs") return b.figs.map(f => figNode(f, w)).filter(Boolean);
+    return null;
+  };
+  // 1. the front matter and the letters: heading, lead paragraph, body items, small charts
+  const front = [], letters = []; let cur = null;
   for (const b of m.blocks) {
-    let node;
-    if (b.type === "title") node = {stack: [{text: b.text, style: "title"}, {canvas: [{type: "line", x1: 0, y1: 0, x2: 54, y2: 0, lineWidth: 2.5, lineColor: ACC}], margin: [0, 8, 0, 8]}]};
-    else if (b.type === "meta") node = {text: b.text, style: "meta", margin: [0, 0, 0, 22]};
-    else if (b.type === "h1") node = {stack: [{text: runs(b.runs), style: "h1"}, {canvas: [{type: "line", x1: 0, y1: 0, x2: 54, y2: 0, lineWidth: 2.5, lineColor: ACC}], margin: [0, 2, 0, 12]}]};
-    else if (b.type === "figs") { const fs = b.figs.map(f => figNode(f, 236)).filter(Boolean); const rows = []; for (let i = 0; i < fs.length; i += 2) rows.push({columns: [fs[i], fs[i + 1] || {text: ""}], columnGap: 11, margin: [0, 2, 0, 8]}); if (rows.length) node = {stack: rows, margin: [0, 4, 0, 6]}; }
-    else if (b.type === "fig") node = figNode({syms: b.syms, image: b.image}, 483);
-    else if (b.type === "h2") node = {text: runs(b.runs), style: "h2", headlineLevel: 1};
-    else if (b.type === "h3") node = {text: runs(b.runs), style: "h3", headlineLevel: 1};
-    else if (b.type === "p") node = {text: runs(b.runs), style: "p"};
-    else if (b.type === "quote") node = {text: runs(b.runs), style: "quote"};
-    else if (b.type === "hr") node = {canvas: [{type: "line", x1: 0, y1: 0, x2: 483, y2: 0, lineWidth: 0.5, lineColor: "#C9CDD4"}], margin: [0, 6, 0, 10]};
-    else if (b.type === "ul") node = {ul: b.items.map(it => ({text: runs(it), style: "p", margin: [0, 0, 0, 3]})), margin: [0, 0, 0, 6]};
-    else if (b.type === "ol") node = {ol: b.items.map(it => ({text: runs(it), style: "p", margin: [0, 0, 0, 3]})), margin: [0, 0, 0, 6]};
-    else if (b.type === "table") {
-      const widths = b.head.map((_, j) => j === 0 ? "*" : "auto");
-      const n = b.head.length;
-      const body = [b.head.map((h, j) => ({text: h, style: "th", alignment: b.num[j] ? "right" : "left"})), ...b.rows.map(r => r.section ? [{text: r.section, colSpan: n, style: "td", bold: true, color: ACC, margin: [0, 4, 0, 0]}, ...Array(n - 1).fill({})] : r.map((c, j) => ({text: c, style: "td", alignment: b.num[j] ? "right" : "left"})))];
-      node = {table: {headerRows: 1, widths, body}, layout: {hLineWidth: (i, n) => i === 0 || i === 1 || i === n.table.body.length ? 0.8 : 0.25, vLineWidth: () => 0, hLineColor: (i, n) => i === 0 || i === 1 || i === n.table.body.length ? INK : GRAY, paddingTop: () => 3, paddingBottom: () => 3, paddingLeft: () => 4, paddingRight: () => 4}, margin: [0, 2, 0, 10]};
-    }
-    if (!node) continue;
-    if (b.pageBreak) node.pageBreak = "before";
-    content.push(node);
+    if (b.pageBreak) { cur = {h1: null, lead: null, body: [], figs: []}; letters.push(cur); }
+    if (!cur) { const n = nodeOf(b, FULLW); if (n) front.push(...[].concat(n)); continue; }
+    if (b.type === "h1") { cur.h1 = nodeOf(b, FULLW); continue; }
+    if (b.type === "p" && !cur.lead) { cur.lead = {text: runs(b.runs), style: "lead"}; continue; }
+    if (b.type === "figs") { cur.figs.push(...nodeOf(b, COLW).map(n => ({node: n, kind: "fig"}))); continue; }
+    const ns = nodeOf(b, COLW); if (!ns) continue; [].concat(ns).forEach((n, j, arr) => cur.body.push({node: n, kind: b.type, last: j === arr.length - 1}));
   }
-  const dd = {pageSize: "A4", pageMargins: [56, 64, 56, 64], info: {title: `${t("title")} ${m.date}`, author: "Market summary"},
-    // the first page opens on a sky-tinted band, as Norges Bank's own publications do
-    background: (page) => page === 1 ? {canvas: [{type: "rect", x: 0, y: 0, w: 595.28, h: 168, color: SKY}, {type: "rect", x: 0, y: 168, w: 595.28, h: 3, color: SAND}]} : null,
-    header: (page) => page === 1 ? null : {text: `${t("title")} · ${fmtDateLong(m.date)}`, style: "meta", alignment: "right", margin: [56, 28, 56, 0]},
-    footer: (cur, total) => ({columns: [{text: "market-summary.jskjeltorp.workers.dev", style: "meta"}, {text: `${cur} / ${total}`, style: "meta", alignment: "right"}], margin: [56, 24, 56, 0]}),
-    pageBreakBefore: (node, following) => node.headlineLevel === 1 && (following.length === 0 || (node.startPosition && node.startPosition.top > 690)),
-    content, defaultStyle: {fontSize: 9.5, lineHeight: 1.32, color: INK},
-    styles: {title: {fontSize: 26, bold: true, color: INK}, meta: {fontSize: 8.5, color: MUTED}, h1: {fontSize: 18, bold: true, color: INK}, h2: {fontSize: 11.5, bold: true, color: INK, margin: [0, 12, 0, 4]}, h3: {fontSize: 10.5, bold: true, margin: [0, 8, 0, 3]},
-      p: {margin: [0, 0, 0, 7]}, quote: {italics: true, color: MUTED, margin: [12, 0, 0, 7]}, th: {bold: true, fontSize: 8.5, fillColor: SKY, color: INK}, td: {fontSize: 8.5},
-      figcap: {fontSize: 8, bold: true, color: INK, margin: [0, 0, 0, 2]}, figsrc: {fontSize: 6.5, color: MUTED, margin: [0, 1, 0, 0]}}};
+  // the small charts go into the columns at even intervals, each after a paragraph, never straight after a heading
+  for (const L of letters) {
+    let cut = L.body.length; for (let i = L.body.length - 1; i > 1; i--) if (L.body[i].kind === "h2") { cut = i; break; }
+    const n = cut > 2 ? cut : L.body.length, k = L.figs.length, out = []; let fi = 0;
+    L.body.forEach((it, i) => { out.push(it); const ok = it.kind === "p" || it.kind === "table" || ((it.kind === "ul" || it.kind === "ol") && it.last); if (fi < k && ok && i + 1 >= Math.floor((fi + 1) * n / (k + 1))) out.push(L.figs[fi++]); if (i === n - 1) while (fi < k) out.push(L.figs[fi++]); });
+    L.body = out;
+  }
+  const styles = {title: {fontSize: 26, bold: true, color: INK}, meta: {fontSize: 8.5, color: MUTED}, h1: {fontSize: 18, bold: true, color: INK}, lead: {fontSize: 10.5, lineHeight: 1.38, margin: [0, 0, 0, 10]},
+    h2: {fontSize: 10.5, bold: true, color: INK, margin: [0, 9, 0, 3]}, h3: {fontSize: 9.5, bold: true, margin: [0, 6, 0, 2]},
+    p: {margin: [0, 0, 0, 6]}, quote: {italics: true, color: MUTED, margin: [10, 0, 0, 6]}, th: {bold: true, fillColor: SKY, color: INK}, td: {},
+    figcap: {fontSize: 7.5, bold: true, color: INK, margin: [0, 0, 0, 2]}, figsrc: {fontSize: 6.5, color: MUTED, margin: [0, 1, 0, 0]}};
+  const defaultStyle = {fontSize: 9, lineHeight: 1.3, color: INK};
+  // 2. measure: a dry layout on a very tall page records where every node starts; the height is the gap to the next
+  const clone = x => Array.isArray(x) ? x.map(clone) : x && typeof x === "object" ? Object.fromEntries(Object.entries(x).map(([k, v]) => [k, clone(v)])) : x;
+  const measure = async (nodes, margins) => {
+    if (!nodes.length) return [];
+    const H = 14400, pos = {};
+    const dd = {pageSize: {width: PW, height: H}, pageMargins: margins, defaultStyle, styles, content: [...nodes.map((n, i) => ({...clone(n), id: "m" + i})), {text: " ", id: "m" + nodes.length}],
+      pageBreakBefore: nd => { if (nd.id && /^m\d+$/.test(nd.id) && nd.startPosition) pos[nd.id] = (nd.startPosition.pageNumber - 1) * (H - margins[1] - margins[3]) + nd.startPosition.top; return false; }};
+    await new Promise(r => pdfMake.createPdf(dd).getBlob(r));
+    return nodes.map((_, i) => Math.max(0, (pos["m" + (i + 1)] ?? 0) - (pos["m" + i] ?? 0)));
+  };
+  const items = letters.flatMap(L => L.body);
+  const ih = await measure(items.map(it => it.node), [MX, MY, PW - MX - COLW, MY]); items.forEach((it, i) => { it.h = ih[i]; });
+  const heads = letters.flatMap(L => [L.h1, L.lead].filter(Boolean));
+  const hh = await measure(heads, [MX, MY, MX, MY]); let hi = 0; letters.forEach(L => { L.headH = (L.h1 ? hh[hi++] : 0) + (L.lead ? hh[hi++] : 0); });
+  const fh = await measure(front, [MX, MY, MX, MY]);
+  // 3. fill the columns page by page
+  const content = [...front], pageInfo = {}; let pageNo = Math.max(1, Math.ceil(fh.reduce((a, b) => a + b, 0) / BODY));
+  for (const L of letters) {
+    let cols = [[], []], ci = 0, used = 0, first = true, avail = BODY - L.headH - 6;
+    const flush = (last) => {
+      pageNo++; pageInfo[pageNo] = {colTop: MY + (first ? L.headH + 2 : 0)};
+      // the last page of a letter: balance the two columns instead of leaving the right one empty
+      if (last && !cols[1].length && cols[0].length > 1) { const all = cols[0], total = all.reduce((a, x) => a + x.h, 0); let acc = 0, cut = all.length; for (let j = 0; j < all.length; j++) { acc += all[j].h; if (acc >= total / 2) { cut = j + 1; break; } } if (cut > 1 && (all[cut - 1].kind === "h2" || all[cut - 1].kind === "h3")) cut--; cols = [all.slice(0, cut), all.slice(cut)]; }
+      const colsNode = {columns: [{width: COLW, stack: cols[0].map(x => x.node)}, {width: COLW, stack: cols[1].map(x => x.node)}], columnGap: GAP};
+      if (first) content.push({stack: [L.h1, L.lead].filter(Boolean), pageBreak: "before"}, colsNode); else { colsNode.pageBreak = "before"; content.push(colsNode); }
+      first = false; cols = [[], []]; ci = 0; used = 0; avail = BODY - 6;
+    };
+    for (let i = 0; i < L.body.length; i++) {
+      const it = L.body[i]; let need = it.h; if ((it.kind === "h2" || it.kind === "h3") && L.body[i + 1]) need += L.body[i + 1].h;
+      if (used > 0 && used + need > avail) { if (ci === 0) { ci = 1; used = 0; } else if (L.body.slice(i).every(x => x.kind === "fig")) break; else flush(); }
+      cols[ci].push(it); used += it.h;
+    }
+    flush(true);
+  }
+  const dd = {pageSize: "A4", pageMargins: [MX, MY, MX, MY], info: {title: `${t("title")} ${m.date}`, author: "Market summary"},
+    // the first page opens on a sky-tinted band, as Norges Bank's own publications do; letter pages get a hairline between the columns
+    background: page => page === 1 ? {canvas: [{type: "rect", x: 0, y: 0, w: PW, h: 168, color: SKY}, {type: "rect", x: 0, y: 168, w: PW, h: 3, color: SAND}]}
+      : pageInfo[page] ? {canvas: [{type: "line", x1: MX + COLW + GAP / 2, y1: pageInfo[page].colTop, x2: MX + COLW + GAP / 2, y2: PH - MY, lineWidth: 0.4, lineColor: GRAY}]} : null,
+    header: page => page === 1 ? null : {text: `${t("title")} · ${fmtDateLong(m.date)}`, style: "meta", alignment: "right", margin: [MX, 28, MX, 0]},
+    footer: (cur, total) => ({columns: [{text: "market-summary.jskjeltorp.workers.dev", style: "meta"}, {text: `${cur} / ${total}`, style: "meta", alignment: "right"}], margin: [MX, 24, MX, 0]}),
+    content, defaultStyle, styles};
   return dd;
 }
 function exportDocx() {
