@@ -29,6 +29,8 @@ body { margin: 0; background: var(--bg); color: var(--fg); font-family: system-u
 a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
 .pagehead { position: sticky; top: 0; z-index: 20; background: var(--bg); border-bottom: 1px solid var(--line); }
 .pagehead .inner { max-width: 1280px; margin: 0 auto; padding: .9rem 16px .4rem; }
+/* the letter switcher (Markets/Intraday/Macro/Politics and the date) stays put under the page head while the letter scrolls */
+.row.kinds { position: sticky; top: var(--headh, 0px); z-index: 15; background: var(--bg); padding: .5rem 0 .4rem; margin: 0 0 .4rem; }
 .titlerow { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; }
 h1 { font-size: 1.9rem; font-weight: 700; letter-spacing: -.015em; color: var(--accent); margin: 0; }
 .sub { color: var(--muted); max-width: 80ch; margin: .15rem 0 .5rem; font-size: .93rem; }
@@ -381,6 +383,8 @@ try { document.documentElement.dataset.theme = localStorage.getItem("ms_theme") 
 $("#themeBtn").onclick = () => { const next = isDark() ? "light" : "dark"; document.documentElement.dataset.theme = next; try { localStorage.setItem("ms_theme", next); } catch (e) {} drawn.clear(); showTab(currentTab(), true); };
 $$("#langSeg button").forEach(b => b.onclick = () => setLang(b.dataset.v));
 window.addEventListener("hashchange", () => showTab(currentTab()));
+// the page head is sticky and its height varies with the width (the tabs wrap), so the sub-menu's offset follows it
+{ const ph = document.querySelector(".pagehead"); const setH = () => document.documentElement.style.setProperty("--headh", ph.offsetHeight + "px"); setH(); if (window.ResizeObserver) new ResizeObserver(setH).observe(ph); }
 $$(".rangeSeg").forEach(seg => seg.querySelectorAll("button").forEach(b => b.onclick = () => { seg.querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b)); RANGE[seg.dataset.for] = b.dataset.v; if (seg.dataset.for === "aside") drawI44(); else DRAW[currentTab()](); }));
 const RANGE = {eq: "1m", sec: "d1", rt: "1m", cm: "1m", fx: "1y", aside: "1m", cb: "1y", nbt: "1m"};
 
