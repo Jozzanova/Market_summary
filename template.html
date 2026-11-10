@@ -88,7 +88,8 @@ details.nw > summary:hover { background: var(--accent-soft); }
 .nw-b { padding: 0 .2rem .7rem 10.3rem; }
 .nw-b p { margin: 0 0 .35rem; }
 #nwList { padding-left: 1rem; }
-@media (max-width: 640px) { details.nw > summary { grid-template-columns: 1fr auto; gap: .2rem .6rem; } .nw-t { grid-column: 1 / -1; } .nw-b { padding-left: .2rem; } }
+details.nw.cb > summary { grid-template-columns: 1fr auto; } details.nw.cb > .nw-b { padding-left: .2rem; }
+@media (max-width: 640px) { details.nw.cb > summary { grid-template-columns: 1fr; } details.nw > summary { grid-template-columns: 1fr auto; gap: .2rem .6rem; } .nw-t { grid-column: 1 / -1; } .nw-b { padding-left: .2rem; } }
 .letter details.snap { border: 1px solid var(--line, #ddd); border-radius: 8px; margin: 0 0 .7rem; padding: .2rem .9rem; }
 .letter details.snap > summary { cursor: pointer; font-weight: 600; font-size: 1.05rem; padding: .45rem 0; color: var(--fg); }
 .letter details.snap[open] > summary { border-bottom: 1px solid var(--line, #ddd); margin-bottom: .4rem; }
@@ -240,9 +241,9 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
     <div class="card"><h2 data-i="cb_hist">Policy rates, the last twelve months <small data-i="cb_hist_s">per cent; the Fed as the upper bound of its target range</small></h2><div class="plot" id="cbHistPlot" style="height:400px"></div><p class="note" id="cbHistNote"></p></div>
     <div class="card"><div class="row" style="justify-content:space-between"><h2 style="margin:0" data-i="cb_nb">Norway: policy rate and market rates</h2><div class="seg rangeSeg" data-for="cb"><button data-v="1m" class="on">1M</button><button data-v="3m">3M</button><button data-v="ytd">YTD</button><button data-v="1y">1Y</button></div></div><div class="plot" id="nbPlot"></div></div>
     <div class="card"><h2 data-i="cb_next">Next central bank events</h2><div id="cbEvents"></div></div>
+    <div class="card"><h2 data-i="cb_min">Latest decisions and minutes <small data-i="cb_min_s">the statement of the last decision and the last published minutes, summarised by the agent; the links go to the banks' own pages</small></h2>
+      <div id="cbMinutes" style="padding-left:1rem"></div><p class="note" id="cbMinNote"></p></div>
   </div>
-  <div class="card"><h2 data-i="cb_min">Latest decisions and minutes <small data-i="cb_min_s">the statement of the last decision and the last published minutes, summarised by the agent; the links go to the banks' own pages</small></h2>
-    <div id="cbMinutes" style="padding-left:1rem"></div><p class="note" id="cbMinNote"></p></div>
 </section>
 
 <section class="pane" id="pane-norgesbank">
@@ -705,7 +706,7 @@ function drawMinutes() {
     const its = items.filter(i => i.bank === b).sort((x, y) => (x.kind === "decision" ? 0 : 1) - (y.kind === "decision" ? 0 : 1));
     const head = its.map(i => `${t("k_" + i.kind) || esc(i.kind)} ${fmtDate(i.date)}`).join(" · ");
     const body = its.map(i => `<p><b>${t("k_" + i.kind) || esc(i.kind)}</b> <span class="muted small">${fmtDate(i.date)}</span> · <a href="${esc(i.url)}" target="_blank" rel="noopener">${esc(i.title)}</a></p><p>${esc(no ? (i.summary_no || i.summary_en) : (i.summary_en || i.summary_no))}</p>${(i.quotes || []).length ? `<p class="muted"><i>${i.quotes.map(q => "«" + esc(q) + "»").join(" ")}</i></p>` : ""}`).join("");
-    return `<details class="nw"><summary><span class="nw-t">${esc(head)}</span><span class="nw-h">${esc(b)}</span><span></span></summary><div class="nw-b">${body}</div></details>`;
+    return `<details class="nw cb"><summary><span class="nw-h">${esc(b)}</span><span class="nw-t">${esc(head)}</span></summary><div class="nw-b">${body}</div></details>`;
   }).join("");
   $("#cbMinNote").textContent = M.updated ? `${t("cb_min_upd")} ${fmtDate(M.updated)}.` : "";
 }
