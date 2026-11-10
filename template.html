@@ -231,8 +231,8 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
 
 <section class="pane" id="pane-central">
   <div class="card"><h2 data-i="cb_title">Policy rates and the next decisions</h2><div id="cbTable"></div><p class="note" data-i="cb_note">Kept by the daily agent and checked after every meeting; the source link is the bank's own page.</p></div>
-  <div class="card"><h2 data-i="cb_hist">Policy rates, the last twelve months <small data-i="cb_hist_s">per cent; the Fed as the midpoint of its target range</small></h2><div class="plot" id="cbHistPlot" style="height:420px"></div><p class="note" id="cbHistNote"></p></div>
   <div class="grid2">
+    <div class="card"><h2 data-i="cb_hist">Policy rates, the last twelve months <small data-i="cb_hist_s">per cent; the Fed as the midpoint of its target range</small></h2><div class="plot" id="cbHistPlot" style="height:400px"></div><p class="note" id="cbHistNote"></p></div>
     <div class="card"><div class="row" style="justify-content:space-between"><h2 style="margin:0" data-i="cb_nb">Norway: policy rate and market rates</h2><div class="seg rangeSeg" data-for="cb"><button data-v="1m" class="on">1M</button><button data-v="3m">3M</button><button data-v="ytd">YTD</button><button data-v="1y">1Y</button></div></div><div class="plot" id="nbPlot"></div></div>
     <div class="card"><h2 data-i="cb_next">Next central bank events</h2><div id="cbEvents"></div></div>
   </div>
@@ -668,7 +668,7 @@ function drawPolicyHistory() {
   const groups = new Map(); areas.forEach((a, i) => { const k = CB[a].last.toFixed(3); if (!groups.has(k)) groups.set(k, {y: CB[a].last, names: [], color: col[i % col.length]}); groups.get(k).names.push(CB[a].short); });
   const ann = [...groups.values()].sort((p, q) => q.y - p.y).map(g => ({x: 1, xref: "paper", y: g.y, xanchor: "left", yanchor: "middle", xshift: 6, showarrow: false, text: `${fmt(g.y, 2)} % ${g.names.join(", ")}`, font: {size: 11, color: g.names.length > 1 ? cssv("--fg") : g.color}}));
   // nudge labels apart when two rates sit within 0.12 pp of each other
-  for (let i = 1; i < ann.length; i++) { if (ann[i - 1].y - ann[i].y < 0.12) { ann[i].yshift = (ann[i - 1].yshift || 0) - 12; } }
+  for (let i = 1; i < ann.length; i++) { if (ann[i - 1].y - ann[i].y < 0.22) { ann[i].yshift = (ann[i - 1].yshift || 0) - 13; } }
   plot(node, tr, {xaxis: {range: [from, areas.map(a => CB[a].last_date).sort().pop()]}, yaxis: {ticksuffix: " %", rangemode: "tozero"}, margin: {l: 48, r: 132, t: 10, b: 64}, annotations: ann, hovermode: "x unified"});
   const bis = areas.map(a => CB[a].bis_last).sort().pop(), ext = areas.filter(a => CB[a].extended_from).map(a => CB[a].short);
   const no = LANG === "no";
