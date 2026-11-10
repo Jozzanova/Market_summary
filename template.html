@@ -781,8 +781,8 @@ function drawNokDiff() {
     .sort((x, y) => (y.policy ?? y.r3m ?? 0) - (x.policy ?? x.r3m ?? 0));
   if (!rows.length) { node.innerHTML = `<p class="empty">${t("no_events")}</p>`; return; }
   const col = COLORS(), lab = {policy: t("mc_dpol"), r3m: t("mc_d3m"), r10y: t("mc_d10y")};
-  const tr = ["policy", "r3m", "r10y"].map((k, i) => ({type: "bar", x: rows.map(r => r.c), y: rows.map(r => r[k]), name: lab[k], marker: {color: col[i], opacity: 0.9},
-    text: rows.map(r => r[k] == null ? "" : `${r[k] > 0 ? "+" : ""}${fmt(r[k], 2)}`), textposition: "outside", textfont: {size: 10, color: cssv("--fg")}, cliponaxis: false, hovertemplate: `%{y:+.2f} pp<extra>${esc(lab[k])}</extra>`}));
+  const tr = ["policy", "r3m", "r10y"].map((k, i) => ({type: "bar", x: rows.map(r => r.c), y: rows.map(r => r[k] == null ? null : Math.round(r[k] * 100) / 100), name: lab[k], marker: {color: col[i], opacity: 0.9},
+    text: rows.map(r => r[k] == null ? "" : `${r[k] > 0 ? "+" : ""}${fmt(r[k], 2)}`), textposition: "outside", textfont: {size: 10, color: cssv("--fg")}, cliponaxis: false, hovertemplate: `%{y:.2f} pp<extra>${esc(lab[k])}</extra>`}));
   plot(node, tr, {barmode: "group", bargap: 0.25, bargroupgap: 0.05, yaxis: {ticksuffix: " pp", zeroline: true, zerolinecolor: cssv("--axis"), zerolinewidth: 1.5}, xaxis: {tickfont: {size: 12}}, margin: {l: 48, r: 16, t: 24, b: 64}, hovermode: "x unified"});
 }
 
