@@ -118,6 +118,8 @@ details.nw > summary:hover { background: var(--accent-soft); }
 .chip { border: 1px solid var(--line); background: var(--card); color: var(--muted); border-radius: 999px; padding: .15rem .6rem; font-size: .78rem; cursor: pointer; font-weight: 600; }
 .chip.on { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
 footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--line); margin-top: 2rem; padding-top: .8rem; }
+.pbar { height: 6px; border-radius: 3px; background: var(--grid); overflow: hidden; margin: 2px 0 3px; }
+.pfill { height: 100%; border-radius: 3px; } .pfill.hike { background: var(--bad); } .pfill.cut { background: var(--ok); }
 </style>
 </head>
 <body>
@@ -298,6 +300,8 @@ const T = {
   cb_nb: ["Norway: policy rate and market rates", "Norge: styringsrente og markedsrenter"], cb_next: ["Next central bank events", "Neste sentralbankhendelser"],
   up_title: ["Update status", "Oppdateringsstatus"], up_how: ["How the page is made", "Slik lages siden"], up_src: ["Sources", "Kilder"],
   instrument: ["Instrument", "Instrument"], last: ["Last", "Siste"], date: ["Date", "Dato"], d1: ["1 day", "1 dag"], w1: ["1 week", "1 uke"], m1: ["1 month", "1 måned"], ytd: ["YTD", "Hittil i år"], range52: ["52-week range", "52-ukers intervall"],
+  pricing: ["Market pricing, next meeting", "Markedsprising, neste møte"], pricing_fed: ["from Fed funds futures", "fra Fed funds-futures"], no_pricing: ["no recent report", "ingen fersk omtale"],
+  cb_pricing_note: ["Market pricing: for the Fed, computed every morning from the CME 30-day Fed funds futures (the FedWatch arithmetic; the bar is the probability of a 25 bp move at the next meeting, and the second figure is the meeting after); for the other banks, the probability of a hike or cut at the next meeting as reported in the press, kept by the agent with the source and date.", "Markedsprising: for Fed beregnet hver morgen fra CMEs 30-dagers Fed funds-futures (FedWatch-regnestykket; søylen er sannsynligheten for en endring på 25 bp på neste møte, det andre tallet gjelder møtet etter); for de andre bankene sannsynligheten for heving eller kutt på neste møte slik pressen gjengir den, vedlikeholdt av agenten med kilde og dato."],
   bank: ["Central bank", "Sentralbank"], rate: ["Rate", "Rente"], lastdec: ["Last decision", "Siste beslutning"], move: ["Move", "Endring"], next: ["Next meeting", "Neste møte"], remaining: ["Remaining 2026", "Gjenstår i 2026"], source: ["Source", "Kilde"],
   time: ["Time", "Tid"], region: ["Region", "Region"], event: ["Event", "Hendelse"], category: ["Category", "Kategori"], all: ["All", "Alle"],
   no_letter: ["No letter of this kind for this date yet.", "Ingen brev av denne typen for denne datoen ennå."],
@@ -647,9 +651,28 @@ function drawFx() {
 }
 
 /* ---------- central banks ---------- */
+// the market pricing cell: a bar for the probability of a 25 bp move at the next meeting (red = hike, green = cut), the
+// Fed from the futures block, the others from the agent-kept columns of policy_rates.csv
+function pricingCell(r) {
+  const no = LANG === "no", FF = D.fedfunds || {};
+  const bar = (ph, pc, label, sub) => { const hike = ph >= pc, p = Math.max(ph, pc); return `<div class="pbar"><div class="pfill ${hike ? "hike" : "cut"}" style="width:${Math.max(2, p)}%"></div></div><div class="small"><b class="${hike ? "neg" : "pos"}">${label}</b>${sub ? ` <span class="muted">${sub}</span>` : ""}</div>`; };
+  if (/federal reserve/i.test(r.bank) && (FF.meetings || []).length) {
+    const m = FF.meetings[0], m2 = FF.meetings[1], word = m.p_hike >= m.p_cut ? t("hike") : t("cut");
+    const lab = (Math.max(m.p_hike, m.p_cut) < 10) ? `${t("hold")} ${100 - Math.max(m.p_hike, m.p_cut)} %` : `${word} ${Math.max(m.p_hike, m.p_cut)} %`;
+    const sub = `${m.change_bp > 0 ? "+" : ""}${fmt(m.change_bp, 0)} bp${m2 ? `; ${fmtDate(m2.date)}: ${m2.change_bp > 0 ? "+" : ""}${fmt(m2.change_bp, 0)} bp` : ""} · ${t("pricing_fed")}`;
+    return bar(m.p_hike, m.p_cut, lab, sub);
+  }
+  const ph = +r.p_hike, pc = +r.p_cut;
+  if (r.p_hike === "" && r.p_cut === "") return `<span class="muted small">${t("no_pricing")}</span>`;
+  const p = Math.max(ph || 0, pc || 0), word = (ph || 0) >= (pc || 0) ? t("hike") : t("cut");
+  const lab = p < 10 ? `${t("hold")} ${100 - p} %` : `${word} ${p} %`;
+  const note = no ? (r.pricing_note_no || r.pricing_note_en) : (r.pricing_note_en || r.pricing_note_no);
+  const sub = `${r.pricing_date ? fmtDate(r.pricing_date) : ""}${r.pricing_url ? ` <a href="${esc(r.pricing_url)}" target="_blank" rel="noopener" title="${esc(note || "")}">↗</a>` : ""}`;
+  return bar(ph || 0, pc || 0, lab, sub) + (note ? `<div class="small muted" style="max-width:20rem">${esc(note)}</div>` : "");
+}
 function drawCentral() {
   const pr = D.policy_rates || [];
-  $("#cbTable").innerHTML = pr.length ? `<table><thead><tr><th>${t("bank")}</th><th class="num">${t("rate")}</th><th>${t("lastdec")}</th><th>${t("move")}</th><th>${t("next")}</th><th>${t("remaining")}</th><th>${t("source")}</th></tr></thead><tbody>${pr.map(r => `<tr><td>${esc(r.bank)}</td><td class="num">${esc(r.rate)}</td><td>${fmtDate(r.last_decision)}</td><td><span class="${/hike/i.test(r.last_move) ? "neg" : /cut/i.test(r.last_move) ? "pos" : "muted"}" style="font-weight:600">${esc(t(r.last_move) || r.last_move)}</span></td><td>${fmtDate(r.next_meeting)}</td><td class="small muted">${esc(r.remaining_2026)}</td><td>${r.source_url ? `<a href="${esc(r.source_url)}" target="_blank" rel="noopener">↗</a>` : ""}</td></tr>`).join("")}</tbody></table>` : `<p class="empty">${t("no_events")}</p>`;
+  $("#cbTable").innerHTML = pr.length ? `<table><thead><tr><th>${t("bank")}</th><th class="num">${t("rate")}</th><th>${t("lastdec")}</th><th>${t("move")}</th><th>${t("next")}</th><th>${t("pricing")}</th><th>${t("remaining")}</th><th>${t("source")}</th></tr></thead><tbody>${pr.map(r => `<tr><td>${esc(r.bank)}</td><td class="num">${esc(r.rate)}</td><td>${fmtDate(r.last_decision)}</td><td><span class="${/hike/i.test(r.last_move) ? "neg" : /cut/i.test(r.last_move) ? "pos" : "muted"}" style="font-weight:600">${esc(t(r.last_move) || r.last_move)}</span></td><td>${fmtDate(r.next_meeting)}</td><td style="min-width:11rem">${pricingCell(r)}</td><td class="small muted">${esc(r.remaining_2026)}</td><td>${r.source_url ? `<a href="${esc(r.source_url)}" target="_blank" rel="noopener">↗</a>` : ""}</td></tr>`).join("")}</tbody></table><p class="note">${t("cb_pricing_note")}</p>` : `<p class="empty">${t("no_events")}</p>`;
   drawPolicyHistory();
   plot("#nbPlot", levelTraces(["nok_policy", "nok_3m", "nok_3y", "nok_10y"], RANGE.cb), {yaxis: {ticksuffix: " %"}});
   const today = new Date().toISOString().slice(0, 10);
@@ -849,7 +872,7 @@ $("#xlBtn").onclick = () => {
   const ev = D.events || [], pr = D.policy_rates || [];
   xlSave([xlAbout("Market summary", [`Market data as of ${D.asof}. Changes: per cent for prices and FX, basis points for yields and spreads.`]),
     xlInstr("Equities", group("equity")), xlInstr("AI and semis", group("ai")), xlInstr("Sectors", group("sector")), xlInstr("Rates live", group("rates")), xlInstr("Rates and credit fixes", fixes), xlInstr("Commodities", group("commodity")), xlInstr("FX", group("fx")),
-    {name: "Policy rates", cols: [26, 12, 14, 10, 14, 40, 50], freeze: 1, rows: [xhd(["Bank", "Rate", "Last decision", "Move", "Next meeting", "Remaining 2026", "Source"]), ...pr.map(r => [xc(r.bank), xc(r.rate), xc(r.last_decision), xc(r.last_move), xc(r.next_meeting), xc(r.remaining_2026), xc(r.source_url)])]},
+    {name: "Policy rates", cols: [26, 12, 14, 10, 14, 10, 10, 60, 12, 50, 40, 50], freeze: 1, rows: [xhd(["Bank", "Rate", "Last decision", "Move", "Next meeting", "P(hike) %", "P(cut) %", "Market pricing note", "Pricing date", "Pricing source", "Remaining 2026", "Source"]), ...pr.map(r => { const ff = /federal reserve/i.test(r.bank) && (D.fedfunds || {}).meetings && D.fedfunds.meetings[0]; return [xc(r.bank), xc(r.rate), xc(r.last_decision), xc(r.last_move), xc(r.next_meeting), xc(ff ? ff.p_hike : r.p_hike), xc(ff ? ff.p_cut : r.p_cut), xc(ff ? `Fed funds futures: ${ff.change_bp > 0 ? "+" : ""}${ff.change_bp} bp priced for ${ff.date}` : r.pricing_note_en), xc(ff ? (D.fedfunds.asof || "").slice(0, 10) : r.pricing_date), xc(ff ? "" : r.pricing_url), xc(r.remaining_2026), xc(r.source_url)]; })]},
     {name: "Policy rate history", cols: [12, ...Object.keys(CB).map(() => 14)], freeze: 1, rows: (() => { const ar = Object.keys(CB); const ds = [...new Set(ar.flatMap(a => CB[a].dates))].sort(); const at = Object.fromEntries(ar.map(a => [a, new Map(CB[a].dates.map((d, i) => [d, CB[a].values[i]]))])); return [xhd(["Date", ...ar.map(a => CB[a].name_en)]), ...ds.map(d => [xc(d), ...ar.map(a => xc(at[a].get(d)))])]; })()},
     {name: "Events", cols: [12, 8, 8, 12, 50, 10, 50, 50], freeze: 1, rows: [xhd(["Date", "Time", "Region", "Category", "Event", "Importance", "Note", "Source"]), ...ev.map(e => [xc(e.date), xc(e.time_oslo), xc(e.region), xc(e.category), xc(e.event), xc(e.importance), xc(e.note_en), xc(e.source_url)])]}], "market_summary");
 };

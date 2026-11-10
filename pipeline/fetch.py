@@ -12,6 +12,7 @@ Sources (all free, no keys):
   ECB Data Portal (euro-area AAA yield curve, 2y and 10y)
   Norges Bank open data (policy rate, 3y and 10y government bond yields, 3m treasury bill)
   BIS central bank policy rates (daily, the nine banks in data/policy_rates.csv; one year, extended with the table)
+  CME 30-day Fed funds futures via Yahoo (ZQ contracts): the priced change and hike/cut probability for the next two FOMC meetings
 
 A source that fails keeps the previous data.json's block for it (listed under kept_from_previous), so one outage does
 not empty the page. Everything is in per cent for yields and index points / prices otherwise.
@@ -234,6 +235,55 @@ def fetch_nb():
     return out
 
 
+# FOMC decision days (second day of each meeting); the next two are priced from the Fed funds futures
+FOMC = ["2026-01-28", "2026-03-18", "2026-04-29", "2026-06-17", "2026-07-29", "2026-09-16", "2026-10-28", "2026-12-09",
+        "2027-01-27", "2027-03-17", "2027-04-28", "2027-06-16", "2027-07-28", "2027-09-22", "2027-10-27", "2027-12-08"]
+ZQ_MONTH = "FGHJKMNQUVXZ"
+
+
+def fetch_fedfunds():
+    """What the Fed funds futures price for the next two FOMC meetings, the CME FedWatch arithmetic: a contract settles on
+    the month's average effective rate, so for a meeting on day d of an N-day month the average is
+    (d-1)/N * rate_before + (N-d+1)/N * rate_after. rate_before for the first meeting is the current month's contract
+    (no meeting earlier in it), and when the month after a meeting has no meeting its contract is rate_after directly.
+    The probability of a 25 bp move is the priced change divided by 25 bp, capped at 100."""
+    import calendar
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    nxt = [d for d in FOMC if d >= today][:2]
+    if not nxt:
+        return {}
+    def contract(ym):
+        y, m = int(ym[:4]), int(ym[5:7])
+        sym = f"ZQ{ZQ_MONTH[m - 1]}{str(y)[2:]}.CBT"
+        s = yahoo_chart(sym)
+        price = s["last"] if s["last"] is not None else (s["values"][-1] if s["values"] else None)
+        return sym, (None if price is None else round(100 - float(price), 4)), s["last_time"] or (s["dates"][-1] if s["dates"] else None)
+    def month_has_meeting(ym):
+        return any(d.startswith(ym) for d in FOMC)
+    def next_month(ym):
+        y, m = int(ym[:4]), int(ym[5:7]); m += 1
+        return f"{y + (m > 12)}-{(m - 1) % 12 + 1:02d}"
+    contracts, meetings = {}, []
+    cur_sym, r_before, asof = contract(today[:7]); contracts[cur_sym] = r_before
+    effr = r_before
+    for d in nxt:
+        ym, day = d[:7], int(d[8:10]); n = calendar.monthrange(int(ym[:4]), int(ym[5:7]))[1]
+        sym, avg, t_ = contract(ym); contracts[sym] = avg
+        after_ym = next_month(ym)
+        if not month_has_meeting(after_ym):
+            sym2, r_after, t2 = contract(after_ym); contracts[sym2] = r_after; used = sym2; asof = t2 or asof
+        else:
+            r_after = (n * avg - (day - 1) * r_before) / (n - day + 1) if avg is not None else None; used = sym; asof = t_ or asof
+        if r_after is None:
+            break
+        chg = round(100 * (r_after - r_before), 1)
+        meetings.append({"date": d, "rate_before": round(r_before, 3), "rate_after": round(r_after, 3), "change_bp": chg, "p_hike": min(100, round(max(0, chg) / 25 * 100)), "p_cut": min(100, round(max(0, -chg) / 25 * 100)), "contract": used})
+        r_before = r_after
+    out = {"effr_proxy": effr, "asof": asof, "contracts": contracts, "meetings": meetings}
+    log(f"fed funds futures: " + "; ".join(f"{m['date']}: {m['change_bp']:+.1f} bp (hike {m['p_hike']} %, cut {m['p_cut']} %)" for m in meetings))
+    return out
+
+
 def fetch_bis():
     """Daily policy rates from the BIS (dataset WS_CBPOL) for the nine banks of the table, one year back, forward-filled
     over weekends and holidays. The BIS series run about a week behind, so each is extended to today with the rate in
@@ -356,7 +406,7 @@ def main():
     yahoo, failed = fetch_yahoo(prev.get("yahoo", {}))
     kept += [f"yahoo:{s}" for s in failed if s in yahoo]
     blocks = {}
-    for name, fn in (("fred", fetch_fred), ("ecb", fetch_ecb), ("nb", fetch_nb), ("ssb", fetch_ssb), ("bis", fetch_bis), ("news", fetch_news), ("heatmap", fetch_heatmap)):
+    for name, fn in (("fred", fetch_fred), ("ecb", fetch_ecb), ("nb", fetch_nb), ("ssb", fetch_ssb), ("bis", fetch_bis), ("fedfunds", fetch_fedfunds), ("news", fetch_news), ("heatmap", fetch_heatmap)):
         log(f"{name}")
         try:
             blocks[name] = fn()
