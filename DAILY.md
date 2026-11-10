@@ -36,7 +36,12 @@ not verify, and say so when something could not be confirmed (for example "no re
 
 - `data/policy_rates.csv`: one row per central bank (Fed, ECB, BoE, BoJ, Norges Bank, Riksbank, SNB, RBA, BoC). After any
   decision, update `rate`, `last_decision`, `last_move` (hold, cut or hike), `next_meeting` and `remaining_2026`; keep
-  `source_url` pointing at the bank's own page.
+  `source_url` pointing at the bank's own page. The one-year policy-rate chart is the BIS daily series extended with this
+  table, so a wrong `rate` or `last_decision` shows up as a wrong step in the figure.
+- `data/cpi_consensus.csv`: the consensus for the next Norwegian CPI release, one row per month (month YYYY-MM, release_date,
+  kpi, kpiate as 12-month rates in per cent, source such as "Bloomberg consensus (E24)", source_url). Add the row as soon as
+  a survey median is reported (E24, DN, Finansavisen, TDN Direkt, Bloomberg); keep the rows after the release so the surprise
+  stays visible as a dot against the printed line on the Norges Bank tab.
 - `data/events.csv`: the calendar of upcoming events for the next four to six weeks. Columns: date (YYYY-MM-DD), time_oslo
   (HH:MM or blank), region (US, EA, UK, JP, NO, SE, CH, AU, CA, CN, global), category (central bank, data, politics,
   markets, other), event, importance (high, medium, low), note_en, note_no (the consensus or what to look for), source_url.

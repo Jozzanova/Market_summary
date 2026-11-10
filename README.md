@@ -34,7 +34,8 @@ npx wrangler deploy                          # Cloudflare Workers static assets,
 ```
 
 Letters live in `data/letters/YYYY-MM-DD/<kind>.<lang>.md` (kind: markets, macro, politics, norgesbank; lang: en, no); intraday snapshots are `intraday-HHMM.<lang>.md` (Oslo time), all kept and shown newest first. The policy-rate
-table is `data/policy_rates.csv` and the calendar `data/events.csv`; both are kept by the agent. The instrument universe
+table is `data/policy_rates.csv`, the calendar `data/events.csv` and the Norwegian CPI consensus `data/cpi_consensus.csv`; all are kept by the agent. The one-year policy-rate chart on the
+Central banks tab is the BIS daily policy-rate dataset (WS_CBPOL, about a week behind) extended with the table after the latest decisions. The instrument universe
 is `data/instruments.csv`.
 
 The repository is `https://github.com/Jozzanova/market_summary`; the morning routine (playbook DAILY.md) runs every day at 06:05 Oslo time from the data and news available at 06:00; the intraday routine (playbook INTRADAY.md) runs on weekdays at 12:05 and 17:05 Oslo time and adds a new intraday snapshot each run.

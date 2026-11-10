@@ -11,6 +11,7 @@ Sources (all free, no keys):
   FRED (US Treasury yields, TIPS, breakevens, ICE BofA credit OAS indices)
   ECB Data Portal (euro-area AAA yield curve, 2y and 10y)
   Norges Bank open data (policy rate, 3y and 10y government bond yields, 3m treasury bill)
+  BIS central bank policy rates (daily, the nine banks in data/policy_rates.csv; one year, extended with the table)
 
 A source that fails keeps the previous data.json's block for it (listed under kept_from_previous), so one outage does
 not empty the page. Everything is in per cent for yields and index points / prices otherwise.
@@ -37,6 +38,11 @@ UA = "market-summary/0.1 admin@jskjeltorp.workers.dev"
 FRED_SERIES = {"DGS2": "US 2-year", "DGS10": "US 10-year", "DGS30": "US 30-year", "DFII10": "US 10-year real (TIPS)", "T10YIE": "US 10-year breakeven",
                "BAMLC0A0CM": "US IG OAS", "BAMLH0A0HYM2": "US HY OAS", "BAMLHE00EHYIOAS": "Euro HY OAS", "BAMLEMCBPIOAS": "EM corporate OAS"}
 ECB_YC = {"SR_2Y": "Euro area AAA 2-year", "SR_10Y": "Euro area AAA 10-year"}
+BIS_AREAS = {"US": ("Federal Reserve", "Federal Reserve", "Fed"), "XM": ("ECB", "ESB", "ECB"), "GB": ("Bank of England", "Bank of England", "BoE"),
+             "JP": ("Bank of Japan", "Bank of Japan", "BoJ"), "NO": ("Norges Bank", "Norges Bank", "NB"), "SE": ("Riksbank", "Riksbanken", "Riksbank"),
+             "CH": ("Swiss National Bank", "Sveitsiske nasjonalbanken", "SNB"), "AU": ("Reserve Bank of Australia", "Reserve Bank of Australia", "RBA"),
+             "CA": ("Bank of Canada", "Bank of Canada", "BoC")}
+BIS_TABLE = {"US": r"federal reserve", "XM": r"\becb\b", "GB": r"bank of england", "JP": r"bank of japan", "NO": r"norges", "SE": r"riksbank", "CH": r"swiss", "AU": r"australia", "CA": r"canada"}
 NB_SERIES = {"B.10Y.GBON": ("nok_10y", "Norway 10-year government bond"), "B.3Y.GBON": ("nok_3y", "Norway 3-year government bond"),
              "B.3M.TBIL": ("nok_3m", "Norway 3-month treasury bill")}
 
@@ -228,6 +234,63 @@ def fetch_nb():
     return out
 
 
+def fetch_bis():
+    """Daily policy rates from the BIS (dataset WS_CBPOL) for the nine banks of the table, one year back, forward-filled
+    over weekends and holidays. The BIS series run about a week behind, so each is extended to today with the rate in
+    data/policy_rates.csv: when the table has a newer decision the step is put at its last_decision date. For the Fed
+    the BIS gives the midpoint of the target range, and the table's range is reduced to its midpoint the same way."""
+    import re
+    start = (datetime.now(timezone.utc) - timedelta(days=380)).strftime("%Y-%m-%d")
+    raw = cached("bis_cbpol.csv", 20, lambda: get(f"https://stats.bis.org/api/v2/data/dataflow/BIS/WS_CBPOL/1.0/D.{'+'.join(BIS_AREAS)}?startPeriod={start}&format=csv"))
+    obs = {}
+    for r in csv.DictReader(io.StringIO(raw.decode("utf-8", "ignore"))):
+        try:
+            v = float(r.get("OBS_VALUE") or "nan")
+        except ValueError:
+            continue
+        if v == v and r.get("REF_AREA") in BIS_AREAS:
+            obs.setdefault(r["REF_AREA"], {})[r["TIME_PERIOD"]] = v
+    table = {}
+    for row in read_csv("policy_rates.csv"):
+        nums = [float(x.replace(",", ".")) for x in re.findall(r"-?\d+(?:[.,]\d+)?", row.get("rate") or "")]
+        if not nums:
+            continue
+        for area, rx in BIS_TABLE.items():
+            if re.search(rx, row.get("bank") or "", re.I):
+                table[area] = (sum(nums) / len(nums), (row.get("last_decision") or "")[:10])
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    out = {}
+    for area, (name_en, name_no, short) in BIS_AREAS.items():
+        pts = sorted(obs.get(area, {}).items())
+        if not pts:
+            continue
+        # forward-fill to a calendar-day series, then extend with the table
+        d0, d1 = datetime.strptime(pts[0][0], "%Y-%m-%d"), datetime.strptime(pts[-1][0], "%Y-%m-%d")
+        by = dict(pts); dates, values, cur = [], [], pts[0][1]
+        n = (d1 - d0).days
+        for i in range(n + 1):
+            d = (d0 + timedelta(days=i)).strftime("%Y-%m-%d"); cur = by.get(d, cur); dates.append(d); values.append(cur)
+        ext = None
+        if area in table:
+            rate, dec = table[area]
+            if abs(rate - values[-1]) > 1e-9 and dec > dates[-1]:
+                ext = dec
+                # the old rate runs up to the day before the decision, then the new one from the decision day
+                d = datetime.strptime(dec, "%Y-%m-%d")
+                while dates[-1] < (d - timedelta(days=1)).strftime("%Y-%m-%d"):
+                    dates.append((datetime.strptime(dates[-1], "%Y-%m-%d") + timedelta(days=1)).strftime("%Y-%m-%d")); values.append(values[-1])
+                dates.append(dec); values.append(rate)
+            elif abs(rate - values[-1]) > 1e-9:
+                log(f"  bis {area}: table says {rate} from {dec}, BIS has {values[-1]} on {dates[-1]}; keeping BIS")
+            if dates[-1] < today:
+                dates.append(today); values.append(values[-1])
+        changes = [(dates[i], values[i - 1], values[i]) for i in range(1, len(values)) if values[i] != values[i - 1]]
+        out[area] = {"name_en": name_en, "name_no": name_no, "short": short, "group": "policy", "kind": "yield", "decimals": 2, "dates": dates, "values": values,
+                     "last": values[-1], "last_date": dates[-1], "bis_last": pts[-1][0], "extended_from": ext, "changes": changes}
+    log(f"bis: {len(out)} policy rates, BIS data to {max(v['bis_last'] for v in out.values())}; extended from the table: {[a for a, v in out.items() if v['extended_from']] or 'none'}")
+    return out
+
+
 def fetch_ssb():
     """Norwegian CPI and CPI-ATE, 12-month rates, monthly (Statistics Norway table 14706)."""
     def producer():
@@ -293,7 +356,7 @@ def main():
     yahoo, failed = fetch_yahoo(prev.get("yahoo", {}))
     kept += [f"yahoo:{s}" for s in failed if s in yahoo]
     blocks = {}
-    for name, fn in (("fred", fetch_fred), ("ecb", fetch_ecb), ("nb", fetch_nb), ("ssb", fetch_ssb), ("news", fetch_news), ("heatmap", fetch_heatmap)):
+    for name, fn in (("fred", fetch_fred), ("ecb", fetch_ecb), ("nb", fetch_nb), ("ssb", fetch_ssb), ("bis", fetch_bis), ("news", fetch_news), ("heatmap", fetch_heatmap)):
         log(f"{name}")
         try:
             blocks[name] = fn()
@@ -302,7 +365,7 @@ def main():
             blocks[name] = prev.get(name, {})
             kept.append(name)
     data = {"asof": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"), "yahoo": yahoo, **blocks,
-            "policy_rates": read_csv("policy_rates.csv"), "events": read_csv("events.csv"), "kept_from_previous": kept}
+            "policy_rates": read_csv("policy_rates.csv"), "events": read_csv("events.csv"), "cpi_consensus": read_csv("cpi_consensus.csv"), "kept_from_previous": kept}
     (DATA / "data.json").write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     log(f"wrote data/data.json ({(DATA / 'data.json').stat().st_size // 1024} kB); kept from previous: {kept or 'none'}")
     return 0
