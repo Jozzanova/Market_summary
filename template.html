@@ -119,7 +119,8 @@ details.nw > summary:hover { background: var(--accent-soft); }
 .chip.on { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
 footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--line); margin-top: 2rem; padding-top: .8rem; }
 .pbar { height: 6px; border-radius: 3px; background: var(--grid); overflow: hidden; margin: 2px 0 3px; }
-.pfill { height: 100%; border-radius: 3px; } .pfill.hike { background: var(--bad); } .pfill.cut { background: var(--ok); }
+.pfill { height: 100%; border-radius: 3px; } .pfill.hike { background: var(--bad); } .pfill.cut { background: var(--ok); } .pfill.hold { background: var(--warn); }
+.phike { color: var(--bad); } .pcut { color: var(--ok); } .phold { color: var(--warn); }
 </style>
 </head>
 <body>
@@ -655,7 +656,8 @@ function drawFx() {
 // Fed from the futures block, the others from the agent-kept columns of policy_rates.csv
 function pricingCell(r) {
   const no = LANG === "no", FF = D.fedfunds || {};
-  const bar = (ph, pc, label, sub) => { const hike = ph >= pc, p = Math.max(ph, pc); return `<div class="pbar"><div class="pfill ${hike ? "hike" : "cut"}" style="width:${Math.max(2, p)}%"></div></div><div class="small"><b class="${hike ? "neg" : "pos"}">${label}</b>${sub ? ` <span class="muted">${sub}</span>` : ""}</div>`; };
+  // a move under 10 % is shown as "hold" with the hold probability, in amber; a hike is red, a cut green
+  const bar = (ph, pc, label, sub) => { const p = Math.max(ph, pc), kind = p < 10 ? "hold" : ph >= pc ? "hike" : "cut", w = kind === "hold" ? 100 - p : p; return `<div class="pbar"><div class="pfill ${kind}" style="width:${Math.max(2, w)}%"></div></div><div class="small"><b class="p${kind}">${label}</b>${sub ? ` <span class="muted">${sub}</span>` : ""}</div>`; };
   if (/federal reserve/i.test(r.bank) && (FF.meetings || []).length) {
     const m = FF.meetings[0], m2 = FF.meetings[1], word = m.p_hike >= m.p_cut ? t("hike") : t("cut");
     const lab = (Math.max(m.p_hike, m.p_cut) < 10) ? `${t("hold")} ${100 - Math.max(m.p_hike, m.p_cut)} %` : `${word} ${Math.max(m.p_hike, m.p_cut)} %`;
