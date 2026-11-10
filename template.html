@@ -1177,7 +1177,8 @@ const PDF_FIGS = {
     {t: ["CPI and CPI-ATE, per cent y/y (2 years)", "KPI og KPI-JAE, prosent å/å (2 år)"], syms: ["cpi_12m", "cpiate_12m"], range: "2y", mode: "level", dec: 1},
     {t: ["I-44, up = weaker krone (1 year)", "I-44, opp = svakere krone (1 år)"], syms: ["nok_i44"], range: "1y", mode: "level"},
     {t: ["Rate differential NOK − EUR, percentage points (1 year)", "Rentedifferanse NOK − EUR, prosentpoeng (1 år)"], syms: ["diff_nok_eur_policy", "diff_nok_eur_short", "diff_nok_eur_10y"], range: "1y", mode: "level"}]};
-const PDF_PAL = ["#001538", "#0026FF", "#2FB0C8", "#B8905A", "#7A8699", "#8FD3E2"];
+// print palette: midnight, steel blue, light steel blue, muted teal, ochre, grey
+const PDF_PAL = ["#001538", "#4682B4", "#7FA7D3", "#4F9A94", "#B8905A", "#8A94A6"];
 const PDF_SHORT = {cb_US: ["Fed", "Fed"], cb_XM: ["ECB", "ESB"], cb_GB: ["BoE", "BoE"], cb_NO: ["Norges Bank", "Norges Bank"], DGS10: ["US 10y", "USA 10 år"], DGS2: ["US 2y", "USA 2 år"], EA_SR_10Y: ["Euro AAA 10y", "Euro AAA 10 år"],
   nok_policy: ["Policy rate", "Styringsrente"], nok_3m: ["Norway 3m", "Norge 3 md."], nok_3y: ["Norway 3y", "Norge 3 år"], nok_10y: ["Norway 10y", "Norge 10 år"], nok_i44: ["I-44", "I-44"], cpi_12m: ["CPI", "KPI"], cpiate_12m: ["CPI-ATE", "KPI-JAE"],
   T10YIE: ["Breakeven", "Breakeven"], DFII10: ["Real yield", "Realrente"], "TTF=F": ["TTF", "TTF"], "DX-Y.NYB": ["DXY", "DXY"], BAMLH0A0HYM2: ["HY spread", "HY-påslag"], "^SOX": ["SOX", "SOX"], "^N225": ["Nikkei", "Nikkei"], "^KS11": ["KOSPI", "KOSPI"], "^HSI": ["Hang Seng", "Hang Seng"],
@@ -1195,7 +1196,7 @@ async function pdfChart(syms, range, mode, w, h, dec = 2, names) {
   try {
     const dual = mode === "dual", no = LANG === "no";
     const traces = mode === "level" || dual ? levelTraces(ss, range, dec) : indexedTraces(ss, range);
-    traces.forEach((tr, i) => { tr.line = {width: 1.5, color: PDF_PAL[i % PDF_PAL.length]}; tr.name = names && names[i] ? names[i][no ? 1 : 0] : pdfName(ss[i], bySym(ss[i])); });
+    traces.forEach((tr, i) => { tr.line = {width: 1.05, color: PDF_PAL[i % PDF_PAL.length], shape: "linear"}; tr.name = names && names[i] ? names[i][no ? 1 : 0] : pdfName(ss[i], bySym(ss[i])); });
     if (dual) traces.slice(1).forEach(tr => { tr.yaxis = "y2"; });
     const fs = 6.5, val = tr => { let k = tr.y.length - 1; while (k >= 0 && (tr.y[k] == null || !isFinite(tr.y[k]))) k--; return k; };
     const ends = traces.map((tr, i) => { const k = val(tr); return k < 0 ? null : {i, x: tr.x[k], y: tr.y[k], ax: tr.yaxis === "y2" ? "y2" : "y", color: tr.line.color, v: fmt(tr.y[k], mode === "indexed" ? 1 : dec) + (tr.yaxis === "y2" ? " pp" : "")}; }).filter(Boolean);
@@ -1212,7 +1213,7 @@ async function pdfChart(syms, range, mode, w, h, dec = 2, names) {
       let lastPx = Infinity;
       E.forEach(e => { let px = e.y * pxu; if (lastPx - px < fs + 2.5) px = lastPx - (fs + 2.5); lastPx = px;
         ann.push({x: 1, xref: "paper", y: e.y, yref: ax, xanchor: "left", yanchor: "middle", xshift: 4, yshift: px - e.y * pxu, showarrow: false, text: e.text, font: {size: fs, color: e.color}});
-        marks.push({x: [e.x], y: [e.y], type: "scatter", mode: "markers", marker: {size: 4, color: e.color}, yaxis: ax, showlegend: false, hoverinfo: "skip", cliponaxis: false}); });
+        marks.push({x: [e.x], y: [e.y], type: "scatter", mode: "markers", marker: {size: 3.2, color: e.color}, yaxis: ax, showlegend: false, hoverinfo: "skip", cliponaxis: false}); });
     }
     // ticks: the first of each month (every n-th month on long ranges), or Mondays on the one-month range
     const MON = no ? ["jan", "feb", "mar", "apr", "mai", "jun", "jul", "aug", "sep", "okt", "nov", "des"] : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -1220,11 +1221,11 @@ async function pdfChart(syms, range, mode, w, h, dec = 2, names) {
     if (range === "1m") { for (let d = new Date(x0 + "T00:00:00Z"); d.toISOString().slice(0, 10) <= x1; d.setUTCDate(d.getUTCDate() + 1)) if (d.getUTCDay() === 1) { tickvals.push(d.toISOString().slice(0, 10)); ticktext.push(no ? `${d.getUTCDate()}. ${MON[d.getUTCMonth()]}` : `${d.getUTCDate()} ${MON[d.getUTCMonth()]}`); } }
     else { const months = []; for (let d = new Date(x0.slice(0, 7) + "-01T00:00:00Z"); d.toISOString().slice(0, 10) <= x1; d.setUTCMonth(d.getUTCMonth() + 1)) if (d.toISOString().slice(0, 10) >= x0) months.push(new Date(d));
       const step = Math.max(1, Math.ceil(months.length / 5)); months.forEach((d, i) => { if (i % step) return; tickvals.push(d.toISOString().slice(0, 10)); ticktext.push(range === "3m" ? MON[d.getUTCMonth()] : `${MON[d.getUTCMonth()]} ${String(d.getUTCFullYear()).slice(2)}`); }); }
-    const grid = "#E6E6E6", muted = "#5A6478";
+    const grid = "#E4E7EC", muted = "#6B7383";
     const lay = {width: w, height: h, margin: mar, paper_bgcolor: "#FFFFFF", plot_bgcolor: "#FFFFFF", showlegend: false, annotations: ann, separators: no ? ", " : ".,",
       font: {family: "Helvetica, Arial, sans-serif", size: 7.5, color: "#001538"},
-      xaxis: {gridcolor: grid, linecolor: "#D7D7D7", zeroline: false, tickfont: {size: 7, color: muted}, tickvals, ticktext, range: [x0, x1], tickangle: 0},
-      yaxis: {gridcolor: grid, zeroline: false, tickfont: {size: 7, color: muted}, nticks: 5},
+      xaxis: {showgrid: false, showline: true, linecolor: "#C9CDD4", linewidth: 0.6, ticks: "outside", ticklen: 3, tickwidth: 0.6, tickcolor: "#C9CDD4", zeroline: false, tickfont: {size: 6.5, color: muted}, tickvals, ticktext, range: [x0, x1], tickangle: 0},
+      yaxis: {gridcolor: grid, gridwidth: 0.5, showline: false, zeroline: false, ticks: "", tickfont: {size: 6.5, color: muted}, nticks: 5},
       ...(dual ? {yaxis2: {overlaying: "y", side: "right", showticklabels: false, gridcolor: "rgba(0,0,0,0)", zeroline: false}} : {})};
     await Plotly.newPlot(el, [...traces, ...marks], lay, {displayModeBar: false, staticPlot: true});
     // vector output: the SVG is embedded as drawing commands, so lines and labels stay sharp at any zoom and in print
@@ -1337,7 +1338,7 @@ async function pdfDefinition(m) {
     background: page => page === 1 ? {canvas: [{type: "rect", x: 0, y: 0, w: PW, h: 168, color: SKY}, {type: "rect", x: 0, y: 168, w: PW, h: 3, color: SAND}]}
       : pageInfo[page] ? {canvas: [{type: "line", x1: MX + COLW + GAP / 2, y1: pageInfo[page].colTop, x2: MX + COLW + GAP / 2, y2: PH - MY, lineWidth: 0.4, lineColor: GRAY}]} : null,
     header: page => page === 1 ? null : {text: `${t("title")} · ${fmtDateLong(m.date)}`, style: "meta", alignment: "right", margin: [MX, 28, MX, 0]},
-    footer: (cur, total) => ({columns: [{text: "market-summary.jskjeltorp.workers.dev", style: "meta"}, {text: `${cur} / ${total}`, style: "meta", alignment: "right"}], margin: [MX, 24, MX, 0]}),
+    footer: (cur, total) => ({text: `${cur} / ${total}`, style: "meta", alignment: "right", margin: [MX, 24, MX, 0]}),
     content, defaultStyle, styles};
   return dd;
 }
