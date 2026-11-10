@@ -37,9 +37,12 @@ trade, sanctions, geopolitics). Always cover Norway: Oslo Børs, the krone, what
    releases (the company's own site, SEC EDGAR, newsweb.oslobors.no), IEA, OPEC, the IMF and the BIS.
 2. Established financial press: Financial Times, Bloomberg, Reuters, Wall Street Journal, and for Norway E24, DN,
    Finansavisen and NRK. CNBC, Nikkei Asia, Handelsblatt, Les Echos and the Economist are fine as well.
-3. Everything else (investingLive, FXStreet, Kitco, StockTitan, Trading Economics, Asia Times, aggregators and brokers'
-   blogs) only when a fact exists nowhere in tiers 1 and 2, and never as the sole source for a number, a quote or a
-   market move. When a tier-3 page cites a tier-1 or tier-2 source, go to that source and cite it instead.
+3. Everything else (FXStreet, Kitco, StockTitan, Trading Economics, Asia Times, aggregators and brokers' blogs) only
+   when a fact exists nowhere in tiers 1 and 2, and never as the sole source for a number, a quote or a market move.
+   When a tier-3 page cites a tier-1 or tier-2 source, go to that source and cite it instead.
+
+Do not use investingLive (investinglive.com) at all, not even as a tier-3 fallback: everything it covers is available
+from Reuters, Bloomberg, FT or the primary source.
 
 Open the articles you cite. Every fact you use must have a source you can link; do not state anything you could not
 verify, and say so when something could not be confirmed (for example "no report of the Asian session was available").
