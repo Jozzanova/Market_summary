@@ -23,7 +23,7 @@ Live: https://market-summary.jskjeltorp.workers.dev (public)
 | Norges Bank | A daily letter on everything said about Norges Bank (the bank, economists, the press, market pricing); policy rate, next decision, CPI and CPI-ATE against the 2 per cent target, the krone, Norwegian rates, the next Norges Bank dates |
 | Update | Data status, how the page is made, sources |
 
-Buttons at the top: **PDF** and **Word** download the selected day's four letters in the current language as one formatted document (title, snapshot table, one letter per page; PDF via pdfmake loaded on first use, Word as a .docx written in the page); **Excel** downloads every table as a workbook.
+Buttons at the top: **PDF** and **Word** download the selected day's letters in the current language as one formatted document (title, snapshot table, one letter per page). The PDF is styled after Norges Bank's publications (midnight and accent blue, a sky band on the first page) and gives every letter four small topical charts after its summary plus the letter's own figures, rendered with Plotly at print resolution; pdfmake is loaded on first use. Word is a .docx written in the page; **Excel** downloads every table as a workbook.
 
 ## Rebuild
 

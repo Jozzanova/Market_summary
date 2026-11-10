@@ -117,8 +117,8 @@ exclamation, no advice, no speculation presented as fact; "per cent" and "basis 
   Norge house prices; the PMI; Norges Bank's Regional Network and Expectations Survey when published). Structure: a
   bold summary; New data / Nye nøkkeltall (what came out, against consensus and against Norges Bank's own forecast, and
   what drove it); What others say / Hva andre sier (named economists and strategists with employer, a short quote and a
-  link, on the economy and on the rate path: hike, hold, peak reached, cuts; state plainly when no named source expects
-  a move); The krone and rates / Kronen og rentene (EUR/NOK, USD/NOK and the I-44 index, all in the brief, the
+  link, on the economy and on the rate path: hike, hold, peak reached, cuts; say plainly when none of the economists quoted
+  expects a move); The krone and rates / Kronen og rentene (EUR/NOK, USD/NOK and the I-44 index, all in the brief, the
   differentials against the euro area, and the dual chart); Dates (next decision, CPI, Regional Network, MPR, the
   Financial Stability Report). On a day with no new comments or data, say so in one line and summarise the standing
   expectations and the next dates. 250-450 words. The tab shows the policy rate, next decision, CPI and CPI-ATE, the
