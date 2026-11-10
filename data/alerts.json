@@ -1,6 +1,57 @@
 {
- "updated": "2026-11-09T16:06:25Z",
+ "updated": "2026-11-10T05:06:09Z",
  "events": [
+  {
+   "id": "^N225:2026-11-10",
+   "time": "2026-11-10T04:50:00Z",
+   "severity": "medium",
+   "kind": "equity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/%5EN225",
+   "text_en": "The Nikkei 225 rose 2.6 per cent to 60,277 on 10 November 2026.",
+   "text_no": "Nikkei 225 steg 2,6 prosent til 60 277 2026-11-10.",
+   "value": {
+    "symbol": "^N225",
+    "last": 60277.089844,
+    "d1": 2.555,
+    "unit": "%"
+   }
+  },
+  {
+   "id": "^KS11:2026-11-10",
+   "time": "2026-11-10T04:45:00Z",
+   "severity": "medium",
+   "kind": "equity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/%5EKS11",
+   "text_en": "The KOSPI rose 3.8 per cent to 5,210 on 10 November 2026.",
+   "text_no": "KOSPI steg 3,8 prosent til 5 210 2026-11-10.",
+   "value": {
+    "symbol": "^KS11",
+    "last": 5210.259766,
+    "d1": 3.814,
+    "unit": "%"
+   }
+  },
+  {
+   "id": "^VIX:2026-11-09",
+   "time": "2026-11-09T21:15:00Z",
+   "severity": "medium",
+   "kind": "equity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/%5EVIX",
+   "text_en": "The VIX fell 22.3 per cent to 19.9 on 9 November 2026.",
+   "text_no": "VIX falt 22,3 prosent til 19,9 2026-11-09.",
+   "value": {
+    "symbol": "^VIX",
+    "last": 19.92,
+    "d1": -22.309,
+    "unit": "%"
+   }
+  },
   {
    "id": "^GSPC:2026-11-09",
    "time": "2026-11-09T16:05:00Z",
