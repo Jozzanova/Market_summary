@@ -1,0 +1,238 @@
+{
+ "updated": "2026-11-10",
+ "items": [
+  {
+   "bank": "Federal Reserve",
+   "kind": "decision",
+   "title": "Federal Reserve issues FOMC statement",
+   "date": "2026-10-28",
+   "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm",
+   "summary_en": "At its 27–28 October meeting the FOMC left the target range for the federal funds rate unchanged at 3.75–4.00 per cent, after the 25 bp increase in September. The statement describes economic activity as expanding at a strong pace, with resilient domestic spending, strong productivity growth and robust capital investment, while job gains have kept pace with the workforce and unemployment has changed little. Inflation remains elevated, and the Committee said the accumulation of more information will help it determine the policy stance appropriate to ensure a timely return of inflation to 2 per cent. The decision was taken by a 10–2 vote, with Lisa D. Cook and Beth M. Hammack dissenting in favour of a further 25 bp increase.",
+   "summary_no": "På møtet 27.–28. oktober holdt FOMC målintervallet for føderalfondsrenten uendret på 3,75–4,00 prosent, etter hevingen på 25 basispunkter i september. Komiteen beskriver den økonomiske aktiviteten som sterk, med robust innenlandsk etterspørsel, høy produktivitetsvekst og solide investeringer, mens sysselsettingen har holdt tritt med arbeidsstyrken og arbeidsledigheten har endret seg lite. Inflasjonen er fortsatt høy, og komiteen uttaler at mer informasjon vil hjelpe den med å fastsette den pengepolitiske innretningen som sikrer at inflasjonen kommer tilbake til 2 prosent i tide. Beslutningen ble tatt med 10 mot 2 stemmer; Lisa D. Cook og Beth M. Hammack stemte for en ytterligere heving på 25 basispunkter.",
+   "quotes": [
+    "Economic activity is expanding at a strong pace.",
+    "Voting against the monetary policy action were Lisa D. Cook and Beth M. Hammack, who preferred to raise the target range."
+   ]
+  },
+  {
+   "bank": "Federal Reserve",
+   "kind": "minutes",
+   "title": "Minutes of the Federal Open Market Committee, September 15–16, 2026",
+   "date": "2026-10-07",
+   "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260916.htm",
+   "summary_en": "The minutes of the 15–16 September meeting record a unanimous decision to raise the federal funds target range by 25 bp to 3.75–4.00 per cent. Participants judged inflation still too high, with energy prices and AI-related demand adding pressure, staff estimates of August PCE inflation at 3.8 per cent headline and 3.4 per cent core, and short-term inflation expectations elevated, while the labour market was seen as stable and near full employment with unemployment at 4.1 per cent. Most participants expected another increase by year-end but stressed data dependence; many saw a higher rate path as insurance against persistent inflation, and several judged policy only modestly restrictive or not restrictive. Risks to inflation were seen as skewed to the upside (a prolonged energy shock, AI demand, tariffs, de-anchoring after five years above target), with labour-market risks broadly balanced. The minutes of the 27–28 October meeting are due around 18 November.",
+   "summary_no": "Referatet fra møtet 15.–16. september viser en enstemmig beslutning om å heve målintervallet med 25 basispunkter til 3,75–4,00 prosent. Deltakerne mente inflasjonen fortsatt var for høy, drevet av energipriser og KI-relatert etterspørsel; stabens anslag for PCE-inflasjonen i august var 3,8 prosent totalt og 3,4 prosent for kjerneinflasjonen, og kortsiktige inflasjonsforventninger var forhøyede, mens arbeidsmarkedet ble vurdert som stabilt og nær full sysselsetting med 4,1 prosent ledighet. De fleste deltakerne ventet enda en heving før årsskiftet, men understreket at beslutningene avhenger av dataene; mange så en høyere rentebane som forsikring mot vedvarende inflasjon, og flere mente politikken bare var moderat innstrammende eller ikke innstrammende. Risikoen for inflasjonen ble vurdert som skjev oppover (langvarig energisjokk, KI-etterspørsel, toll, forankringsrisiko etter fem år over målet), mens risikoen for arbeidsmarkedet var balansert. Referatet fra møtet 27.–28. oktober ventes rundt 18. november.",
+   "quotes": [
+    "Participants generally assessed that economic activity was expanding at a solid pace.",
+    "Participants generally viewed the upside and downside risks to the labor market as broadly balanced."
+   ]
+  },
+  {
+   "bank": "ECB",
+   "kind": "decision",
+   "title": "Monetary policy decisions",
+   "date": "2026-10-29",
+   "url": "https://www.ecb.europa.eu/press/pr/date/2026/html/ecb.mp261029~9a493adf17.en.html",
+   "summary_en": "The Governing Council kept the three key ECB interest rates unchanged on 29 October: deposit facility 2.50 per cent, main refinancing operations 2.65 per cent and marginal lending facility 2.90 per cent, following the 25 bp increase in September. It noted that energy prices have continued to rise, posing upside risks to inflation and downside risks to growth, but that underlying inflation has remained broadly stable and wages show no material response so far, while tighter borrowing conditions since the last meeting should dampen both inflation and growth. The Council said it remains well positioned to navigate elevated uncertainty, will follow a data-dependent, meeting-by-meeting approach and is not pre-committing to a rate path. No vote split is reported in the press release.",
+   "summary_no": "ESBs råd holdt de tre styringsrentene uendret 29. oktober: innskuddsrenten 2,50 prosent, refinansieringsrenten 2,65 prosent og marginal utlånsrente 2,90 prosent, etter hevingen på 25 basispunkter i september. Rådet pekte på at energiprisene har fortsatt å stige og gir oppsiderisiko for inflasjonen og nedsiderisiko for veksten, men at den underliggende inflasjonen har vært stabil og lønningene så langt ikke har reagert vesentlig, samtidig som strammere lånevilkår siden forrige møte ventes å dempe både inflasjon og vekst. Rådet sier det er godt posisjonert til å håndtere den høye usikkerheten, vil følge en dataavhengig tilnærming fra møte til møte og binder seg ikke til noen rentebane. Pressemeldingen oppgir ingen stemmefordeling.",
+   "quotes": [
+    "The Governing Council today decided to keep the three key ECB interest rates unchanged.",
+    "Energy prices have continued to rise, posing upside risks to the inflation outlook and downside risks to the growth outlook."
+   ]
+  },
+  {
+   "bank": "ECB",
+   "kind": "minutes",
+   "title": "Account of the monetary policy meeting of the Governing Council held in Berlin on 9–10 September 2026",
+   "date": "2026-10-08",
+   "url": "https://www.ecb.europa.eu/press/accounts/2026/html/ecb.mg261008~a10153d090.en.html",
+   "summary_en": "The account of the 9–10 September meeting shows that all members supported Chief Economist Lane's proposal to raise the three key rates by 25 bp, lifting the deposit facility rate from 2.25 to 2.50 per cent; no member argued for holding or for a larger move. Members agreed the inflation outlook had deteriorated as the energy shock proved more persistent, with headline HICP at 3.3 per cent in August, energy inflation at 14.3 per cent and core inflation projected above 2 per cent throughout the horizon, while growth was revised up to 0.9 per cent for 2026 and 1.4 per cent for 2027. The hike was judged robust across the mild, adverse and severe scenarios, and the 2.50 per cent deposit rate was seen as still within the estimated neutral range. Members agreed on neutral communication: the move was neither the start of a predetermined tightening cycle nor the final increase. The account of the 29 October meeting is due around 26 November.",
+   "summary_no": "Referatet fra møtet 9.–10. september viser at alle medlemmene støttet sjeføkonom Lanes forslag om å heve de tre styringsrentene med 25 basispunkter, slik at innskuddsrenten gikk fra 2,25 til 2,50 prosent; ingen argumenterte for å holde renten eller for et større skritt. Medlemmene var enige om at inflasjonsutsiktene hadde forverret seg fordi energisjokket viste seg mer varig, med HICP-inflasjon på 3,3 prosent i august, energiinflasjon på 14,3 prosent og kjerneinflasjon anslått over 2 prosent gjennom hele prognoseperioden, mens veksten ble oppjustert til 0,9 prosent for 2026 og 1,4 prosent for 2027. Hevingen ble vurdert som robust på tvers av det milde, det ugunstige og det alvorlige scenarioet, og en innskuddsrente på 2,50 prosent ble ansett å ligge innenfor det anslåtte nøytrale intervallet. Medlemmene var enige om nøytral kommunikasjon: hevingen var verken starten på en forhåndsbestemt innstrammingssyklus eller den siste hevingen. Referatet fra møtet 29. oktober ventes rundt 26. november.",
+   "quotes": [
+    "all members supported the proposal made by Mr Lane to raise the three key ECB interest rates by 25 basis points.",
+    "The outlook – and therefore the baseline of the September staff projections – remained highly uncertain."
+   ]
+  },
+  {
+   "bank": "Bank of England",
+   "kind": "decision",
+   "title": "Monetary Policy Summary, November 2026: Bank Rate increased to 4 %",
+   "date": "2026-11-05",
+   "url": "https://www.bankofengland.co.uk/monetary-policy-summary-and-minutes/2026/november-2026",
+   "summary_en": "At its meeting ending on 4 November 2026 the MPC voted by a majority of 8–1 to increase Bank Rate by 0.25 percentage points to 4 per cent; Catherine L Mann preferred a 0.5 point increase to 4.25 per cent. The Committee cited the Middle East conflict, now in its ninth month, which has pushed energy prices up further; CPI inflation rose to 3.5 per cent in September and is now expected to reach around 5 per cent by the middle of next year before falling back. While evidence of knock-on effects on other prices and wages remains limited, the Committee judged the risk of material second-round effects had risen since September, many measures of underlying inflation are no longer falling, and activity has been stronger than expected. Monetary policy is not on a pre-set path: the Committee will assess the evidence at each meeting, focusing on pay, pricing behaviour and slack. The next decision is due on 17 December 2026.",
+   "summary_no": "På møtet som ble avsluttet 4. november 2026 stemte MPC med 8 mot 1 for å heve Bank Rate med 0,25 prosentpoeng til 4 prosent; Catherine L Mann foretrakk en heving på 0,5 prosentpoeng til 4,25 prosent. Komiteen viste til konflikten i Midtøsten, nå i sin niende måned, som har drevet energiprisene ytterligere opp; KPI-inflasjonen steg til 3,5 prosent i september og ventes nå å nå rundt 5 prosent ved midten av neste år før den faller tilbake. Selv om det fortsatt er begrensede tegn til smitteeffekter på andre priser og lønninger, vurderte komiteen at risikoen for vesentlige andrerundeeffekter har økt siden september, at mange mål på underliggende inflasjon ikke lenger faller, og at aktiviteten har vært sterkere enn ventet. Pengepolitikken følger ingen forhåndsbestemt bane: komiteen vil vurdere ny informasjon på hvert møte, med vekt på lønninger, prisatferd og ledig kapasitet. Neste rentebeslutning kommer 17. desember 2026.",
+   "quotes": [
+    "voted by a majority of 8–1 to increase Bank Rate by 0.25 percentage points, to 4%.",
+    "It is now expected to rise to around 5% by the middle of next year."
+   ]
+  },
+  {
+   "bank": "Bank of England",
+   "kind": "minutes",
+   "title": "Minutes of the Monetary Policy Committee meeting ending on 4 November 2026",
+   "date": "2026-11-05",
+   "url": "https://www.bankofengland.co.uk/monetary-policy-summary-and-minutes/2026/november-2026",
+   "summary_en": "The minutes, published with the decision, record the 8–1 vote to raise Bank Rate to 4 per cent (Bailey, Breeden, Dhingra, Greene, Lombardelli, Pill, Ramsden and Taylor in favour; Mann for 0.5 points). Most members judged policy still restrictive, but the Committee was less confident that the stance would return inflation to target in a timely way given the energy-price shock and rising risk of second-round effects. Members' views on the path ahead diverged: Bailey saw a case for a further rise if energy risks stayed high; Greene, Lombardelli and Pill expected further rises, possibly in the near term; Taylor described the move as a 'one-for-now' insurance hike, not the start of a hiking cycle; Dhingra said holding rates higher for longer would need clear evidence of stronger pricing power and purchasing power. Mann argued the economy may have crossed a threshold where inflation becomes more persistent and that a 0.5 point rise was needed for credibility. Energy prices were identified as the main source of uncertainty.",
+   "summary_no": "Referatet, publisert sammen med beslutningen, viser avstemningen 8 mot 1 for å heve Bank Rate til 4 prosent (Bailey, Breeden, Dhingra, Greene, Lombardelli, Pill, Ramsden og Taylor for; Mann for 0,5 prosentpoeng). De fleste medlemmene mente politikken fortsatt var innstrammende, men komiteen var mindre sikker på at innretningen ville bringe inflasjonen tilbake til målet i tide, gitt energiprissjokket og økt risiko for andrerundeeffekter. Medlemmenes syn på veien videre spriket: Bailey så grunnlag for en ytterligere heving dersom energirisikoen forble høy; Greene, Lombardelli og Pill ventet flere hevinger, muligens på kort sikt; Taylor beskrev hevingen som en «one-for-now»-forsikring og ikke starten på en hevingssyklus; Dhingra sa at å holde renten høy lenger krever klare tegn til sterkere prissettingsmakt og kjøpekraft. Mann argumenterte for at økonomien kan ha krysset en terskel der inflasjonen blir mer vedvarende, og at en heving på 0,5 prosentpoeng var nødvendig for troverdigheten. Energiprisene ble pekt ut som den viktigste usikkerheten.",
+   "quotes": [
+    "One member voted to increase Bank Rate by 0.5 percentage points, to 4.25%.",
+    "Monetary policy is not on a pre-set path."
+   ]
+  },
+  {
+   "bank": "Norges Bank",
+   "kind": "decision",
+   "title": "Policy rate kept unchanged at 4.5 per cent",
+   "date": "2026-11-05",
+   "url": "https://www.norges-bank.no/en/news-events/news/Press-releases/2026/2026-11-05-rate/",
+   "summary_en": "At its meeting on 4 November 2026 Norges Bank's Monetary Policy and Financial Stability Committee decided unanimously to keep the policy rate unchanged at 4.5 per cent, the level set by the September increase. Twelve-month CPI inflation was 3.4 per cent in September and CPI-ATE 3.0 per cent, and domestically produced goods and services inflation remains elevated and higher than projected in September, while the krone has appreciated and is stronger than assumed and energy prices remain high owing to the Middle East conflicts. Unemployment has changed little, employment rose slightly more than expected and capacity utilisation appears slightly below normal. The Committee judges that a restrictive policy is still needed but does not want to restrict the economy more than necessary; it will likely be necessary to keep the policy rate elevated for a time, and the Committee is prepared to raise the rate if warranted by the inflation outlook. New forecasts follow with the decision on 17 December 2026.",
+   "summary_no": "På møtet 4. november 2026 besluttet Norges Banks komité for pengepolitikk og finansiell stabilitet enstemmig å holde styringsrenten uendret på 4,5 prosent, nivået fra hevingen i september. Tolvmånedersveksten i KPI var 3,4 prosent i september og KPI-JAE 3,0 prosent, og prisveksten på norskproduserte varer og tjenester er fortsatt høy og høyere enn anslått i september, mens kronen har styrket seg og er sterkere enn lagt til grunn, og energiprisene holder seg høye som følge av konfliktene i Midtøsten. Arbeidsledigheten har endret seg lite, sysselsettingen har økt litt mer enn ventet, og kapasitetsutnyttingen ser ut til å være litt under et normalt nivå. Komiteen mener det fortsatt er behov for en innstrammende pengepolitikk, men vil ikke stramme til mer enn nødvendig; det vil trolig være nødvendig å holde renten oppe en tid, og komiteen er forberedt på å heve renten dersom inflasjonsutsiktene tilsier det. Nye prognoser kommer med rentebeslutningen 17. desember 2026.",
+   "quotes": [
+    "Inflation is too high. It will likely be necessary to keep the policy rate elevated for a time.",
+    "The Committee is prepared to raise the policy rate if warranted by the inflation outlook."
+   ]
+  },
+  {
+   "bank": "Norges Bank",
+   "kind": "minutes",
+   "title": "Monetary policy statement and summary of the Committee's deliberations, November 2026",
+   "date": "2026-11-05",
+   "url": "https://www.norges-bank.no/en/topics/monetary-policy/Monetary-policy-meetings/2026/november-2026/",
+   "summary_en": "Norges Bank publishes no minutes; the closest equivalent is the monetary policy statement and the summary of the Committee's deliberations on the meeting page. The Committee decided unanimously to keep the policy rate at 4.5 per cent, with the overnight lending rate at 5.5 per cent and the reserve rate at 3.5 per cent. The deliberations note that inflation has been above target for several years, that energy prices remain elevated because of the Middle East conflicts, and that domestically produced inflation and labour cost growth are higher than projected, while the stronger krone and lower market rate expectations pull the other way. Members agreed that restrictive policy is still needed, that the rate will likely need to stay elevated for a while, and that the Committee is prepared to raise the rate if the inflation outlook warrants it. The risk that high inflation over time becomes stickier and harder to bring down was singled out.",
+   "summary_no": "Norges Bank publiserer ikke referater; det nærmeste er pengepolitisk vurdering og oppsummeringen av komiteens drøftinger på møtesiden. Komiteen besluttet enstemmig å holde styringsrenten på 4,5 prosent, med D-lånsrente 5,5 prosent og reserverente 3,5 prosent. Drøftingene viser at inflasjonen har vært over målet i flere år, at energiprisene holder seg høye på grunn av konfliktene i Midtøsten, og at prisveksten på norskproduserte varer og tjenester og veksten i arbeidskostnadene er høyere enn anslått, mens en sterkere krone og lavere markedsrenteforventninger trekker i motsatt retning. Medlemmene var enige om at det fortsatt trengs en innstrammende pengepolitikk, at renten trolig må holdes oppe en stund, og at komiteen er beredt til å heve renten dersom inflasjonsutsiktene tilsier det. Risikoen for at høy inflasjon over tid blir mer seiglivet og vanskeligere å få ned ble trukket fram.",
+   "quotes": [
+    "The krone has appreciated and is stronger than assumed."
+   ]
+  },
+  {
+   "bank": "Riksbank",
+   "kind": "decision",
+   "title": "Policy rate raised to 2 per cent",
+   "date": "2026-11-04",
+   "url": "https://www.riksbank.se/en-gb/press-and-published/notices-and-press-releases/press-releases/2026/policy-rate-raised-to-2-per-cent/",
+   "summary_en": "On 4 November 2026 the Riksbank's Executive Board raised the policy rate by 0.25 percentage points to 2 per cent, effective 11 November, the first increase since the cut to 1.75 per cent in September 2025. CPIF inflation was 1.5 per cent in September, held down by temporary fiscal measures; excluding those it was 3 per cent, and the underlying measure excluding energy was 1.6 per cent, slightly below forecast, but cost pressures remain above normal and inflation is expected to rise above 2 per cent next year as activity normalises, supply disruptions persist and the weaker krona feeds through. If the outlook for inflation and activity holds, the Riksbank assesses that the policy rate will likely be raised further in the coming year, in line with the September forecast; the next Monetary Policy Report follows on 16 December. No reservations were recorded.",
+   "summary_no": "Den 4. november 2026 hevet Riksbankens direksjon styringsrenten med 0,25 prosentpoeng til 2 prosent, gjeldende fra 11. november, den første hevingen siden kuttet til 1,75 prosent i september 2025. KPIF-inflasjonen var 1,5 prosent i september, holdt nede av midlertidige finanspolitiske tiltak; uten disse var den 3 prosent, og det underliggende målet uten energi var 1,6 prosent, litt under prognosen, men kostnadspresset er fortsatt over normalen, og inflasjonen ventes å stige over 2 prosent neste år etter hvert som aktiviteten normaliseres, forsyningsforstyrrelsene vedvarer og den svakere kronen slår inn. Dersom utsiktene for inflasjon og aktivitet står seg, vurderer Riksbanken at renten trolig heves videre det kommende året, i tråd med prognosen fra september; neste pengepolitiske rapport kommer 16. desember. Ingen dissens er notert.",
+   "quotes": [
+    "The Riksbank has therefore decided to raise the policy rate by 0.25 percentage points to 2 per cent.",
+    "The Riksbank assesses that it is likely that the policy rate will be raised further in the coming year."
+   ]
+  },
+  {
+   "bank": "Riksbank",
+   "kind": "minutes",
+   "title": "Minutes of the Monetary Policy Meeting, 3 November 2026",
+   "date": "2026-11-10",
+   "url": "https://www.riksbank.se/en-gb/press-and-published/notices-and-press-releases/press-releases/2026/minutes-of-the-monetary-policy-meeting-on-3-november-2026/",
+   "summary_en": "The minutes of the 3 November meeting, published 10 November, show that all five Executive Board members (Thedéen, Bunge, Jansson, Seim, Hjelm) supported raising the policy rate by 0.25 percentage points to 2 per cent and the assessment that further increases are likely over the coming year in line with the September rate path; there was no reservation. Members reasoned that the recovery is broad and robust, that supply-driven cost increases from the Middle East war have become larger and more persistent, and that the weaker krona will add to inflation; Governor Thedéen said expectations of a wind-down of the conflict and lower energy prices had proven misplaced. Jansson warned that cost pass-through could become the rule and that a November hike does not rule out a further move in December; Hjelm and Seim framed the hike as a cautious normalisation. Bunge stressed a gradual approach, the interest-rate sensitivity of households and elevated global financial-stability risks from debt-financed AI investment and weak public finances.",
+   "summary_no": "Referatet fra møtet 3. november, publisert 10. november, viser at alle de fem direksjonsmedlemmene (Thedéen, Bunge, Jansson, Seim, Hjelm) støttet å heve styringsrenten med 0,25 prosentpoeng til 2 prosent og vurderingen om at ytterligere hevinger er sannsynlige det kommende året i tråd med rentebanen fra september; det var ingen dissens. Medlemmene la vekt på at oppgangen er bred og robust, at tilbudsdrevne kostnadsøkninger fra krigen i Midtøsten har blitt større og mer varige, og at den svakere kronen vil bidra til høyere inflasjon; sentralbanksjef Thedéen sa at forventningene om en nedtrapping av konflikten og lavere energipriser hadde vist seg feilslåtte. Jansson advarte om at kostnadsoverveltning kan bli regelen og at en heving i november ikke utelukker enda en i desember; Hjelm og Seim beskrev hevingen som en forsiktig normalisering. Bunge understreket en gradvis tilnærming, husholdningenes rentefølsomhet og forhøyet global finansiell stabilitetsrisiko fra lånefinansierte KI-investeringer og svake offentlige finanser.",
+   "quotes": [
+    "Thedéen: It is thus appropriate to now begin normalising the level of the policy rate.",
+    "Jansson: Fortunately, we are not there yet, but there are worrying signs that developments are moving in that direction."
+   ]
+  },
+  {
+   "bank": "Bank of Japan",
+   "kind": "decision",
+   "title": "Statement on Monetary Policy",
+   "date": "2026-10-30",
+   "url": "https://www.boj.or.jp/en/mopo/mpmdeci/mpr_2026/k261030a.pdf",
+   "summary_en": "At the 29–30 October meeting the Policy Board decided by an 8–1 majority to keep the guideline for money market operations unchanged, encouraging the uncollateralized overnight call rate to remain at around 1.25 per cent. Takata Hajime dissented, arguing that with underlying CPI inflation having reached the price stability target the Bank had entered a new phase in which it needed to step up the pace of bringing the policy rate closer to neutral, and proposed 1.5 per cent; the proposal was defeated. The Board also decided unanimously to raise the pace of ETF sales from about 330 billion yen to about 860 billion yen per year (book value) from January 2027. The Outlook Report was released alongside; the Summary of Opinions was published on 10 November and the minutes are due on 23 December.",
+   "summary_no": "På møtet 29.–30. oktober besluttet pengepolitisk komité med 8 mot 1 stemme å holde retningslinjen for markedsoperasjoner uendret, slik at den usikrede overnattenrenten holdes på rundt 1,25 prosent. Takata Hajime stemte imot og mente at Banken, nå som underliggende KPI-inflasjon har nådd prisstabilitetsmålet, er i en ny fase der den må øke tempoet i å bringe styringsrenten nærmere nøytral rente; han foreslo 1,5 prosent, men forslaget falt. Komiteen vedtok også enstemmig å øke tempoet i salget av ETF-er fra om lag 330 til om lag 860 milliarder yen per år (bokført verdi) fra januar 2027. Oppsummeringen av synspunkter ble publisert 10. november, og referatet kommer 23. desember.",
+   "quotes": [
+    "The Bank will encourage the uncollateralized overnight call rate to remain at around 1.25 percent.",
+    "the Bank needs to step up the pace of bringing the policy interest rate closer to the neutral interest rate"
+   ]
+  },
+  {
+   "bank": "Bank of Japan",
+   "kind": "minutes",
+   "title": "Summary of Opinions at the Monetary Policy Meeting on October 29 and 30, 2026",
+   "date": "2026-11-10",
+   "url": "https://www.boj.or.jp/en/mopo/mpmsche_minu/opinion_2026/opi261030.pdf",
+   "summary_en": "Members assessed that Japan's economy has recovered moderately with some weakness, partly from the Middle East situation, and that underlying CPI inflation is now at a level generally consistent with the 2 per cent target, with headline CPI projected to exceed 3 per cent toward fiscal year-end. The majority favoured holding at 1.25 per cent for now to examine risks and financial conditions and to assess the cumulative effects of past hikes, while agreeing that the Bank should continue to raise the policy rate as the outlook materialises. Several opinions pressed for a faster move toward the neutral rate, including the view that the neutral rate is considerably above 1 per cent; one called for reaching neutral at an early stage to allow nimble responses in either direction. Risks flagged include second-round effects of oil-driven inflation, next spring's wage negotiations, the weaker anchoring of 2 per cent expectations than in the US and Europe, and the lagged drag of past hikes.",
+   "summary_no": "Medlemmene vurderte at japansk økonomi har tatt seg moderat opp, med noe svakhet delvis som følge av situasjonen i Midtøsten, og at underliggende KPI-inflasjon nå ligger på et nivå som i hovedsak er i tråd med 2-prosentmålet, mens samlet KPI ventes å overstige 3 prosent mot slutten av regnskapsåret. Flertallet ville holde renten på 1,25 prosent for å vurdere risikoene, de finansielle forholdene og de samlede virkningene av tidligere hevinger, men var enige om at Banken bør fortsette å heve renten etter hvert som utsiktene realiseres. Flere synspunkter presset på for raskere bevegelse mot nøytral rente, blant annet at nøytral rente ligger betydelig over 1 prosent; ett medlem ville nå nøytralt nivå tidlig for å kunne reagere raskt i begge retninger. Risikoer som ble trukket fram er annenrundeeffekter av oljedrevet prisvekst, vårens lønnsoppgjør, svakere forankring av inflasjonsforventningene enn i USA og Europa, og forsinket virkning av tidligere hevinger.",
+   "quotes": [
+    "The Bank should decide on the next policy interest rate hike when it is possible without becoming overly cautious.",
+    "it is appropriate for the Bank to maintain the current policy interest rate at this MPM."
+   ]
+  },
+  {
+   "bank": "Swiss National Bank",
+   "kind": "decision",
+   "title": "Monetary policy assessment of 24 September 2026",
+   "date": "2026-09-24",
+   "url": "https://www.snb.ch/en/publications/communication/press-releases-restricted/pre_20260924",
+   "summary_en": "The SNB left its policy rate unchanged at 0 %, kept the tiered remuneration of sight deposits and restated its willingness to be active in the foreign exchange market as necessary. Inflation has risen since June, from 0.6 % in May to 0.8 % in August, mainly on higher energy prices, while medium-term inflationary pressure has increased only slightly. The conditional forecast, assuming a 0 % policy rate throughout, puts average inflation at 0.7 % in 2026 and 0.8 % in both 2027 and 2028, somewhat higher than in June partly because of the weaker franc. GDP growth is forecast at 1.5–2 % for 2026 and around 1.5 % for 2027. The baseline remains subject to high uncertainty, above all from the Middle East and energy prices; the SNB gave no explicit rate guidance.",
+   "summary_no": "SNB holdt styringsrenten uendret på 0 %, beholdt den trinnvise forrentningen av innskudd og gjentok at banken er villig til å intervenere i valutamarkedet ved behov. Inflasjonen har steget siden juni, fra 0,6 % i mai til 0,8 % i august, hovedsakelig på grunn av høyere energipriser, mens det mellomlangsiktige inflasjonspresset bare har økt svakt. Den betingede prognosen, som forutsetter 0 % styringsrente i hele perioden, viser gjennomsnittlig inflasjon på 0,7 % i 2026 og 0,8 % i både 2027 og 2028, noe høyere enn i juni, dels som følge av svakere franc. BNP-veksten anslås til 1,5–2 % i 2026 og rundt 1,5 % i 2027. Hovedscenarioet er fortsatt svært usikkert, først og fremst på grunn av Midtøsten og energiprisene; SNB ga ingen eksplisitt renteveiledning.",
+   "quotes": [
+    "The Swiss National Bank is leaving the SNB policy rate unchanged at 0%.",
+    "The baseline scenario remains subject to high uncertainty, above all because of the situation in the Middle East."
+   ]
+  },
+  {
+   "bank": "Swiss National Bank",
+   "kind": "minutes",
+   "title": "Monetary policy assessment of September 2026: Summary of discussion",
+   "date": "2026-10-22",
+   "url": "https://www.snb.ch/en/publications/communication/summaries/zus_20261022",
+   "summary_en": "The summary of the Governing Board's discussion at the September assessment records that Martin Schlegel, Antoine Martin and Petra Tschudin decided to leave the policy rate at 0 %, judging monetary conditions appropriate for medium-term price stability. Inflation of 0.8 % in August was attributed mainly to imported oil-product prices, with core inflation at 0.6 % and no signs yet of second-round effects, though the Board noted that the longer oil prices stay high the greater that risk. The franc's roughly 3 % trade-weighted depreciation since June outweighed a slight rise in interest rates, so monetary conditions eased and policy was judged to remain expansionary; the Board remains willing to intervene in the FX market but concluded that an increased willingness to intervene is no longer necessary. Growth was judged solid, with 2026 revised up to 1.5–2.0 %. Risks centre on the Middle East, trade tensions, high tech valuations and possible second-round effects.",
+   "summary_no": "Oppsummeringen av direksjonens diskusjon på septembervurderingen viser at Martin Schlegel, Antoine Martin og Petra Tschudin besluttet å holde styringsrenten på 0 %, ettersom de pengepolitiske forholdene ble vurdert som passende for prisstabilitet på mellomlang sikt. Inflasjonen på 0,8 % i august ble tilskrevet importerte oljeproduktpriser, kjerneinflasjonen var 0,6 %, og det var ennå ingen tegn til annenrundeeffekter, selv om direksjonen påpekte at risikoen øker jo lenger oljeprisene holder seg høye. Francens svekkelse på om lag 3 % handelsvektet siden juni veide tyngre enn en svak renteoppgang, slik at de pengepolitiske forholdene ble lettere og politikken fortsatt virker ekspansivt; direksjonen er fortsatt villig til å intervenere i valutamarkedet, men konkluderte med at en forsterket intervensjonsvilje ikke lenger er nødvendig. Veksten ble vurdert som solid, og anslaget for 2026 ble hevet til 1,5–2,0 %. Risikoene knytter seg til Midtøsten, handelskonflikter, høye teknologiverdsettelser og mulige annenrundeeffekter.",
+   "quotes": [
+    "There are still no signs of second-round effects, and core inflation has risen only slightly.",
+    "An increased willingness to intervene is no longer necessary in the current environment."
+   ]
+  },
+  {
+   "bank": "Reserve Bank of Australia",
+   "kind": "decision",
+   "title": "Statement by the Monetary Policy Board: Monetary Policy Decision",
+   "date": "2026-11-03",
+   "url": "https://www.rba.gov.au/media-releases/2026/mr-26-30.html",
+   "summary_en": "The Monetary Policy Board raised the cash rate target by 25 basis points to 4.85 per cent by a 6–3 majority, with three members voting to hold at 4.60 per cent; the dissenters are not named. Underlying inflation remains elevated and broadly based, and the inflation forecast was revised materially higher on fuel and commodity prices linked to the Middle East conflict, tighter-than-estimated capacity pressures and AI-related cost pressures; inflation is now expected to stay above 3 per cent for the coming year and not to reach the top of the 2–3 per cent range until late 2027. The Board noted that the economy is slowing, housing prices have fallen significantly and unemployment has risen. It flagged an increasing risk that higher inflation expectations become embedded and said it will do what it considers necessary to return inflation sustainably to target.",
+   "summary_no": "Pengepolitisk komité hevet styringsrenten med 25 basispunkter til 4,85 prosent med 6 mot 3 stemmer; tre medlemmer stemte for å holde renten på 4,60 prosent, uten at de navngis. Underliggende inflasjon er fortsatt høy og bredt basert, og inflasjonsanslaget ble oppjustert betydelig som følge av drivstoff- og råvarepriser knyttet til Midtøsten-konflikten, strammere kapasitetsutnyttelse enn antatt og KI-relatert kostnadspress; inflasjonen ventes nå å holde seg over 3 prosent det kommende året og ikke nå toppen av målintervallet 2–3 prosent før sent i 2027. Komiteen pekte på at økonomien bremser, boligprisene har falt betydelig og arbeidsledigheten har steget. Den varslet økende risiko for at høyere inflasjonsforventninger fester seg, og sa den vil gjøre det den anser nødvendig for å bringe inflasjonen varig tilbake til målet.",
+   "quotes": [
+    "At its meeting today, the Board decided to increase the cash rate target by 25 basis points to 4.85 per cent.",
+    "there is an increasing risk that higher inflation expectations will become embedded."
+   ]
+  },
+  {
+   "bank": "Reserve Bank of Australia",
+   "kind": "minutes",
+   "title": "Minutes of the Monetary Policy Board Meeting, 28 and 29 September 2026",
+   "date": "2026-10-13",
+   "url": "https://www.rba.gov.au/monetary-policy/rba-board-minutes/2026/2026-09-29.html",
+   "summary_en": "At the meeting of 28–29 September the Board decided unanimously to raise the cash rate target by 25 basis points to 4.60 per cent, judging that inflation remained too high and that several upside risks had materialised: higher oil prices from the re-escalated Middle East conflict, cost pressures from the global AI boom, and less domestic spare capacity than assumed. Members considered the case for holding, centred on the housing downturn, Middle East uncertainty and lagged effects of earlier tightening, but judged it weaker. Financial conditions were assessed as somewhat restrictive but uncertain given sharply higher real bond yields. Members acknowledged a worsened inflation–employment trade-off and said the Board would do what is necessary to meet its mandate, including further increases if required. The minutes of the 3 November meeting are due around 17 November.",
+   "summary_no": "På møtet 28.–29. september besluttet komiteen enstemmig å heve styringsrenten med 25 basispunkter til 4,60 prosent, ettersom inflasjonen fortsatt var for høy og flere oppsiderisikoer hadde slått til: høyere oljepriser etter opptrappingen i Midtøsten, kostnadspress fra den globale KI-bølgen og mindre ledig kapasitet innenlands enn antatt. Medlemmene vurderte argumentene for å holde renten, knyttet til boligprisfallet, usikkerheten rundt Midtøsten og forsinkede virkninger av tidligere innstramming, men fant dem svakere. De finansielle forholdene ble vurdert som noe innstrammende, men usikre gitt den kraftige oppgangen i realrentene på statsobligasjoner. Medlemmene erkjente en forverret avveining mellom inflasjon og sysselsetting og sa komiteen vil gjøre det som er nødvendig for å oppfylle mandatet, inkludert ytterligere hevinger om nødvendig. Referatet fra møtet 3. november ventes rundt 17. november.",
+   "quotes": [
+    "The Board decided unanimously to raise the cash rate target by 25 basis points to 4.60 per cent.",
+    "including increasing the cash rate target further if required."
+   ]
+  },
+  {
+   "bank": "Bank of Canada",
+   "kind": "decision",
+   "title": "Bank of Canada raises the policy rate by 25 basis points to 2½%",
+   "date": "2026-10-28",
+   "url": "https://www.bankofcanada.ca/2026/10/fad-press-release-2026-10-28/",
+   "summary_en": "The Bank of Canada raised its target for the overnight rate by 25 basis points to 2.5 %, alongside the October Monetary Policy Report. Growth has been stronger than expected, with solid consumption, rebounding investment and firmer exports, though new US tariffs are expected to slow growth in the fourth quarter; unemployment has held near 6½ % and the economy shows some excess supply. CPI inflation has been about 3 % since April and is expected to reach roughly 3½ % by year-end, core measures remain near 2 %, but cost pressures from fuel and imported inputs are building and near-term inflation expectations have risen; inflation is projected to average 3 % in 2027 and return to 2 % by mid-2028. Governing Council raised the rate to reduce the risk that continuing high energy prices spread broadly, said there could be a need to increase further but agreed to proceed carefully, and cited the Middle East conflict, energy prices, AI-sector volatility and Canada–US trade as key risks. No vote is reported.",
+   "summary_no": "Bank of Canada hevet målet for overnattenrenten med 25 basispunkter til 2,5 prosent, samtidig med pengepolitisk rapport for oktober. Veksten har vært sterkere enn ventet, med solid forbruk, oppgang i investeringene og sterkere eksport, men nye amerikanske tollsatser ventes å dempe veksten i fjerde kvartal; ledigheten har ligget rundt 6½ prosent og økonomien har noe ledig kapasitet. KPI-inflasjonen har ligget rundt 3 prosent siden april og ventes å nå om lag 3½ prosent ved årsskiftet, kjerneinflasjonen er nær 2 prosent, men kostnadspresset fra drivstoff og importerte innsatsvarer øker og kortsiktige inflasjonsforventninger har steget; inflasjonen anslås til 3 prosent i gjennomsnitt i 2027 og tilbake til 2 prosent innen midten av 2028. Rådet hevet renten for å redusere risikoen for at vedvarende høye energipriser sprer seg bredt, sa det kan bli behov for ytterligere hevinger, men vil gå forsiktig fram, og pekte på Midtøsten-konflikten, energiprisene, volatilitet i KI-sektoren og handelsforholdet til USA som sentrale risikoer. Ingen avstemning er oppgitt.",
+   "quotes": [
+    "There could be a need to increase the policy rate further, but given uncertainties, Governing Council agreed to proceed carefully.",
+    "In the outlook, inflation is higher and more persistent than in the July Report."
+   ]
+  },
+  {
+   "bank": "Bank of Canada",
+   "kind": "minutes",
+   "title": "Summary of Governing Council deliberations: fixed announcement date of September 2, 2026",
+   "date": "2026-09-16",
+   "url": "https://www.bankofcanada.ca/2026/09/summary-of-governing-council-deliberations-fixed-announcement-date-of-september-2-2026/",
+   "summary_en": "The summary covers the 2 September decision to hold the policy rate at 2.25 %. Governing Council judged that the economy and inflation were evolving broadly as forecast in July, with a soft but improving labour market and the economy still in excess supply, although members held a range of views on the degree of slack and on how far new US tariffs would weigh on growth. CPI inflation had hovered around 3 % on gasoline prices, with core near 2 % and little evidence so far of spillover; members nonetheless agreed that the risk of inflation spreading had risen as the Middle East conflict kept oil prices high. Members agreed that spillover into other CPI components could require a monetary policy response to prevent broad-based inflation. The summary of the 28 October deliberations is due around 11–12 November.",
+   "summary_no": "Oppsummeringen dekker beslutningen 2. september om å holde styringsrenten på 2,25 prosent. Rådet vurderte at økonomien og inflasjonen utviklet seg om lag som anslått i juli, med et svakt, men bedret arbeidsmarked og fortsatt ledig kapasitet i økonomien, selv om medlemmene hadde ulike syn på hvor stort produksjonsgapet var og hvor mye nye amerikanske tollsatser ville tynge veksten. KPI-inflasjonen hadde ligget rundt 3 prosent på grunn av bensinprisene, med kjerneinflasjon nær 2 prosent og lite tegn så langt til smitte; medlemmene var likevel enige om at risikoen for at inflasjonen sprer seg hadde økt fordi Midtøsten-konflikten holdt oljeprisene høye. Medlemmene var enige om at smitte til andre KPI-komponenter kunne kreve en pengepolitisk respons for å hindre bredt basert inflasjon. Oppsummeringen fra møtet 28. oktober ventes rundt 11.–12. november.",
+   "quotes": [
+    "Governing Council decided to leave the policy interest rate unchanged at 2.25%.",
+    "members agreed that the risk that inflation spreads to other goods and services had risen."
+   ]
+  }
+ ]
+}

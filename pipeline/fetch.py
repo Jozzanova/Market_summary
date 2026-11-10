@@ -366,6 +366,15 @@ def fetch_ssb():
 
 
 # ----------------------------------------------------------------------------------------------------------------------
+def read_json(name, default):
+    p = DATA / name
+    try:
+        return json.loads(p.read_text(encoding="utf-8")) if p.exists() else default
+    except Exception as e:
+        log(f"  !! {name}: {repr(e)[:120]}")
+        return default
+
+
 def read_csv(name):
     p = DATA / name
     if not p.exists():
@@ -416,7 +425,7 @@ def main():
             blocks[name] = prev.get(name, {})
             kept.append(name)
     data = {"asof": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"), "yahoo": yahoo, **blocks,
-            "policy_rates": read_csv("policy_rates.csv"), "events": read_csv("events.csv"), "cpi_consensus": read_csv("cpi_consensus.csv"), "kept_from_previous": kept}
+            "policy_rates": read_csv("policy_rates.csv"), "events": read_csv("events.csv"), "cpi_consensus": read_csv("cpi_consensus.csv"), "cb_minutes": read_json("cb_minutes.json", {}), "kept_from_previous": kept}
     (DATA / "data.json").write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     log(f"wrote data/data.json ({(DATA / 'data.json').stat().st_size // 1024} kB); kept from previous: {kept or 'none'}")
     return 0

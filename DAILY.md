@@ -44,6 +44,13 @@ not verify, and say so when something could not be confirmed (for example "no re
   a bank's market comment ("markets price a 70 % chance of a December hike"; "fully priced" = 95, "no change expected"
   = 0/0); `pricing_note_en`/`pricing_note_no` one line quoting the figure as reported, `pricing_date` (YYYY-MM-DD) and
   `pricing_url`. Update the columns when a newer report is found; leave them as they are otherwise.
+- `data/cb_minutes.json`: for each of the nine banks the most recent decision statement and the most recent published
+  minutes (or the bank's equivalent: ECB account, BoJ summary of opinions, BoC summary of deliberations; Norges Bank and
+  the SNB have no minutes, so their monetary policy assessment stands in). Fields per item: bank, kind (decision|minutes),
+  title, date (YYYY-MM-DD), url (the bank's own page), summary_en and summary_no (3–5 sentences, central-bank register:
+  the decision and vote, the reasoning, the guidance, notable dissent), quotes (one or two verbatim lines under 25 words).
+  After every decision replace that bank's decision item; when minutes are published replace its minutes item; set
+  `updated` to today's date whenever you check. Read the documents on the bank's site; never summarise from memory.
 - `data/cpi_consensus.csv`: the consensus for the next Norwegian CPI release, one row per month (month YYYY-MM, release_date,
   kpi, kpiate as 12-month rates in per cent, source such as "Bloomberg consensus (E24)", source_url). Add the row as soon as
   a survey median is reported (E24, DN, Finansavisen, TDN Direkt, Bloomberg); keep the rows after the release so the surprise
