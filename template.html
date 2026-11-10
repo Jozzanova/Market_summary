@@ -1227,8 +1227,9 @@ async function pdfChart(syms, range, mode, w, h, dec = 2, names) {
       yaxis: {gridcolor: grid, zeroline: false, tickfont: {size: 7, color: muted}, nticks: 5},
       ...(dual ? {yaxis2: {overlaying: "y", side: "right", showticklabels: false, gridcolor: "rgba(0,0,0,0)", zeroline: false}} : {})};
     await Plotly.newPlot(el, [...traces, ...marks], lay, {displayModeBar: false, staticPlot: true});
-    const image = await Plotly.toImage(el, {format: "png", width: w, height: h, scale: 3});
-    return {image, legend: valuesOnly ? traces.map(tr => ({text: tr.name + (tr.yaxis === "y2" ? (no ? " (h.a., pp)" : " (rhs, pp)") : ""), color: tr.line.color})) : null};
+    // vector output: the SVG is embedded as drawing commands, so lines and labels stay sharp at any zoom and in print
+    const svg = decodeURIComponent((await Plotly.toImage(el, {format: "svg", width: w, height: h})).replace(/^data:image\/svg\+xml[^,]*,/, ""));
+    return {image: svg, legend: valuesOnly ? traces.map(tr => ({text: tr.name + (tr.yaxis === "y2" ? (no ? " (h.a., pp)" : " (rhs, pp)") : ""), color: tr.line.color})) : null};
   } catch (e) { console.warn("pdf chart", syms, e); return null; }
   finally { try { Plotly.purge(el); } catch (e) {} el.remove(); }
 }
@@ -1251,7 +1252,7 @@ async function pdfDefinition(m) {
   const rule = () => ({canvas: [{type: "line", x1: 0, y1: 0, x2: 54, y2: 0, lineWidth: 2.5, lineColor: ACC}], margin: [0, 2, 0, 12]});
   const figNode = (f, w) => f.image ? {stack: [{text: f.t ? f.t[no ? 1 : 0] : f.syms.map(s => pdfName(s, bySym(s))).join(", "), style: "figcap"},
     ...(f.legend ? [{text: f.legend.flatMap((l, i) => [...(i ? [{text: "  ·  ", color: MUTED}] : []), {text: l.text, color: l.color, bold: true}]), style: "figsrc", margin: [0, 0, 0, 2]}] : []),
-    {image: f.image, width: w}, {text: pdfSource(f.syms), style: "figsrc"}], margin: [0, 3, 0, 6]} : null;
+    {svg: f.image, width: w}, {text: pdfSource(f.syms), style: "figsrc"}], margin: [0, 3, 0, 6]} : null;
   const tableNode = (b, w) => {
     const n = b.head.length, small = w < 300;
     const body = [b.head.map((h, j) => ({text: h, style: "th", alignment: b.num[j] ? "right" : "left"})), ...b.rows.map(r => r.section ? [{text: r.section, colSpan: n, style: "td", bold: true, color: ACC, margin: [0, 4, 0, 0]}, ...Array(n - 1).fill({})] : r.map((c, j) => ({text: c, style: "td", alignment: b.num[j] ? "right" : "left"})))];
