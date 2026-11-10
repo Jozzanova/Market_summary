@@ -54,7 +54,9 @@ adjectives. The same in English: "inflation", "the policy rate", "the krone", "t
 Do not use investingLive (investinglive.com) at all, not even as a tier-3 fallback: everything it covers is available
 from Reuters, Bloomberg, FT or the primary source.
 
-Open the articles you cite. Every fact you use must have a source you can link; do not state anything you could not
+Label a citation with the outlet that wrote the piece, not the site that hosts it: a Reuters story on Kitco or Yahoo is
+`[Reuters](url)`, an AP story in a newspaper is `[AP](url)`, an NTB story on frifagbevegelse.no is `[NTB](url)`; never
+"via". Open the articles you cite. Every fact you use must have a source you can link; do not state anything you could not
 verify, and say so when something could not be confirmed (for example "no report of the Asian session was available").
 Before you build, count the citations per domain across the day's letters: if tier-3 sources are more than one in six,
 go back and replace them.
