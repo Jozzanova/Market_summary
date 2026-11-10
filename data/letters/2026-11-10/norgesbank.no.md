@@ -1,26 +1,29 @@
 # Norges Bank-brev, tirsdag 10. november 2026
 
-**Sammendrag.** Norges Bank kom ikke med ny kommunikasjon mandag; de siste sakene er fortsatt torsdagens beslutning om å holde styringsrenten uendret på 4,50 prosent og talene samme dag. Dagens KPI for oktober er den første prøven på vedtaket: økonomene venter at KPI-JAE faller til 2,7 prosent fra 3,0 prosent, mens totalinflasjonen stiger til 3,7 prosent. Rapporten om finansiell stabilitet kommer onsdag. Hovedbildet er uendret rente med beredskap for å heve ved behov.
+**Sammendrag.** KPI for oktober kom inn på 3,6 prosent, et hakk under konsensus på 3,7, og KPI-JAE falt til 2,7 prosent fra 3,0, nøyaktig som ventet og som Norges Bank hadde lagt til grunn. Økonomene leser tallet som slutten på hevingsdiskusjonen: Handelsbanken, SpareBank 1 Markets og SpareBank 1 Sør-Norge venter alle uendret rente i desember, og flere mener rentetoppen er nådd. Kronen svekket seg likevel utover dagen, til 10,62 mot euro, med Brent under 90 dollar.
 
-## Hva Norges Bank sa
+## Nye nøkkeltall
 
-Ingenting nytt siden 5. november ([Norges Bank](https://www.norges-bank.no/en/news-events/news/)). Komiteens budskap står ved lag: det vil «trolig være nødvendig å holde styringsrenten oppe en tid», og komiteen er «forberedt på å heve styringsrenten dersom det blir nødvendig» ([Norges Bank](https://www.norges-bank.no/en/topics/monetary-policy/Monetary-policy-meetings/2026/november-2026/)).
+- KPI oktober: 3,6 prosent på tolv måneder (3,4 i september) og 0,3 prosent fra september. KPI-JAE 2,7 prosent (3,0), også 0,3 prosent på måneden. Konsensus var 3,7 og 2,7 ([SSB](https://www.ssb.no/priser-og-prisindekser/konsumpriser/statistikk/konsumprisindeksen)).
+- Strøm trakk opp: strøm med nettleie falt 0,4 prosent fra september, mot 8,3 prosent i oktober i fjor da Norgespris og lavere elavgift slo inn. Mat og alkoholfri drikke falt 0,4 prosent på måneden, tredje fall på rad, og er 1,4 prosent høyere enn for ett år siden; importerte varer er 0,7 prosent høyere. Varer 2,8 prosent, tjenester 4,1 prosent ([SSB](https://www.ssb.no/priser-og-prisindekser/konsumpriser/statistikk/konsumprisindeksen), [E24](https://e24.no/norsk-oekonomi/i/M5gG7R/prisveksten-laa-paa-3-6-prosent-i-oktober)).
+- Fallet i kjerneinflasjonen er delvis en baseeffekt: den sterke månedsveksten i oktober 2025 gikk ut av tolvmånederstallet ([E24](https://e24.no/norsk-oekonomi/i/M5gG7R/prisveksten-laa-paa-3-6-prosent-i-oktober)).
 
-## Hva økonomene og markedet sier
+## Hva andre sier
 
-- Bloomberg-konsensus for oktober er 3,7 prosent for KPI og 2,7 prosent for KPI-JAE ([E24](https://e24.no/boers-og-finans/i/qOnMOg/venter-paa-signaler-kan-snu-opp-ned-paa-hele-regnestykket)). Harald Magnus Andreassen i Sparebank 1 Markets sier tallene må overraske klart på oppsiden for å få betydning, og han venter ingen heving i 2026 (samme kilde).
-- Før rentemøtet forrige uke sa Frank Jullum i Danske Bank at han tror toppen er nådd, men at selv en liten oppsideoverraskelse i inflasjonen vil gjøre en heving i desember «helt klart aktuelt», mens Allan Monks i JP Morgan venter én heving til i første kvartal ([E24](https://e24.no/norsk-oekonomi/i/eG3QBa/tror-rentetoppen-er-naadd-balanserer-paa-en-knivsegg)). Erica Dalstø i SEB leser bankens signaler som beredskap for å handle snarere enn en plan om å heve (samme kilde).
-- Vi fant ingen nye kommentarer om rentebanen fra DNB Carnegie, Nordea, Handelsbanken, Swedbank eller de internasjonale bankene mandag.
+- Marius Gonsholt Hov, Handelsbanken: tallet «endrer ikke noe på renteforventningene nå». Det «ligger helt klart an» til uendret rente ut året, og en heving før jul ville krevd «en ganske kraftig oppside» i dagens tall og i novembertallet ([E24](https://e24.no/norsk-oekonomi/i/M5gG7R/prisveksten-laa-paa-3-6-prosent-i-oktober)).
+- Harald Magnus Andreassen, SpareBank 1 Markets: lavere enn «vi og markedet ventet», men som Norges Bank ventet; inflasjonen er nå på banen banken la til grunn. Han ser verken heving i desember eller neste år ([Frifagbevegelse/NTB](https://www.frifagbevegelse.no/nyheter/okonomer-avlyser-renteokning-i-ar/2732723)).
+- Kyrre M. Knudsen, SpareBank 1 Sør-Norge: «Dette er gode nyheter». Han venter uendret rente i desember og at banken signaliserer at rentetoppen er nådd; en sterkere krone og olje under 90 dollar trekker inflasjonen videre ned ([TV 2](https://www.tv2.no/nyheter/mener-prisveksten-kan-vaere-gode-nyheter/19412716/), [Nettavisen](https://www.nettavisen.no/okonomi/alt-blir-dyrere-kpi-pa-3-6-prosent-i-oktober/s/80-95-235224)).
+- E24 oppsummerer at flere økonomer heller mot at toppen er nådd, med sterkere krone og lavere renteforventninger ute som begrunnelse ([E24](https://e24.no/norsk-oekonomi/i/M5gG7R/prisveksten-laa-paa-3-6-prosent-i-oktober)). Før tallet priset markedet om lag 35 prosent sannsynlighet for heving i desember ([Estate Nyheter](https://www.estatenyheter.no/inflasjon-norges-bank-obligasjonsrenter/norges-bank-forberedt-pa-a-sette-renten-opp/522335), 5. november); ingen oppdatert markedsprising er publisert i dag. Ingen navngitt økonom venter heving i desember.
 
 ## Kronen og rentene
 
-EUR/NOK er 10,55 i dag morges, uendret fra mandag kveld, men 1,3 prosent høyere enn for en uke siden, og I-44 var 108,81 mandag, 1,5 prosent svakere på uken. Kronen fulgte ikke aksjemarkedet opp mandag, trolig fordi Brent falt om lag 6 dollar, men ingen kilde har forklart bevegelsen. En svakere krone motvirker den nedgangen i prisveksten Norges Bank venter, men indeksen er fortsatt 9,2 prosent sterkere i år. Ved fredagens notering var den treårige statsrenten 4,60 prosent og den tiårige 4,29 prosent, begge lavere på uken; markedet priser ikke en strammere rentebane.
+EUR/NOK er 10,62 i ettermiddag, 0,8 prosent høyere enn mandag og 2,0 prosent høyere enn for en uke siden; USD/NOK er 9,49. Kronen svekket seg etter tallet og videre utover dagen mens Brent falt til 89 dollar, 3,4 prosent lavere enn mandag. I-44 var 108,81 ved mandagens notering, 1,5 prosent svakere på uken, men 9,2 prosent sterkere i år. Den treårige statsrenten var 4,59 prosent og den tiårige 4,28 prosent mandag, lite endret; differansen mot euro er 2,00 prosentpoeng på styringsrenten og om lag 1,0 prosentpoeng på ti år mot AAA-kurven. Et kjernetall på banen gir ikke markedet grunn til å prise en strammere bane, og dagens kronesvekkelse ser ut til å handle om olje, ikke om renteforventninger.
 
 {chart: EURNOK=X,diff_nok_eur_short,diff_nok_eur_10y | 3m | dual}
 
 ## Datoer
 
-- 10. november: KPI for oktober (kl. 08.00).
-- 11. november: Finansiell stabilitet 2026 H2 (kl. 08.30); 19. november: Forventningsundersøkelsen for 4. kvartal.
+- 11. november: Finansiell stabilitet 2026 H2 (kl. 08.30).
+- 19. november: Forventningsundersøkelsen for 4. kvartal.
 - 10. desember: Regionalt nettverk 4/26 og KPI for november.
 - 17. desember: rentemøte med Pengepolitisk rapport 4/26.

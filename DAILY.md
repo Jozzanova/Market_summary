@@ -28,7 +28,7 @@ the policy rates on file and the upcoming events on file. Use its numbers in the
 Search the web for what moved markets in the last 24 hours and why: US close, European close, the Asian session this
 morning, government bonds, credit, oil, gas, metals, FX; central bank decisions, speeches, minutes and reports; the macro
 data released yesterday and due today; and the political developments that matter for markets (elections, fiscal policy,
-trade, sanctions, geopolitics). Always cover Norway: Oslo Børs, the krone, Norges Bank, Statistics Norway releases.
+trade, sanctions, geopolitics). Always cover Norway: Oslo Børs, the krone, what others expect of Norges Bank, Statistics Norway releases.
 Prefer primary sources (central banks, statistics agencies, exchanges) and established outlets (Reuters, Bloomberg, FT,
 WSJ, CNBC, E24, DN, Finansavisen). Every fact you use must have a source you can link; do not state anything you could
 not verify, and say so when something could not be confirmed (for example "no report of the Asian session was available").
@@ -92,7 +92,9 @@ exclamation, no advice, no speculation presented as fact; "per cent" and "basis 
   president or US authorities, central bank decisions and speeches (Fed, ECB, Bank of England, Bank of Japan, the
   Riksbank, the RBA, the RBNZ), key figures, the oil price, geopolitics, company news. (3) **Norway** / **Norge**: the krone
   (EUR/NOK, USD/NOK, I-44 and why it moved), the rate differential against the euro area (policy rate, and 10-year against
-  the AAA curve), Norges Bank's latest communication and the Norwegian data of the day. Short and concise: say what happened,
+  the AAA curve), what others expect Norges Bank to do (the day's named views and market pricing) and the Norwegian data
+  of the day against consensus. The reader works at Norges Bank: mention the bank's own communication only when it is
+  new, in half a sentence, and never retell it. Short and concise: say what happened,
   how much and the likely reason; every number from `brief.py` or the other letters of the day.
 - **Markets letter** (`markets`): a bold summary paragraph; sections Equities (US, Europe, Norway, Asia; say how the AI and semiconductor proxies in the brief, SOX, NYSE FANG+, the Magnificent 7 and AI ETFs, did against the market), Fixed income and
   credit, Commodities and currencies (always the krone: EUR/NOK, USD/NOK and Norges Bank's import-weighted index I-44, where
@@ -103,16 +105,24 @@ exclamation, no advice, no speculation presented as fact; "per cent" and "basis 
   on the balance of risks.
 - **Politics letter** (`politics`): the political developments that matter for markets, by region (United States, Europe,
   Middle East and energy, Asia, Norway, as relevant), each with the market channel; a Dates to watch section.
-- **Norges Bank letter** (`norgesbank`, shown on the Norges Bank tab): everything said about Norges Bank in the last 24
-  hours and what it means. Sources to check every day: norges-bank.no (press releases, the policy rate page, speeches,
-  the Monetary Policy Report, the Regional Network, the Financial Stability Report, minutes and the oil fund NBIM when it
-  is major news), the Norwegian press (E24, DN, Finansavisen, NRK), bank economists' comments (DNB Carnegie, Nordea,
-  Handelsbanken, SEB, Danske, Swedbank), international coverage (Bloomberg, Reuters, FXStreet notes from Nomura,
-  Commerzbank and others), market pricing of the rate path and the krone. Structure: a bold summary; What Norges Bank
-  said (quote the statement where possible); What economists and the market say (named, with links); The krone and
-  rates (EUR/NOK and the I-44 index, both in the brief); Dates (next decision, CPI, Regional Network, MPR). On a day with no Norges Bank news, say so in one line and
-  summarise the standing view and the next dates. 250-450 words. The tab shows the policy rate, next decision, CPI and
-  CPI-ATE, the 10-year yield and EUR/NOK automatically, so the text should interpret rather than list.
+- **Norges Bank letter** (`norgesbank`, shown on the Norges Bank tab): what others said about the Norwegian economy in
+  the last 24 hours, what they expect Norges Bank to do, and the new Norwegian data. The reader works at Norges Bank, so
+  do not retell what the bank itself did or said: its own communication gets one line, and only when it is new (a
+  decision, a speech, a report); check norges-bank.no for that line and move on. Sources to check every day: the
+  Norwegian press (E24, DN, Finansavisen, NRK, Nettavisen, NTB as carried by frifagbevegelse.no and TV 2), bank
+  economists' comments (DNB Carnegie, Nordea, Handelsbanken, SEB, Danske, Swedbank, SpareBank 1 Markets, SpareBank 1
+  Sør-Norge), international coverage (Bloomberg, Reuters, FXStreet notes from Nomura, Commerzbank and others), market
+  pricing of the rate path (the probability of a move at the next meeting as quoted by economists or the press, FRA and
+  NOWA pricing), and the data of the day (SSB: CPI, unemployment, GDP, retail trade, wages; NAV unemployment; Eiendom
+  Norge house prices; the PMI; Norges Bank's Regional Network and Expectations Survey when published). Structure: a
+  bold summary; New data / Nye nøkkeltall (what came out, against consensus and against Norges Bank's own forecast, and
+  what drove it); What others say / Hva andre sier (named economists and strategists with employer, a short quote and a
+  link, on the economy and on the rate path: hike, hold, peak reached, cuts; state plainly when no named source expects
+  a move); The krone and rates / Kronen og rentene (EUR/NOK, USD/NOK and the I-44 index, all in the brief, the
+  differentials against the euro area, and the dual chart); Dates (next decision, CPI, Regional Network, MPR, the
+  Financial Stability Report). On a day with no new comments or data, say so in one line and summarise the standing
+  expectations and the next dates. 250-450 words. The tab shows the policy rate, next decision, CPI and CPI-ATE, the
+  10-year yield and EUR/NOK automatically, so the text should interpret rather than list.
 
 ## 5. Build and deploy
 
