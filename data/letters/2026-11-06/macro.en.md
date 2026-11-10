@@ -1,4 +1,4 @@
-# Macro letter, Friday 6 November 2026
+# Macro, Friday 6 November 2026
 
 **Summary.** The tightening cycle broadened this week. The Bank of England raised Bank Rate by 25 basis points to 4.00 per cent, its first increase since 2023, and the Riksbank and the Reserve Bank of Australia also raised rates. Norges Bank, the Federal Reserve and the ECB held, each with language that keeps further tightening on the table. The common thread is inflation that has been pushed up by energy prices and has proved slower to recede than expected, set against labour markets that are cooling only gradually. Thursday's fall in US equities, which spread to Asia overnight, with the Nikkei 225 closing 6.0 per cent lower, and to Europe this morning, and the decline in Treasury yields have, at the margin, lowered the market-implied probability of a Federal Reserve hike in December to about 70 per cent.
 

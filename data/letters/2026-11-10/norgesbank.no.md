@@ -1,4 +1,4 @@
-# Norges Bank-brev, tirsdag 10. november 2026
+# Norges Bank, tirsdag 10. november 2026
 
 **Sammendrag.** KPI for oktober kom inn på 3,6 prosent, et hakk under konsensus på 3,7, og KPI-JAE falt til 2,7 prosent fra 3,0, nøyaktig som ventet og som Norges Bank hadde lagt til grunn. Økonomene leser tallet som slutten på hevingsdiskusjonen: Handelsbanken, SpareBank 1 Markets og SpareBank 1 Sør-Norge venter alle uendret rente i desember, og flere mener rentetoppen er nådd. Kronen svekket seg likevel utover dagen, til 10,62 mot euro, med Brent under 90 dollar.
 

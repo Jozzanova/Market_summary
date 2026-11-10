@@ -1,4 +1,4 @@
-# Markedsbrev, tirsdag 10. november 2026
+# Markedet, tirsdag 10. november 2026
 
 **Sammendrag.** Aksjemarkedene hentet seg bredt inn mandag da halvlederaksjene tok igjen deler av forrige ukes fall og et kraftig fall i oljeprisen dempet inflasjonsbekymringene: S&P 500 steg 2,35 prosent til 7 550, Nasdaq Composite 2,74 prosent og halvlederindeksen SOX 6,9 prosent, mens Nvidia falt om lag 4 prosent etter at styret startet en granskning knyttet til toppsjefen. Oppgangen fortsatte i Asia i natt, med KOSPI opp 3,8 prosent og Nikkei 225 opp 2,6 prosent. Brent har falt ytterligere 1,2 prosent til 91,4 dollar på håp om nedtrapping med Iran, selv om Teheran avviser at det pågår samtaler. Konsumprisene i Norge (kl. 08.00) og USA (kl. 14.30) er dagens prøvesteiner.
 

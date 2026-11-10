@@ -1,4 +1,4 @@
-# Politics letter, Monday 9 November 2026
+# Politics, Monday 9 November 2026
 
 **Summary.** The weekend's political news turned on the aftermath of the US midterms and the Iran talks. President Trump conceded that his deportation policy and the Iran war likely cost Republicans votes and floated an immigration deal, and he said renewed strikes on Iran were "highly unlikely" if talks progress, ahead of a meeting with Qatar's prime minister today. China formalised a two-month extension of its tariff truce with the United States. In Europe, finance ministers discuss the ECB succession and the UK prime minister heads to a European Political Community meeting in Dublin.
 

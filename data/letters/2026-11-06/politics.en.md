@@ -1,4 +1,4 @@
-# Politics letter, Friday 6 November 2026
+# Politics, Friday 6 November 2026
 
 **Summary.** The political development with the largest market effect this week was the outcome of the US midterm elections on Tuesday, in which the Democratic Party won control of both chambers of Congress. Markets have read the result as raising the probability of federal regulation of AI data centres, after Senator Sanders called for a national moratorium, and the repricing on Thursday was concentrated in semiconductors and AI-related equities. In the Middle East, hopes of a US–Iran agreement that had cut oil prices by about 8 per cent on Wednesday gave way to renewed attacks on shipping near the Strait of Hormuz, and oil recovered part of the fall. The sell-off in AI-related equities spread to Asia this morning. In Europe, the ECB faces a change of leadership in February.
 

@@ -1,4 +1,4 @@
-# Macro letter, Tuesday 10 November 2026
+# Macro, Tuesday 10 November 2026
 
 **Summary.** No central bank changed policy in the past 24 hours, and the policy-rate table is unchanged. The Bank of Japan's summary of opinions from its October meeting showed that many board members see a near-term hike as necessary, strengthening expectations of a move to 1.5 per cent in December, even as Japanese household spending fell 6.8 per cent on the year. China's exports rose 35 per cent in October and its trade surplus for the year passed one trillion dollars. The day's decisive data are consumer prices in Norway and the United States; the US figure is the last before the Federal Reserve meets on 9 December.
 

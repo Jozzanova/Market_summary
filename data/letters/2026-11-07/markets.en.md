@@ -1,4 +1,4 @@
-# Markets letter, Saturday 7 November 2026
+# Markets, Saturday 7 November 2026
 
 **Summary.** Wall Street steadied on Friday after Thursday's sharp fall, led by a rebound in semiconductor shares, while Europe and Oslo closed lower as they caught up with the US sell-off. The S&P 500 rose 0.3 per cent and the Nasdaq Composite 1.1 per cent, but both ended the week lower, by 2.7 and 3.4 per cent. The October employment report was much stronger than expected, with payrolls up 165,000, and lifted the probability of a Federal Reserve hike in December to about 78 per cent. Treasury yields edged up, Brent was unchanged near 98 dollars after a 16 per cent fall over the week, and the krone weakened further: EUR/NOK ended the week at 10.54 and USD/NOK at 9.45. Markets are closed today.
 

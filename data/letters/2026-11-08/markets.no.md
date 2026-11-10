@@ -1,4 +1,4 @@
-# Markedsbrev, søndag 8. november 2026
+# Markedet, søndag 8. november 2026
 
 **Sammendrag.** Markedene er stengt i dag, og prisene under er sluttkursene fra fredag. Uken endte med et fall på 2,7 prosent for S&P 500 og 3,4 prosent for Nasdaq Composite etter at AI-handelen ble reversert etter mellomvalget, mens Europa var omtrent uendret og Oslo Børs falt 4,3 prosent. Det kom lite nytt i helgen: ESB-sjef Lagarde advarte om at inflasjonen trolig holder seg høy på kort sikt, Bloomberg skriver at AI-fallet gir fornyet interesse for andre asiatiske aksjer, og det kom ingen avgjørelse fra Washington om Iran. Uken som kommer domineres av konsumprisene i Norge og USA tirsdag.
 

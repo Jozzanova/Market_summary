@@ -1,4 +1,4 @@
-# Politics letter, Saturday 7 November 2026
+# Politics, Saturday 7 November 2026
 
 **Summary.** The political consequences of Tuesday's US midterm elections continued to shape markets. President Trump replaced his chief of staff, Susie Wiles, with Stephen Miller, while his advisers remain divided over whether to end or resume the war with Iran. Washington also pressed Beijing to honour the Busan trade agreement, and China vowed to retaliate against new US sanctions. In Europe the race to lead the ECB has narrowed to two candidates. In Norway, the Finance Minister called the fall in the oil fund's value manageable.
 

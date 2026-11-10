@@ -1,4 +1,4 @@
-# Norges Bank letter, Saturday 7 November 2026
+# Norges Bank, Saturday 7 November 2026
 
 **Summary.** Norges Bank has published nothing further on monetary policy since Thursday's decision to keep the policy rate at 4.50 per cent. The news since then has come from the krone, which weakened again on Friday as the global equity sell-off spread to Europe: EUR/NOK ended the week at 10.54, and the import-weighted index is 2 per cent weaker than a week ago. Economists continue to see the krone as the main channel through which a December hike could return to the table, though Nordea warns that a weaker currency would not automatically mean higher rates.
 

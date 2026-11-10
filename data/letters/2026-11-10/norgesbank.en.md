@@ -1,4 +1,4 @@
-# Norges Bank letter, Tuesday 10 November 2026
+# Norges Bank, Tuesday 10 November 2026
 
 **Summary.** October CPI came in at 3.6 per cent, a notch below the 3.7 consensus, and CPI-ATE fell to 2.7 per cent from 3.0, exactly as expected and as Norges Bank had assumed. Economists read the print as the end of the hike debate: Handelsbanken, SpareBank 1 Markets and SpareBank 1 Sør-Norge all expect an unchanged rate in December, and several say the peak has been reached. The krone nevertheless weakened through the day, to 10.62 against the euro, with Brent below 90 dollars.
 

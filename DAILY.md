@@ -83,7 +83,9 @@ Create the folder `data/letters/YYYY-MM-DD/` (today's date, UTC) with ten files:
 `markets.en.md`, `markets.no.md`, `macro.en.md`, `macro.no.md`, `politics.en.md`, `politics.no.md`, `norgesbank.en.md`,
 `norgesbank.no.md`. Write the key points last, from the other four, so they agree. The Norwegian versions carry the same facts in
 Norwegian bokmål (not a word-for-word translation; Norwegian number style: comma decimals, space thousands, "prosent").
-Format: Markdown with a `# Title, weekday day month year` heading, `##` sections, bullets, bold lead-ins, Markdown tables
+Format: Markdown with a `# Title, weekday day month year` heading, where the title is just the name of the piece, never
+"letter" or "brev": `Key points` / `Hovedtrekk`, `Markets` / `Markedet`, `Macro` / `Makro`, `Politics` / `Politikk`,
+`Norges Bank` / `Norges Bank` (for example `# Markedet, tirsdag 10. november 2026`); `##` sections, bullets, bold lead-ins, Markdown tables
 where a table says it better, and links in the text `([Source](url))`. A line `{chart: SYM1,SYM2 | 3m | indexed}` draws a
 chart of the named instruments (symbols as in `data/instruments.csv`, or the FRED/ECB/Norges Bank keys `DGS2`, `DGS10`,
 `EA_SR_10Y`, `nok_10y`, `nok_policy`, `BAMLH0A0HYM2`, and the derived rate differentials `diff_nok_eur_short` (Norway 3-year
@@ -109,16 +111,16 @@ exclamation, no advice, no speculation presented as fact; "per cent" and "basis 
   of the day against consensus. The reader works at Norges Bank: mention the bank's own communication only when it is
   new, in half a sentence, and never retell it. Short and concise: say what happened,
   how much and the likely reason; every number from `brief.py` or the other letters of the day.
-- **Markets letter** (`markets`): a bold summary paragraph; sections Equities (US, Europe, Norway, Asia; say how the AI and semiconductor proxies in the brief, SOX, NYSE FANG+, the Magnificent 7 and AI ETFs, did against the market), Fixed income and
+- **Markets** / **Markedet** (`markets`): a bold summary paragraph; sections Equities (US, Europe, Norway, Asia; say how the AI and semiconductor proxies in the brief, SOX, NYSE FANG+, the Magnificent 7 and AI ETFs, did against the market), Fixed income and
   credit, Commodities and currencies (always the krone: EUR/NOK, USD/NOK and Norges Bank's import-weighted index I-44, where
   a rise is a weaker krone; the brief prints all three), Today (the calendar for the day with consensus where known). The page shows a table
   of key prices above the letter automatically, so the text should explain rather than list.
-- **Macro letter** (`macro`): central banks and the business cycle. A bold summary; a table of this week's or the latest
+- **Macro** / **Makro** (`macro`): central banks and the business cycle. A bold summary; a table of this week's or the latest
   decisions when there were any; a section per central bank that acted or spoke; the data of note; an Assessment section
   on the balance of risks.
-- **Politics letter** (`politics`): the political developments that matter for markets, by region (United States, Europe,
+- **Politics** / **Politikk** (`politics`): the political developments that matter for markets, by region (United States, Europe,
   Middle East and energy, Asia, Norway, as relevant), each with the market channel; a Dates to watch section.
-- **Norges Bank letter** (`norgesbank`, shown on the Norges Bank tab): what others said about the Norwegian economy in
+- **Norges Bank** (`norgesbank`, shown on the Norges Bank tab): what others said about the Norwegian economy in
   the last 24 hours, what they expect Norges Bank to do, and the new Norwegian data. The reader works at Norges Bank, so
   do not retell what the bank itself did or said: its own communication gets one line, and only when it is new (a
   decision, a speech, a report); check norges-bank.no for that line and move on. Sources to check every day: the

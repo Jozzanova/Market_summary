@@ -1,4 +1,4 @@
-# Markets letter, Friday 6 November 2026
+# Markets, Friday 6 November 2026
 
 **Summary.** The sell-off in technology shares that began on Wall Street on Thursday spread to Asia overnight and to Europe this morning. The S&P 500 fell 4.4 per cent and the Nasdaq Composite 5.5 per cent on Thursday, the largest daily declines since April 2025, as investors reassessed the regulatory outlook for AI data centres after the Democratic sweep of Congress. The Nikkei 225 closed 6.0 per cent lower and the KOSPI 6.0 per cent lower; European indices opened about 1.5 per cent down. Oslo Børs is affected by a technical fault in its benchmark index this morning. Treasury yields are little changed after Thursday's fall, Brent is near 98 dollars and the krone has weakened further, with EUR/NOK at 10.48. The US employment report at 14:30 is the main event of the day.
 

@@ -1,4 +1,4 @@
-# Politikkbrev, søndag 8. november 2026
+# Politikk, søndag 8. november 2026
 
 **Sammendrag.** Etterspillet etter mellomvalget i USA preget helgen. President Trump signaliserte en konfronterende linje overfor det nye demokratiske flertallet, mens flere republikanske senatorer vil utsette valget av partiets ledelse. Det kom ingen avgjørelse om nye store angrep på Iran, og Teheran gjentok at Hormuzstredet forblir stengt til vilkårene er oppfylt. I Israel fikk opposisjonsleder Gadi Eisenkot første forsøk på å danne regjering, og valget i New Zealand ga ikke noe klart resultat.
 

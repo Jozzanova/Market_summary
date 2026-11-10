@@ -1,4 +1,4 @@
-# Markedsbrev, lørdag 7. november 2026
+# Markedet, lørdag 7. november 2026
 
 **Sammendrag.** Wall Street stabiliserte seg fredag etter torsdagens kraftige fall, ledet av en rekyl i halvlederaksjer, mens Europa og Oslo endte lavere da de tok inn det amerikanske fallet. S&P 500 steg 0,3 prosent og Nasdaq Composite 1,1 prosent, men begge endte uken lavere, med henholdsvis 2,7 og 3,4 prosent. Sysselsettingsrapporten for oktober var langt sterkere enn ventet, med 165 000 nye jobber, og løftet sannsynligheten for en renteheving fra Federal Reserve i desember til om lag 78 prosent. Amerikanske statsrenter steg litt, Brent var uendret nær 98 dollar etter et fall på 16 prosent gjennom uken, og kronen svekket seg videre: EUR/NOK endte uken på 10,54 og USD/NOK på 9,45. Markedene er stengt i dag.
 

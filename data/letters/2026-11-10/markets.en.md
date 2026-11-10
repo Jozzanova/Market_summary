@@ -1,4 +1,4 @@
-# Markets letter, Tuesday 10 November 2026
+# Markets, Tuesday 10 November 2026
 
 **Summary.** Equities rebounded broadly on Monday as semiconductor shares recovered from last week's sell-off and a sharp fall in oil eased inflation concerns: the S&P 500 rose 2.35 per cent to 7,550, the Nasdaq Composite 2.74 per cent and the semiconductor index (SOX) 6.9 per cent, while Nvidia fell about 4 per cent on its board's investigation of its chief executive. The rally carried into Asia this morning, with the KOSPI up 3.8 per cent and the Nikkei 225 2.6 per cent. Brent has fallen a further 1.2 per cent to 91.4 dollars on hopes of de-escalation with Iran, although Tehran has dismissed reports of talks. Consumer prices in Norway (08:00) and the United States (14:30) are today's tests.
 

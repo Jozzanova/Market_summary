@@ -1,4 +1,4 @@
-# Markets letter, Sunday 8 November 2026
+# Markets, Sunday 8 November 2026
 
 **Summary.** Markets are closed today, and the prices below are Friday's closes. The week ended with the S&P 500 down 2.7 per cent and the Nasdaq Composite down 3.4 per cent after the post-midterm unwinding of the AI trade, while Europe was broadly flat and Oslo fell 4.3 per cent. Weekend news was limited: ECB President Lagarde warned that inflation is likely to stay high in the near term, Bloomberg reports that the AI slump is reviving interest in other Asian trades, and there was no decision from Washington on Iran. The week ahead is dominated by consumer prices in Norway and the United States on Tuesday.
 

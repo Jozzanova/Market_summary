@@ -1,4 +1,4 @@
-# Makrobrev, mandag 9. november 2026
+# Makro, mandag 9. november 2026
 
 **Sammendrag.** Det kom ingen rentebeslutninger i helgen, og tabellen over styringsrenter er uendret. Nattens tall kom fra Kina, der produsentprisveksten steg til 5,7 prosent, den høyeste siden 2022, mens konsumprisveksten falt til 0,7 prosent: energikostnadene løfter fabrikkprisene, mens innenlandsk etterspørsel er svak. Markedet priser fortsatt rundt 80 prosent sannsynlighet for en renteheving fra Federal Reserve i desember. I Europa går arbeidet med ny ECB-sjef videre når finansministrene i euroområdet drøfter de to kandidatene i dag. Ukens test er konsumprisene i Norge og USA tirsdag.
 

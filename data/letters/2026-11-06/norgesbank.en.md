@@ -1,4 +1,4 @@
-# Norges Bank letter, Friday 6 November 2026
+# Norges Bank, Friday 6 November 2026
 
 **Summary.** Norges Bank kept the policy rate at 4.50 per cent on Thursday, as all 26 economists in Reuters' poll expected ([RTÉ/Reuters](https://www.rte.ie/news/business/2026/1105/1598078-norway-rates-kept-on-hold/)), and repeated that it is prepared to raise the rate if needed. The Norwegian press and bank economists read the decision as a hold with a door left open: most now think the peak has been reached, mainly because the krone has appreciated by about 12 per cent this year, but several warn that a weaker krone or a high October CPI on Tuesday could bring a hike back into view in December. The Governor, interviewed after the decision, pointed to the krone's effect on inflation and to rising, debt-financed AI investment as a source of higher rates and market volatility.
 

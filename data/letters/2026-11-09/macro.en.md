@@ -1,4 +1,4 @@
-# Macro letter, Monday 9 November 2026
+# Macro, Monday 9 November 2026
 
 **Summary.** There were no policy decisions over the weekend, and the policy-rate table is unchanged. The overnight data came from China, where producer-price inflation rose to 5.7 per cent, the highest since 2022, while consumer-price inflation eased to 0.7 per cent: energy costs are lifting factory prices while domestic demand remains weak. Markets continue to price about an 80 per cent probability of a Federal Reserve hike in December. In Europe the succession at the ECB moves forward as euro-area finance ministers discuss the two candidates today. The week's test is Tuesday's consumer prices in Norway and the United States.
 

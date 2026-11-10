@@ -1,4 +1,4 @@
-# Norges Bank letter, Sunday 8 November 2026
+# Norges Bank, Sunday 8 November 2026
 
 **Summary.** There was no Norges Bank news over the weekend. The Bank's news page lists nothing after Thursday's decision to keep the policy rate at 4.50 per cent, and no new comments from economists or the press on the rate outlook could be found for Saturday or Sunday. The standing view is a hold with a readiness to hike if needed; Tuesday's October CPI and the weaker krone are the next tests.
 

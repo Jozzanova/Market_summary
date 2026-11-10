@@ -1,4 +1,4 @@
-# Norges Bank-brev, fredag 6. november 2026
+# Norges Bank, fredag 6. november 2026
 
 **Oppsummering.** Norges Bank holdt styringsrenten uendret på 4,50 prosent torsdag, slik alle de 26 økonomene i Reuters' undersøkelse ventet ([RTÉ/Reuters](https://www.rte.ie/news/business/2026/1105/1598078-norway-rates-kept-on-hold/)), og gjentok at banken er forberedt på å heve renten om nødvendig. Norske medier og bankøkonomer leser beslutningen som en pause med døren på gløtt: de fleste mener nå at rentetoppen er nådd, først og fremst fordi kronen har styrket seg med om lag 12 prosent i år, men flere advarer om at en svakere krone eller høy KPI for oktober på tirsdag kan gjøre en heving i desember aktuell igjen. Sentralbanksjefen pekte i et intervju etter beslutningen på kronens betydning for prisveksten og på økende, gjeldsfinansierte KI-investeringer som en kilde til høyere renter og uro i markedene.
 

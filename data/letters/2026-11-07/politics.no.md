@@ -1,4 +1,4 @@
-# Politikkbrev, lørdag 7. november 2026
+# Politikk, lørdag 7. november 2026
 
 **Sammendrag.** Følgene av tirsdagens mellomvalg i USA preget fortsatt markedene. President Trump erstattet stabssjef Susie Wiles med Stephen Miller, mens rådgiverne hans er uenige om krigen med Iran skal avsluttes eller gjenopptas. Washington krevde også at Beijing overholder Busan-avtalen, og Kina varslet mottiltak mot nye amerikanske sanksjoner. I Europa står kampen om ESB-ledelsen nå mellom to kandidater. I Norge kalte finansministeren verdifallet i oljefondet håndterbart.
 

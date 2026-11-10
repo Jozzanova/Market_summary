@@ -1,4 +1,4 @@
-# Norges Bank-brev, søndag 8. november 2026
+# Norges Bank, søndag 8. november 2026
 
 **Sammendrag.** Det kom ingen nyheter fra Norges Bank i helgen. Bankens nyhetsside viser ingenting etter torsdagens beslutning om å holde styringsrenten uendret på 4,50 prosent, og vi har ikke funnet nye kommentarer fra økonomer eller pressen om renteutsiktene lørdag eller søndag. Hovedbildet er uendret rente med beredskap for heving ved behov; KPI for oktober tirsdag og den svakere kronen er de neste testene.
 

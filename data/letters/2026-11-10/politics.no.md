@@ -1,4 +1,4 @@
-# Politikkbrev, tirsdag 10. november 2026
+# Politikk, tirsdag 10. november 2026
 
 **Sammendrag.** Iran-konflikten var fortsatt den viktigste politiske drivkraften i markedene. President Trump sa etter en samtale med Qatars statsminister at ny militær aksjon ser usannsynlig ut, noe som presset oljeprisen ned, men Teheran avviste at det pågår samtaler og gjentok at Hormuzstredet forblir stengt til Irans vilkår er oppfylt. I Washington har Nvidia-saken blitt et politisk tema, og demokratene vurderer å bruke budsjettfristen 11. desember til å begrense krigen. Kinas handelsoverskudd passerte 1 000 milliarder dollar foran et ventet møte mellom Trump og Xi neste uke.
 

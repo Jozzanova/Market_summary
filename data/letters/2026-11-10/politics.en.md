@@ -1,4 +1,4 @@
-# Politics letter, Tuesday 10 November 2026
+# Politics, Tuesday 10 November 2026
 
 **Summary.** The Iran conflict remained the main political driver of markets. President Trump said after a call with Qatar's prime minister that renewed military action looks unlikely, which pushed oil lower, but Tehran dismissed reports of talks and repeated that the Strait of Hormuz stays closed until its conditions are met. In Washington, the Nvidia affair has become a political issue, and Democrats are weighing whether to use the 11 December funding deadline to constrain the war. China's trade surplus passed one trillion dollars ahead of an expected Trump–Xi meeting next week.
 

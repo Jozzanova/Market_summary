@@ -1,4 +1,4 @@
-# Macro letter, Saturday 7 November 2026
+# Macro, Saturday 7 November 2026
 
 **Summary.** A strong US employment report on Friday reinforced the case for a Federal Reserve rate increase in December. Payrolls rose 165,000 in October, against about 70,000 expected, September was revised up to 60,000 and unemployment fell to 4.1 per cent. Futures price a quarter-point hike at the 8–9 December meeting with a probability of about 78 per cent. The week closed with three of the four central banks that met this week raising rates; Norges Bank held. In the euro area, the field to succeed ECB President Lagarde has narrowed to two candidates.
 

@@ -1,4 +1,4 @@
-# Norges Bank-brev, mandag 9. november 2026
+# Norges Bank, mandag 9. november 2026
 
 **Sammendrag.** Norges Bank har ikke kommet med noe nytt i helgen; de siste sakene på bankens nyhetsside er fortsatt torsdagens beslutning om å holde styringsrenten uendret på 4,50 prosent og de to talene samme dag. Det stående budskapet er uendret rente en tid, med beredskap for å heve om nødvendig. Tirsdagens KPI for oktober er neste test: økonomene venter at KPI-JAE faller til 2,7 prosent, og Sparebank 1 Markets mener det må komme en klar overraskelse oppover før tallene får betydning for renten.
 

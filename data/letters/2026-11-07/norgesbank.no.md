@@ -1,4 +1,4 @@
-# Norges Bank-brev, lørdag 7. november 2026
+# Norges Bank, lørdag 7. november 2026
 
 **Sammendrag.** Norges Bank har ikke publisert noe nytt om pengepolitikken siden torsdagens beslutning om å holde styringsrenten uendret på 4,50 prosent. Nyhetene siden har kommet fra kronen, som svekket seg igjen fredag da det globale aksjefallet spredte seg til Europa: EUR/NOK endte uken på 10,54, og den importveide indeksen er 2 prosent svakere enn for en uke siden. Økonomene ser fortsatt kronen som den viktigste kanalen for en eventuell heving i desember, men Nordea advarer om at en svakere krone ikke automatisk betyr høyere rente.
 

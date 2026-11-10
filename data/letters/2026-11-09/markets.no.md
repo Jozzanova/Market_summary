@@ -1,4 +1,4 @@
-# Markedsbrev, mandag 9. november 2026
+# Markedet, mandag 9. november 2026
 
 **Sammendrag.** Asiatiske aksjer hentet inn en del av forrige ukes fall i natt, ledet av markedene med mye halvlederindustri: Nikkei 225 steg 3,2 prosent og KOSPI 1,0 prosent, og amerikanske aksjefutures pekte rundt 0,5 prosent opp. Oppgangen kom til tross for at styret i Nvidia gransker toppsjef Jensen Huang etter meldinger om at han var mål for kinesisk etterretning. Oljeprisen holdt seg rundt 98 dollar etter at president Trump sa nye angrep på Iran er «svært usannsynlig» dersom samtalene gjør fremskritt, mens gullprisen steg 1,4 prosent. Europa og USA åpner etter helgen; ukens viktigste tall er konsumprisene i Norge og USA tirsdag.
 

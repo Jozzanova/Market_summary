@@ -1,4 +1,4 @@
-# Makrobrev, søndag 8. november 2026
+# Makro, søndag 8. november 2026
 
 **Sammendrag.** Ingen sentralbanker endret pengepolitikken i helgen. ESB-sjef Christine Lagarde sa i et intervju publisert lørdag at inflasjonen trolig holder seg høy på kort sikt, drevet av energi, og ville ikke forplikte seg til et rentetrekk i desember. I USA har den sterke sysselsettingsrapporten fredag fått markedet til å prise en renteheving fra Federal Reserve i desember med rundt 80 prosent sannsynlighet, og konsumprisene for oktober tirsdag er det siste viktige grunnlaget før møtet. I Norge er KPI for oktober samme dag den første testen av Norges Banks beslutning om uendret rente torsdag.
 

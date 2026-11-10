@@ -1,4 +1,4 @@
-# Politics letter, Sunday 8 November 2026
+# Politics, Sunday 8 November 2026
 
 **Summary.** The aftermath of the US midterms dominated the weekend. President Trump signalled a combative approach towards the incoming Democratic majority, while several Senate Republicans pushed to delay their leadership election. There was no decision on whether to resume major strikes on Iran, and Tehran repeated that the Strait of Hormuz stays closed until its conditions are met. In Israel, opposition leader Gadi Eisenkot was given the first chance to form a government, and New Zealand's election produced no clear result.
 

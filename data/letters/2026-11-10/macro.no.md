@@ -1,4 +1,4 @@
-# Makrobrev, tirsdag 10. november 2026
+# Makro, tirsdag 10. november 2026
 
 **Sammendrag.** Ingen sentralbank endret renten det siste døgnet, og rentetabellen er uendret. Bank of Japans oppsummering av synspunkter fra oktobermøtet viste at mange i styret mener en renteheving snart er nødvendig, noe som styrker forventningene om en heving til 1,5 prosent i desember, samtidig som husholdningenes forbruk i Japan falt 6,8 prosent på årsbasis. Kinas eksport økte 35 prosent i oktober, og handelsoverskuddet hittil i år passerte 1 000 milliarder dollar. Dagens avgjørende tall er konsumprisene i Norge og USA; det amerikanske tallet er det siste før Federal Reserve møtes 9. desember.
 

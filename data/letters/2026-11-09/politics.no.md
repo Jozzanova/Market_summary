@@ -1,4 +1,4 @@
-# Politikkbrev, mandag 9. november 2026
+# Politikk, mandag 9. november 2026
 
 **Sammendrag.** Helgens politiske nyheter dreide seg om etterspillet etter mellomvalget i USA og Iran-samtalene. President Trump innrømmet at utvisningspolitikken og Iran-krigen trolig kostet republikanerne stemmer og lanserte tanken om en innvandringsavtale, og han sa nye angrep på Iran er «svært usannsynlig» dersom samtalene gjør fremskritt, før et møte med Qatars statsminister i dag. Kina formaliserte en forlengelse av tollvåpenhvilen med USA med to måneder. I Europa drøfter finansministrene ECB-sjefsvervet, og den britiske statsministeren reiser til Det europeiske politiske fellesskapet i Dublin.
 

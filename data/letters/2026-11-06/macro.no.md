@@ -1,4 +1,4 @@
-# Makrobrev, fredag 6. november 2026
+# Makro, fredag 6. november 2026
 
 **Oppsummering.** Innstrammingen ble bredere denne uken. Bank of England hevet styringsrenten med 25 basispunkter til 4,00 prosent, den første hevingen siden 2023, og Riksbanken og Reserve Bank of Australia hevet også. Norges Bank, Federal Reserve og ESB holdt rentene uendret, alle med formuleringer som holder døren åpen for videre innstramming. Fellesnevneren er en inflasjon som er drevet opp av energiprisene og har vist seg tregere å få ned enn ventet, mot arbeidsmarkeder som bare gradvis kjølner. Torsdagens aksjefall i USA, som spredte seg til Asia i natt, der Nikkei 225 stengte 6,0 prosent lavere, og til Europa i morges, og nedgangen i amerikanske statsrenter har på marginen senket den markedsimpliserte sannsynligheten for en renteheving fra Federal Reserve i desember til om lag 70 prosent.
 

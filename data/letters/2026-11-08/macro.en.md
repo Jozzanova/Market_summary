@@ -1,4 +1,4 @@
-# Macro letter, Sunday 8 November 2026
+# Macro, Sunday 8 November 2026
 
 **Summary.** No central bank changed policy over the weekend. ECB President Christine Lagarde said in an interview published on Saturday that inflation is likely to remain high in the near term, driven by energy, and declined to commit to a December move. In the United States, Friday's strong employment report has left markets pricing a December Federal Reserve hike at about 80 per cent, with Tuesday's October consumer price report the last major input before the meeting. In Norway, October CPI on the same day is the first test of Norges Bank's hold on Thursday.
 

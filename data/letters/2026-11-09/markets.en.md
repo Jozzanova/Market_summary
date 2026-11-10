@@ -1,4 +1,4 @@
-# Markets letter, Monday 9 November 2026
+# Markets, Monday 9 November 2026
 
 **Summary.** Asian equities recovered part of last week's losses this morning, led by the semiconductor-heavy markets: the Nikkei 225 rose 3.2 per cent and the KOSPI 1.0 per cent, and US equity futures pointed about 0.5 per cent higher. The rebound came despite news that Nvidia's board is investigating chief executive Jensen Huang after reports he was the target of Chinese intelligence. Oil was steady near 98 dollars after President Trump said renewed strikes on Iran were "highly unlikely" if talks progress, while gold rose 1.4 per cent. Europe and the United States open after the weekend; the week's main data are consumer prices in Norway and the United States on Tuesday.
 

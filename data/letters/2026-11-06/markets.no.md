@@ -1,4 +1,4 @@
-# Markedsbrev, fredag 6. november 2026
+# Markedet, fredag 6. november 2026
 
 **Oppsummering.** Salget av teknologiaksjer som startet på Wall Street torsdag, spredte seg til Asia i natt og til Europa i morges. S&P 500 falt 4,4 prosent og Nasdaq Composite 5,5 prosent torsdag, de største dagsfallene siden april 2025, da investorene vurderte reguleringsutsiktene for KI-datasentre på nytt etter at Demokratene vant begge kamrene i Kongressen. Nikkei 225 og KOSPI stengte begge 6,0 prosent lavere, og de europeiske indeksene åpnet om lag 1,5 prosent ned. Oslo Børs er rammet av en teknisk feil i hovedindeksen i dag. Amerikanske renter er lite endret etter torsdagens fall, Brent ligger nær 98 dollar, og kronen har svekket seg videre til 10,48 mot euro. Sysselsettingstallene fra USA klokken 14.30 er dagens viktigste hendelse.
 

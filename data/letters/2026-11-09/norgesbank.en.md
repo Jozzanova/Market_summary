@@ -1,4 +1,4 @@
-# Norges Bank letter, Monday 9 November 2026
+# Norges Bank, Monday 9 November 2026
 
 **Summary.** There was no new communication from Norges Bank over the weekend; the latest items on its news page remain Thursday's decision to keep the policy rate at 4.50 per cent and the two speeches that day. The standing view is a hold for some time with a readiness to hike if needed. Tuesday's October CPI is the next test: economists expect CPI-ATE to fall to 2.7 per cent, and Sparebank 1 Markets says it would take a clear upside surprise to matter for the rate.
 

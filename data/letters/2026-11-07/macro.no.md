@@ -1,4 +1,4 @@
-# Makrobrev, lørdag 7. november 2026
+# Makro, lørdag 7. november 2026
 
 **Sammendrag.** En sterk sysselsettingsrapport fra USA fredag styrket argumentene for en renteheving fra Federal Reserve i desember. Antall sysselsatte økte med 165 000 i oktober, mot om lag 70 000 ventet, september ble revidert opp til 60 000, og ledigheten falt til 4,1 prosent. Prisingen i markedet gir om lag 78 prosent sannsynlighet for en heving på et kvart prosentpoeng på møtet 8.–9. desember. Tre av de fire sentralbankene som hadde møte denne uken, hevet renten; Norges Bank holdt den uendret. I euroområdet står det nå mellom to kandidater til å etterfølge ESB-sjef Lagarde.
 
