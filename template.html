@@ -259,7 +259,7 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
     <div class="card"><h2 data-i="mc_hist">History <small data-i="mc_hist_s">three years; the policy rate one year</small></h2><div class="plot" id="mcHist" style="height:420px"></div></div>
   </div>
   <div class="card"><h2 data-i="mc_nok">The krone: rate differentials and exchange rates <small data-i="mc_nok_s"></small></h2><div class="scrollx" id="nokMatrix"></div><p class="note" data-i="mc_nok_note"></p></div>
-  <div class="card"><h2 data-i="mc_nokd">Policy rate differential against NOK, last twelve months <small data-i="mc_nokd_s"></small></h2><div class="plot" id="nokDiffPlot" style="height:360px"></div></div>
+  <div class="card"><h2 data-i="mc_nokd">Rate differentials against NOK <small data-i="mc_nokd_s"></small></h2><div class="plot" id="nokDiffPlot" style="height:340px"></div></div>
 </section>
 
 <section class="pane" id="pane-norgesbank">
@@ -323,7 +323,7 @@ const T = {
   mc_note: ["Sources: OECD (national consumer prices, labour force statistics, quarterly national accounts, 3-month and 10-year interest rates as monthly averages), Eurostat (euro-area unemployment), Statistics Norway (Norwegian CPI), the BIS and the banks (policy rates, the Fed as the upper bound of its range). GDP growth is quarter on quarter, not annualised. Core CPI excludes food and energy; for Norway it is CPI-ATE.", "Kilder: OECD (nasjonale konsumpriser, arbeidskraftundersøkelser, kvartalsvise nasjonalregnskap, 3-måneders og 10-års renter som månedsgjennomsnitt), Eurostat (ledighet i euroområdet), Statistisk sentralbyrå (norsk KPI), BIS og bankene (styringsrenter, Fed som øvre grense av intervallet). BNP-vekst er kvartal mot kvartal, ikke annualisert. Kjerneinflasjon er uten mat og energi; for Norge KPI-JAE."],
   mc_nok: ["The krone: rate differentials and exchange rates", "Kronen: rentedifferanser og valutakurser"], mc_nok_s: ["Norwegian rate minus the foreign rate in percentage points, green when the krone pays more; exchange rates as NOK per unit of foreign currency, a rise (red) is a weaker krone", "norsk rente minus utenlandsk rente i prosentpoeng, grønt når kronen gir mer; valutakurser som NOK per enhet utenlandsk valuta, en oppgang (rødt) er en svakere krone"],
   mc_ccy: ["Currency", "Valuta"], mc_spot: ["NOK per unit", "NOK per enhet"], mc_dpol: ["Policy rate", "Styringsrente"], mc_d3m: ["3-month", "3 måneder"], mc_d10y: ["10-year", "10 år"], mc_diff: ["Rate differential, pp", "Rentedifferanse, pp"], mc_fxchg: ["Exchange rate", "Valutakurs"],
-  mc_nokd: ["Policy rate differential against NOK, last twelve months", "Styringsrentedifferanse mot NOK siste tolv måneder"], mc_nokd_s: ["Norges Bank's rate minus the other bank's, percentage points", "Norges Banks rente minus den andre bankens, prosentpoeng"],
+  mc_nokd: ["Rate differentials against NOK", "Rentedifferanser mot NOK"], mc_nokd_s: ["Norwegian rate minus the foreign rate, percentage points: today's policy rates, and the 3-month and 10-year rates as the OECD's latest monthly averages", "norsk rente minus utenlandsk rente, prosentpoeng: dagens styringsrenter, og 3-måneders- og 10-årsrentene som OECDs siste månedsgjennomsnitt"],
   mc_nok_note: ["Policy rates are the current ones; the 3-month and 10-year differentials use the OECD's monthly averages for the month shown. JPY is quoted per 100 yen. The exchange-rate changes are over 1 day, 1 week, 1 month and the year to date.", "Styringsrentene er dagens; differansene for 3 måneder og 10 år bruker OECDs månedsgjennomsnitt for måneden som vises. JPY er notert per 100 yen. Valutakursendringene er over 1 dag, 1 uke, 1 måned og hittil i år."],
   cb_min: ["Latest decisions and minutes", "Siste beslutninger og referater"], cb_min_s: ["the statement of the last decision and the last published minutes, summarised by the agent; the links go to the banks' own pages", "pressemeldingen fra siste rentebeslutning og siste publiserte referat, oppsummert av agenten; lenkene går til bankenes egne sider"],
   k_decision: ["Decision", "Beslutning"], k_minutes: ["Minutes", "Referat"], cb_min_upd: ["Kept by the morning routine; last checked", "Vedlikeholdt av morgenrutinen; sist sjekket"],
@@ -771,18 +771,19 @@ function drawNokMatrix() {
     return `<tr><td><b>${c}</b>${mult === 100 ? ` <span class="muted small">×100</span>` : ""} <span class="muted small">${esc(mcName(mcArea(code)))}</span></td><td class="num">${spot}</td>${["d1", "w1", "m1", "ytd"].map(f => chgCell(y ? y[f] : null)).join("")}${["policy", "r3m", "r10y"].map(k => dCell(diff(k, code), k, code)).join("")}</tr>`; }).join("");
   el.innerHTML = `<table class="mx"><thead>${head}</thead><tbody>${body}</tbody></table>`;
 }
-// daily policy-rate differentials from the BIS block (NO minus each of the others), step lines over the last year
+// the latest rate differentials against NOK as grouped bars: policy, 3-month and 10-year per currency, sorted by the
+// policy differential, with the value written on each bar
 function drawNokDiff() {
   const node = $("#nokDiffPlot"); if (!node) return;
-  const base = CB.NO; if (!base) { node.innerHTML = `<p class="empty">${t("no_events")}</p>`; return; }
-  const col = [...COLORS(), cssv("--warn")];
-  const tr = NOK_CCY.filter(([, , code]) => mcArea(code).bis && CB[mcArea(code).bis] && code !== "NOR").map(([c, , code], i) => { const o = CB[mcArea(code).bis], m = new Map(o.dates.map((d, j) => [d, o.values[j]]));
-    const xs = [], ys = []; base.dates.forEach((d, j) => { if (m.has(d)) { xs.push(d); ys.push(base.values[j] - m.get(d)); } });
-    return {x: xs, y: ys, name: `NOK − ${c}`, ccy: c, type: "scatter", mode: "lines", noEnd: true, line: {width: 2, shape: "hv", color: col[i % col.length]}, hovertemplate: `%{y:.2f} pp<extra>NOK − ${c}</extra>`}; });
-  const groups = new Map(); tr.forEach(x => { const y = x.y[x.y.length - 1]; if (y == null) return; const k = y.toFixed(3); if (!groups.has(k)) groups.set(k, {y, names: [], color: x.line.color}); groups.get(k).names.push(x.ccy); });
-  const ann = [...groups.values()].sort((p, q) => q.y - p.y).map(g => ({x: 1, xref: "paper", y: g.y, xanchor: "left", yanchor: "middle", xshift: 6, showarrow: false, text: `${g.y > 0 ? "+" : ""}${fmt(g.y, 2)} ${g.names.join(", ")}`, font: {size: 11, color: g.names.length > 1 ? cssv("--fg") : g.color}}));
-  for (let i = 1; i < ann.length; i++) { if (ann[i - 1].y - ann[i].y < 0.3) { ann[i].yshift = (ann[i - 1].yshift || 0) - 13; } }
-  plot(node, tr, {yaxis: {ticksuffix: " pp", zeroline: true, zerolinecolor: cssv("--axis")}, margin: {l: 48, r: 120, t: 10, b: 64}, annotations: ann});
+  const no = {policy: mcSeries("NOR", "policy"), r3m: mcSeries("NOR", "r3m"), r10y: mcSeries("NOR", "r10y")};
+  const diff = (k, code) => { const a = no[k], b = mcSeries(code, k); return a && b && a.last != null && b.last != null ? a.last - b.last : null; };
+  const rows = NOK_CCY.map(([c, , code]) => ({c, policy: diff("policy", code), r3m: diff("r3m", code), r10y: diff("r10y", code)})).filter(r => r.policy != null || r.r3m != null || r.r10y != null)
+    .sort((x, y) => (y.policy ?? y.r3m ?? 0) - (x.policy ?? x.r3m ?? 0));
+  if (!rows.length) { node.innerHTML = `<p class="empty">${t("no_events")}</p>`; return; }
+  const col = COLORS(), lab = {policy: t("mc_dpol"), r3m: t("mc_d3m"), r10y: t("mc_d10y")};
+  const tr = ["policy", "r3m", "r10y"].map((k, i) => ({type: "bar", x: rows.map(r => r.c), y: rows.map(r => r[k]), name: lab[k], marker: {color: col[i], opacity: 0.9},
+    text: rows.map(r => r[k] == null ? "" : `${r[k] > 0 ? "+" : ""}${fmt(r[k], 2)}`), textposition: "outside", textfont: {size: 10, color: cssv("--fg")}, cliponaxis: false, hovertemplate: `%{y:+.2f} pp<extra>${esc(lab[k])}</extra>`}));
+  plot(node, tr, {barmode: "group", bargap: 0.25, bargroupgap: 0.05, yaxis: {ticksuffix: " pp", zeroline: true, zerolinecolor: cssv("--axis"), zerolinewidth: 1.5}, xaxis: {tickfont: {size: 12}}, margin: {l: 48, r: 16, t: 24, b: 64}, hovermode: "x unified"});
 }
 
 /* ---------- central banks ---------- */
