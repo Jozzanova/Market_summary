@@ -102,7 +102,8 @@ Format: Markdown with a `# Title, weekday day month year` heading, where the tit
 where a table says it better, and links in the text `([Source](url))`. A line `{chart: SYM1,SYM2 | 3m | indexed}` draws a
 chart of the named instruments (symbols as in `data/instruments.csv`, or the FRED/ECB/Norges Bank keys `DGS2`, `DGS10`,
 `EA_SR_10Y`, `nok_10y`, `nok_policy`, `BAMLH0A0HYM2`, and the derived rate differentials `diff_nok_eur_short` (Norway 3-year
-minus euro AAA 2-year), `diff_nok_eur_10y` and `diff_nok_eur_policy`); range `1m`, `3m`, `ytd` or `1y`; mode `indexed`
+minus euro AAA 2-year), `diff_nok_eur_10y` and `diff_nok_eur_policy`, and the same against the dollar: `diff_nok_usd_short`, `diff_nok_usd_10y`,
+`diff_nok_usd_policy`); range `1m`, `3m`, `ytd` or `1y`; mode `indexed`
 (start = 100), `level`, or `dual` (the first series on the left axis, the rest on a right axis in percentage points: the
 mode for an exchange rate against rate differentials). Use one or two charts per letter where they help. The krone
 section of the Norges Bank letter uses `{chart: EURNOK=X,diff_nok_eur_short,diff_nok_eur_10y | 3m | dual}`, never

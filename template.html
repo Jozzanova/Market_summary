@@ -314,7 +314,7 @@ const T = {
   k_highlights: ["Key points", "Hovedtrekk"], k_markets: ["Markets", "Markedet"], k_intraday: ["Intraday", "Intradag"], k_macro: ["Macro", "Makro"], k_politics: ["Politics", "Politikk"], run_now: ["Update now", "Oppdater nå"],
   snap_title: ["The last 24 hours at a glance", "Det siste døgnet i korte trekk"], fig_title: ["Figures", "Figurer"],
   brent_title: ["Brent oil", "Brent-olje"], brent_s: ["USD per barrel, same period", "USD per fat, samme periode"], i44_title: ["The krone: I-44", "Kronen: I-44"], i44_s: ["Norges Bank's import-weighted index; up = weaker krone", "Norges Banks importveide indeks; opp = svakere krone"],
-  g_equities: ["Equities", "Aksjer"], r_us: ["United States", "USA"], r_europe: ["Europe", "Europa"], r_nordic: ["Nordics", "Norden"], r_asia: ["Asia", "Asia"], r_em: ["Emerging markets", "Fremvoksende markeder"], r_vol: ["Volatility", "Volatilitet"], g_bonds: ["Bonds and credit", "Obligasjoner og kreditt"], g_commodities: ["Commodities", "Råvarer"], g_fx: ["Currencies", "Valuta"],
+  g_equities: ["Equities", "Aksjer"], r_us: ["United States", "USA"], r_europe: ["Europe", "Europa"], r_nordic: ["Nordics", "Norden"], r_asia: ["Asia", "Asia"], r_em: ["Emerging markets", "Fremvoksende markeder"], r_vol: ["Volatility", "Volatilitet"], g_bonds: ["Bonds and credit", "Obligasjoner og kreditt"], g_diff: ["Rate differentials, NOK minus (pp; changes in bp)", "Rentedifferanser, NOK minus (pp; endringer i bp)"], g_commodities: ["Commodities", "Råvarer"], g_fx: ["Currencies", "Valuta"],
   ev_title: ["Upcoming events", "Kommende hendelser"], ev_note: ["Central bank decisions, data releases and political dates kept by the daily agent; times are Oslo time. Importance: high (orange), medium (blue), low.", "Sentralbankmøter, statistikkslipp og politiske datoer, vedlikeholdt av den daglige agenten; tidene er norsk tid. Viktighet: høy (oransje), middels (blå), lav."],
   eq_title: ["Equity indices", "Aksjeindekser"], ai_title: ["AI and semiconductors", "KI og halvledere"], ai_s: ["the indices and ETFs the market uses as AI proxies", "indeksene og ETF-ene markedet bruker som KI-indikatorer"], set_ai: ["AI and semiconductors", "KI og halvledere"], eq_perf: ["Indexed performance", "Indeksert utvikling"], eq_perf_s: ["start of period = 100, local currency", "start av perioden = 100, lokal valuta"],
   hm_title: ["Largest US stocks, latest session", "De største amerikanske aksjene, siste handelsdag"], hm_s: ["box size = market capitalisation, colour = change on the day", "boksstørrelse = markedsverdi, farge = endring på dagen"],
@@ -408,10 +408,18 @@ const DIFF = {};
 (function () {
   const mk = (key, a, b, en, no) => { if (!a || !b || !a.dates || !b.dates) return; const m = new Map(b.dates.map((d, i) => [d, b.values[i]])); const dates = [], values = [];
     a.dates.forEach((d, i) => { if (m.has(d) && a.values[i] != null && m.get(d) != null) { dates.push(d); values.push(Math.round((a.values[i] - m.get(d)) * 1000) / 1000); } });
-    if (dates.length) DIFF[key] = {name_en: en, name_no: no, group: "diff", kind: "yield", decimals: 2, unit: "pp", dates, values, last: values[values.length - 1], last_date: dates[dates.length - 1]}; };
+    if (!dates.length) return;
+    const last = values[values.length - 1], lastD = dates[dates.length - 1], at = iso => { let k = dates.length - 1; while (k > 0 && dates[k] > iso) k--; return values[k]; };
+    const back = days => { const d = new Date(lastD + "T00:00:00Z"); d.setUTCDate(d.getUTCDate() - days); return d.toISOString().slice(0, 10); };
+    const bp = v => Math.round((last - v) * 100 * 10) / 10;
+    DIFF[key] = {name_en: en, name_no: no, group: "diff", kind: "yield", decimals: 2, unit: "bp", dates, values, last, last_date: lastD, prev: values[values.length - 2],
+      d1: values.length > 1 ? bp(values[values.length - 2]) : null, w1: bp(at(back(7))), m1: bp(at(back(31))), ytd: bp(at(lastD.slice(0, 4) + "-01-01"))}; };
   mk("diff_nok_eur_10y", NB.nok_10y, EC.EA_SR_10Y, "NOK − EUR 10-year (Norway gov. minus euro AAA)", "NOK − EUR 10 år (norsk stat minus euro AAA)");
   mk("diff_nok_eur_short", NB.nok_3y, EC.EA_SR_2Y, "NOK − EUR short end (Norway 3-year minus euro 2-year AAA)", "NOK − EUR kort ende (norsk 3 år minus euro 2 år AAA)");
   mk("diff_nok_eur_policy", CB.NO, CB.XM, "NOK − EUR policy rate", "NOK − EUR styringsrente");
+  mk("diff_nok_usd_policy", CB.NO, CB.US, "NOK − USD policy rate (upper bound)", "NOK − USD styringsrente (øvre grense)");
+  mk("diff_nok_usd_10y", NB.nok_10y, FR.DGS10, "NOK − USD 10-year", "NOK − USD 10 år");
+  mk("diff_nok_usd_short", NB.nok_3y, FR.DGS2, "NOK − USD short end (Norway 3-year minus US 2-year)", "NOK − USD kort ende (norsk 3 år minus USA 2 år)");
 })();
 const group = g => Object.entries(Y).filter(([, v]) => v.group === g).map(([s, v]) => ({sym: s, ...v}));
 function startDate(range, lastDate) {
@@ -536,14 +544,16 @@ function drawLetterFigs(root) {
   });
 }
 // the snapshot table beside the letter: four groups, short names
-const SNAP_GROUPS = [["g_equities", ["^GSPC", "^IXIC", "^SOX", "^STOXX", "OSEBX.OL", "^N225", "^HSI", "^VIX"]], ["g_bonds", ["^TNX", "DGS2", "EA_SR_10Y", "nok_10y", "BAMLH0A0HYM2"]],
+const SNAP_GROUPS = [["g_equities", ["^GSPC", "^IXIC", "^SOX", "^STOXX", "OSEBX.OL", "^N225", "^HSI", "^VIX"]], ["g_bonds", ["^TNX", "DGS2", "EA_SR_10Y", "nok_10y", "BAMLH0A0HYM2"]], ["g_diff", ["diff_nok_eur_policy", "diff_nok_eur_short", "diff_nok_eur_10y", "diff_nok_usd_policy", "diff_nok_usd_short", "diff_nok_usd_10y"]],
   ["g_commodities", ["BZ=F", "GC=F", "HG=F", "TTF=F"]], ["g_fx", ["DX-Y.NYB", "EURUSD=X", "USDJPY=X", "EURNOK=X", "USDNOK=X", "nok_i44"]]];
 const SHORT = {"^GSPC": ["S&P 500", "S&P 500"], "^IXIC": ["Nasdaq", "Nasdaq"], "^STOXX": ["STOXX 600", "STOXX 600"], "^SOX": ["SOX (semis)", "SOX (halvledere)"], "OSEBX.OL": ["OSEBX", "OSEBX"], "^N225": ["Nikkei 225", "Nikkei 225"], "^HSI": ["Hang Seng", "Hang Seng"], "^VIX": ["VIX", "VIX"],
   "^TNX": ["US 10y (live)", "USA 10 år (live)"], "DGS2": ["US 2y", "USA 2 år"], "EA_SR_10Y": ["Euro area 10y", "Eurosonen 10 år"], "nok_10y": ["Norway 10y", "Norge 10 år"], "BAMLH0A0HYM2": ["US HY spread", "USA high yield-påslag"],
   "BZ=F": ["Brent, USD/bbl", "Brent, USD/fat"], "GC=F": ["Gold, USD/oz", "Gull, USD/unse"], "HG=F": ["Copper, USD/lb", "Kobber, USD/pund"], "TTF=F": ["TTF gas, EUR/MWh", "TTF-gass, EUR/MWh"],
+  diff_nok_eur_policy: ["EUR, policy rate", "EUR, styringsrente"], diff_nok_eur_short: ["EUR, short end (3y − 2y)", "EUR, kort ende (3 år − 2 år)"], diff_nok_eur_10y: ["EUR, 10-year", "EUR, 10 år"],
+  diff_nok_usd_policy: ["USD, policy rate (upper)", "USD, styringsrente (øvre)"], diff_nok_usd_short: ["USD, short end (3y − 2y)", "USD, kort ende (3 år − 2 år)"], diff_nok_usd_10y: ["USD, 10-year", "USD, 10 år"],
   "DX-Y.NYB": ["Dollar index", "Dollarindeksen"], "EURUSD=X": ["EUR/USD", "EUR/USD"], "USDJPY=X": ["USD/JPY", "USD/JPY"], "EURNOK=X": ["EUR/NOK", "EUR/NOK"], "USDNOK=X": ["USD/NOK", "USD/NOK"], "nok_i44": ["I-44 (up = weaker NOK)", "I-44 (opp = svakere krone)"]};
 const shortName = (sym, v) => (SHORT[sym] || [nameOf(v), nameOf(v)])[LANG === "no" ? 1 : 0];
-const chgText = (v, unit) => v == null || !isFinite(v) ? "–" : unit === "bp" ? `${v > 0 ? "+" : ""}${fmt(v, 0)} bp` : `${v > 0 ? "+" : ""}${fmt(v, 2)} %`;
+const chgText = (v, unit) => v == null || !isFinite(v) ? "–" : unit === "bp" ? (r => `${r > 0 ? "+" : ""}${fmt(r, 0)} bp`)(Math.round(v) || 0) : `${v > 0 ? "+" : ""}${fmt(v, 2)} %`;
 function snapRows() {
   return {head: ["", t("last"), t("d1"), t("w1"), t("ytd"), t("date")], num: [false, true, true, true, true, true],
     rows: SNAP_GROUPS.flatMap(([g, syms]) => { const rs = syms.map(s => [s, bySym(s)]).filter(([, v]) => v && v.last != null); return rs.length ? [{section: t(g)}, ...rs.map(([s, v]) => [shortName(s, v), fmt(v.last, +v.decimals), chgText(v.d1, v.unit), chgText(v.w1, v.unit), chgText(v.ytd, v.unit), fmtDate(v.last_date)])] : []; })};
@@ -1112,7 +1122,7 @@ function runsOf(node) {
 function docModel() {
   const date = LDATE; const blocks = [];
   blocks.push({type: "title", text: `${t("title")}`}, {type: "meta", text: `${fmtDateLong(date)} · market-summary.jskjeltorp.workers.dev · ${LANG === "no" ? "skrevet av en planlagt agent ut fra offentlige markedsdata og dagens nyheter" : "written by a scheduled agent from public market data and the day's news"}`});
-  const sn = snapRows(); blocks.push({type: "h2", runs: [{text: t("snap_title")}]}, {type: "table", head: sn.head, num: sn.num, rows: sn.rows});
+  const sn = snapRows(); blocks.push({type: "h2", runs: [{text: t("snap_title")}]}, {type: "table", head: sn.head, num: sn.num, rows: sn.rows}, {type: "figs", figs: PDF_FIGS.front, front: true});
   let first = true;
   for (const kind of DOC_KINDS) {
     const entry = (LETTERS[date] || {})[kind]; const text = entry && (entry[LANG] || entry.en || entry.no); if (!text) continue;
@@ -1152,6 +1162,9 @@ async function exportPdf() {
 /* small topical charts for the letter PDF: four per letter, two across, in Norges Bank's palette (midnight, accent
    blue, sea, sand), rendered with Plotly to PNG at print resolution. Symbols as in the letter chart syntax. */
 const PDF_FIGS = {
+  front: [
+    {t: ["EUR/NOK and the NOK − EUR rate differential (3 months)", "EUR/NOK og rentedifferansen NOK − EUR (3 måneder)"], syms: ["EURNOK=X", "diff_nok_eur_short", "diff_nok_eur_10y"], range: "3m", mode: "dual", dec: 2},
+    {t: ["10-year differentials, NOK minus EUR and USD, pp (1 year)", "Tiårsdifferanser, NOK minus EUR og USD, pp (1 år)"], syms: ["diff_nok_eur_10y", "diff_nok_usd_10y"], range: "1y", mode: "level", names: [["NOK − EUR", "NOK − EUR"], ["NOK − USD", "NOK − USD"]]}],
   highlights: [
     {t: ["Equities, indexed (1 month)", "Aksjer, indeksert (1 måned)"], syms: ["^GSPC", "^STOXX", "OSEBX.OL", "^N225"], range: "1m", mode: "indexed"},
     {t: ["10-year government yields, per cent (3 months)", "Tiårige statsrenter, prosent (3 måneder)"], syms: ["DGS10", "EA_SR_10Y", "nok_10y"], range: "3m", mode: "level"},
@@ -1185,7 +1198,7 @@ const PDF_SHORT = {cb_US: ["Fed", "Fed"], cb_XM: ["ECB", "ESB"], cb_GB: ["BoE", 
   diff_nok_eur_policy: ["Policy rate", "Styringsrente"], diff_nok_eur_short: ["Short end (3y−2y)", "Kort ende (3−2 år)"], diff_nok_eur_10y: ["10-year", "10 år"],
   "mc:USA.cpi": ["US", "USA"], "mc:EA.cpi": ["Euro area", "Eurosonen"], "mc:GBR.cpi": ["UK", "Storbritannia"], "mc:NOR.cpi": ["Norway", "Norge"]};
 const pdfName = (sym, v) => (PDF_SHORT[sym] || SHORT[sym] || [nameOf(v), nameOf(v)])[LANG === "no" ? 1 : 0];
-const pdfSource = syms => { const src = new Set(); syms.forEach(s => { if (Y[s]) src.add("Yahoo Finance"); else if (FR[s]) src.add("FRED"); else if (EC[s]) src.add("ECB"); else if (NB[s]) src.add("Norges Bank"); else if (SSB[s]) src.add("SSB"); else if (s.startsWith("cb_")) src.add("BIS"); else if (s.startsWith("mc:")) src.add("OECD"); else if (DIFF[s]) { src.add("Norges Bank"); src.add("ECB"); } });
+const pdfSource = syms => { const src = new Set(); syms.forEach(s => { if (Y[s]) src.add("Yahoo Finance"); else if (FR[s]) src.add("FRED"); else if (EC[s]) src.add("ECB"); else if (NB[s]) src.add("Norges Bank"); else if (SSB[s]) src.add("SSB"); else if (s.startsWith("cb_")) src.add("BIS"); else if (s.startsWith("mc:")) src.add("OECD"); else if (DIFF[s]) { src.add("Norges Bank"); src.add(s.includes("usd") ? "FRED" : "ECB"); } });
   return (LANG === "no" ? "Kilde: " : "Source: ") + [...src].join(", "); };
 // one chart as a PNG data URL, w × h points, drawn off-screen in the print style: no legend, every line is named and
 // valued at its end (labels nudged apart when two lines end close together), month ticks in the letter's language.
@@ -1278,10 +1291,24 @@ async function pdfDefinition(m) {
     return null;
   };
   // 1. the front matter and the letters: heading, lead paragraph, body items, small charts
-  const front = [], letters = []; let cur = null;
+  // the snapshot table of the title page: its sections split over two columns (equities and commodities left; bonds,
+  // differentials and currencies right), the date column dropped (the data stamp is in the meta line), compact type
+  const snapColumns = b => {
+    const sections = []; b.rows.forEach(r => { if (r.section) sections.push({title: r.section, rows: []}); else if (sections.length) sections[sections.length - 1].rows.push(r); });
+    const keep = b.head.map((h, j) => j !== b.head.length - 1), head = b.head.filter((_, j) => keep[j]), num = b.num.filter((_, j) => keep[j]);
+    const tbl = secs => ({table: {headerRows: 1, widths: head.map((_, j) => j === 0 ? "*" : "auto"), dontBreakRows: true,
+        body: [head.map((h, j) => ({text: h, style: "th", alignment: num[j] ? "right" : "left"})), ...secs.flatMap(sec => [[{text: sec.title, colSpan: head.length, style: "td", bold: true, color: ACC, margin: [0, 3, 0, 0]}, ...Array(head.length - 1).fill({})],
+          ...sec.rows.map(r => r.filter((_, j) => keep[j]).map((c, j) => ({text: c, style: "td", alignment: num[j] ? "right" : "left"})))])]},
+      fontSize: 7.5, layout: {hLineWidth: (i, t) => i === 0 || i === 1 || i === t.table.body.length ? 0.8 : 0.25, vLineWidth: () => 0, hLineColor: (i, t) => i === 0 || i === 1 || i === t.table.body.length ? INK : GRAY, paddingTop: () => 2, paddingBottom: () => 2, paddingLeft: () => 3, paddingRight: () => 3}});
+    const left = sections.filter(x => /^(Equities|Aksjer|Commodities|Råvarer)$/.test(x.title)), right = sections.filter(x => !left.includes(x));
+    return {columns: [{width: COLW, stack: [tbl(left)]}, {width: COLW, stack: [tbl(right)]}], columnGap: GAP, margin: [0, 2, 0, 10]};
+  };
+  const front = [], letters = []; let cur = null, frontTable = false;
   for (const b of m.blocks) {
     if (b.pageBreak) { cur = {h1: null, lead: null, body: [], figs: []}; letters.push(cur); }
-    if (!cur) { const n = nodeOf(b, FULLW); if (n) front.push(...[].concat(n)); continue; }
+    if (!cur) { if (b.type === "table" && !frontTable) { frontTable = true; front.push(snapColumns(b)); continue; }
+      if (b.type === "figs") { const fs = nodeOf(b, COLW); if (fs.length) front.push({columns: fs.map(n => ({width: COLW, stack: [n]})), columnGap: GAP}); continue; }
+      const n = nodeOf(b, FULLW); if (n) front.push(...[].concat(n)); continue; }
     if (b.type === "h1") { cur.h1 = nodeOf(b, FULLW); continue; }
     if (b.type === "p" && !cur.lead) { cur.lead = {text: runs(b.runs), style: "lead"}; continue; }
     if (b.type === "figs") { cur.figs.push(...nodeOf(b, COLW).map(n => ({node: n, kind: "fig"}))); continue; }
@@ -1351,6 +1378,7 @@ function exportDocx() {
   const body = [];
   for (const b of m.blocks) {
     if (b.pageBreak) body.push('<w:p><w:r><w:br w:type="page"/></w:r></w:p>');
+    if (b.type === "figs" || b.type === "fig") continue;
     if (b.type === "title") body.push(para([{text: b.text}], "Title"));
     else if (b.type === "meta") body.push(para([{text: b.text}], "Meta"));
     else if (b.type === "h1") body.push(para(b.runs, "Heading1"));
