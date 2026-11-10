@@ -29,9 +29,22 @@ Search the web for what moved markets in the last 24 hours and why: US close, Eu
 morning, government bonds, credit, oil, gas, metals, FX; central bank decisions, speeches, minutes and reports; the macro
 data released yesterday and due today; and the political developments that matter for markets (elections, fiscal policy,
 trade, sanctions, geopolitics). Always cover Norway: Oslo Børs, the krone, what others expect of Norges Bank, Statistics Norway releases.
-Prefer primary sources (central banks, statistics agencies, exchanges) and established outlets (Reuters, Bloomberg, FT,
-WSJ, CNBC, E24, DN, Finansavisen). Every fact you use must have a source you can link; do not state anything you could
-not verify, and say so when something could not be confirmed (for example "no report of the Asian session was available").
+**Source quality is part of the job.** Use the best source available for every fact, in this order:
+
+1. Primary: central banks (norges-bank.no, federalreserve.gov, ecb.europa.eu, bankofengland.co.uk, boj.or.jp, riksbank.se,
+   rba.gov.au, rbnz.govt.nz), statistics agencies (ssb.no, bls.gov, bea.gov, ec.europa.eu/eurostat, ons.gov.uk), finance
+   ministries and governments (treasury.gov, whitehouse.gov, regjeringen.no), exchanges and index providers, company
+   releases (the company's own site, SEC EDGAR, newsweb.oslobors.no), IEA, OPEC, the IMF and the BIS.
+2. Established financial press: Financial Times, Bloomberg, Reuters, Wall Street Journal, and for Norway E24, DN,
+   Finansavisen and NRK. CNBC, Nikkei Asia, Handelsblatt, Les Echos and the Economist are fine as well.
+3. Everything else (investingLive, FXStreet, Kitco, StockTitan, Trading Economics, Asia Times, aggregators and brokers'
+   blogs) only when a fact exists nowhere in tiers 1 and 2, and never as the sole source for a number, a quote or a
+   market move. When a tier-3 page cites a tier-1 or tier-2 source, go to that source and cite it instead.
+
+Open the articles you cite. Every fact you use must have a source you can link; do not state anything you could not
+verify, and say so when something could not be confirmed (for example "no report of the Asian session was available").
+Before you build, count the citations per domain across the day's letters: if tier-3 sources are more than one in six,
+go back and replace them.
 
 ## 3. Keep the tables current
 
@@ -141,5 +154,6 @@ exclamation, no advice, no speculation presented as fact; "per cent" and "basis 
 
 ## 7. Report
 
-End with a short report: the three summary paragraphs (English), what changed in the policy-rate table and the calendar,
+End with a short report: the three summary paragraphs (English), the citation count per domain for the day's letters with
+the share from tier-3 sources, what changed in the policy-rate table and the calendar,
 sources that were kept from the previous run, the deployed address and the commit.
