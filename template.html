@@ -699,7 +699,7 @@ function pricingCell(r) {
 // date, title (linked), the agent's summary in the page language and a quote or two
 function drawMinutes() {
   const M = D.cb_minutes || {}, items = M.items || [], no = LANG === "no", el = $("#cbMinutes"); if (!el) return;
-  const order = (D.policy_rates || []).map(r => r.bank.replace(/\s*\(.*\)\s*$/, "")); const banks = [...new Set(items.map(i => i.bank))].sort((a, b) => { const ia = order.findIndex(o => o.toLowerCase().startsWith(a.toLowerCase().slice(0, 8))), ib = order.findIndex(o => o.toLowerCase().startsWith(b.toLowerCase().slice(0, 8))); return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib); });
+  const order = (D.policy_rates || []).map(r => r.bank.replace(/\s*\(.*\)\s*$/, "")); const banks = [...new Set(items.map(i => i.bank))].sort((a, b) => { const ia = order.findIndex(o => o.toLowerCase() === a.toLowerCase()), ib = order.findIndex(o => o.toLowerCase() === b.toLowerCase()); return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib); });
   if (!banks.length) { el.innerHTML = `<p class="empty">${t("no_events")}</p>`; $("#cbMinNote").textContent = ""; return; }
   el.innerHTML = banks.map(b => {
     const its = items.filter(i => i.bank === b).sort((x, y) => (x.kind === "decision" ? 0 : 1) - (y.kind === "decision" ? 0 : 1));
