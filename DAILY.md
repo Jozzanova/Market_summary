@@ -62,23 +62,38 @@ not verify, and say so when something could not be confirmed (for example "no re
   Add what you learn (central bank meetings, CPI, payrolls, GDP, PMIs, Norwegian CPI and Norges Bank dates, elections,
   summits, fiscal deadlines), keep the dates verified, and delete rows older than yesterday.
 
-## 4. Write the four letters, in English and in Norwegian
+## 4. Write the five letters, in English and in Norwegian
 
 (The intraday snapshots, `intraday-HHMM.en.md` / `intraday-HHMM.no.md`, are written by the separate intraday routine, playbook `INTRADAY.md`; leave any existing intraday files alone.)
 
-Create the folder `data/letters/YYYY-MM-DD/` (today's date, UTC) with eight files: `markets.en.md`, `markets.no.md`,
-`macro.en.md`, `macro.no.md`, `politics.en.md`, `politics.no.md`, `norgesbank.en.md`, `norgesbank.no.md`. The Norwegian versions carry the same facts in
+Create the folder `data/letters/YYYY-MM-DD/` (today's date, UTC) with ten files: `highlights.en.md`, `highlights.no.md`,
+`markets.en.md`, `markets.no.md`, `macro.en.md`, `macro.no.md`, `politics.en.md`, `politics.no.md`, `norgesbank.en.md`,
+`norgesbank.no.md`. Write the key points last, from the other four, so they agree. The Norwegian versions carry the same facts in
 Norwegian bokmål (not a word-for-word translation; Norwegian number style: comma decimals, space thousands, "prosent").
 Format: Markdown with a `# Title, weekday day month year` heading, `##` sections, bullets, bold lead-ins, Markdown tables
 where a table says it better, and links in the text `([Source](url))`. A line `{chart: SYM1,SYM2 | 3m | indexed}` draws a
 chart of the named instruments (symbols as in `data/instruments.csv`, or the FRED/ECB/Norges Bank keys `DGS2`, `DGS10`,
-`EA_SR_10Y`, `nok_10y`, `nok_policy`, `BAMLH0A0HYM2`); range `1m`, `3m`, `ytd` or `1y`; mode `indexed` (start = 100) or
-`level`. Use one or two charts per letter where they help.
+`EA_SR_10Y`, `nok_10y`, `nok_policy`, `BAMLH0A0HYM2`, and the derived rate differentials `diff_nok_eur_short` (Norway 3-year
+minus euro AAA 2-year), `diff_nok_eur_10y` and `diff_nok_eur_policy`); range `1m`, `3m`, `ytd` or `1y`; mode `indexed`
+(start = 100), `level`, or `dual` (the first series on the left axis, the rest on a right axis in percentage points: the
+mode for an exchange rate against rate differentials). Use one or two charts per letter where they help. The krone
+section of the Norges Bank letter uses `{chart: EURNOK=X,diff_nok_eur_short,diff_nok_eur_10y | 3m | dual}`, never
+EUR/NOK and a yield on one axis.
 
 Tone: measured, factual, central-bank style. State what happened, how much, and the likely reason, in that order; no
-exclamation, no advice, no speculation presented as fact; "per cent" and "basis points" written out. Length: markets
-400-600 words, macro 400-600 words, politics 250-450 words.
+exclamation, no advice, no speculation presented as fact; "per cent" and "basis points" written out. Length: key points
+200-320 words, markets 400-600 words, macro 400-600 words, politics 250-450 words.
 
+- **Key points** (`highlights`, Norwegian title `Hovedtrekk`; the first and default letter on the page, its button is red): three
+  short paragraphs with bold lead-ins and nothing else, no chart. (1) **Markets** / **Markedene**: how the broad equity
+  indices (US, Europe, Norway, Asia), government yields (US, euro-area AAA, Norway 10-year) and the exchange rates (dollar
+  index, EUR/USD, USD/JPY, Brent as the price that moves the krone) moved, with the numbers. (2) **Drivers** / **Drivkrefter**:
+  the likely factors behind the moves, taken from what the markets were about in the last 24 hours: statements from the US
+  president or US authorities, central bank decisions and speeches (Fed, ECB, Bank of England, Bank of Japan, the
+  Riksbank, the RBA, the RBNZ), key figures, the oil price, geopolitics, company news. (3) **Norway** / **Norge**: the krone
+  (EUR/NOK, USD/NOK, I-44 and why it moved), the rate differential against the euro area (policy rate, and 10-year against
+  the AAA curve), Norges Bank's latest communication and the Norwegian data of the day. Short and concise: say what happened,
+  how much and the likely reason; every number from `brief.py` or the other letters of the day.
 - **Markets letter** (`markets`): a bold summary paragraph; sections Equities (US, Europe, Norway, Asia; say how the AI and semiconductor proxies in the brief, SOX, NYSE FANG+, the Magnificent 7 and AI ETFs, did against the market), Fixed income and
   credit, Commodities and currencies (always the krone: EUR/NOK, USD/NOK and Norges Bank's import-weighted index I-44, where
   a rise is a weaker krone; the brief prints all three), Today (the calendar for the day with consensus where known). The page shows a table

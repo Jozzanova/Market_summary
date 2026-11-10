@@ -16,7 +16,7 @@ Ingenting nytt siden 5. november ([Norges Bank](https://www.norges-bank.no/en/ne
 
 EUR/NOK er 10,55 i dag morges, uendret fra mandag kveld, men 1,3 prosent høyere enn for en uke siden, og I-44 var 108,81 mandag, 1,5 prosent svakere på uken. Kronen fulgte ikke aksjemarkedet opp mandag, trolig fordi Brent falt om lag 6 dollar, men ingen kilde har forklart bevegelsen. En svakere krone motvirker den nedgangen i prisveksten Norges Bank venter, men indeksen er fortsatt 9,2 prosent sterkere i år. Ved fredagens notering var den treårige statsrenten 4,60 prosent og den tiårige 4,29 prosent, begge lavere på uken; markedet priser ikke en strammere rentebane.
 
-{chart: EURNOK=X,nok_10y | 3m | level}
+{chart: EURNOK=X,diff_nok_eur_short,diff_nok_eur_10y | 3m | dual}
 
 ## Datoer
 

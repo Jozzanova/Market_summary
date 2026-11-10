@@ -4,7 +4,7 @@
     python -X utf8 build.py              # this
     npx wrangler deploy                  # Cloudflare Workers static assets, worker "market-summary"
 
-Letters live in data/letters/YYYY-MM-DD/<kind>.<lang>.md with kind in markets, macro, politics and lang in en, no.
+Letters live in data/letters/YYYY-MM-DD/<kind>.<lang>.md with kind in highlights, markets, macro, politics, norgesbank and lang in en, no.
 Intraday snapshots are data/letters/YYYY-MM-DD/intraday-HHMM.<lang>.md (Oslo time); every snapshot of the day is kept."""
 import json
 import re
@@ -13,7 +13,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-KINDS = ("markets", "intraday", "macro", "politics", "norgesbank")
+KINDS = ("highlights", "markets", "intraday", "macro", "politics", "norgesbank")
 
 
 def letters():
@@ -31,7 +31,7 @@ def letters():
                 if hm:
                     p.rename(day / f"intraday-{int(hm.group(1)):02d}{hm.group(2)}.{lang}.md")
         for p in day.glob("*.md"):
-            m = re.fullmatch(r"(markets|intraday|macro|politics|norgesbank)\.(en|no)\.md", p.name)
+            m = re.fullmatch(r"(highlights|markets|intraday|macro|politics|norgesbank)\.(en|no)\.md", p.name)
             if m:
                 entry.setdefault(m.group(1), {})[m.group(2)] = p.read_text(encoding="utf-8")
             # intraday snapshots: intraday-HHMM.<lang>.md (Oslo time), one pair per run, all kept

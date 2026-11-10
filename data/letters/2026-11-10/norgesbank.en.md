@@ -16,7 +16,7 @@ Nothing new since 5 November ([Norges Bank](https://www.norges-bank.no/en/news-e
 
 EUR/NOK is at 10.55 this morning, unchanged from Monday evening but 1.3 per cent higher over the week, and the I-44 index stood at 108.81 on Monday, 1.5 per cent weaker over the week. The krone did not follow equities higher on Monday, most plausibly because Brent fell about 6 dollars, though no source has attributed the move. A weaker krone works against the disinflation Norges Bank expects, but the index is still 9.2 per cent stronger this year. At Friday's fixes the 3-year government yield was 4.60 per cent and the 10-year 4.29 per cent, both lower over the week; the market is not pricing a firmer path.
 
-{chart: EURNOK=X,nok_10y | 3m | level}
+{chart: EURNOK=X,diff_nok_eur_short,diff_nok_eur_10y | 3m | dual}
 
 ## Dates
 

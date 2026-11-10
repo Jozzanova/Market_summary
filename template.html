@@ -30,7 +30,8 @@ a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: un
 .pagehead { position: sticky; top: 0; z-index: 20; background: var(--bg); border-bottom: 1px solid var(--line); }
 .pagehead .inner { max-width: 1280px; margin: 0 auto; padding: .9rem 16px .4rem; }
 /* the letter switcher (Markets/Intraday/Macro/Politics and the date) stays put under the page head while the letter scrolls */
-.row.kinds { position: sticky; top: var(--headh, 0px); z-index: 15; background: var(--bg); padding: .5rem 0 .4rem; margin: 0 0 .4rem; }
+#kindSeg button.hot { color: var(--bad); font-weight: 700; } #kindSeg button.hot.on { background: var(--bad); color: #fff; }
+.row.kinds { position: sticky; top: var(--headh, 0px); z-index: 15; background: var(--bg); padding: calc(16px + .4rem) 0 .4rem; margin: -16px 0 .4rem; }
 .titlerow { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; }
 h1 { font-size: 1.9rem; font-weight: 700; letter-spacing: -.015em; color: var(--accent); margin: 0; }
 .sub { color: var(--muted); max-width: 80ch; margin: .15rem 0 .5rem; font-size: .93rem; }
@@ -150,6 +151,7 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
       <button class="btn" id="pdfBtn" title="The selected day's letters as a PDF">PDF</button>
       <button class="btn" id="docxBtn" title="The selected day's letters as a Word document">Word</button>
       <button class="btn" id="xlBtn" title="Every table as an Excel workbook">Excel</button>
+      <button class="btn" id="figPdfBtn" title="Every chart and table of the page as one PDF" data-i="figpdf_btn">Figures PDF</button>
       <button class="btn" id="themeBtn" title="Light / dark">☾</button>
     </div>
   </div>
@@ -159,7 +161,7 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
 <main>
 <section class="pane" id="pane-letters">
   <div class="row kinds">
-    <div class="seg" id="kindSeg"><button data-v="markets" data-i="k_markets">Markets</button><button data-v="intraday" data-i="k_intraday">Intraday</button><button data-v="macro" data-i="k_macro">Macro</button><button data-v="politics" data-i="k_politics">Politics</button></div>
+    <div class="seg" id="kindSeg"><button data-v="highlights" data-i="k_highlights" class="hot">Key points</button><button data-v="markets" data-i="k_markets">Markets</button><button data-v="intraday" data-i="k_intraday">Intraday</button><button data-v="macro" data-i="k_macro">Macro</button><button data-v="politics" data-i="k_politics">Politics</button></div>
     <select id="letterDate"></select>
     <a class="btn" id="runBtn" href="https://claude.ai/code/routines/trig_01Dw8S7S3SZDmYF9RygoT5UK" target="_blank" rel="noopener" data-i="run_now" title="Opens the routine page on claude.ai; press Run there to refresh the numbers and rewrite today's letters" style="display:none">Update now</a>
   </div>
@@ -310,8 +312,8 @@ const T = {
   nb_letter: ["Norges Bank letter", "Norges Bank-brev"], nb_infl: ["Inflation against the 2 per cent target", "Inflasjon mot målet på 2 prosent"], nb_infl_s: ["12-month change, Statistics Norway", "tolvmånedersvekst, Statistisk sentralbyrå"],
   nb_krone: ["The krone", "Kronen"], nb_krone_s: ["EUR/NOK (left) and the I-44 index (right); up = weaker krone", "EUR/NOK (venstre) og I-44-indeksen (høyre); opp = svakere krone"], nb_next: ["Next Norges Bank dates", "Neste Norges Bank-datoer"],
   t_policy: ["policy rate", "styringsrente"], t_next: ["next decision", "neste beslutning"], t_cpi: ["CPI, 12-month", "KPI, tolvmåneders"], t_cpiate: ["CPI-ATE, 12-month", "KPI-JAE, tolvmåneders"], t_10y: ["10-year yield", "10-årsrente"], t_eurnok: ["EUR/NOK", "EUR/NOK"], t_target: ["target 2 %", "mål 2 %"],
-  k_markets: ["Markets", "Markeder"], k_intraday: ["Intraday", "Intradag"], k_macro: ["Macro", "Makro"], k_politics: ["Politics", "Politikk"], run_now: ["Update now", "Oppdater nå"],
-  snap_title: ["The last 24 hours at a glance", "Det siste døgnet i korte trekk"], fig_title: ["Figures", "Figurer"],
+  k_highlights: ["Key points", "Hovedtrekk"], k_markets: ["Markets", "Markeder"], k_intraday: ["Intraday", "Intradag"], k_macro: ["Macro", "Makro"], k_politics: ["Politics", "Politikk"], run_now: ["Update now", "Oppdater nå"],
+  snap_title: ["The last 24 hours at a glance", "Det siste døgnet i korte trekk"], fig_title: ["Figures", "Figurer"], figpdf_btn: ["Figures PDF", "Figur-PDF"], figpdf_title: ["Figures and tables", "Figurer og tabeller"],
   brent_title: ["Brent oil", "Brent-olje"], brent_s: ["USD per barrel, same period", "USD per fat, samme periode"], i44_title: ["The krone: I-44", "Kronen: I-44"], i44_s: ["Norges Bank's import-weighted index; up = weaker krone", "Norges Banks importveide indeks; opp = svakere krone"],
   g_equities: ["Equities", "Aksjer"], r_us: ["United States", "USA"], r_europe: ["Europe", "Europa"], r_nordic: ["Nordics", "Norden"], r_asia: ["Asia", "Asia"], r_em: ["Emerging markets", "Fremvoksende markeder"], r_vol: ["Volatility", "Volatilitet"], g_bonds: ["Bonds and credit", "Obligasjoner og kreditt"], g_commodities: ["Commodities", "Råvarer"], g_fx: ["Currencies", "Valuta"],
   ev_title: ["Upcoming events", "Kommende hendelser"], ev_note: ["Central bank decisions, data releases and political dates kept by the daily agent; times are Oslo time. Importance: high (orange), medium (blue), low.", "Sentralbankmøter, statistikkslipp og politiske datoer, vedlikeholdt av den daglige agenten; tidene er norsk tid. Viktighet: høy (oransje), middels (blå), lav."],
@@ -378,7 +380,8 @@ function showTab(name, force) {
 function setLang(l) {
   LANG = l; try { localStorage.setItem("ms_lang", l); } catch (e) {}
   document.documentElement.lang = l === "no" ? "nb" : "en"; document.documentElement.dataset.lang = l;
-  $$("[data-i]").forEach(el => { el.innerHTML = t(el.dataset.i).replace("S&P", "S&amp;P"); });
+  // a title that carries a translated subtitle (a child with its own data-i) keeps the child: only its first text is replaced
+  $$("[data-i]").forEach(el => { const html = t(el.dataset.i).replace("S&P", "S&amp;P"); if (el.querySelector("[data-i]")) { const tn = [...el.childNodes].find(n => n.nodeType === 3); if (tn) tn.textContent = t(el.dataset.i) + " "; else el.insertBefore(document.createTextNode(t(el.dataset.i) + " "), el.firstChild); } else el.innerHTML = html; });
   $$("#langSeg button").forEach(b => b.classList.toggle("on", b.dataset.v === l));
   $("#tabs").innerHTML = TABS.map(n => `<a href="#${n}" data-tab="${n}">${t("tab_" + n)}</a>`).join(""); paintAlertTab();
   drawn.clear(); showTab(currentTab(), true);
@@ -396,7 +399,17 @@ const RANGE = {eq: "1m", sec: "d1", rt: "1m", cm: "1m", fx: "1y", aside: "1m", c
 
 /* ---------- data helpers ---------- */
 const Y = D.yahoo || {}, FR = D.fred || {}, EC = D.ecb || {}, NB = D.nb || {}, SSB = D.ssb || {}, CB = D.bis || {};
-const bySym = s => Y[s] || FR[s] || EC[s] || NB[s] || SSB[s] || (s.startsWith("cb_") ? CB[s.slice(3)] : undefined);
+const bySym = s => Y[s] || FR[s] || EC[s] || NB[s] || SSB[s] || DIFF[s] || (s.startsWith("cb_") ? CB[s.slice(3)] : undefined);
+// derived series: rate differentials between Norway and the euro area, NOK minus EUR, on the dates both legs have
+const DIFF = {};
+(function () {
+  const mk = (key, a, b, en, no) => { if (!a || !b || !a.dates || !b.dates) return; const m = new Map(b.dates.map((d, i) => [d, b.values[i]])); const dates = [], values = [];
+    a.dates.forEach((d, i) => { if (m.has(d) && a.values[i] != null && m.get(d) != null) { dates.push(d); values.push(Math.round((a.values[i] - m.get(d)) * 1000) / 1000); } });
+    if (dates.length) DIFF[key] = {name_en: en, name_no: no, group: "diff", kind: "yield", decimals: 2, unit: "pp", dates, values, last: values[values.length - 1], last_date: dates[dates.length - 1]}; };
+  mk("diff_nok_eur_10y", NB.nok_10y, EC.EA_SR_10Y, "NOK − EUR 10-year (Norway gov. minus euro AAA)", "NOK − EUR 10 år (norsk stat minus euro AAA)");
+  mk("diff_nok_eur_short", NB.nok_3y, EC.EA_SR_2Y, "NOK − EUR short end (Norway 3-year minus euro 2-year AAA)", "NOK − EUR kort ende (norsk 3 år minus euro 2 år AAA)");
+  mk("diff_nok_eur_policy", CB.NO, CB.XM, "NOK − EUR policy rate", "NOK − EUR styringsrente");
+})();
 const group = g => Object.entries(Y).filter(([, v]) => v.group === g).map(([s, v]) => ({sym: s, ...v}));
 function startDate(range, lastDate) {
   const d = new Date(lastDate + "T00:00:00Z");
@@ -481,7 +494,7 @@ function instrTable(rows, opts = {}) {
 
 /* ---------- letters ---------- */
 const LETTERS = D.letters || {}; const DATES = Object.keys(LETTERS).sort().reverse();
-let KIND = "markets", LDATE = DATES[0];
+let LDATE = DATES[0], KIND = (LETTERS[LDATE] || {}).highlights ? "highlights" : "markets";
 $$("#kindSeg button").forEach(b => b.onclick = () => { KIND = b.dataset.v; drawLetters(); });
 function md(src) {
   const inline = s => esc(s).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<i>$2</i>").replace(/_([^_\n]+)_/g, "<i>$1</i>").replace(/`([^`]+)`/g, "<code>$1</code>")
@@ -510,9 +523,13 @@ function drawLetterFigs(root) {
   root.querySelectorAll(".fig .plot").forEach(el => {
     const syms = el.dataset.syms.split(",").map(s => s.trim()).filter(s => bySym(s)); if (!syms.length) return;
     const range = el.dataset.range, mode = el.dataset.mode;
-    const traces = mode === "level" ? levelTraces(syms, range) : indexedTraces(syms, range);
+    const dual = mode === "dual";
+    const traces = mode === "level" || dual ? levelTraces(syms, range) : indexedTraces(syms, range);
+    // "dual": the first series on the left axis, the rest (rate differentials in percentage points) on the right one
+    if (dual) traces.slice(1).forEach(tr => { tr.yaxis = "y2"; tr.hovertemplate = tr.hovertemplate.replace("f}<extra>", "f} pp<extra>"); });
     // in the narrow figure column the legend goes below the plot, so it never overlaps the lines
-    plot(el, traces, {margin: {l: 44, r: 8, t: 8, b: 30}, legend: {orientation: "h", x: 0, y: -0.18, yanchor: "top", font: {size: 11}}, yaxis: {title: mode === "level" ? "" : {text: t("eq_perf_s"), font: {size: 10}}}});
+    plot(el, traces, {margin: {l: 44, r: dual ? 44 : 8, t: 8, b: 30}, legend: {orientation: "h", x: 0, y: -0.18, yanchor: "top", font: {size: 11}}, yaxis: {title: mode === "indexed" ? {text: t("eq_perf_s"), font: {size: 10}} : ""},
+      ...(dual ? {yaxis2: {overlaying: "y", side: "right", ticksuffix: " pp", gridcolor: "rgba(0,0,0,0)", zeroline: false, tickfont: {color: cssv("--muted")}}} : {})});
   });
 }
 // the snapshot table beside the letter: four groups, short names
@@ -536,8 +553,8 @@ function drawLetters() {
   $$("#kindSeg button").forEach(b => b.classList.toggle("on", b.dataset.v === KIND));
   const sel = $("#letterDate"); sel.innerHTML = DATES.map(d => `<option value="${d}"${d === LDATE ? " selected" : ""}>${fmtDateLong(d)}</option>`).join("") || `<option>–</option>`;
   sel.onchange = () => { LDATE = sel.value; drawLetters(); };
-  $("#snapCard").style.display = KIND === "markets" ? "" : "none";
-  if (KIND === "markets") $("#snapTable").innerHTML = snapshot();
+  $("#snapCard").style.display = KIND === "markets" || KIND === "highlights" ? "" : "none";
+  if (KIND === "markets" || KIND === "highlights") $("#snapTable").innerHTML = snapshot();
   const body = $("#letterBody");
   const entry = (LETTERS[LDATE] || {})[KIND]; const text = entry && (entry[LANG] || entry.en || entry.no);
   const figs = $("#letterFigs"); figs.innerHTML = "";
@@ -1072,7 +1089,7 @@ $("#xlBtn").onclick = () => {
    One document: title and date, the snapshot table, then the markets, macro, politics and Norges Bank letters of the
    selected date in the current language. The letters' Markdown is rendered with md() and the resulting elements are
    walked into a small block model, which feeds pdfmake (loaded on first use) and a hand-written .docx. */
-const DOC_KINDS = ["markets", "macro", "politics", "norgesbank"];   // the intraday snapshots stay on the page only
+const DOC_KINDS = ["highlights", "markets", "macro", "politics", "norgesbank"];   // the intraday snapshots stay on the page only
 function runsOf(node) {
   const out = [];
   const walk = (n, st) => {
@@ -1156,6 +1173,63 @@ function pdfDefinition(m) {
       p: {margin: [0, 0, 0, 7]}, quote: {italics: true, color: "#5A6478", margin: [12, 0, 0, 7]}, th: {bold: true, fontSize: 8.5, fillColor: "#EEF0F4", color: "#35445F"}, td: {fontSize: 8.5}}};
   return dd;
 }
+/* ---------- figures and tables PDF ---------- */
+// every chart and table of the page as one landscape PDF: each tab is drawn off-screen in the light theme, its charts
+// rendered to PNG and its tables copied cell by cell, then the page is put back as it was
+const FIGPDF_TABS = ["letters", "equities", "rates", "commodities", "fx", "central", "macro", "norgesbank"];
+async function exportFigPdf(btn) {
+  if (!window.pdfMake) { await loadScript("https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.12/pdfmake.min.js"); await loadScript("https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.12/vfs_fonts.min.js"); }
+  const theme0 = document.documentElement.dataset.theme, tab0 = currentTab(), label0 = btn.textContent, no = LANG === "no";
+  const ACC = "#0026FF", INK = "#001538", W = 762, date = (D.asof || "").slice(0, 10);
+  const clean = x => x.replace(/\s+/g, " ").replace(/▲/g, "↑").replace(/▼/g, "↓").replace(/[▸▾]/g, "").trim();
+  const tableNode = tbl => {
+    const rows = [...tbl.rows].map(r => [...r.cells].map(c => ({text: clean(c.innerText), right: /(^|\s)(num|c)(\s|$)/.test(c.className), th: c.tagName === "TH", span: c.colSpan || 1, sect: r.classList.contains("sect")})));
+    if (rows.length < 2) return null;
+    const ncol = Math.max(...rows.map(r => r.reduce((a, c) => a + c.span, 0)));
+    const body = rows.map(r => { const out = []; r.forEach(c => { out.push({text: c.text, style: c.th ? "th" : "td", alignment: c.right ? "right" : "left", ...(c.span > 1 ? {colSpan: c.span} : {}), ...(c.sect ? {bold: true, color: ACC} : {})}); for (let i = 1; i < c.span; i++) out.push({}); }); while (out.length < ncol) out.push({text: "", style: "td"}); return out; });
+    const headerRows = tbl.tHead ? tbl.tHead.rows.length : 0, fs = ncol > 9 ? 7 : ncol > 7 ? 7.5 : 8.5;
+    return {table: {headerRows, widths: Array.from({length: ncol}, (_, j) => j === 0 ? "*" : "auto"), body, dontBreakRows: true}, fontSize: fs,
+      layout: {hLineWidth: (i, n) => i === 0 || i === headerRows || i === n.table.body.length ? 0.6 : 0.25, vLineWidth: () => 0, hLineColor: () => "#C9CDD4", paddingTop: () => 2.5, paddingBottom: () => 2.5, paddingLeft: () => 3, paddingRight: () => 3}, margin: [0, 2, 0, 10]};
+  };
+  const content = [{text: t("figpdf_title"), style: "title"}, {text: `${t("title")} · ${fmtDateLong(date)} · ${no ? "data per" : "data as of"} ${D.asof}`, style: "meta", margin: [0, 2, 0, 14]}];
+  let n = 0;
+  document.documentElement.dataset.theme = "light";
+  try {
+    for (const tb of FIGPDF_TABS) {
+      const pane = $(`#pane-${tb}`); if (!pane || !DRAW[tb]) continue;
+      const was = pane.classList.contains("on");
+      pane.classList.add("on"); pane.style.cssText = "position:absolute;left:-20000px;top:0;width:1100px";
+      try { DRAW[tb](); } catch (e) { console.warn("figpdf draw", tb, e); }
+      await new Promise(r => setTimeout(r, 80));
+      const blocks = [];
+      for (const card of pane.querySelectorAll(".card")) {
+        if (getComputedStyle(card).display === "none" || card.closest(".card") !== card) continue;
+        const h = card.querySelector("h2"), ttl = h ? clean((h.childNodes[0] && h.childNodes[0].textContent) || h.textContent) : "";
+        const items = [...card.querySelectorAll(".plot, table")].filter(el => el.tagName === "TABLE" ? !el.closest(".plot") && !el.closest("table table") && el.rows.length > 1 : el.data && el.data.length && el.clientWidth > 50);
+        if (!items.length) continue;
+        const part = [];
+        for (const el of items) {
+          if (el.tagName === "TABLE") { const tn = tableNode(el); if (tn) part.push(tn); continue; }
+          btn.textContent = `… ${++n}`;
+          const w = 1000, hgt = Math.max(300, Math.min(480, el.clientHeight || 360));
+          try { const url = await Plotly.toImage(el, {format: "png", width: w, height: hgt, scale: 2}); part.push({image: url, width: W, height: W * hgt / w, margin: [0, 2, 0, 12]}); } catch (e) { console.warn("figpdf image", ttl, e); }
+        }
+        if (part.length) blocks.push({text: ttl, style: "h2"}, ...part);
+      }
+      pane.style.cssText = ""; if (!was) pane.classList.remove("on");
+      if (blocks.length) content.push({text: t("tab_" + tb), style: "h1", pageBreak: "before"}, ...blocks);
+    }
+  } finally {
+    document.documentElement.dataset.theme = theme0; drawn.clear(); showTab(tab0, true); btn.textContent = label0;
+  }
+  const dd = {pageSize: "A4", pageOrientation: "landscape", pageMargins: [40, 48, 40, 48], info: {title: `${t("figpdf_title")} ${date}`, author: "Market summary"},
+    header: () => ({text: `${t("title")} · ${t("figpdf_title")} · ${fmtDateLong(date)}`, style: "meta", alignment: "right", margin: [40, 22, 40, 0]}),
+    footer: (cur, total) => ({columns: [{text: "market-summary.jskjeltorp.workers.dev", style: "meta"}, {text: `${cur} / ${total}`, style: "meta", alignment: "right"}], margin: [40, 20, 40, 0]}),
+    content, defaultStyle: {fontSize: 9, lineHeight: 1.25, color: INK},
+    styles: {title: {fontSize: 22, bold: true, color: ACC}, meta: {fontSize: 8.5, color: "#5A6478"}, h1: {fontSize: 16, bold: true, color: ACC, margin: [0, 0, 0, 8]}, h2: {fontSize: 12, bold: true, color: INK, margin: [0, 10, 0, 4]},
+      th: {bold: true, fillColor: "#EEF0F4", color: "#35445F"}, td: {}}};
+  pdfMake.createPdf(dd).download(`${no ? "figurer_og_tabeller" : "figures_and_tables"}_${date}_${LANG}.pdf`);
+}
 function exportDocx() {
   const m = docModel();
   const xe = v => String(v).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -1206,6 +1280,7 @@ function exportDocx() {
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = m.name + ".docx"; a.click();
 }
 $("#pdfBtn").onclick = () => exportPdf().catch(e => alert(e.message));
+$("#figPdfBtn").onclick = () => { const b = $("#figPdfBtn"); if (b.disabled) return; b.disabled = true; exportFigPdf(b).catch(e => alert(e.message)).finally(() => { b.disabled = false; }); };
 $("#docxBtn").onclick = exportDocx;
 
 /* ---------- the owner's "Update now" button: shown only in a browser that has opened the page with ?owner=1 once ---------- */
