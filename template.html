@@ -132,7 +132,10 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
 .dcell { display: inline-flex; align-items: center; gap: .45rem; } .dcell b { font-weight: 600; min-width: 3.2rem; text-align: right; font-variant-numeric: tabular-nums; }
 .dbar { position: relative; width: 64px; height: 9px; border-radius: 3px; background: var(--line2); flex: none; } .dbar::after { content: ""; position: absolute; left: 50%; top: -2px; bottom: -2px; width: 1px; background: var(--muted); }
 .dbar i { position: absolute; top: 0; bottom: 0; border-radius: 2px; } .dbar i.pos { left: 50%; background: var(--ok); } .dbar i.neg { right: 50%; background: var(--bad); }
-.mc td.off { color: var(--fg); } .mc .per { color: var(--muted); font-size: .72rem; margin-left: .25rem; }
+.mc .per { color: var(--muted); font-size: .72rem; margin-left: .25rem; } .mc .trend { color: var(--muted); font-size: .6rem; margin-left: .2rem; vertical-align: middle; }
+.mc th.grp { border-bottom: none; padding-bottom: 0; color: var(--fg); text-transform: none; letter-spacing: 0; font-size: .8rem; text-align: center; }
+.mc th.sortable { cursor: pointer; } .mc th.sortable:hover, .mc th.sortable.on { color: var(--accent); }
+.mc tr.me td { font-weight: 600; } .mc tr.me td:first-child { color: var(--accent); }
 </style>
 </head>
 <body>
@@ -321,8 +324,8 @@ const T = {
   cm_title: ["Commodities", "Råvarer"], cm_perf: ["Indexed performance", "Indeksert utvikling"],
   fx_title: ["Currencies", "Valuta"], fx_note: ["Quoted as named: a rise in EUR/NOK or USD/NOK is a weaker krone; a rise in EUR/USD is a weaker dollar.", "Notert som navngitt: en oppgang i EUR/NOK eller USD/NOK er en svakere krone; en oppgang i EUR/USD er en svakere dollar."], fx_perf: ["Indexed performance", "Indeksert utvikling"],
   cb_title: ["Policy rates and the next decisions", "Styringsrenter og de neste beslutningene"], cb_note: ["Kept by the daily agent and checked after every meeting; the source link is the bank's own page.", "Vedlikeholdt av den daglige agenten og sjekket etter hvert møte; kildelenken går til bankens egen side."],
-  mc_title: ["Key figures", "Nøkkeltall"], mc_title_s: ["growth, inflation, unemployment and rates for the economies of the rate table; the column header gives the period most cells share, a cell from another period says so", "vekst, inflasjon, ledighet og renter for økonomiene i rentetabellen; kolonneoverskriften gir perioden de fleste cellene deler, en celle fra en annen periode sier fra"],
-  mc_economy: ["Economy", "Økonomi"], mc_latest: ["latest", "siste"], mc_cmp: ["Compare", "Sammenlign"], mc_cmp_s: ["latest value by economy", "siste verdi per økonomi"], mc_hist: ["History", "Historikk"], mc_hist_s: ["three years; the policy rate one year", "tre år; styringsrenten ett år"],
+  mc_title: ["Key figures", "Nøkkeltall"], mc_title_s: ["growth, inflation, unemployment and rates for the economies of the rate table; the column header gives the period most cells share, a cell from another period says so; shading by rank within the column, the small arrow is the direction since the previous observation; click a header to sort", "vekst, inflasjon, ledighet og renter for økonomiene i rentetabellen; kolonneoverskriften gir perioden de fleste cellene deler, en celle fra en annen periode sier fra; skyggelegging etter rang i kolonnen, den lille pilen er retningen siden forrige observasjon; klikk på en overskrift for å sortere"],
+  mc_economy: ["Economy", "Økonomi"], mc_latest: ["latest", "siste"], mc_sort: ["Click to sort", "Klikk for å sortere"], mc_g_growth: ["Growth", "Vekst"], mc_g_prices: ["Prices", "Priser"], mc_g_labour: ["Labour market", "Arbeidsmarked"], mc_g_rates: ["Rates", "Renter"], mc_cmp: ["Compare", "Sammenlign"], mc_cmp_s: ["latest value by economy", "siste verdi per økonomi"], mc_hist: ["History", "Historikk"], mc_hist_s: ["three years; the policy rate one year", "tre år; styringsrenten ett år"],
   mc_note: ["Sources: OECD (national consumer prices, labour force statistics, quarterly national accounts, 3-month and 10-year interest rates as monthly averages), Eurostat (euro-area unemployment), Statistics Norway (Norwegian CPI), the BIS and the banks (policy rates, the Fed as the upper bound of its range). GDP growth is quarter on quarter, not annualised. Core CPI excludes food and energy; for Norway it is CPI-ATE.", "Kilder: OECD (nasjonale konsumpriser, arbeidskraftundersøkelser, kvartalsvise nasjonalregnskap, 3-måneders og 10-års renter som månedsgjennomsnitt), Eurostat (ledighet i euroområdet), Statistisk sentralbyrå (norsk KPI), BIS og bankene (styringsrenter, Fed som øvre grense av intervallet). BNP-vekst er kvartal mot kvartal, ikke annualisert. Kjerneinflasjon er uten mat og energi; for Norge KPI-JAE."],
   mc_nok: ["The krone: rate differentials and exchange rates", "Kronen: rentedifferanser og valutakurser"], mc_nok_s: ["exchange rates as NOK per unit of foreign currency with the krone's own move over the period, and the rate differentials in Norway's favour as bars to the right of the centre line", "valutakurser som NOK per enhet utenlandsk valuta med kronens egen bevegelse i perioden, og rentedifferansene i Norges favør som stolper til høyre for midtlinjen"],
   mc_ccy: ["Currency", "Valuta"], mc_spot: ["NOK per unit", "NOK per enhet"], mc_year: ["Last year", "Siste år"], mc_fxchg_s: ["the krone's move against the currency, + = stronger krone", "kronens bevegelse mot valutaen, + = sterkere krone"], mc_diff_s: ["Norwegian rate minus the foreign rate, percentage points", "norsk rente minus utenlandsk rente, prosentpoeng"], mc_dpol: ["Policy rate", "Styringsrente"], mc_d3m: ["3-month", "3 måneder"], mc_d10y: ["10-year", "10 år"], mc_diff: ["Rate differential, pp", "Rentedifferanse, pp"], mc_fxchg: ["Exchange rate", "Valutakurs"],
@@ -728,20 +731,37 @@ function policyArrow(s) {
   const c = (s.changes || [])[s.changes.length - 1]; if (!c) return "";
   const up = c[2] > c[1]; return ` <span class="${up ? "neg" : "pos"} small" title="${esc(fmtDate(c[0]))}">${up ? "▲" : "▼"} ${esc(perShort(c[0], "M"))}</span>`;
 }
+// column groups of the table and the hue used to shade each indicator (intensity by rank within the column)
+const MC_GROUPS = [["mc_g_growth", ["gdp_qoq", "gdp_yoy"], "--ok"], ["mc_g_prices", ["cpi", "core"], "--bad"], ["mc_g_labour", ["unemp"], "--bad"], ["mc_g_rates", ["policy", "r3m", "r10y"], "--accent"]];
+let MC_SORT = null;      // {k, dir}: the column the table is sorted on, or null for the fixed order
 function drawMacro() {
   const areas = MC.areas || [], el = $("#mcTable"); if (!el) return;
   if (!areas.length) { el.innerHTML = `<p class="empty">${t("no_events")}</p>`; return; }
-  const cells = areas.map(a => MC_IND.map(([k]) => mcSeries(a.code, k)));
+  const no = LANG === "no";
+  let rows = areas.map(a => ({a, c: Object.fromEntries(MC_IND.map(([k]) => [k, mcSeries(a.code, k)]))}));
+  if (MC_SORT) { const v = r => { const s = r.c[MC_SORT.k]; return s && s.last != null ? s.last : null; }; rows = [...rows].sort((x, y) => { const p = v(x), q = v(y); if (p == null && q == null) return 0; if (p == null) return 1; if (q == null) return -1; return MC_SORT.dir * (p - q); }); }
   // the header carries the period most of a column shares; a cell from another period says so
-  const common = MC_IND.map((_, j) => { const cnt = {}; cells.forEach(r => { const s = r[j]; if (s && s.last != null) cnt[perKey(s)] = (cnt[perKey(s)] || 0) + 1; }); return (Object.entries(cnt).sort((x, y) => y[1] - x[1])[0] || [""])[0]; });
-  const head = `<tr><th>${t("mc_economy")}</th>${MC_IND.map(([, en, no], j) => { const s = cells.map(r => r[j]).find(x => x && x.last != null && perKey(x) === common[j]); return `<th class="num">${esc(LANG === "no" ? no : en)}<br><span class="muted" style="font-weight:400;text-transform:none;letter-spacing:0">${s ? (s.freq === "D" ? t("mc_latest") : esc(perLong(s.last_date, s.freq))) : ""}</span></th>`; }).join("")}</tr>`;
-  const body = areas.map((a, i) => `<tr><td>${esc(mcName(a))}</td>${MC_IND.map(([k, , , dec], j) => { const s = cells[i][j]; if (!s || s.last == null) return `<td class="num muted">–</td>`;
-    const off = s.freq !== "D" && perKey(s) !== common[j] ? `<span class="per">· ${esc(perShort(s.last_date, s.freq))}${s.last_date.slice(0, 4) !== (common[j] || "").slice(0, 4) ? " " + s.last_date.slice(0, 4) : ""}</span>` : "";
-    return `<td class="num" title="${esc(perLong(s.last_date, s.freq))}">${fmt(s.last, dec)}${k === "policy" ? policyArrow(s) : ""}${off}</td>`; }).join("")}</tr>`).join("");
-  el.innerHTML = `<table class="mc"><thead>${head}</thead><tbody>${body}</tbody></table>`;
+  const common = Object.fromEntries(MC_IND.map(([k]) => { const cnt = {}; rows.forEach(r => { const s = r.c[k]; if (s && s.last != null) cnt[perKey(s)] = (cnt[perKey(s)] || 0) + 1; }); return [k, (Object.entries(cnt).sort((x, y) => y[1] - x[1])[0] || [""])[0]]; }));
+  const hue = Object.fromEntries(MC_GROUPS.flatMap(([, ks, h]) => ks.map(k => [k, h])));
+  const lohi = Object.fromEntries(MC_IND.map(([k]) => { const vs = rows.map(r => r.c[k]).filter(s => s && s.last != null).map(s => s.last); return [k, [Math.min(...vs), Math.max(...vs)]]; }));
+  const ghead = `<tr><th class="grp"></th>${MC_GROUPS.map(([g, ks]) => `<th class="grp" colspan="${ks.length}">${t(g)}</th>`).join("")}</tr>`;
+  const head = `<tr><th>${t("mc_economy")}</th>${MC_IND.map(([k, en, nn]) => { const s = rows.map(r => r.c[k]).find(x => x && x.last != null && perKey(x) === common[k]); const on = MC_SORT && MC_SORT.k === k;
+    return `<th class="num sortable${on ? " on" : ""}" data-k="${k}" title="${t("mc_sort")}">${esc(no ? nn : en)}${on ? (MC_SORT.dir < 0 ? " ▾" : " ▴") : ""}<br><span class="muted" style="font-weight:400;text-transform:none;letter-spacing:0">${s ? (s.freq === "D" ? t("mc_latest") : esc(perLong(s.last_date, s.freq))) : ""}</span></th>`; }).join("")}</tr>`;
+  const cell = (s, k, dec) => {
+    if (!s || s.last == null) return `<td class="num muted">–</td>`;
+    const [lo, hi] = lohi[k], x = hi > lo ? (s.last - lo) / (hi - lo) : 0.5, bg = ` style="background: color-mix(in srgb, var(${hue[k]}) ${Math.round(4 + 26 * x)}%, transparent)"`;
+    const off = s.freq !== "D" && perKey(s) !== common[k] ? `<span class="per">· ${esc(perShort(s.last_date, s.freq))}${s.last_date.slice(0, 4) !== (common[k] || "").slice(0, 4) ? " " + s.last_date.slice(0, 4) : ""}</span>` : "";
+    // the direction since the previous observation (quiet when the move is under half a unit of the last decimal)
+    const d = s.prev != null && s.freq !== "D" ? s.last - s.prev : null, arrow = d != null && Math.abs(d) >= 0.5 * Math.pow(10, -dec) ? `<span class="trend">${d > 0 ? "▲" : "▼"}</span>` : "";
+    const tip = `${perLong(s.last_date, s.freq)}${s.prev != null ? ` · ${no ? "forrige" : "previous"} ${fmt(s.prev, dec)}` : ""}`;
+    return `<td class="num"${bg} title="${esc(tip)}">${fmt(s.last, dec)}${k === "policy" ? policyArrow(s) : arrow}${off}</td>`;
+  };
+  const body = rows.map(r => `<tr${r.a.code === "NOR" ? ' class="me"' : ""}><td>${esc(mcName(r.a))}</td>${MC_IND.map(([k, , , dec]) => cell(r.c[k], k, dec)).join("")}</tr>`).join("");
+  el.innerHTML = `<table class="mc"><thead>${ghead}${head}</thead><tbody>${body}</tbody></table>`;
+  el.querySelectorAll("th.sortable").forEach(th => th.onclick = () => { const k = th.dataset.k; MC_SORT = MC_SORT && MC_SORT.k === k ? (MC_SORT.dir < 0 ? {k, dir: 1} : null) : {k, dir: -1}; drawMacro(); });
   // the indicator selector keeps its choice across redraws and language switches
   const sel = $("#mcInd"), cur = sel.value || "cpi";
-  sel.innerHTML = MC_IND.map(([k, en, no]) => `<option value="${k}"${k === cur ? " selected" : ""}>${esc(LANG === "no" ? no : en)}</option>`).join("");
+  sel.innerHTML = MC_IND.map(([k, en, nn]) => `<option value="${k}"${k === cur ? " selected" : ""}>${esc(no ? nn : en)}</option>`).join("");
   if (!sel.__wired) { sel.__wired = true; sel.onchange = drawMacroCharts; }
   drawMacroCharts(); drawNokMatrix(); drawNokDiff();
 }
