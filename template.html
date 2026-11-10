@@ -124,6 +124,10 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
 .pbar { height: 6px; border-radius: 3px; background: var(--grid); overflow: hidden; margin: 2px 0 3px; }
 .pfill { height: 100%; border-radius: 3px; } .pfill.hike { background: var(--bad); } .pfill.cut { background: var(--ok); } .pfill.hold { background: var(--muted); }
 .phike { color: var(--bad); } .pcut { color: var(--ok); } .phold { color: var(--muted); }
+.scrollx { overflow-x: auto; }
+.mx th { text-align: center; } .mx th.num, .mx td.num { text-align: right; } .mx th.grp { border-bottom: none; padding-bottom: 0; color: var(--fg); text-transform: none; letter-spacing: 0; font-size: .8rem; }
+.mx td.c { font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; } .mx td.c b { font-weight: 600; }
+.mc td.off { color: var(--fg); } .mc .per { color: var(--muted); font-size: .72rem; margin-left: .25rem; }
 </style>
 </head>
 <body>
@@ -231,7 +235,7 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
 <section class="pane" id="pane-fx">
   <div class="card"><h2 data-i="fx_title">Currencies</h2><div id="fxTable"></div><p class="note" data-i="fx_note">Quoted as named: a rise in EUR/NOK or USD/NOK is a weaker krone; a rise in EUR/USD is a weaker dollar.</p></div>
   <div class="card"><h2 data-i="fx_perf">Indexed performance <small data-i="eq_perf_s">start of period = 100</small></h2>
-    <div class="row"><div class="seg rangeSeg" data-for="fx"><button data-v="1m" class="on">1M</button><button data-v="3m">3M</button><button data-v="ytd">YTD</button><button data-v="1y">1Y</button></div></div>
+    <div class="row"><div class="seg rangeSeg" data-for="fx"><button data-v="1m">1M</button><button data-v="3m">3M</button><button data-v="ytd">YTD</button><button data-v="1y" class="on">1Y</button></div></div>
     <div class="plot" id="fxPlot"></div></div>
 </section>
 
@@ -244,6 +248,16 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
     <div class="card"><h2 data-i="cb_min">Latest decisions and minutes <small data-i="cb_min_s">the statement of the last decision and the last published minutes, summarised by the agent; the links go to the banks' own pages</small></h2>
       <div id="cbMinutes" style="padding-left:1rem"></div><p class="note" id="cbMinNote"></p></div>
   </div>
+</section>
+
+<section class="pane" id="pane-macro">
+  <div class="card"><h2 data-i="mc_title">Key figures <small data-i="mc_title_s">growth, inflation, unemployment and rates for the economies of the rate table</small></h2><div class="scrollx" id="mcTable"></div><p class="note" data-i="mc_note"></p></div>
+  <div class="grid2">
+    <div class="card"><div class="row" style="justify-content:space-between"><h2 style="margin:0" data-i="mc_cmp">Compare <small data-i="mc_cmp_s">latest value by economy</small></h2><select id="mcInd"></select></div><div class="plot" id="mcBar" style="height:420px"></div></div>
+    <div class="card"><h2 data-i="mc_hist">History <small data-i="mc_hist_s">three years; the policy rate one year</small></h2><div class="plot" id="mcHist" style="height:420px"></div></div>
+  </div>
+  <div class="card"><h2 data-i="mc_nok">The krone: rate differentials and exchange rates <small data-i="mc_nok_s"></small></h2><div class="scrollx" id="nokMatrix"></div><p class="note" data-i="mc_nok_note"></p></div>
+  <div class="card"><h2 data-i="mc_nokd">Policy rate differential against NOK, last twelve months <small data-i="mc_nokd_s"></small></h2><div class="plot" id="nokDiffPlot" style="height:360px"></div></div>
 </section>
 
 <section class="pane" id="pane-norgesbank">
@@ -284,7 +298,7 @@ const T = {
   al_meta: ["Live list updated", "Listen oppdatert"], al_none: ["No events recorded yet.", "Ingen hendelser registrert ennå."], tab_news: ["News", "Nyheter"], nw_title: ["Recent headlines", "Siste overskrifter"],
   nw_note: ["Headlines and snippets from the outlets' public feeds, refreshed with the data (morning and intraday runs); items from the last 36 hours, newest first. Reuters, DN, Finansavisen and Norges Bank come through Google News and have no snippet. Times are Oslo time.", "Overskrifter og utdrag fra medienes åpne nyhetsstrømmer, oppdatert sammen med dataene (morgen- og intradagkjøringene); saker fra de siste 36 timene, nyeste først. Reuters, DN, Finansavisen og Norges Bank hentes via Google Nyheter og har ikke utdrag. Tidene er norsk tid."],
   nc_markets: ["Markets", "Markeder"], nc_economy: ["Economy", "Økonomi"], "nc_central bank": ["Central banks", "Sentralbanker"], nc_norway: ["Norway", "Norge"], nc_politics: ["Politics", "Politikk"], tab_events: ["Upcoming events", "Kommende hendelser"], tab_equities: ["Equities", "Aksjer"], tab_rates: ["Rates & credit", "Renter og kreditt"],
-  tab_commodities: ["Commodities", "Råvarer"], tab_fx: ["Currencies", "Valuta"], tab_central: ["Central banks", "Sentralbanker"], tab_norgesbank: ["Norges Bank", "Norges Bank"], tab_update: ["Update", "Oppdatering"],
+  tab_commodities: ["Commodities", "Råvarer"], tab_fx: ["Currencies", "Valuta"], tab_central: ["Central banks", "Sentralbanker"], tab_macro: ["Key figures", "Nøkkeltall"], tab_norgesbank: ["Norges Bank", "Norges Bank"], tab_update: ["Update", "Oppdatering"],
   nb_letter: ["Norges Bank letter", "Norges Bank-brev"], nb_infl: ["Inflation against the 2 per cent target", "Inflasjon mot målet på 2 prosent"], nb_infl_s: ["12-month change, Statistics Norway", "tolvmånedersvekst, Statistisk sentralbyrå"],
   nb_krone: ["The krone", "Kronen"], nb_krone_s: ["EUR/NOK (left) and the I-44 index (right); up = weaker krone", "EUR/NOK (venstre) og I-44-indeksen (høyre); opp = svakere krone"], nb_next: ["Next Norges Bank dates", "Neste Norges Bank-datoer"],
   t_policy: ["policy rate", "styringsrente"], t_next: ["next decision", "neste beslutning"], t_cpi: ["CPI, 12-month", "KPI, tolvmåneders"], t_cpiate: ["CPI-ATE, 12-month", "KPI-JAE, tolvmåneders"], t_10y: ["10-year yield", "10-årsrente"], t_eurnok: ["EUR/NOK", "EUR/NOK"], t_target: ["target 2 %", "mål 2 %"],
@@ -302,6 +316,13 @@ const T = {
   cm_title: ["Commodities", "Råvarer"], cm_perf: ["Indexed performance", "Indeksert utvikling"],
   fx_title: ["Currencies", "Valuta"], fx_note: ["Quoted as named: a rise in EUR/NOK or USD/NOK is a weaker krone; a rise in EUR/USD is a weaker dollar.", "Notert som navngitt: en oppgang i EUR/NOK eller USD/NOK er en svakere krone; en oppgang i EUR/USD er en svakere dollar."], fx_perf: ["Indexed performance", "Indeksert utvikling"],
   cb_title: ["Policy rates and the next decisions", "Styringsrenter og de neste beslutningene"], cb_note: ["Kept by the daily agent and checked after every meeting; the source link is the bank's own page.", "Vedlikeholdt av den daglige agenten og sjekket etter hvert møte; kildelenken går til bankens egen side."],
+  mc_title: ["Key figures", "Nøkkeltall"], mc_title_s: ["growth, inflation, unemployment and rates for the economies of the rate table; the column header gives the period most cells share, a cell from another period says so", "vekst, inflasjon, ledighet og renter for økonomiene i rentetabellen; kolonneoverskriften gir perioden de fleste cellene deler, en celle fra en annen periode sier fra"],
+  mc_economy: ["Economy", "Økonomi"], mc_latest: ["latest", "siste"], mc_cmp: ["Compare", "Sammenlign"], mc_cmp_s: ["latest value by economy", "siste verdi per økonomi"], mc_hist: ["History", "Historikk"], mc_hist_s: ["three years; the policy rate one year", "tre år; styringsrenten ett år"],
+  mc_note: ["Sources: OECD (national consumer prices, labour force statistics, quarterly national accounts, 3-month and 10-year interest rates as monthly averages), Eurostat (euro-area unemployment), Statistics Norway (Norwegian CPI), the BIS and the banks (policy rates, the Fed as the upper bound of its range). GDP growth is quarter on quarter, not annualised. Core CPI excludes food and energy; for Norway it is CPI-ATE.", "Kilder: OECD (nasjonale konsumpriser, arbeidskraftundersøkelser, kvartalsvise nasjonalregnskap, 3-måneders og 10-års renter som månedsgjennomsnitt), Eurostat (ledighet i euroområdet), Statistisk sentralbyrå (norsk KPI), BIS og bankene (styringsrenter, Fed som øvre grense av intervallet). BNP-vekst er kvartal mot kvartal, ikke annualisert. Kjerneinflasjon er uten mat og energi; for Norge KPI-JAE."],
+  mc_nok: ["The krone: rate differentials and exchange rates", "Kronen: rentedifferanser og valutakurser"], mc_nok_s: ["Norwegian rate minus the foreign rate in percentage points, green when the krone pays more; exchange rates as NOK per unit of foreign currency, a rise (red) is a weaker krone", "norsk rente minus utenlandsk rente i prosentpoeng, grønt når kronen gir mer; valutakurser som NOK per enhet utenlandsk valuta, en oppgang (rødt) er en svakere krone"],
+  mc_ccy: ["Currency", "Valuta"], mc_spot: ["NOK per unit", "NOK per enhet"], mc_dpol: ["Policy rate", "Styringsrente"], mc_d3m: ["3-month", "3 måneder"], mc_d10y: ["10-year", "10 år"], mc_diff: ["Rate differential, pp", "Rentedifferanse, pp"], mc_fxchg: ["Exchange rate", "Valutakurs"],
+  mc_nokd: ["Policy rate differential against NOK, last twelve months", "Styringsrentedifferanse mot NOK siste tolv måneder"], mc_nokd_s: ["Norges Bank's rate minus the other bank's, percentage points", "Norges Banks rente minus den andre bankens, prosentpoeng"],
+  mc_nok_note: ["Policy rates are the current ones; the 3-month and 10-year differentials use the OECD's monthly averages for the month shown. JPY is quoted per 100 yen. The exchange-rate changes are over 1 day, 1 week, 1 month and the year to date.", "Styringsrentene er dagens; differansene for 3 måneder og 10 år bruker OECDs månedsgjennomsnitt for måneden som vises. JPY er notert per 100 yen. Valutakursendringene er over 1 dag, 1 uke, 1 måned og hittil i år."],
   cb_min: ["Latest decisions and minutes", "Siste beslutninger og referater"], cb_min_s: ["the statement of the last decision and the last published minutes, summarised by the agent; the links go to the banks' own pages", "pressemeldingen fra siste rentebeslutning og siste publiserte referat, oppsummert av agenten; lenkene går til bankenes egne sider"],
   k_decision: ["Decision", "Beslutning"], k_minutes: ["Minutes", "Referat"], cb_min_upd: ["Kept by the morning routine; last checked", "Vedlikeholdt av morgenrutinen; sist sjekket"],
   cb_hist: ["Policy rates, the last twelve months", "Styringsrenter siste tolv måneder"], cb_hist_s: ["per cent; the Fed as the upper bound of its target range", "prosent; Fed som øvre grense i målintervallet"],
@@ -337,7 +358,7 @@ const COLORS = () => ["--s1", "--s2", "--s3", "--s4", "--s5", "--s6", "--s7", "-
 const cssv = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 
 /* ---------- tabs, language, theme ---------- */
-const TABS = ["letters", "alerts", "news", "events", "equities", "rates", "commodities", "fx", "central", "norgesbank", "update"];
+const TABS = ["letters", "alerts", "news", "events", "equities", "rates", "commodities", "fx", "central", "macro", "norgesbank", "update"];
 const drawn = new Set();
 function currentTab() { const h = location.hash.replace("#", ""); return TABS.includes(h) ? h : "letters"; }
 function showTab(name, force) {
@@ -361,7 +382,7 @@ $("#themeBtn").onclick = () => { const next = isDark() ? "light" : "dark"; docum
 $$("#langSeg button").forEach(b => b.onclick = () => setLang(b.dataset.v));
 window.addEventListener("hashchange", () => showTab(currentTab()));
 $$(".rangeSeg").forEach(seg => seg.querySelectorAll("button").forEach(b => b.onclick = () => { seg.querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b)); RANGE[seg.dataset.for] = b.dataset.v; if (seg.dataset.for === "aside") drawI44(); else DRAW[currentTab()](); }));
-const RANGE = {eq: "1m", sec: "d1", rt: "1m", cm: "1m", fx: "1m", aside: "1m", cb: "1m", nbt: "1m"};
+const RANGE = {eq: "1m", sec: "d1", rt: "1m", cm: "1m", fx: "1y", aside: "1m", cb: "1m", nbt: "1m"};
 
 /* ---------- data helpers ---------- */
 const Y = D.yahoo || {}, FR = D.fred || {}, EC = D.ecb || {}, NB = D.nb || {}, SSB = D.ssb || {}, CB = D.bis || {};
@@ -675,6 +696,91 @@ function drawFx() {
   plot("#fxPlot", indexedTraces(["DX-Y.NYB", "EURUSD=X", "USDJPY=X", "EURNOK=X", "USDNOK=X", "nok_i44"], RANGE.fx));
 }
 
+/* ---------- key figures ---------- */
+const MC = D.macro || {}, MCS = MC.series || {};
+// indicator key, names, decimals
+const MC_IND = [["gdp_qoq", "GDP q/q", "BNP k/k", 1], ["gdp_yoy", "GDP y/y", "BNP å/å", 1], ["cpi", "CPI y/y", "KPI å/å", 1], ["core", "Core CPI y/y", "Kjerneinflasjon å/å", 1],
+  ["unemp", "Unemployment", "Arbeidsledighet", 1], ["policy", "Policy rate", "Styringsrente", 2], ["r3m", "3-month rate", "3-måneders rente", 2], ["r10y", "10-year yield", "10-årsrente", 2]];
+const mcArea = code => (MC.areas || []).find(a => a.code === code) || {};
+const mcName = a => LANG === "no" ? a.name_no : a.name_en;
+// the series behind a cell: the policy rate from the daily BIS block, Norwegian inflation from Statistics Norway when it is
+// newer than the OECD's copy, everything else from the macro block
+function mcSeries(code, ind) {
+  const a = mcArea(code);
+  if (ind === "policy") { const c = a.bis && CB[a.bis]; return c ? {freq: "D", dates: c.dates, values: c.values, last: c.last, last_date: c.last_date, changes: c.changes} : null; }
+  let s = (MCS[code] || {})[ind] || null;
+  if (code === "NOR" && (ind === "cpi" || ind === "core")) { const o = ind === "cpi" ? SSB.cpi_12m : SSB.cpiate_12m; if (o && o.last != null && (!s || o.last_date > s.last_date)) s = {freq: "M", dates: o.dates, values: o.values, last: o.last, last_date: o.last_date, prev: o.prev}; }
+  return s;
+}
+const qOf = d => Math.ceil((new Date(d.slice(0, 10) + "T00:00:00Z").getUTCMonth() + 1) / 3);
+const perShort = (d, freq) => !d ? "" : freq === "Q" ? (LANG === "no" ? `${qOf(d)}. kv.` : `Q${qOf(d)}`) : freq === "D" ? fmtDate(d) : new Date(d.slice(0, 10) + "T00:00:00Z").toLocaleDateString(LANG === "no" ? "nb-NO" : "en-GB", {month: "short", timeZone: "UTC"});
+const perLong = (d, freq) => !d ? "" : freq === "Q" ? `${perShort(d, "Q")} ${d.slice(0, 4)}` : freq === "D" ? fmtDate(d) : fmtMonth(d);
+const perKey = s => s.freq === "D" ? "D" : s.last_date.slice(0, 7);
+// the last policy move: red arrow for a hike, green for a cut, with the month
+function policyArrow(s) {
+  const c = (s.changes || [])[s.changes.length - 1]; if (!c) return "";
+  const up = c[2] > c[1]; return ` <span class="${up ? "neg" : "pos"} small" title="${esc(fmtDate(c[0]))}">${up ? "▲" : "▼"} ${esc(perShort(c[0], "M"))}</span>`;
+}
+function drawMacro() {
+  const areas = MC.areas || [], el = $("#mcTable"); if (!el) return;
+  if (!areas.length) { el.innerHTML = `<p class="empty">${t("no_events")}</p>`; return; }
+  const cells = areas.map(a => MC_IND.map(([k]) => mcSeries(a.code, k)));
+  // the header carries the period most of a column shares; a cell from another period says so
+  const common = MC_IND.map((_, j) => { const cnt = {}; cells.forEach(r => { const s = r[j]; if (s && s.last != null) cnt[perKey(s)] = (cnt[perKey(s)] || 0) + 1; }); return (Object.entries(cnt).sort((x, y) => y[1] - x[1])[0] || [""])[0]; });
+  const head = `<tr><th>${t("mc_economy")}</th>${MC_IND.map(([, en, no], j) => { const s = cells.map(r => r[j]).find(x => x && x.last != null && perKey(x) === common[j]); return `<th class="num">${esc(LANG === "no" ? no : en)}<br><span class="muted" style="font-weight:400;text-transform:none;letter-spacing:0">${s ? (s.freq === "D" ? t("mc_latest") : esc(perLong(s.last_date, s.freq))) : ""}</span></th>`; }).join("")}</tr>`;
+  const body = areas.map((a, i) => `<tr><td>${esc(mcName(a))}</td>${MC_IND.map(([k, , , dec], j) => { const s = cells[i][j]; if (!s || s.last == null) return `<td class="num muted">–</td>`;
+    const off = s.freq !== "D" && perKey(s) !== common[j] ? `<span class="per">· ${esc(perShort(s.last_date, s.freq))}${s.last_date.slice(0, 4) !== (common[j] || "").slice(0, 4) ? " " + s.last_date.slice(0, 4) : ""}</span>` : "";
+    return `<td class="num" title="${esc(perLong(s.last_date, s.freq))}">${fmt(s.last, dec)}${k === "policy" ? policyArrow(s) : ""}${off}</td>`; }).join("")}</tr>`).join("");
+  el.innerHTML = `<table class="mc"><thead>${head}</thead><tbody>${body}</tbody></table>`;
+  // the indicator selector keeps its choice across redraws and language switches
+  const sel = $("#mcInd"), cur = sel.value || "cpi";
+  sel.innerHTML = MC_IND.map(([k, en, no]) => `<option value="${k}"${k === cur ? " selected" : ""}>${esc(LANG === "no" ? no : en)}</option>`).join("");
+  if (!sel.__wired) { sel.__wired = true; sel.onchange = drawMacroCharts; }
+  drawMacroCharts(); drawNokMatrix(); drawNokDiff();
+}
+function drawMacroCharts() {
+  const k = $("#mcInd").value, [, en, no, dec] = MC_IND.find(i => i[0] === k), label = LANG === "no" ? no : en, areas = MC.areas || [];
+  const rows = areas.map(a => ({a, s: mcSeries(a.code, k)})).filter(r => r.s && r.s.last != null);
+  const sorted = [...rows].sort((x, y) => x.s.last - y.s.last);
+  const accent = cssv("--accent"), muted = cssv("--muted");
+  plot("#mcBar", [{type: "bar", orientation: "h", x: sorted.map(r => r.s.last), y: sorted.map(r => mcName(r.a)), text: sorted.map(r => fmt(r.s.last, dec) + (r.s.freq === "D" ? "" : " · " + perShort(r.s.last_date, r.s.freq))), textposition: "outside", textfont: {size: 11, color: cssv("--fg")}, cliponaxis: false,
+    marker: {color: sorted.map(r => r.a.code === "NOR" ? accent : muted), opacity: 0.85}, hovertemplate: `%{y}: %{x:.${dec}f} %<extra></extra>`, showlegend: false}],
+    {margin: {l: 100, r: 70, t: 10, b: 30}, xaxis: {ticksuffix: " %", zeroline: true, zerolinecolor: cssv("--axis")}, yaxis: {automargin: true, tickfont: {size: 11}}, hovermode: "closest", bargap: 0.3});
+  const col = [...COLORS(), cssv("--warn"), cssv("--ok"), cssv("--bad"), cssv("--muted"), cssv("--accent")];
+  const tr = rows.map((r, i) => ({x: r.s.dates, y: r.s.values, name: mcName(r.a), type: "scatter", mode: "lines", line: {width: r.a.code === "NOR" ? 3 : 1.6, color: r.a.code === "NOR" ? accent : col[i % col.length], shape: r.s.freq === "D" ? "hv" : "linear"}, noEnd: r.a.code !== "NOR", hovertemplate: `%{y:.${dec}f} %<extra>${esc(mcName(r.a))}</extra>`}));
+  plot("#mcHist", tr, {yaxis: {ticksuffix: " %"}, margin: {l: 48, r: 56, t: 10, b: 84}, legend: {y: -0.12}});
+}
+// the krone matrix: one row per currency with the exchange rate and its changes, then the policy, 3-month and 10-year
+// rate differentials against Norway; cells shaded on a diverging scale
+const NOK_CCY = [["USD", "USDNOK=X", "USA", 1], ["EUR", "EURNOK=X", "EA", 1], ["GBP", "GBPNOK=X", "GBR", 1], ["SEK", "SEKNOK=X", "SWE", 1], ["DKK", "DKKNOK=X", "DNK", 1], ["CHF", "CHFNOK=X", "CHE", 1], ["JPY", "JPYNOK=X", "JPN", 100], ["CAD", "CADNOK=X", "CAN", 1], ["AUD", "AUDNOK=X", "AUS", 1]];
+const shade = (v, cap) => v == null || !isFinite(v) ? "" : ` style="background: color-mix(in srgb, var(${v > 0 ? "--ok" : "--bad"}) ${Math.round(Math.min(1, Math.abs(v) / cap) * 42)}%, transparent)"`;
+function drawNokMatrix() {
+  const el = $("#nokMatrix"); if (!el) return;
+  const no = {policy: mcSeries("NOR", "policy"), r3m: mcSeries("NOR", "r3m"), r10y: mcSeries("NOR", "r10y")};
+  const month = k => { const s = no[k]; return s && s.freq !== "D" ? ` <span class="muted" style="font-weight:400;text-transform:none;letter-spacing:0">${esc(perShort(s.last_date, "M"))}</span>` : ""; };
+  const head = `<tr><th class="grp"></th><th class="grp" colspan="5">${t("mc_fxchg")}</th><th class="grp" colspan="3">${t("mc_diff")}</th></tr>
+    <tr><th>${t("mc_ccy")}</th><th class="num">${t("mc_spot")}</th><th class="num">${t("d1")}</th><th class="num">${t("w1")}</th><th class="num">${t("m1")}</th><th class="num">${t("ytd")}</th><th class="num">${t("mc_dpol")}</th><th class="num">${t("mc_d3m")}${month("r3m")}</th><th class="num">${t("mc_d10y")}${month("r10y")}</th></tr>`;
+  const diff = (k, code) => { const a = no[k], b = mcSeries(code, k); return a && b && a.last != null && b.last != null ? a.last - b.last : null; };
+  const chgCell = v => { if (v == null) return `<td class="num muted">–</td>`; const r = Math.round(v * 10) / 10 || 0; return `<td class="c"${shade(-v, 3)}>${r > 0 ? "+" : ""}${fmt(r, 1)} %</td>`; };
+  const dCell = (v, k, code) => { if (v == null) return `<td class="num muted">–</td>`; const b = mcSeries(code, k), a = no[k]; return `<td class="c"${shade(v, 4)} title="NOK ${fmt(a.last, 2)} − ${fmt(b.last, 2)}"><b>${v > 0 ? "+" : ""}${fmt(v, 2)}</b></td>`; };
+  const body = NOK_CCY.map(([c, sym, code, mult]) => { const y = Y[sym]; const spot = y && y.last != null ? fmt(y.last * mult, mult === 100 ? 2 : 4) : "–";
+    return `<tr><td><b>${c}</b>${mult === 100 ? ` <span class="muted small">×100</span>` : ""} <span class="muted small">${esc(mcName(mcArea(code)))}</span></td><td class="num">${spot}</td>${["d1", "w1", "m1", "ytd"].map(f => chgCell(y ? y[f] : null)).join("")}${["policy", "r3m", "r10y"].map(k => dCell(diff(k, code), k, code)).join("")}</tr>`; }).join("");
+  el.innerHTML = `<table class="mx"><thead>${head}</thead><tbody>${body}</tbody></table>`;
+}
+// daily policy-rate differentials from the BIS block (NO minus each of the others), step lines over the last year
+function drawNokDiff() {
+  const node = $("#nokDiffPlot"); if (!node) return;
+  const base = CB.NO; if (!base) { node.innerHTML = `<p class="empty">${t("no_events")}</p>`; return; }
+  const col = [...COLORS(), cssv("--warn")];
+  const tr = NOK_CCY.filter(([, , code]) => mcArea(code).bis && CB[mcArea(code).bis] && code !== "NOR").map(([c, , code], i) => { const o = CB[mcArea(code).bis], m = new Map(o.dates.map((d, j) => [d, o.values[j]]));
+    const xs = [], ys = []; base.dates.forEach((d, j) => { if (m.has(d)) { xs.push(d); ys.push(base.values[j] - m.get(d)); } });
+    return {x: xs, y: ys, name: `NOK − ${c}`, ccy: c, type: "scatter", mode: "lines", noEnd: true, line: {width: 2, shape: "hv", color: col[i % col.length]}, hovertemplate: `%{y:.2f} pp<extra>NOK − ${c}</extra>`}; });
+  const groups = new Map(); tr.forEach(x => { const y = x.y[x.y.length - 1]; if (y == null) return; const k = y.toFixed(3); if (!groups.has(k)) groups.set(k, {y, names: [], color: x.line.color}); groups.get(k).names.push(x.ccy); });
+  const ann = [...groups.values()].sort((p, q) => q.y - p.y).map(g => ({x: 1, xref: "paper", y: g.y, xanchor: "left", yanchor: "middle", xshift: 6, showarrow: false, text: `${g.y > 0 ? "+" : ""}${fmt(g.y, 2)} ${g.names.join(", ")}`, font: {size: 11, color: g.names.length > 1 ? cssv("--fg") : g.color}}));
+  for (let i = 1; i < ann.length; i++) { if (ann[i - 1].y - ann[i].y < 0.3) { ann[i].yshift = (ann[i - 1].yshift || 0) - 13; } }
+  plot(node, tr, {yaxis: {ticksuffix: " pp", zeroline: true, zerolinecolor: cssv("--axis")}, margin: {l: 48, r: 120, t: 10, b: 64}, annotations: ann});
+}
+
 /* ---------- central banks ---------- */
 // the market pricing cell: a bar for the probability of a 25 bp move at the next meeting (red = hike, green = cut), the
 // Fed from the futures block, the others from the agent-kept columns of policy_rates.csv
@@ -914,6 +1020,8 @@ $("#xlBtn").onclick = () => {
     xlInstr("Equities", group("equity")), xlInstr("AI and semis", group("ai")), xlInstr("Sectors", group("sector")), xlInstr("Rates live", group("rates")), xlInstr("Rates and credit fixes", fixes), xlInstr("Commodities", group("commodity")), xlInstr("FX", group("fx")),
     {name: "Policy rates", cols: [26, 12, 14, 10, 14, 10, 10, 60, 12, 50, 40, 50], freeze: 1, rows: [xhd(["Bank", "Rate", "Last decision", "Move", "Next meeting", "P(hike) %", "P(cut) %", "Market pricing note", "Pricing date", "Pricing source", "Remaining 2026", "Source"]), ...pr.map(r => { const ff = /federal reserve/i.test(r.bank) && (D.fedfunds || {}).meetings && D.fedfunds.meetings[0]; return [xc(r.bank), xc(r.rate), xc(r.last_decision), xc(r.last_move), xc(r.next_meeting), xc(ff ? ff.p_hike : r.p_hike), xc(ff ? ff.p_cut : r.p_cut), xc(ff ? `Fed funds futures: ${ff.change_bp > 0 ? "+" : ""}${ff.change_bp} bp priced for ${ff.date}` : r.pricing_note_en), xc(ff ? (D.fedfunds.asof || "").slice(0, 10) : r.pricing_date), xc(ff ? "" : r.pricing_url), xc(r.remaining_2026), xc(r.source_url)]; })]},
     {name: "Policy rate history", cols: [12, ...Object.keys(CB).map(() => 14)], freeze: 1, rows: (() => { const ar = Object.keys(CB); const ds = [...new Set(ar.flatMap(a => CB[a].dates))].sort(); const at = Object.fromEntries(ar.map(a => [a, new Map(CB[a].dates.map((d, i) => [d, CB[a].values[i]]))])); return [xhd(["Date", ...ar.map(a => CB[a].name_en)]), ...ds.map(d => [xc(d), ...ar.map(a => xc(at[a].get(d)))])]; })()},
+    {name: "Key figures", cols: [18, ...MC_IND.flatMap(() => [10, 10])], freeze: 1, rows: [xhd(["Economy", ...MC_IND.flatMap(([, en]) => [en, "Period"])], 1), ...(MC.areas || []).map(a => [xc(a.name_en), ...MC_IND.flatMap(([k]) => { const s = mcSeries(a.code, k); return s && s.last != null ? [xc(s.last), xc(s.freq === "D" ? s.last_date : s.freq === "Q" ? `${s.last_date.slice(0, 4)} Q${qOf(s.last_date)}` : s.last_date.slice(0, 7))] : [xc(null), xc(null)]; })])]},
+    xlInstr("NOK crosses", group("nok")),
     {name: "Events", cols: [12, 8, 8, 12, 50, 10, 50, 50], freeze: 1, rows: [xhd(["Date", "Time", "Region", "Category", "Event", "Importance", "Note", "Source"]), ...ev.map(e => [xc(e.date), xc(e.time_oslo), xc(e.region), xc(e.category), xc(e.event), xc(e.importance), xc(e.note_en), xc(e.source_url)])]}], "market_summary");
 };
 
@@ -1066,7 +1174,7 @@ try {
 } catch (e) {}
 
 /* ---------- boot ---------- */
-const DRAW = {letters: drawLetters, alerts: drawAlerts, news: drawNews, events: drawEvents, equities: drawEquities, rates: drawRates, commodities: drawCommodities, fx: drawFx, central: drawCentral, norgesbank: drawNorgesBank, update: drawUpdate};
+const DRAW = {letters: drawLetters, alerts: drawAlerts, news: drawNews, events: drawEvents, equities: drawEquities, rates: drawRates, commodities: drawCommodities, fx: drawFx, central: drawCentral, macro: drawMacro, norgesbank: drawNorgesBank, update: drawUpdate};
 $("#foot").innerHTML = `Market summary · built ${esc(D.generated)} · data ${esc(D.asof)}`;
 setLang(LANG);
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { if (!document.documentElement.dataset.theme) { drawn.clear(); showTab(currentTab(), true); } });

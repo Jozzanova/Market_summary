@@ -19,6 +19,7 @@ Live: https://market-summary.jskjeltorp.workers.dev (public)
 | Commodities | Energy, metals and grains with changes and indexed charts |
 | Currencies | The dollar index and the main pairs including EUR/NOK and USD/NOK, and Norges Bank's import-weighted krone index I-44 |
 | Central banks | Policy rates, last and next decisions; Norwegian policy and market rates; the next central bank events |
+| Key figures | Growth, inflation, unemployment and rates for thirteen economies (the OECD, Eurostat, Statistics Norway, the BIS), a ranked comparison and three-year history per indicator, and the krone matrix: NOK exchange rates with their changes and the policy, 3-month and 10-year rate differentials against each currency, plus the daily policy-rate differentials over the last year |
 | Norges Bank | A daily letter on everything said about Norges Bank (the bank, economists, the press, market pricing); policy rate, next decision, CPI and CPI-ATE against the 2 per cent target, the krone, Norwegian rates, the next Norges Bank dates |
 | Update | Data status, how the page is made, sources |
 
@@ -35,7 +36,7 @@ npx wrangler deploy                          # Cloudflare Workers static assets,
 
 Letters live in `data/letters/YYYY-MM-DD/<kind>.<lang>.md` (kind: markets, macro, politics, norgesbank; lang: en, no); intraday snapshots are `intraday-HHMM.<lang>.md` (Oslo time), all kept and shown newest first. The policy-rate
 table is `data/policy_rates.csv`, the calendar `data/events.csv` the Norwegian CPI consensus `data/cpi_consensus.csv` and the latest decision statements and minutes `data/cb_minutes.json`; all are kept by the agent. The one-year policy-rate chart on the
-Central banks tab is the BIS daily policy-rate dataset (WS_CBPOL, about a week behind) extended with the table after the latest decisions (the Fed as the upper bound of its target range).
+Central banks tab is the BIS daily policy-rate dataset (WS_CBPOL, about a week behind) extended with the table after the latest decisions (the Fed as the upper bound of its target range). The Key figures tab reads the OECD SDMX API (consumer prices in both the COICOP 1999 and 2018 dataflows, labour force statistics, quarterly national accounts, financial indicators), Eurostat (euro-area unemployment) and Statistics Norway; the NOK crosses come from Yahoo Finance.
 The table's market-pricing column is computed for the Fed from the CME 30-day Fed funds futures (Yahoo ZQ contracts, FedWatch arithmetic)
 and kept by the agent from press reports for the other banks (columns p_hike, p_cut, pricing_note, pricing_date, pricing_url). The instrument universe
 is `data/instruments.csv`.

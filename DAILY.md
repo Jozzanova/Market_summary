@@ -13,7 +13,8 @@ done and the letters are committed.
     python -X utf8 pipeline/brief.py               # the numbers for the letters
 
 `fetch.py` downloads one year of daily prices for every instrument in `data/instruments.csv` from Yahoo Finance, the
-US yields and credit spreads from FRED, the euro-area AAA curve from the ECB and the Norwegian rates from Norges Bank, and
+US yields and credit spreads from FRED, the euro-area AAA curve from the ECB, the Norwegian rates from Norges Bank, the
+policy rates from the BIS and the key figures of thirteen economies from the OECD and Eurostat (block `macro`), and
 writes `data/data.json`. A source that fails keeps the previous run's block and is listed under `kept_from_previous`;
 mention it in the report. `403 Forbidden` from the proxy means the cloud environment's network allowlist lacks that host.
 

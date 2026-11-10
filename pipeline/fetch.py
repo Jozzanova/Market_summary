@@ -42,8 +42,13 @@ ECB_YC = {"SR_2Y": "Euro area AAA 2-year", "SR_10Y": "Euro area AAA 10-year"}
 BIS_AREAS = {"US": ("Federal Reserve", "Federal Reserve", "Fed"), "XM": ("ECB", "ESB", "ECB"), "GB": ("Bank of England", "Bank of England", "BoE"),
              "JP": ("Bank of Japan", "Bank of Japan", "BoJ"), "NO": ("Norges Bank", "Norges Bank", "NB"), "SE": ("Riksbank", "Riksbanken", "Riksbank"),
              "CH": ("Swiss National Bank", "Sveitsiske nasjonalbanken", "SNB"), "AU": ("Reserve Bank of Australia", "Reserve Bank of Australia", "RBA"),
-             "CA": ("Bank of Canada", "Bank of Canada", "BoC")}
-BIS_TABLE = {"US": r"federal reserve", "XM": r"\becb\b", "GB": r"bank of england", "JP": r"bank of japan", "NO": r"norges", "SE": r"riksbank", "CH": r"swiss", "AU": r"australia", "CA": r"canada"}
+             "CA": ("Bank of Canada", "Bank of Canada", "BoC"), "DK": ("Danmarks Nationalbank", "Danmarks Nationalbank", "DN")}
+BIS_TABLE = {"US": r"federal reserve", "XM": r"\becb\b", "GB": r"bank of england", "JP": r"bank of japan", "NO": r"norges", "SE": r"riksbank", "CH": r"swiss", "AU": r"australia", "CA": r"canada", "DK": r"danmarks|denmark"}
+# the economies of the key-figures tab: OECD code -> (name_en, name_no, currency, BIS policy-rate area)
+MACRO_AREAS = {"NOR": ("Norway", "Norge", "NOK", "NO"), "SWE": ("Sweden", "Sverige", "SEK", "SE"), "DNK": ("Denmark", "Danmark", "DKK", "DK"),
+               "EA": ("Euro area", "Euroområdet", "EUR", "XM"), "DEU": ("Germany", "Tyskland", "EUR", None), "FRA": ("France", "Frankrike", "EUR", None),
+               "GBR": ("United Kingdom", "Storbritannia", "GBP", "GB"), "CHE": ("Switzerland", "Sveits", "CHF", "CH"), "USA": ("United States", "USA", "USD", "US"),
+               "CAN": ("Canada", "Canada", "CAD", "CA"), "JPN": ("Japan", "Japan", "JPY", "JP"), "AUS": ("Australia", "Australia", "AUD", "AU"), "CHN": ("China", "Kina", "CNY", None)}
 NB_SERIES = {"B.10Y.GBON": ("nok_10y", "Norway 10-year government bond"), "B.3Y.GBON": ("nok_3y", "Norway 3-year government bond"),
              "B.3M.TBIL": ("nok_3m", "Norway 3-month treasury bill")}
 
@@ -52,11 +57,11 @@ def log(msg):
     print(msg, flush=True)
 
 
-def get(url, retries=3):
+def get(url, retries=3, timeout=40):
     req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "application/json,text/csv,text/plain,*/*"})
     for attempt in range(retries + 1):
         try:
-            with urllib.request.urlopen(req, timeout=40) as r:
+            with urllib.request.urlopen(req, timeout=timeout) as r:
                 return r.read()
         except urllib.error.HTTPError as e:
             if e.code in (429, 503) and attempt < retries:
@@ -333,12 +338,75 @@ def fetch_bis():
                 dates.append(dec); values.append(rate)
             elif abs(rate - values[-1]) > 1e-9:
                 log(f"  bis {area}: table says {rate} from {dec}, BIS has {values[-1]} on {dates[-1]}; keeping BIS")
-            if dates[-1] < today:
-                dates.append(today); values.append(values[-1])
+        if dates[-1] < today:
+            dates.append(today); values.append(values[-1])
         changes = [(dates[i], values[i - 1], values[i]) for i in range(1, len(values)) if values[i] != values[i - 1]]
         out[area] = {"name_en": name_en, "name_no": name_no, "short": short, "group": "policy", "kind": "yield", "decimals": 2, "dates": dates, "values": values,
                      "last": values[-1], "last_date": dates[-1], "bis_last": pts[-1][0], "extended_from": ext, "changes": changes}
     log(f"bis: {len(out)} policy rates, BIS data to {max(v['bis_last'] for v in out.values())}; extended from the table: {[a for a, v in out.items() if v['extended_from']] or 'none'}")
+    return out
+
+
+OECD = "https://sdmx.oecd.org/public/rest/data/"
+
+
+def oecd_rows(name, flow, key, params):
+    raw = cached(name, 12, lambda: get(f"{OECD}{flow}/{key}?{params}&format=csvfilewithlabels", timeout=120))
+    return list(csv.DictReader(io.StringIO(raw.decode("utf-8-sig", "ignore"))))
+
+
+def fetch_macro():
+    """Key figures for the economies of MACRO_AREAS: GDP growth (quarter on quarter and over a year, OECD quarterly national
+    accounts), CPI and core CPI over a year (OECD consumer prices; the COICOP 1999 dataflow stops at the end of 2025 for most
+    European countries and the COICOP 2018 dataflow carries on from 2026, so both are read and merged), the unemployment rate
+    (OECD labour force statistics, monthly where available, otherwise quarterly; the euro area from Eurostat), and the
+    3-month and 10-year interest rates (OECD financial indicators, monthly averages). Three years of history each."""
+    import re
+    areas = "+".join(a for a in MACRO_AREAS if a != "EA") + "+EA+EA20"      # the euro area is EA in most dataflows, EA20 in the rates one
+    alias = {"EA20": "EA", "EA21": "EA"}
+    cand = {}       # (area, indicator) -> {variant: {date: value}}; a variant is the methodology/adjustment/frequency combination
+    def add(area, ind, variant, period, value):
+        area = alias.get(area, area)
+        if area not in MACRO_AREAS:
+            return
+        try:
+            v = float(value)
+        except (TypeError, ValueError):
+            return
+        m = re.match(r"(\d{4})-Q(\d)$", period or "")
+        date = f"{m.group(1)}-{int(m.group(2)) * 3:02d}-01" if m else (period + "-01" if len(period) == 7 else period[:10])
+        cand.setdefault((area, ind), {}).setdefault(variant, {})[date] = v
+    for tag, flow in (("c99", "OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0"), ("c18", "OECD.SDD.TPS,DSD_PRICES_COICOP2018@DF_PRICES_C2018_ALL,1.0")):
+        for r in oecd_rows(f"oecd_cpi_{tag}.csv", flow, f"{areas}.M..CPI.PA._T+_TXCP01_NRG..GY", "startPeriod=2023-01"):
+            add(r["REF_AREA"], "cpi" if r["EXPENDITURE"] == "_T" else "core", (r["METHODOLOGY"], r["ADJUSTMENT"]), r["TIME_PERIOD"], r["OBS_VALUE"])
+    for r in oecd_rows("oecd_unemp.csv", "OECD.SDD.TPS,DSD_LFS@DF_IALFS_UNE_M,1.0", f"{areas}.UNE_LF_M.PT_LF_SUB._Z.Y._T.Y_GE15..", "startPeriod=2023-01"):
+        if r["FREQ"] in ("M", "Q"):
+            add(r["REF_AREA"], "unemp", (r["FREQ"],), r["TIME_PERIOD"], r["OBS_VALUE"])
+    for r in oecd_rows("oecd_gdp.csv", "OECD.SDD.NAD,DSD_NAMAIN1@DF_QNA,1.1", f"Q..{areas}...B1GQ......G1+GY.", "startPeriod=2023-Q1"):
+        add(r["REF_AREA"], "gdp_qoq" if r["TRANSFORMATION"] == "G1" else "gdp_yoy", (r["ADJUSTMENT"], r["PRICE_BASE"]), r["TIME_PERIOD"], r["OBS_VALUE"])
+    for r in oecd_rows("oecd_rates.csv", "OECD.SDD.STES,DSD_STES@DF_FINMARK,4.0", f"{areas}.M.IRLT+IR3TIB......", "startPeriod=2023-01"):
+        add(r["REF_AREA"], "r10y" if r["MEASURE"] == "IRLT" else "r3m", (r["ADJUSTMENT"],), r["TIME_PERIOD"], r["OBS_VALUE"])
+    try:
+        j = json.loads(cached("eurostat_une_ea.json", 12, lambda: get("https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/une_rt_m?geo=EA21&s_adj=SA&age=TOTAL&unit=PC_ACT&sex=T&sinceTimePeriod=2023-01&format=JSON")))
+        for period, i in j["dimension"]["time"]["category"]["index"].items():
+            if str(i) in j["value"]:
+                add("EA", "unemp", ("M",), period, j["value"][str(i)])
+    except Exception as e:
+        log(f"  eurostat: {repr(e)[:120]}")
+    # national CPI before the harmonised one, monthly before quarterly, seasonally adjusted chain-linked volumes for GDP
+    pref = {"cpi": [("N", "N"), ("HICP", "N")], "core": [("N", "N"), ("HICP", "N")], "unemp": [("M",), ("Q",)],
+            "gdp_qoq": [("Y", "LR"), ("Y", "L"), ("Y", "Q")], "gdp_yoy": [("Y", "LR"), ("Y", "L"), ("Y", "Q")], "r3m": [("_Z",), ("N",)], "r10y": [("_Z",), ("N",)]}
+    series = {}
+    for (area, ind), variants in cand.items():
+        key = next((v for v in pref.get(ind, []) if v in variants), None) or max(variants, key=lambda v: max(variants[v]))
+        pts = sorted(variants[key].items())
+        freq = "Q" if ind.startswith("gdp") or (ind == "unemp" and key == ("Q",)) else "M"
+        series.setdefault(area, {})[ind] = {"freq": freq, "dates": [p[0] for p in pts], "values": [round(p[1], 3) for p in pts], "last": round(pts[-1][1], 3), "last_date": pts[-1][0],
+                                            "prev": round(pts[-2][1], 3) if len(pts) > 1 else None, "variant": "/".join(key)}
+    out = {"areas": [{"code": a, "name_en": n[0], "name_no": n[1], "ccy": n[2], "bis": n[3]} for a, n in MACRO_AREAS.items()], "series": series,
+           "sources": {"gdp": "OECD quarterly national accounts", "cpi": "OECD consumer prices", "unemp": "OECD labour force statistics; Eurostat for the euro area",
+                       "rates": "OECD financial indicators, monthly averages"}}
+    log(f"macro: {len(series)} economies, " + ", ".join(f"{k} {sum(1 for a in series.values() if k in a)}" for k in ("gdp_yoy", "cpi", "core", "unemp", "r3m", "r10y")))
     return out
 
 
@@ -416,7 +484,7 @@ def main():
     yahoo, failed = fetch_yahoo(prev.get("yahoo", {}))
     kept += [f"yahoo:{s}" for s in failed if s in yahoo]
     blocks = {}
-    for name, fn in (("fred", fetch_fred), ("ecb", fetch_ecb), ("nb", fetch_nb), ("ssb", fetch_ssb), ("bis", fetch_bis), ("fedfunds", fetch_fedfunds), ("news", fetch_news), ("heatmap", fetch_heatmap)):
+    for name, fn in (("fred", fetch_fred), ("ecb", fetch_ecb), ("nb", fetch_nb), ("ssb", fetch_ssb), ("bis", fetch_bis), ("macro", fetch_macro), ("fedfunds", fetch_fedfunds), ("news", fetch_news), ("heatmap", fetch_heatmap)):
         log(f"{name}")
         try:
             blocks[name] = fn()
