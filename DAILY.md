@@ -73,8 +73,8 @@ go back and replace them.
   a bank's market comment ("markets price a 70 % chance of a December hike"; "fully priced" = 95, "no change expected"
   = 0/0); `pricing_note_en`/`pricing_note_no` one line quoting the figure as reported, `pricing_date` (YYYY-MM-DD) and
   `pricing_url`. Update the columns when a newer report is found; leave them as they are otherwise.
-- `data/cb_minutes.json`: for each of the nine banks the most recent decision statement and the most recent published
-  minutes (or the bank's equivalent: ECB account, BoJ summary of opinions, BoC summary of deliberations; Norges Bank and
+- `data/cb_minutes.json`: for each of the ten banks the most recent decision statement and the most recent published
+  minutes (or the bank's equivalent: ECB account, BoJ summary of opinions, BoC summary of deliberations, RBNZ summary record of meeting; Norges Bank and
   the SNB have no minutes, so their monetary policy assessment stands in). Fields per item: bank, kind (decision|minutes),
   title, date (YYYY-MM-DD), url (the bank's own page), summary_en and summary_no (3–5 sentences, central-bank register:
   the decision and vote, the reasoning, the guidance, notable dissent), quotes (one or two verbatim lines under 25 words).

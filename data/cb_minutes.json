@@ -233,6 +233,32 @@
     "Governing Council decided to leave the policy interest rate unchanged at 2.25%.",
     "members agreed that the risk that inflation spreads to other goods and services had risen."
    ]
+  },
+  {
+   "bank": "Reserve Bank of New Zealand",
+   "kind": "decision",
+   "title": "OCR held at 2.75%",
+   "date": "2026-10-28",
+   "url": "https://www.rbnz.govt.nz/news-and-events/news/2026/10/ocr-held-at-2-75-percent",
+   "summary_en": "The Monetary Policy Committee voted 4–3 to hold the OCR at 2.75 per cent, after increases in July and September; Paul Conway, Hayley Gourley and Karen Silk wanted a 25 basis point increase to 3 per cent. Annual CPI inflation was 3.7 per cent in the September quarter, down from 4.1 per cent and lower than expected, but core measures sit around the top of the 1–3 per cent band and price increases have become more broad-based; inflation is expected to rise to 4.4 per cent in the December quarter on fuel prices and a 3 per cent fall in the exchange rate since early September. The recovery is export-led and uneven, with domestic demand subdued. All members agreed that tighter policy is likely to be required, conditional on the outlook.",
+   "summary_no": "Pengepolitisk komité stemte 4 mot 3 for å holde styringsrenten (OCR) på 2,75 prosent, etter hevinger i juli og september; Paul Conway, Hayley Gourley og Karen Silk ville heve med 25 basispunkter til 3 prosent. Årlig KPI-vekst var 3,7 prosent i tredje kvartal, ned fra 4,1 prosent og lavere enn ventet, men kjernemålene ligger rundt toppen av målintervallet på 1–3 prosent, og prisøkningene har blitt bredere; inflasjonen ventes å stige til 4,4 prosent i fjerde kvartal på grunn av drivstoffprisene og en valutakurs som har falt 3 prosent siden tidlig i september. Oppgangen er eksportledet og ujevn, med svak innenlandsk etterspørsel. Alle medlemmene var enige om at strammere pengepolitikk trolig vil være nødvendig, betinget av utsiktene.",
+   "quotes": [
+    "The Monetary Policy Committee today voted 4 - 3 to hold the OCR at 2.75 percent.",
+    "The Committee agreed that tighter monetary policy is likely to be required but remains conditional on the economic outlook."
+   ]
+  },
+  {
+   "bank": "Reserve Bank of New Zealand",
+   "kind": "minutes",
+   "title": "Summary record of meeting – October 2026 MPR",
+   "date": "2026-10-28",
+   "url": "https://www.rbnz.govt.nz/news-and-events/news/2026/10/ocr-held-at-2-75-percent",
+   "summary_en": "The record, published with the decision, shows a committee agreed on the inflation outlook but split on timing. The four who held (Breman, Hansen, Gai, Williams) argued that the two recent increases allow time to assess their effects, that inflation came in below expectations with smaller indirect fuel effects, that firms do not appear to be widening margins, and that the recovery in household consumption and investment is weak. The three who wanted a hike (Gourley, Conway, Silk) stressed that core inflation has been above target-consistent levels for some time, that growth has been resilient, and that acting now would guard against entrenched inflation. Members noted that information over the next six weeks could change the stance in either direction: further tightening if domestic pricing pressures fail to moderate, holds if they stay subdued, and even easing if the global economy turns sharply down.",
+   "summary_no": "Referatet, publisert sammen med beslutningen, viser en komité som var enig om inflasjonsutsiktene, men delt om timingen. De fire som holdt renten (Breman, Hansen, Gai, Williams) mente de to siste hevingene gir tid til å vurdere virkningene, at inflasjonen ble lavere enn ventet med mindre indirekte drivstoffeffekter, at bedriftene ikke ser ut til å øke marginene, og at oppgangen i husholdningenes forbruk og investeringer er svak. De tre som ville heve (Gourley, Conway, Silk) la vekt på at kjerneinflasjonen lenge har ligget over nivåer som er forenlige med målet, at veksten har vært robust, og at en heving nå ville verne mot at inflasjonen fester seg. Medlemmene pekte på at informasjon de neste seks ukene kan endre innretningen i begge retninger: ytterligere innstramming om det innenlandske prispresset ikke avtar, uendret rente om det holder seg dempet, og til og med lettelser om verdensøkonomien faller brått.",
+   "quotes": [
+    "Members discussed that information arriving over the next six weeks could meaningfully change the appropriate policy stance in either direction.",
+    "four members voted to hold the OCR at 2.75 percent and three members voted for a 25-basis-point increase to 3 percent"
+   ]
   }
  ]
 }
