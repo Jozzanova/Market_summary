@@ -249,7 +249,7 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
   <div class="tiles" id="tiles-commodities"></div>
   <div class="card"><h2 data-i="cm_title">Commodities</h2><div id="cmTable"></div></div>
   <div class="card"><h2 data-i="cm_perf">Indexed performance <small data-i="eq_perf_s">start of period = 100</small></h2>
-    <div class="row"><div class="seg rangeSeg" data-for="cm"><button data-v="1m" class="on">1M</button><button data-v="3m">3M</button><button data-v="ytd">YTD</button><button data-v="1y">1Y</button></div></div>
+    <div class="row"><div class="seg rangeSeg" data-for="cm"><button data-v="1m">1M</button><button data-v="3m">3M</button><button data-v="ytd">YTD</button><button data-v="1y" class="on">1Y</button></div></div>
     <div class="plot" id="cmPlot"></div></div>
 </section>
 
@@ -460,7 +460,7 @@ window.addEventListener("hashchange", () => showTab(currentTab()));
 // the page head is sticky and its height varies with the width (the tabs wrap), so the sub-menu's offset follows it
 { const ph = document.querySelector(".pagehead"); const setH = () => document.documentElement.style.setProperty("--headh", ph.offsetHeight + "px"); setH(); if (window.ResizeObserver) new ResizeObserver(setH).observe(ph); }
 $$(".rangeSeg").forEach(seg => seg.querySelectorAll("button").forEach(b => b.onclick = () => { seg.querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b)); RANGE[seg.dataset.for] = b.dataset.v; if (seg.dataset.for === "aside") drawI44(); else DRAW[currentTab()](); }));
-const RANGE = {eq: "1m", sec: "d1", rt: "1m", cm: "1m", fx: "1y", aside: "1m", cb: "1y", nbt: "1m"};
+const RANGE = {eq: "1m", sec: "d1", rt: "1m", cm: "1y", fx: "1y", aside: "1m", cb: "1y", nbt: "1m"};
 
 /* ---------- data helpers ---------- */
 const Y = D.yahoo || {}, FR = D.fred || {}, EC = D.ecb || {}, NB = D.nb || {}, SSB = D.ssb || {}, CB = D.bis || {};
@@ -502,10 +502,10 @@ function series(v, range) {
   return {dates: v.dates.slice(i0), values: v.values.slice(i0)};
 }
 function indexedTraces(syms, range) {
-  return syms.map((s, i) => { const v = bySym(s); if (!v) return null; const sr = series(v, range); const base = sr.values[0]; return {x: sr.dates, y: sr.values.map(x => 100 * x / base), name: nameOf(v), type: "scatter", mode: "lines", line: {width: 2, color: COLORS()[i % 8]}, hovertemplate: "%{x}<br>%{y:.1f}<extra>" + esc(nameOf(v)) + "</extra>"}; }).filter(Boolean);
+  return syms.map((s, i) => { const v = bySym(s); if (!v) return null; const sr = series(v, range); if (sr.dates.length < 3) return null; const base = sr.values[0]; return {x: sr.dates, y: sr.values.map(x => 100 * x / base), name: nameOf(v), type: "scatter", mode: "lines", line: {width: 2, color: COLORS()[i % 8]}, hovertemplate: "%{x}<br>%{y:.1f}<extra>" + esc(nameOf(v)) + "</extra>"}; }).filter(Boolean);
 }
 function levelTraces(syms, range, dec = 2) {
-  return syms.map((s, i) => { const v = bySym(s); if (!v) return null; const sr = series(v, range); return {x: sr.dates, y: sr.values, name: nameOf(v), type: "scatter", mode: "lines", line: {width: 2, color: COLORS()[i % 8]}, hovertemplate: `%{x}<br>%{y:.${dec}f}<extra>` + esc(nameOf(v)) + "</extra>"}; }).filter(Boolean);
+  return syms.map((s, i) => { const v = bySym(s); if (!v) return null; const sr = series(v, range); if (sr.dates.length < 3) return null; return {x: sr.dates, y: sr.values, name: nameOf(v), type: "scatter", mode: "lines", line: {width: 2, color: COLORS()[i % 8]}, hovertemplate: `%{x}<br>%{y:.${dec}f}<extra>` + esc(nameOf(v)) + "</extra>"}; }).filter(Boolean);
 }
 function plot(el, traces, layout = {}) {
   const node = typeof el === "string" ? $(el) : el;
