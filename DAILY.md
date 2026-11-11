@@ -108,7 +108,15 @@ chart of the named instruments (symbols as in `data/instruments.csv`, or the FRE
 old `diff_nok_eur_short`), `diff_nok_eur_10y` and `diff_nok_eur_policy`, and the same against the dollar: `diff_nok_usd_12m`
 (against the US 1-year), `diff_nok_usd_10y`, `diff_nok_usd_policy`); range `1m`, `3m`, `ytd` or `1y`; mode `indexed`
 (start = 100), `level`, or `dual` (the first series on the left axis, the rest on a right axis in percentage points: the
-mode for an exchange rate against rate differentials). Use one or two charts per letter where they help. The krone
+mode for an exchange rate against rate differentials). Use one or two charts per letter where they help. When a release
+can be split into components (CPI by category, GDP by expenditure or contribution, retail trade, employment by sector),
+put a small component figure beside the passage: a line `{bars: Title | Label value; Label value; … | unit | Source}`
+immediately before the paragraph or list that discusses the figures, for example
+`{bars: KPI USA, oktober, prosent fra måneden før | KPI i alt 0,4; Kjerne 0,3; Boutgifter 0,3; Energi 0,7; Mat 0,5; Bruktbiler −1,2 | | BLS}`.
+The title names the release, the period and the measure; three to seven items, totals first, falls with a minus; the unit
+(`pp`, `bp`, `%`) is appended to the values and is left empty when the title already says it; the source is the
+publisher's name. The page floats the figure to the right of the text, the PDF shows it as a small figure; both languages
+carry the same items with the labels translated. The krone
 section of the Norges Bank letter uses `{chart: EURNOK=X,diff_nok_eur_12m,diff_nok_eur_10y | 3m | dual}`, never
 EUR/NOK and a yield on one axis.
 

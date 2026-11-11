@@ -16,6 +16,8 @@ Ingen sentralbank endret renten det siste døgnet. Tabellen viser neste møte og
 
 ## Federal Reserve
 
+{bars: KPI USA, oktober, prosent fra måneden før | KPI i alt 0,4; Kjerneprisene 0,3; Boutgifter 0,3; Energi 0,7; Mat 0,5; Bruktbiler −1,2 | | BLS}
+
 **KPI for oktober.** Konsumprisene steg 0,4 prosent fra måneden før og kjerneprisene 0,3 prosent; konsensus var 0,3 og 0,2 ([BLS](https://www.bls.gov/news.release/cpi.nr0.htm), [CNBC](https://www.cnbc.com/2026/11/10/cpi-inflation-report-october-2026.html)). Fordelingen:
 - Boutgifter steg 0,3 prosent og sto for over 30 prosent av månedsveksten.
 - Energi steg 0,7 prosent og mat 0,5 prosent.

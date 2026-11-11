@@ -16,6 +16,8 @@ No central bank changed rates in the last 24 hours. The table shows the next mee
 
 ## Federal Reserve
 
+{bars: US CPI, October, per cent on the month | All items 0.4; Core 0.3; Shelter 0.3; Energy 0.7; Food 0.5; Used cars −1.2 | | BLS}
+
 **The October CPI.** Consumer prices rose 0.4 per cent on the month and core prices 0.3 per cent; the consensus was 0.3 and 0.2 ([BLS](https://www.bls.gov/news.release/cpi.nr0.htm), [CNBC](https://www.cnbc.com/2026/11/10/cpi-inflation-report-october-2026.html)). The breakdown:
 - Shelter rose 0.3 per cent and accounted for more than 30 per cent of the monthly rise.
 - Energy rose 0.7 per cent and food 0.5 per cent.
