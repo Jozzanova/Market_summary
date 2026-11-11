@@ -103,30 +103,34 @@ Format: Markdown with a `# Title, weekday day month year` heading, where the tit
 `Norges Bank` / `Norges Bank` (for example `# Markedet, tirsdag 10. november 2026`); `##` sections, bullets, bold lead-ins, Markdown tables
 where a table says it better, and links in the text `([Source](url))`. A line `{chart: SYM1,SYM2 | 3m | indexed}` draws a
 chart of the named instruments (symbols as in `data/instruments.csv`, or the FRED/ECB/Norges Bank keys `DGS2`, `DGS10`,
-`EA_SR_10Y`, `nok_10y`, `nok_policy`, `BAMLH0A0HYM2`, and the derived rate differentials `diff_nok_eur_short` (Norway 3-year
-minus euro AAA 2-year), `diff_nok_eur_10y` and `diff_nok_eur_policy`, and the same against the dollar: `diff_nok_usd_short`, `diff_nok_usd_10y`,
-`diff_nok_usd_policy`); range `1m`, `3m`, `ytd` or `1y`; mode `indexed`
+`EA_SR_10Y`, `nok_10y`, `nok_12m`, `nok_policy`, `BAMLH0A0HYM2`, and the derived rate differentials `diff_nok_eur_12m` (Norway
+12-month treasury bill minus euro AAA 1-year; the 12-month differential is the one Norges Bank follows, so use it rather than the
+old `diff_nok_eur_short`), `diff_nok_eur_10y` and `diff_nok_eur_policy`, and the same against the dollar: `diff_nok_usd_12m`
+(against the US 1-year), `diff_nok_usd_10y`, `diff_nok_usd_policy`); range `1m`, `3m`, `ytd` or `1y`; mode `indexed`
 (start = 100), `level`, or `dual` (the first series on the left axis, the rest on a right axis in percentage points: the
 mode for an exchange rate against rate differentials). Use one or two charts per letter where they help. The krone
-section of the Norges Bank letter uses `{chart: EURNOK=X,diff_nok_eur_short,diff_nok_eur_10y | 3m | dual}`, never
+section of the Norges Bank letter uses `{chart: EURNOK=X,diff_nok_eur_12m,diff_nok_eur_10y | 3m | dual}`, never
 EUR/NOK and a yield on one axis.
 
 Tone: measured, factual, central-bank style. State what happened, how much, and the likely reason, in that order; no
 exclamation, no advice, no speculation presented as fact; "per cent" and "basis points" written out. Length: key points
-200-320 words, markets 400-600 words, macro 400-600 words, politics 250-450 words.
+250-380 words, markets 400-600 words, macro 400-600 words, politics 250-450 words.
 
-- **Key points** (`highlights`, Norwegian title `Hovedtrekk`; the first and default letter on the page, its button is red): three
-  short paragraphs with bold lead-ins and nothing else, no chart. (1) **Markets** / **Markedene**: how the broad equity
-  indices (US, Europe, Norway, Asia), government yields (US, euro-area AAA, Norway 10-year) and the exchange rates (dollar
-  index, EUR/USD, USD/JPY, Brent as the price that moves the krone) moved, with the numbers. (2) **Drivers** / **Drivkrefter**:
-  the likely factors behind the moves, taken from what the markets were about in the last 24 hours: statements from the US
-  president or US authorities, central bank decisions and speeches (Fed, ECB, Bank of England, Bank of Japan, the
-  Riksbank, the RBA, the RBNZ), key figures, the oil price, geopolitics, company news. (3) **Norway** / **Norge**: the krone
-  (EUR/NOK, USD/NOK, I-44 and why it moved), the rate differential against the euro area (policy rate, and 10-year against
-  the AAA curve), what others expect Norges Bank to do (the day's named views and market pricing) and the Norwegian data
-  of the day against consensus. The reader works at Norges Bank: mention the bank's own communication only when it is
-  new, in half a sentence, and never retell it. Short and concise: say what happened,
-  how much and the likely reason; every number from `brief.py` or the other letters of the day.
+- **Key points** (`highlights`, Norwegian title `Hovedtrekk`; the first and default letter on the page, its button is red): six
+  short paragraphs with bold lead-ins, always in this order and always all six, nothing else, no chart. One market per
+  paragraph, so the reader can find each market in the same place every day. (1) **Equities** / **Aksjer**: the broad
+  indices (US, Europe, Norway, Asia this morning) and the single stocks or sectors that stood out, with the numbers.
+  (2) **Government bonds** / **Statsrenter**: the US 2- and 10-year, the euro-area AAA 10-year and the Norwegian 10-year, in
+  basis points, and what the market prices for the next Fed and ECB meetings when it changed. (3) **Currencies** / **Valuta**:
+  the dollar index, EUR/USD, USD/JPY, and the krone (EUR/NOK, USD/NOK, I-44, and why it moved). (4) **Energy** / **Energi**:
+  Brent, and gas or power when they moved, with the reason. (5) **Drivers** / **Drivkrefter**: the likely factors behind
+  the moves, drawn from the other letters of the day: statements from the US president or US authorities, central bank
+  decisions and speeches (Fed, ECB, Bank of England, Bank of Japan, the Riksbank, the RBA, the RBNZ), key figures, the oil
+  price, geopolitics, company news, each with its link. (6) **Norway** / **Norge**: the rate differential against the euro
+  area (policy rate, 12-month, and 10-year against the AAA curve), what others expect Norges Bank to do (the day's named
+  views and market pricing) and the Norwegian data of the day against consensus. The reader works at Norges Bank: mention
+  the bank's own communication only when it is new, in half a sentence, and never retell it. Short and concise: say what
+  happened, how much and the likely reason; every number from `brief.py` or the other letters of the day.
 - **Markets** / **Markedet** (`markets`): a bold summary paragraph; sections Equities (US, Europe, Norway, Asia; say how the AI and semiconductor proxies in the brief, SOX, NYSE FANG+, the Magnificent 7 and AI ETFs, did against the market), Fixed income and
   credit, Commodities and currencies (always the krone: EUR/NOK, USD/NOK and Norges Bank's import-weighted index I-44, where
   a rise is a weaker krone; the brief prints all three), Today (the calendar for the day with consensus where known). The page shows a table

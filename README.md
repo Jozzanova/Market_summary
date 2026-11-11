@@ -19,7 +19,7 @@ Live: https://market-summary.jskjeltorp.workers.dev (public)
 | Commodities | Energy, metals and grains with changes and indexed charts |
 | Currencies | The dollar index and the main pairs including EUR/NOK and USD/NOK, and Norges Bank's import-weighted krone index I-44 |
 | Central banks | Policy rates, last and next decisions; Norwegian policy and market rates; the next central bank events |
-| Key figures | Growth, inflation, unemployment and rates for thirteen economies (the OECD, Eurostat, Statistics Norway, the BIS), a ranked comparison and three-year history per indicator, and the krone matrix: NOK exchange rates with their changes and the policy, 3-month and 10-year rate differentials against each currency, plus the daily policy-rate differentials over the last year |
+| Key figures | Growth, inflation, unemployment and rates for thirteen economies (the OECD, Eurostat, Statistics Norway, the BIS; the 12-month rate from each economy's own daily source where one exists), a ranked comparison and three-year history per indicator, and the krone matrix: NOK exchange rates with their changes and the policy, 3-month and 10-year rate differentials against each currency, plus the daily policy-rate differentials over the last year |
 | Norges Bank | A daily letter on everything said about Norges Bank (the bank, economists, the press, market pricing); policy rate, next decision, CPI and CPI-ATE against the 2 per cent target, the krone, Norwegian rates, the next Norges Bank dates |
 | Update | Data status, how the page is made, sources |
 

@@ -27,7 +27,7 @@ Ingen av økonomene som har uttalt seg etter tallet, venter heving i desember. D
 
 **Hva det betyr.** En strammere amerikansk rentebane reduserer kronens rentefordel. En svakere krone løfter importert prisvekst over tid, men I-44 er fortsatt 8,6 prosent sterkere enn ved årsskiftet.
 
-{chart: EURNOK=X,diff_nok_eur_short,diff_nok_eur_10y | 3m | dual}
+{chart: EURNOK=X,diff_nok_eur_12m,diff_nok_eur_10y | 3m | dual}
 
 ## Datoer
 

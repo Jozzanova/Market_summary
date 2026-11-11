@@ -36,9 +36,9 @@ DATA, RAW = ROOT / "data", ROOT / "rawData"
 RAW.mkdir(exist_ok=True)
 REFRESH = "--refresh" in sys.argv
 UA = "market-summary/0.1 admin@jskjeltorp.workers.dev"
-FRED_SERIES = {"DGS2": "US 2-year", "DGS10": "US 10-year", "DGS30": "US 30-year", "DFII10": "US 10-year real (TIPS)", "T10YIE": "US 10-year breakeven",
+FRED_SERIES = {"DGS1": "US 1-year", "DGS2": "US 2-year", "DGS10": "US 10-year", "DGS30": "US 30-year", "DFII10": "US 10-year real (TIPS)", "T10YIE": "US 10-year breakeven",
                "BAMLC0A0CM": "US IG OAS", "BAMLH0A0HYM2": "US HY OAS", "BAMLHE00EHYIOAS": "Euro HY OAS", "BAMLEMCBPIOAS": "EM corporate OAS"}
-ECB_YC = {"SR_2Y": "Euro area AAA 2-year", "SR_10Y": "Euro area AAA 10-year"}
+ECB_YC = {"SR_1Y": "Euro area AAA 1-year", "SR_2Y": "Euro area AAA 2-year", "SR_10Y": "Euro area AAA 10-year"}
 BIS_AREAS = {"US": ("Federal Reserve", "Federal Reserve", "Fed"), "XM": ("ECB", "ESB", "ECB"), "GB": ("Bank of England", "Bank of England", "BoE"),
              "JP": ("Bank of Japan", "Bank of Japan", "BoJ"), "NO": ("Norges Bank", "Norges Bank", "NB"), "SE": ("Riksbank", "Riksbanken", "Riksbank"),
              "CH": ("Swiss National Bank", "Sveitsiske nasjonalbanken", "SNB"), "AU": ("Reserve Bank of Australia", "Reserve Bank of Australia", "RBA"),
@@ -50,7 +50,7 @@ MACRO_AREAS = {"NOR": ("Norway", "Norge", "NOK", "NO"), "SWE": ("Sweden", "Sveri
                "GBR": ("United Kingdom", "Storbritannia", "GBP", "GB"), "CHE": ("Switzerland", "Sveits", "CHF", "CH"), "USA": ("United States", "USA", "USD", "US"),
                "CAN": ("Canada", "Canada", "CAD", "CA"), "JPN": ("Japan", "Japan", "JPY", "JP"), "AUS": ("Australia", "Australia", "AUD", "AU"), "CHN": ("China", "Kina", "CNY", None)}
 NB_SERIES = {"B.10Y.GBON": ("nok_10y", "Norway 10-year government bond"), "B.3Y.GBON": ("nok_3y", "Norway 3-year government bond"),
-             "B.3M.TBIL": ("nok_3m", "Norway 3-month treasury bill")}
+             "B.3M.TBIL": ("nok_3m", "Norway 3-month treasury bill"), "B.12M.TBIL": ("nok_12m", "Norway 12-month treasury bill")}
 
 
 def log(msg):
@@ -360,7 +360,8 @@ def fetch_macro():
     accounts), CPI and core CPI over a year (OECD consumer prices; the COICOP 1999 dataflow stops at the end of 2025 for most
     European countries and the COICOP 2018 dataflow carries on from 2026, so both are read and merged), the unemployment rate
     (OECD labour force statistics, monthly where available, otherwise quarterly; the euro area from Eurostat), and the
-    3-month and 10-year interest rates (OECD financial indicators, monthly averages). Three years of history each."""
+    3-month and 10-year interest rates (OECD financial indicators, monthly averages). Three years of history each. The
+    12-month rates come from the national sources in fetch_r12m, which runs after this."""
     import re
     areas = "+".join(a for a in MACRO_AREAS if a != "EA") + "+EA+EA20"      # the euro area is EA in most dataflows, EA20 in the rates one
     alias = {"EA20": "EA", "EA21": "EA"}
@@ -408,6 +409,60 @@ def fetch_macro():
                        "rates": "OECD financial indicators, monthly averages"}}
     log(f"macro: {len(series)} economies, " + ", ".join(f"{k} {sum(1 for a in series.values() if k in a)}" for k in ("gdp_yoy", "cpi", "core", "unemp", "r3m", "r10y")))
     return out
+
+
+def fetch_r12m(blocks):
+    """The 12-month government rate per economy, daily, from each economy's own source, added to the macro block as the
+    indicator r12m (the OECD has no 12-month rate): Norway the 12-month treasury bill (Norges Bank), the euro area the
+    AAA 1-year spot rate (ECB), the United States the 1-year constant maturity (FRED), Germany the 1-year Bund term
+    structure (Bundesbank), Japan the 1-year JGB (Ministry of Finance), Canada the 1-year treasury bill mid yield (Bank
+    of Canada). No open daily source was found for Sweden (the Riksbank's 12-month bill series closed in 2010), Denmark,
+    the United Kingdom, Switzerland, France, Australia or China; those economies have no 12-month rate on the page."""
+    series = blocks.get("macro", {}).get("series")
+    if series is None:
+        return
+    start = (datetime.now(timezone.utc) - timedelta(days=3 * 366)).strftime("%Y-%m-%d")
+    sources = {}
+    def put(area, pts, src):
+        pts = sorted((d, float(v)) for d, v in pts if v is not None and d >= start)
+        if not pts:
+            raise ValueError("no observations")
+        series.setdefault(area, {})["r12m"] = {"freq": "D", "dates": [p[0] for p in pts], "values": [round(p[1], 3) for p in pts], "last": round(pts[-1][1], 3),
+                                               "last_date": pts[-1][0], "prev": round(pts[-2][1], 3) if len(pts) > 1 else None, "variant": src}
+        sources[area] = src
+    def from_block(area, block, key, src):
+        v = blocks.get(block, {}).get(key)
+        if v:
+            put(area, zip(v["dates"], v["values"]), src)
+    def bundesbank():
+        raw = cached("bbk_1y.csv", 6, lambda: get("https://api.statistiken.bundesbank.de/rest/data/BBSIS/D.I.ZST.ZI.EUR.S1311.B.A604.R01XX.R.A.A._Z._Z.A?format=csv&startPeriod=" + start))
+        pts = []
+        for line in raw.decode("utf-8-sig", "ignore").splitlines():
+            f = line.split(";")
+            if len(f) >= 2 and len(f[0]) == 10 and f[0][4] == "-" and f[1] not in ("", "."):
+                pts.append((f[0], f[1].replace(",", ".")))
+        put("DEU", pts, "Deutsche Bundesbank, 1-year term structure of listed Federal securities")
+    def mof():
+        raw = cached("mof_jgb.csv", 6, lambda: get("https://www.mof.go.jp/english/policy/jgbs/reference/interest_rate/historical/jgbcme_all.csv", timeout=90))
+        # the historical file lags by a few weeks; the current month's file carries the latest days
+        cur = cached("mof_jgb_month.csv", 6, lambda: get("https://www.mof.go.jp/english/policy/jgbs/reference/interest_rate/jgbcme.csv", timeout=60))
+        pts = []
+        for r in csv.reader(io.StringIO(raw.decode("utf-8", "ignore") + chr(10) + cur.decode("utf-8", "ignore"))):
+            if len(r) > 1 and r[0].count("/") == 2 and r[1] not in ("", "-"):
+                y, m, d = r[0].split("/")
+                pts.append((f"{y}-{int(m):02d}-{int(d):02d}", r[1]))
+        put("JPN", pts, "Ministry of Finance, 1-year JGB")
+    def boc():
+        j = json.loads(cached("boc_1y.json", 6, lambda: get(f"https://www.bankofcanada.ca/valet/observations/TB.CDN.1Y.MID/json?start_date={start}")))
+        put("CAN", [(o["d"], o["TB.CDN.1Y.MID"]["v"]) for o in j["observations"] if o.get("TB.CDN.1Y.MID", {}).get("v")], "Bank of Canada, 1-year treasury bill mid-market yield")
+    for area, fn in (("NOR", lambda: from_block("NOR", "nb", "nok_12m", "Norges Bank, 12-month treasury bill")), ("EA", lambda: from_block("EA", "ecb", "EA_SR_1Y", "ECB, AAA 1-year spot rate")),
+                     ("USA", lambda: from_block("USA", "fred", "DGS1", "FRED, 1-year Treasury constant maturity")), ("DEU", bundesbank), ("JPN", mof), ("CAN", boc)):
+        try:
+            fn()
+        except Exception as e:
+            log(f"  r12m {area}: {repr(e)[:120]}")
+    blocks["macro"]["sources"]["r12m"] = sources
+    log("r12m: " + ", ".join(f"{a} {series[a]['r12m']['last']} ({series[a]['r12m']['last_date']})" for a in series if "r12m" in series[a]))
 
 
 def fetch_ssb():
@@ -492,6 +547,10 @@ def main():
             log(f"  !! {name} failed: {repr(e)[:200]}; keeping the previous data")
             blocks[name] = prev.get(name, {})
             kept.append(name)
+    try:
+        fetch_r12m(blocks)
+    except Exception as e:
+        log(f"  !! r12m failed: {repr(e)[:200]}")
     data = {"asof": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"), "yahoo": yahoo, **blocks,
             "policy_rates": read_csv("policy_rates.csv"), "events": read_csv("events.csv"), "cpi_consensus": read_csv("cpi_consensus.csv"), "cb_minutes": read_json("cb_minutes.json", {}), "kept_from_previous": kept}
     (DATA / "data.json").write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")

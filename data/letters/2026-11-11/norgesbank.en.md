@@ -27,7 +27,7 @@ None of the economists quoted after the print expects a hike in December. No upd
 
 **Implications.** A firmer US path narrows the krone's rate advantage. A weaker krone lifts imported inflation over time, but I-44 is still 8.6 per cent stronger than at the start of the year.
 
-{chart: EURNOK=X,diff_nok_eur_short,diff_nok_eur_10y | 3m | dual}
+{chart: EURNOK=X,diff_nok_eur_12m,diff_nok_eur_10y | 3m | dual}
 
 ## Dates
 
