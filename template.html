@@ -75,6 +75,7 @@ tr.sect td { font-weight: 600; color: var(--accent); padding-top: .7rem; border-
 .tile { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; box-shadow: var(--shadow); }
 .tile .n { font-size: 1.5rem; font-weight: 600; line-height: 1.1; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
 .tile .l { color: var(--muted); font-size: .8rem; margin-top: 4px; } .tile .s { color: var(--muted); font-size: .74rem; margin-top: 2px; }
+.tiles-cap { grid-column: 1 / -1; color: var(--muted); font-size: .78rem; margin: 0 0 -4px; } .tile .n.txt { font-size: 1.15rem; line-height: 1.25; }
 .dot { display: inline-block; width: .55rem; height: .55rem; border-radius: 50%; margin-right: .35rem; background: var(--line); vertical-align: middle; }
 .dot.high { background: var(--warn); } .dot.medium { background: var(--accent); }
 /* letters */
@@ -163,6 +164,7 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
 
 <main>
 <section class="pane" id="pane-letters">
+  <div class="tiles" id="tiles-letters"></div>
   <div class="row kinds">
     <div class="seg" id="kindSeg"><button data-v="highlights" data-i="k_highlights" class="hot">Key points</button><button data-v="markets" data-i="k_markets">Markets</button><button data-v="intraday" data-i="k_intraday">Intraday</button><button data-v="macro" data-i="k_macro">Macro</button><button data-v="politics" data-i="k_politics">Politics</button></div>
     <select id="letterDate"></select>
@@ -183,6 +185,7 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
 </section>
 
 <section class="pane" id="pane-alerts">
+  <div class="tiles" id="tiles-alerts"></div>
   <div class="card">
     <div class="row" style="justify-content:space-between"><h2 style="margin:0" data-i="al_title">Market-moving events</h2><span id="alStatus" class="tag"></span></div>
     <p class="note" data-i="al_note">A worker checks the krone (I-44, EUR/NOK, USD/NOK), the main equity indices, the VIX, US yields, oil, gas and metals every five minutes against the previous close, and scans the Reuters, Bloomberg, FT and WSJ feeds for shock keywords; an agent reviews the news every two hours on weekdays and adds events with a note and a source. The last 20 are kept. Red: a high-severity event in the last 24 hours; orange: a medium one; green: nothing.</p>
@@ -192,6 +195,7 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
 </section>
 
 <section class="pane" id="pane-news">
+  <div class="tiles" id="tiles-news"></div>
   <div class="card">
     <h2 data-i="nw_title">Recent headlines</h2>
     <div class="row"><div class="chips" id="nwSrc"></div></div>
@@ -202,6 +206,7 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
 </section>
 
 <section class="pane" id="pane-events">
+  <div class="tiles" id="tiles-events"></div>
   <div class="card">
     <h2 data-i="ev_title">Upcoming events</h2>
     <div class="row"><div class="chips" id="evChips"></div></div>
@@ -211,6 +216,7 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
 </section>
 
 <section class="pane" id="pane-equities">
+  <div class="tiles" id="tiles-equities"></div>
   <div class="card"><h2 data-i="eq_title">Equity indices</h2><div id="eqTable"></div></div>
   <div class="card"><h2 data-i="ai_title">AI and semiconductors <small data-i="ai_s">the indices and ETFs the market uses as AI proxies</small></h2><div id="aiTable"></div></div>
   <div class="grid2">
@@ -227,6 +233,7 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
 </section>
 
 <section class="pane" id="pane-rates">
+  <div class="tiles" id="tiles-rates"></div>
   <div class="card"><h2 data-i="rt_title">Government yields, policy rates and credit spreads</h2><div id="rtTable"></div>
     <p class="note" data-i="rt_note">US Treasury rows marked "live" are Yahoo prints and can include the current session; the official fixes (FRED, ECB AAA curve, Norges Bank) are one business day behind. Changes in basis points.</p></div>
   <div class="row"><div class="seg rangeSeg" data-for="rt"><button data-v="1m" class="on">1M</button><button data-v="3m">3M</button><button data-v="ytd">YTD</button><button data-v="1y">1Y</button></div></div>
@@ -239,6 +246,7 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
 </section>
 
 <section class="pane" id="pane-commodities">
+  <div class="tiles" id="tiles-commodities"></div>
   <div class="card"><h2 data-i="cm_title">Commodities</h2><div id="cmTable"></div></div>
   <div class="card"><h2 data-i="cm_perf">Indexed performance <small data-i="eq_perf_s">start of period = 100</small></h2>
     <div class="row"><div class="seg rangeSeg" data-for="cm"><button data-v="1m" class="on">1M</button><button data-v="3m">3M</button><button data-v="ytd">YTD</button><button data-v="1y">1Y</button></div></div>
@@ -246,6 +254,7 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
 </section>
 
 <section class="pane" id="pane-fx">
+  <div class="tiles" id="tiles-fx"></div>
   <div class="card"><h2 data-i="fx_title">Currencies</h2><div id="fxTable"></div><p class="note" data-i="fx_note">Quoted as named: a rise in EUR/NOK or USD/NOK is a weaker krone; a rise in EUR/USD is a weaker dollar.</p></div>
   <div class="card"><h2 data-i="fx_perf">Indexed performance <small data-i="eq_perf_s">start of period = 100</small></h2>
     <div class="row"><div class="seg rangeSeg" data-for="fx"><button data-v="1m">1M</button><button data-v="3m">3M</button><button data-v="ytd">YTD</button><button data-v="1y" class="on">1Y</button></div></div>
@@ -253,6 +262,7 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
 </section>
 
 <section class="pane" id="pane-central">
+  <div class="tiles" id="tiles-central"></div>
   <div class="card"><h2 data-i="cb_title">Policy rates and the next decisions</h2><div id="cbTable"></div><p class="note" data-i="cb_note">Kept by the daily agent and checked after every meeting; the source link is the bank's own page.</p></div>
   <div class="grid2">
     <div class="card"><h2 data-i="cb_hist">Policy rates, the last twelve months <small data-i="cb_hist_s">per cent; the Fed as the upper bound of its target range</small></h2><div class="plot" id="cbHistPlot" style="height:400px"></div><p class="note" id="cbHistNote"></p></div>
@@ -264,6 +274,7 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
 </section>
 
 <section class="pane" id="pane-macro">
+  <div class="tiles" id="tiles-macro"></div>
   <div class="card"><h2 data-i="mc_title">Key figures <small data-i="mc_title_s">growth, inflation, unemployment and rates for the economies of the rate table</small></h2><div class="scrollx" id="mcTable"></div><p class="note" data-i="mc_note"></p></div>
   <div class="grid2">
     <div class="card"><div class="row" style="justify-content:space-between"><h2 style="margin:0" data-i="mc_cmp">Compare <small data-i="mc_cmp_s">latest value by economy</small></h2><select id="mcInd"></select></div><div class="plot" id="mcBar" style="height:420px"></div></div>
@@ -314,7 +325,11 @@ const T = {
   tab_commodities: ["Commodities", "Råvarer"], tab_fx: ["Currencies", "Valuta"], tab_central: ["Central banks", "Sentralbanker"], tab_macro: ["Key figures", "Nøkkeltall"], tab_norgesbank: ["Norges Bank", "Norges Bank"], tab_update: ["Update", "Oppdatering"],
   nb_letter: ["Norges Bank", "Norges Bank"], nb_infl: ["Inflation against the 2 per cent target", "Inflasjon mot målet på 2 prosent"], nb_infl_s: ["12-month change, Statistics Norway", "tolvmånedersvekst, Statistisk sentralbyrå"],
   nb_krone: ["The krone", "Kronen"], nb_krone_s: ["EUR/NOK (left) and the I-44 index (right); up = weaker krone", "EUR/NOK (venstre) og I-44-indeksen (høyre); opp = svakere krone"], nb_next: ["Next Norges Bank dates", "Neste Norges Bank-datoer"],
-  t_policy: ["policy rate", "styringsrente"], t_next: ["next decision", "neste beslutning"], t_cpi: ["CPI, 12-month", "KPI, tolvmåneders"], t_cpiate: ["CPI-ATE, 12-month", "KPI-JAE, tolvmåneders"], t_10y: ["10-year yield", "10-årsrente"], t_eurnok: ["EUR/NOK", "EUR/NOK"], t_target: ["target 2 %", "mål 2 %"],
+  t_policy: ["policy rate", "styringsrente"], t_next: ["next decision", "neste beslutning"], t_cpi: ["CPI, 12-month", "KPI, tolvmåneders"], t_cpiate: ["CPI-ATE, 12-month", "KPI-JAE, tolvmåneders"], t_10y: ["10-year yield", "10-årsrente"], t_eurnok: ["EUR/NOK", "EUR/NOK"],
+  tl_movers: ["Largest moves since the previous close, across equities, commodities and currencies", "Største bevegelser siden forrige sluttkurs, på tvers av aksjer, råvarer og valuta"],
+  tl_diff12: ["NOK − EUR, 12-month", "NOK − EUR, 12 måneder"], tl_news24: ["headlines, last 24 hours", "overskrifter, siste døgn"], tl_news_all: ["on file in total", "på fil i alt"], tl_last24: ["last 24 hours", "siste døgn"],
+  tl_al_status: ["status now", "status nå"], tl_al_24: ["alerts, last 24 hours", "varsler, siste døgn"], tl_al_high: ["of which high severity", "hvorav alvorlige"], tl_al_latest: ["latest alert", "siste varsel"], tl_al_check: ["last check", "siste sjekk"],
+  tl_none: ["none", "ingen"], t_target: ["target 2 %", "mål 2 %"],
   k_highlights: ["Key points", "Hovedtrekk"], k_markets: ["Markets", "Markedet"], k_intraday: ["Intraday", "Intradag"], k_macro: ["Macro", "Makro"], k_politics: ["Politics", "Politikk"], run_now: ["Update now", "Oppdater nå"],
   snap_title: ["The last 24 hours at a glance", "Det siste døgnet i korte trekk"], fig_title: ["Figures", "Figurer"],
   brent_title: ["Brent oil", "Brent-olje"], brent_s: ["USD per barrel, same period", "USD per fat, samme periode"], i44_title: ["The krone: I-44", "Kronen: I-44"], i44_s: ["Norges Bank's import-weighted index; up = weaker krone", "Norges Banks importveide indeks; opp = svakere krone"],
@@ -373,11 +388,58 @@ const cssv = v => getComputedStyle(document.documentElement).getPropertyValue(v)
 /* ---------- tabs, language, theme ---------- */
 const TABS = ["letters", "news", "equities", "rates", "commodities", "fx", "central", "macro", "norgesbank", "update", "alerts", "events"];
 const drawn = new Set();
+// the tile row at the top of a tab: the figures a reader wants first, in the same shape on every tab (value, label,
+// change). Instrument tiles show the latest value with the change on the day and the year to date.
+const tileHtml = (n, l, s, cls = "") => `<div class="tile"><div class="n${cls ? " " + cls : ""}">${n}</div><div class="l">${l}</div><div class="s">${s}</div></div>`;
+function instrTile(sym, label) {
+  const v = bySym(sym); if (!v || v.last == null) return "";
+  return tileHtml(fmt(v.last, +v.decimals) + (DIFF[sym] ? " pp" : v.kind === "yield" ? " %" : ""), esc(label || shortName(sym, v)), `${chg(v.d1, v.unit)} · ${chg(v.ytd, v.unit)} ${t("ytd").toLowerCase()}`);
+}
+function drawTiles(name) {
+  const el = $("#tiles-" + name); if (!el) return;
+  const syms = (list, n = 6) => list.map(x => instrTile(x)).filter(Boolean).slice(0, n).join(""), no = LANG === "no";
+  const minor = new Set(["ZW=F", "ZC=F", "ZS=F", "PL=F", "ALI=F", "SI=F", "^VIX", "JPYNOK=X"]);      // left out of the movers: thin or second-tier markets
+  const fmtT = x => { const d = new Date(x); return isNaN(d) ? esc(x || "") : d.toLocaleString(no ? "nb-NO" : "en-GB", {day: "numeric", month: "short", hour: "2-digit", minute: "2-digit", timeZone: "Europe/Oslo"}); };
+  let html = "";
+  if (name === "letters") {
+    const pool = [...group("equity"), ...group("commodity"), ...group("fx"), ...group("nok")].filter(v => v.d1 != null && isFinite(v.d1) && !minor.has(v.sym)).sort((a, b) => Math.abs(b.d1) - Math.abs(a.d1));
+    html = `<div class="tiles-cap">${t("tl_movers")}</div>` + pool.slice(0, 6).map(v => instrTile(v.sym)).join("");
+  } else if (name === "equities") html = syms(["^GSPC", "^IXIC", "^STOXX", "OSEBX.OL", "^N225", "^VIX"]);
+  else if (name === "rates") html = syms(["^TNX", "DGS2", "EA_SR_10Y", "nok_10y", "BAMLH0A0HYM2"]) + instrTile("diff_nok_eur_12m", t("tl_diff12"));
+  else if (name === "commodities") html = syms(["BZ=F", "CL=F", "TTF=F", "NG=F", "GC=F", "HG=F", "^SPGSCI"]);
+  else if (name === "fx") html = syms(["DX-Y.NYB", "EURUSD=X", "USDJPY=X", "EURNOK=X", "USDNOK=X", "nok_i44"]);
+  else if (name === "central") {
+    const FF = D.fedfunds || {}, banks = [[/federal/i, "Fed"], [/ecb/i, no ? "ESB" : "ECB"], [/england/i, "Bank of England"], [/japan/i, "Bank of Japan"], [/norges/i, "Norges Bank"], [/riksbank/i, no ? "Riksbanken" : "Riksbank"]];
+    html = banks.map(([re, lab]) => { const r = (D.policy_rates || []).find(x => re.test(x.bank)); if (!r) return "";
+      let ph = +r.p_hike, pc = +r.p_cut; if (re.test("federal reserve") && (FF.meetings || []).length) { ph = FF.meetings[0].p_hike; pc = FF.meetings[0].p_cut; }
+      const pr = isFinite(ph) && isFinite(pc) && Math.max(ph, pc) >= 10 ? ` · ${ph >= pc ? t("hike") : t("cut")} ${Math.round(Math.max(ph, pc))} %` : "";
+      return tileHtml(esc(r.rate), esc(lab), `${t("t_next")} ${r.next_meeting ? fmtDate(r.next_meeting) : "–"}${pr}`); }).join("");
+  } else if (name === "macro") {
+    const cell = (code, ind) => { const s = mcSeries(code, ind); if (!s || s.last == null) return ""; const [, en, nn, dec] = MC_IND.find(i => i[0] === ind); const d = s.prev != null ? s.last - s.prev : null;
+      const dtxt = d == null ? "" : `<span class="${d > 0 ? "pos" : d < 0 ? "neg" : ""}">${d > 0 ? "+" : ""}${fmt(d, dec)} pp</span> · `;
+      return tileHtml(fmt(s.last, dec) + " %", `${esc(mcName(mcArea(code)))}, ${esc(no ? nn : en)}`, `${dtxt}${esc(perLong(s.last_date, s.freq))}`); };
+    html = cell("NOR", "cpi") + cell("NOR", "core") + cell("NOR", "unemp") + cell("NOR", "gdp_qoq") + cell("USA", "cpi") + cell("EA", "cpi");
+  } else if (name === "news") {
+    const items = (D.news || {}).items || [], cut = Date.now() - 24 * 3600e3, recent = items.filter(i => new Date(i.time).getTime() >= cut);
+    html = tileHtml(recent.length, t("tl_news24"), items.length ? `${items.length} ${t("tl_news_all")}` : "") + ["markets", "economy", "central bank", "norway", "politics"].map(c => tileHtml(recent.filter(i => i.category === c).length, t("nc_" + c), t("tl_last24"))).join("");
+  } else if (name === "alerts") {
+    const evs = alertEvents(), lvl = alertLevel(evs), cut = Date.now() - 24 * 3600e3, rec = evs.filter(e => new Date(e.time).getTime() >= cut), hi = rec.filter(e => e.severity === "high"), last = evs[0];
+    const upd = (LIVE_ALERTS && LIVE_ALERTS.updated) || (D.alerts || {}).updated, col = lvl === "red" ? "var(--bad)" : lvl === "orange" ? "var(--warn)" : "var(--ok)";
+    html = tileHtml(`<span style="color:${col}">● ${t("al_" + lvl)}</span>`, t("tl_al_status"), "", "txt") + tileHtml(rec.length, t("tl_al_24"), `${hi.length} ${t("tl_al_high")}`)
+      + tileHtml(last ? fmtT(last.time) : t("tl_none"), t("tl_al_latest"), last ? esc((no ? (last.text_no || last.text_en) : last.text_en) || "").slice(0, 90) : "", "txt") + tileHtml(upd ? fmtT(upd) : "–", t("tl_al_check"), "", "txt");
+  } else if (name === "events") {
+    const today = new Date().toISOString().slice(0, 10), evs = (D.events || []).filter(e => e.date >= today).sort((a, b) => (a.date + (a.time_oslo || "")).localeCompare(b.date + (b.time_oslo || "")));
+    const pick = evs.filter(e => /high|medium/i.test(e.importance || "")).slice(0, 6); evs.forEach(e => { if (pick.length < 6 && !pick.includes(e)) pick.push(e); });
+    pick.sort((a, b) => (a.date + (a.time_oslo || "")).localeCompare(b.date + (b.time_oslo || "")));
+    html = pick.map(e => tileHtml(esc(fmtDate(e.date)), esc(e.event), `${esc(e.region || "")}${e.time_oslo ? " · " + esc(e.time_oslo) : ""}`, "txt")).join("");
+  }
+  el.innerHTML = html;
+}
 function currentTab() { const h = location.hash.replace("#", ""); return TABS.includes(h) ? h : "letters"; }
 function showTab(name, force) {
   $$("section.pane").forEach(s => s.classList.toggle("on", s.id === "pane-" + name));
   $$("nav.tabs a").forEach(a => a.classList.toggle("on", a.dataset.tab === name));
-  if (force || !drawn.has(name)) { DRAW[name](); drawn.add(name); }
+  if (force || !drawn.has(name)) { DRAW[name](); drawTiles(name); drawn.add(name); }
   $$(`#pane-${name} .plot`).forEach(p => p.data && Plotly.Plots.resize(p));
 }
 function setLang(l) {
@@ -678,7 +740,7 @@ function drawAlerts() {
   $("#alMeta").textContent = upd ? `${t("al_meta")} ${fmtT(upd)}.` : "";
 }
 async function loadLiveAlerts() {
-  try { const r = await fetch("/api/alerts", {cache: "no-store"}); if (r.ok) { LIVE_ALERTS = await r.json(); paintAlertTab(); if (currentTab() === "alerts") drawAlerts(); } } catch (e) {}
+  try { const r = await fetch("/api/alerts", {cache: "no-store"}); if (r.ok) { LIVE_ALERTS = await r.json(); paintAlertTab(); if (currentTab() === "alerts") { drawAlerts(); drawTiles("alerts"); } } } catch (e) {}
 }
 loadLiveAlerts(); setInterval(loadLiveAlerts, 5 * 60 * 1000);
 
