@@ -3,14 +3,14 @@
 This file is the playbook for the scheduled cloud agent that writes the market summary every morning. You start
 with a fresh clone of this repository and no other context; read this file first, then do the steps in order. Python's
 standard library is enough (no packages to install); Node is used for the deploy. Do not end the run before step 6 is
-done and the letters are committed.
+done and the reports are committed.
 
 ## 1. Refresh the data
 
     git pull --rebase origin main
     python -X utf8 pipeline/fetch.py --refresh     # 1-3 minutes; give it a 10-minute timeout
     python -X utf8 pipeline/alerts.py              # data alerts (large moves) into data/alerts.json, the Alerts tab
-    python -X utf8 pipeline/brief.py               # the numbers for the letters
+    python -X utf8 pipeline/brief.py               # the numbers for the reports
 
 `fetch.py` downloads one year of daily prices for every instrument in `data/instruments.csv` from Yahoo Finance, the
 US yields and credit spreads from FRED, the euro-area AAA curve from the ECB, the Norwegian rates from Norges Bank, the
@@ -19,7 +19,7 @@ writes `data/data.json`. A source that fails keeps the previous run's block and 
 mention it in the report. `403 Forbidden` from the proxy means the cloud environment's network allowlist lacks that host.
 
 `brief.py` prints every table with one-day, one-week, one-month and year-to-date changes, the largest moves, the curve,
-the policy rates on file and the upcoming events on file. Use its numbers in the letters; do not type numbers from memory.
+the policy rates on file and the upcoming events on file. Use its numbers in the reports; do not type numbers from memory.
 
 ## 2. Read the news
 
@@ -58,7 +58,7 @@ Label a citation with the outlet that wrote the piece, not the site that hosts i
 `[Reuters](url)`, an AP story in a newspaper is `[AP](url)`, an NTB story on frifagbevegelse.no is `[NTB](url)`; never
 "via". Open the articles you cite. Every fact you use must have a source you can link; do not state anything you could not
 verify, and say so when something could not be confirmed (for example "no report of the Asian session was available").
-Before you build, count the citations per domain across the day's letters: if tier-3 sources are more than one in six,
+Before you build, count the citations per domain across the day's reports: if tier-3 sources are more than one in six,
 go back and replace them.
 
 ## 3. Keep the tables current
@@ -90,7 +90,7 @@ go back and replace them.
   Add what you learn (central bank meetings, CPI, payrolls, GDP, PMIs, Norwegian CPI and Norges Bank dates, elections,
   summits, fiscal deadlines), keep the dates verified, and delete rows older than yesterday.
 
-## 4. Write the five letters, in English and in Norwegian
+## 4. Write the five reports, in English and in Norwegian
 
 (The intraday snapshots, `intraday-HHMM.en.md` / `intraday-HHMM.no.md`, are written by the separate intraday routine, playbook `INTRADAY.md`; leave any existing intraday files alone.)
 
@@ -99,7 +99,7 @@ Create the folder `data/letters/YYYY-MM-DD/` (today's date, UTC) with ten files:
 `norgesbank.no.md`. Write the key points last, from the other four, so they agree. The Norwegian versions carry the same facts in
 Norwegian bokmål (not a word-for-word translation; Norwegian number style: comma decimals, space thousands, "prosent").
 Format: Markdown with a `# Title, weekday day month year` heading, where the title is just the name of the piece, never
-"letter" or "brev": `Key points` / `Hovedtrekk`, `Markets` / `Markedet`, `Macro` / `Makro`, `Politics` / `Politikk`,
+"report", "rapport", "letter" or "brev": `Key points` / `Hovedtrekk`, `Markets` / `Markedet`, `Macro` / `Makro`, `Politics` / `Politikk`,
 `Norges Bank` / `Norges Bank` (for example `# Markedet, tirsdag 10. november 2026`); `##` sections, bullets, bold lead-ins, Markdown tables
 where a table says it better, and links in the text `([Source](url))`. A line `{chart: SYM1,SYM2 | 3m | indexed}` draws a
 chart of the named instruments (symbols as in `data/instruments.csv`, or the FRED/ECB/Norges Bank keys `DGS2`, `DGS10`,
@@ -108,7 +108,7 @@ chart of the named instruments (symbols as in `data/instruments.csv`, or the FRE
 old `diff_nok_eur_short`), `diff_nok_eur_10y` and `diff_nok_eur_policy`, and the same against the dollar: `diff_nok_usd_12m`
 (against the US 1-year), `diff_nok_usd_10y`, `diff_nok_usd_policy`); range `1m`, `3m`, `ytd` or `1y`; mode `indexed`
 (start = 100), `level`, or `dual` (the first series on the left axis, the rest on a right axis in percentage points: the
-mode for an exchange rate against rate differentials). Use one or two charts per letter where they help. When a release
+mode for an exchange rate against rate differentials). Use one or two charts per report where they help. When a release
 can be split into components (CPI by category, GDP by expenditure or contribution, retail trade, employment by sector),
 put a small component figure beside the passage: a line `{bars: Title | Label value; Label value; … | unit | Source}`
 immediately before the paragraph or list that discusses the figures, for example
@@ -117,14 +117,14 @@ The title names the release, the period and the measure; three to seven items, t
 (`pp`, `bp`, `%`) is appended to the values and is left empty when the title already says it; the source is the
 publisher's name. The page floats the figure to the right of the text, the PDF shows it as a small figure; both languages
 carry the same items with the labels translated. The krone
-section of the Norges Bank letter uses `{chart: EURNOK=X,diff_nok_eur_12m,diff_nok_eur_10y | 3m | dual}`, never
+section of the Norges Bank report uses `{chart: EURNOK=X,diff_nok_eur_12m,diff_nok_eur_10y | 3m | dual}`, never
 EUR/NOK and a yield on one axis.
 
 Tone: measured, factual, central-bank style. State what happened, how much, and the likely reason, in that order; no
 exclamation, no advice, no speculation presented as fact; "per cent" and "basis points" written out. Length: key points
 250-380 words, markets 400-600 words, macro 400-600 words, politics 250-450 words.
 
-- **Key points** (`highlights`, Norwegian title `Hovedtrekk`; the first and default letter on the page, its button is red): six
+- **Key points** (`highlights`, Norwegian title `Hovedtrekk`; the first and default report on the page, its button is red): six
   short paragraphs with bold lead-ins, always in this order and always all six, nothing else, no chart. One market per
   paragraph, so the reader can find each market in the same place every day. (1) **Equities** / **Aksjer**: the broad
   indices (US, Europe, Norway, Asia this morning) and the single stocks or sectors that stood out, with the numbers.
@@ -132,17 +132,17 @@ exclamation, no advice, no speculation presented as fact; "per cent" and "basis 
   basis points, and what the market prices for the next Fed and ECB meetings when it changed. (3) **Currencies** / **Valuta**:
   the dollar index, EUR/USD, USD/JPY, and the krone (EUR/NOK, USD/NOK, I-44, and why it moved). (4) **Energy** / **Energi**:
   Brent, and gas or power when they moved, with the reason. (5) **Drivers** / **Drivkrefter**: the likely factors behind
-  the moves, drawn from the other letters of the day: statements from the US president or US authorities, central bank
+  the moves, drawn from the other reports of the day: statements from the US president or US authorities, central bank
   decisions and speeches (Fed, ECB, Bank of England, Bank of Japan, the Riksbank, the RBA, the RBNZ), key figures, the oil
   price, geopolitics, company news, each with its link. (6) **Norway** / **Norge**: the rate differential against the euro
   area (policy rate, 12-month, and 10-year against the AAA curve), what others expect Norges Bank to do (the day's named
   views and market pricing) and the Norwegian data of the day against consensus. The reader works at Norges Bank: mention
   the bank's own communication only when it is new, in half a sentence, and never retell it. Short and concise: say what
-  happened, how much and the likely reason; every number from `brief.py` or the other letters of the day.
+  happened, how much and the likely reason; every number from `brief.py` or the other reports of the day.
 - **Markets** / **Markedet** (`markets`): a bold summary paragraph; sections Equities (US, Europe, Norway, Asia; say how the AI and semiconductor proxies in the brief, SOX, NYSE FANG+, the Magnificent 7 and AI ETFs, did against the market), Fixed income and
   credit, Commodities and currencies (always the krone: EUR/NOK, USD/NOK and Norges Bank's import-weighted index I-44, where
   a rise is a weaker krone; the brief prints all three), Today (the calendar for the day with consensus where known). The page shows a table
-  of key prices above the letter automatically, so the text should explain rather than list.
+  of key prices above the report automatically, so the text should explain rather than list.
 - **Macro** / **Makro** (`macro`): central banks and the business cycle. A bold summary; a table of this week's or the latest
   decisions when there were any; a section per central bank that acted or spoke; the data of note; an Assessment section
   on the balance of risks.
@@ -184,6 +184,6 @@ exclamation, no advice, no speculation presented as fact; "per cent" and "basis 
 
 ## 7. Report
 
-End with a short report: the three summary paragraphs (English), the citation count per domain for the day's letters with
+End with a short report: the three summary paragraphs (English), the citation count per domain for the day's reports with
 the share from tier-3 sources, what changed in the policy-rate table and the calendar,
 sources that were kept from the previous run, the deployed address and the commit.

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Market summary</title>
-<meta name="description" content="A daily review of equity, bond, commodity and currency markets over the last 24 hours, with a macro letter on central banks, a politics letter and a calendar of upcoming events, in English and Norwegian.">
+<meta name="description" content="A daily review of equity, bond, commodity and currency markets over the last 24 hours, with a macro report on central banks, a politics report and a calendar of upcoming events, in English and Norwegian.">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.35.3/plotly.min.js"></script>
 <style>
 :root {
@@ -148,12 +148,12 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
   <div class="titlerow">
     <div>
       <h1 data-i="title">Market summary</h1>
-      <p class="sub" data-i="sub">A daily review of equity, bond, commodity and currency markets over the last 24 hours, a macro letter on central banks, a politics letter, a Norges Bank letter and the events ahead. Written by a scheduled agent each morning from the market data and news available at 06:00 Oslo time, with an intraday update on weekdays around 12:00 and 17:00.</p>
+      <p class="sub" data-i="sub">A daily review of equity, bond, commodity and currency markets over the last 24 hours, a macro report on central banks, a politics report, a Norges Bank report and the events ahead. Written by a scheduled agent each morning from the market data and news available at 06:00 Oslo time, with an intraday update on weekdays around 12:00 and 17:00.</p>
     </div>
     <div class="ctl">
       <div class="seg" id="langSeg"><button data-v="en">English</button><button data-v="no">Norsk</button></div>
-      <button class="btn" id="pdfBtn" title="The selected day's letters as a PDF">PDF</button>
-      <button class="btn" id="docxBtn" title="The selected day's letters as a Word document">Word</button>
+      <button class="btn" id="pdfBtn" title="The selected day's reports as a PDF">PDF</button>
+      <button class="btn" id="docxBtn" title="The selected day's reports as a Word document">Word</button>
       <button class="btn" id="xlBtn" title="Every table as an Excel workbook">Excel</button>
       <button class="btn" id="themeBtn" title="Light / dark">☾</button>
     </div>
@@ -166,7 +166,7 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
   <div class="row kinds">
     <div class="seg" id="kindSeg"><button data-v="highlights" data-i="k_highlights" class="hot">Key points</button><button data-v="markets" data-i="k_markets">Markets</button><button data-v="intraday" data-i="k_intraday">Intraday</button><button data-v="macro" data-i="k_macro">Macro</button><button data-v="politics" data-i="k_politics">Politics</button></div>
     <select id="letterDate"></select>
-    <a class="btn" id="runBtn" href="https://claude.ai/code/routines/trig_01Dw8S7S3SZDmYF9RygoT5UK" target="_blank" rel="noopener" data-i="run_now" title="Opens the routine page on claude.ai; press Run there to refresh the numbers and rewrite today's letters" style="display:none">Update now</a>
+    <a class="btn" id="runBtn" href="https://claude.ai/code/routines/trig_01Dw8S7S3SZDmYF9RygoT5UK" target="_blank" rel="noopener" data-i="run_now" title="Opens the routine page on claude.ai; press Run there to refresh the numbers and rewrite today's reports" style="display:none">Update now</a>
   </div>
   <div class="letterwrap">
     <div class="card"><div class="letter" id="letterBody"></div></div>
@@ -303,8 +303,8 @@ const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&
 /* ---------- translations ---------- */
 const T = {
   title: ["Market summary", "Markedsoppsummering"],
-  sub: ["A daily review of equity, bond, commodity and currency markets over the last 24 hours, a macro letter on central banks, a politics letter, a Norges Bank letter and the events ahead. Written by a scheduled agent each morning from the market data and news available at 06:00 Oslo time, with an intraday update on weekdays around 12:00 and 17:00.",
-        "En daglig gjennomgang av aksje-, rente-, råvare- og valutamarkedene det siste døgnet, et makrobrev om sentralbankene, et politisk brev, et Norges Bank-brev og hendelsene som kommer. Skrevet av en planlagt agent hver morgen ut fra markedsdata og nyheter tilgjengelige klokken 06.00 norsk tid, med en intradagoppdatering på hverdager rundt klokken 12.00 og 17.00."],
+  sub: ["A daily review of equity, bond, commodity and currency markets over the last 24 hours, a macro report on central banks, a politics report, a Norges Bank report and the events ahead. Written by a scheduled agent each morning from the market data and news available at 06:00 Oslo time, with an intraday update on weekdays around 12:00 and 17:00.",
+        "En daglig gjennomgang av aksje-, rente-, råvare- og valutamarkedene det siste døgnet, en makrorapport om sentralbankene, en politisk rapport, en Norges Bank-rapport og hendelsene som kommer. Skrevet av en planlagt agent hver morgen ut fra markedsdata og nyheter tilgjengelige klokken 06.00 norsk tid, med en intradagoppdatering på hverdager rundt klokken 12.00 og 17.00."],
   tab_letters: ["Morning report", "Morgenrapport"], tab_alerts: ["Alerts", "Varsler"], al_title: ["Market-moving events", "Markedsbevegende hendelser"],
   al_note: ["A worker checks the krone (I-44, EUR/NOK, USD/NOK), the main equity indices, the VIX, US yields, oil, gas and metals every five minutes against the previous close, and scans the Reuters, Bloomberg, FT and WSJ feeds for shock keywords; an agent reviews the news every two hours on weekdays and adds events with a note and a source. The last 20 are kept. Red: a high-severity event in the last 24 hours; orange: a medium one; green: nothing.", "En tjeneste sjekker kronen (I-44, EUR/NOK, USD/NOK), de viktigste aksjeindeksene, VIX, amerikanske renter, olje, gass og metaller hvert femte minutt mot forrige sluttkurs, og leter etter sjokkord i nyhetsstrømmene fra Reuters, Bloomberg, FT og WSJ; en agent går gjennom nyhetene annenhver time på hverdager og legger til hendelser med en merknad og kilde. De siste 20 beholdes. Rødt: en alvorlig hendelse siste døgn; oransje: en middels; grønt: ingenting."],
   al_red: ["Market-moving event in the last 24 hours", "Markedsbevegende hendelse siste døgn"], al_orange: ["Notable move in the last 24 hours", "Merkbar bevegelse siste døgn"], al_green: ["No market-moving events in the last 24 hours", "Ingen markedsbevegende hendelser siste døgn"],
@@ -346,7 +346,7 @@ const T = {
   cb_pricing_note: ["Market pricing: for the Fed, computed every morning from the CME 30-day Fed funds futures (the FedWatch arithmetic; the bar is the probability of a 25 bp move at the next meeting, and the second figure is the meeting after); for the other banks, the probability of a hike or cut at the next meeting as reported in the press, kept by the agent with the source and date.", "Markedsprising: for Fed beregnet hver morgen fra CMEs 30-dagers Fed funds-futures (FedWatch-regnestykket; søylen er sannsynligheten for en endring på 25 bp på neste møte, det andre tallet gjelder møtet etter); for de andre bankene sannsynligheten for heving eller kutt på neste møte slik pressen gjengir den, vedlikeholdt av agenten med kilde og dato."],
   bank: ["Central bank", "Sentralbank"], rate: ["Rate", "Rente"], lastdec: ["Last decision", "Siste beslutning"], move: ["Move", "Endring"], next: ["Next meeting", "Neste møte"], remaining: ["Remaining 2026", "Gjenstår i 2026"], source: ["Source", "Kilde"],
   time: ["Time", "Tid"], region: ["Region", "Region"], event: ["Event", "Hendelse"], category: ["Category", "Kategori"], all: ["All", "Alle"],
-  no_letter: ["No letter of this kind for this date yet.", "Ingen brev av denne typen for denne datoen ennå."],
+  no_letter: ["No report of this kind for this date yet.", "Ingen rapport av denne typen for denne datoen ennå."],
   no_events: ["No upcoming events on file.", "Ingen kommende hendelser registrert."],
   live: ["live", "live"], fix: ["fix", "notering"],
   cat_central: ["Central banks", "Sentralbanker"], cat_data: ["Data releases", "Statistikk"], cat_politics: ["Politics", "Politikk"], cat_markets: ["Markets", "Markeder"], cat_other: ["Other", "Annet"],
@@ -354,7 +354,7 @@ const T = {
   hold: ["hold", "uendret"], cut: ["cut", "kutt"], hike: ["hike", "heving"],
   asof: ["Market data as of", "Markedsdata per"], generated: ["page built", "siden bygget"],
   kept: ["Sources kept from the previous run (unreachable this time):", "Kilder beholdt fra forrige kjøring (ikke tilgjengelige denne gangen):"],
-  letters_on: ["Letters on file:", "Brev på fil:"],
+  letters_on: ["Reports on file:", "Rapporter på fil:"],
 };
 const t = k => (T[k] || [k, k])[LANG === "no" ? 1 : 0];
 const NO_NAMES = {"US 2-year": "USA 2-års", "US 10-year": "USA 10-års", "US 30-year": "USA 30-års", "US 10-year real (TIPS)": "USA 10-års realrente (TIPS)", "US 10-year breakeven": "USA 10-års breakeven-inflasjon",
@@ -990,10 +990,10 @@ function drawUpdate() {
   const kept = D.kept_from_previous || [];
   $("#upStatus").innerHTML = `<p>${t("asof")} <b>${esc(D.asof)}</b>; ${t("generated")} ${esc(D.generated)}.</p>${kept.length ? `<p class="neg">${t("kept")} ${esc(kept.join(", "))}</p>` : ""}<p class="small muted">${t("letters_on")} ${DATES.map(fmtDate).join(", ") || "–"}</p>`;
   $("#upHow").innerHTML = LANG === "no"
-    ? `<p>En planlagt agent kjører hver morgen klokken 06.05 norsk tid, så brevene bygger på markedsdata og nyheter som var tilgjengelige klokken 06.00. Den henter markedsdata (Yahoo Finance, FRED, ECB, Norges Bank, SSB), leser gjennom døgnets nyheter om markeder, sentralbanker og politikk, og skriver fire daterte brev på engelsk og norsk: et markedsbrev om det siste døgnet, et makrobrev om sentralbankene og konjunkturene, et politisk brev og et Norges Bank-brev. En egen agent kjører på hverdager rundt klokken 12.05 og 17.05 og skriver et kort intradagbrev om handelen så langt. Agentene holder også tabellen over styringsrenter og kalenderen over kommende hendelser ved like. Brevene er skrevet i en nøktern, sentralbankaktig stil; lenker i brevene går til kildene.</p>
-       <p>Eieren har en knapp «Oppdater nå» på brevfanen (synlig bare i eierens nettleser) som åpner rutinens side på claude.ai, der en kjøring kan startes utenom planen; tallene og brevene for dagen skrives da på nytt. <a href="https://claude.ai/code/routines/trig_01Dw8S7S3SZDmYF9RygoT5UK" target="_blank" rel="noopener">Morgenrutinen</a> · <a href="https://claude.ai/code/routines" target="_blank" rel="noopener">alle rutiner</a>. Knappene PDF og Word gir dagens brev som dokument; Excel gir alle tabellene.</p>`
-    : `<p>A scheduled agent runs every morning at 06:05 Oslo time, so the letters are built from the market data and news available at 06:00. It fetches the market data (Yahoo Finance, FRED, the ECB, Norges Bank, Statistics Norway), reads the day's news on markets, central banks and politics, and writes four dated letters in English and Norwegian: a markets letter on the last 24 hours, a macro letter on central banks and the business cycle, a politics letter and a Norges Bank letter. A second agent runs on weekdays around 12:05 and 17:05 and writes a short intraday letter on the session so far. The agents also keep the policy-rate table and the calendar of upcoming events current. The letters are written in a measured, central-bank style; links in the letters go to the sources.</p>
-       <p>The owner has an "Update now" button on the Morning report tab (visible only in the owner's browser) that opens the routine's page on claude.ai, where a run can be started outside the schedule; the day's numbers and letters are then rewritten. <a href="https://claude.ai/code/routines/trig_01Dw8S7S3SZDmYF9RygoT5UK" target="_blank" rel="noopener">Morning routine</a> · <a href="https://claude.ai/code/routines" target="_blank" rel="noopener">all routines</a>. The PDF and Word buttons give the day's letters as a document; Excel gives every table.</p>`;
+    ? `<p>En planlagt agent kjører hver morgen klokken 06.05 norsk tid, så rapportene bygger på markedsdata og nyheter som var tilgjengelige klokken 06.00. Den henter markedsdata (Yahoo Finance, FRED, ECB, Norges Bank, SSB), leser gjennom døgnets nyheter om markeder, sentralbanker og politikk, og skriver fem daterte rapporter på engelsk og norsk: hovedtrekkene, en markedsrapport om det siste døgnet, en makrorapport om sentralbankene og konjunkturene, en politisk rapport og en Norges Bank-rapport. En egen agent kjører på hverdager rundt klokken 12.05 og 17.05 og skriver en kort intradagoppdatering om handelen så langt. Agentene holder også tabellen over styringsrenter og kalenderen over kommende hendelser ved like. Rapportene er skrevet i en nøktern, sentralbankaktig stil; lenker i rapportene går til kildene.</p>
+       <p>Eieren har en knapp «Oppdater nå» på fanen Morgenrapport (synlig bare i eierens nettleser) som åpner rutinens side på claude.ai, der en kjøring kan startes utenom planen; tallene og rapportene for dagen skrives da på nytt. <a href="https://claude.ai/code/routines/trig_01Dw8S7S3SZDmYF9RygoT5UK" target="_blank" rel="noopener">Morgenrutinen</a> · <a href="https://claude.ai/code/routines" target="_blank" rel="noopener">alle rutiner</a>. Knappene PDF og Word gir dagens rapporter som dokument; Excel gir alle tabellene.</p>`
+    : `<p>A scheduled agent runs every morning at 06:05 Oslo time, so the reports are built from the market data and news available at 06:00. It fetches the market data (Yahoo Finance, FRED, the ECB, Norges Bank, Statistics Norway), reads the day's news on markets, central banks and politics, and writes four dated reports in English and Norwegian: a markets report on the last 24 hours, a macro report on central banks and the business cycle, a politics report and a Norges Bank report. A second agent runs on weekdays around 12:05 and 17:05 and writes a short intraday report on the session so far. The agents also keep the policy-rate table and the calendar of upcoming events current. The reports are written in a measured, central-bank style; links in the reports go to the sources.</p>
+       <p>The owner has an "Update now" button on the Morning report tab (visible only in the owner's browser) that opens the routine's page on claude.ai, where a run can be started outside the schedule; the day's numbers and reports are then rewritten. <a href="https://claude.ai/code/routines/trig_01Dw8S7S3SZDmYF9RygoT5UK" target="_blank" rel="noopener">Morning routine</a> · <a href="https://claude.ai/code/routines" target="_blank" rel="noopener">all routines</a>. The PDF and Word buttons give the day's reports as a document; Excel gives every table.</p>`;
   $("#upSources").innerHTML = `<ul class="small">
     <li>Yahoo Finance chart API: equity indices, sector ETFs, US Treasury yields and futures, commodity futures, currencies (one year of daily closes and the latest print).</li>
     <li>FRED (Federal Reserve Bank of St. Louis): US Treasury constant-maturity yields (DGS2, DGS10, DGS30), 10-year TIPS yield (DFII10), 10-year breakeven (T10YIE), ICE BofA option-adjusted spreads (US IG, US HY, euro HY, EM corporate).</li>
