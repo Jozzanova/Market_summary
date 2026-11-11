@@ -4,7 +4,7 @@
 
 ## Aksjer
 
-- STOXX Europe 600 er 0,8 prosent høyere på 661,7, Euro Stoxx 50 1,1 prosent og DAX 1,2 prosent, etter mandagens oppgang på lavere olje ([investingLive](https://investinglive.com/stocks/european-stock-market-open-stocks-rally-across-the-board-as-market-optimism-grows/)). FTSE 100 er opp 0,4 prosent.
+- STOXX Europe 600 er 0,8 prosent høyere på 661,7, Euro Stoxx 50 1,1 prosent og DAX 1,2 prosent, etter mandagens oppgang på lavere olje, og indeksen er nær rekorden fra august ([Reuters](https://money.usnews.com/investing/news/articles/2026-11-10/european-shares-near-record-high-as-lower-oil-prices-boost-sentiment)). FTSE 100 er opp 0,4 prosent.
 - **Norge.** Hovedindeksen er 0,2 prosent lavere på 2 075 og henger etter Europa, i tråd med svakere oljerelaterte aksjer. Enkeltaksjer kunne jeg ikke verifisere.
 
 ## Renter og valuta
@@ -15,13 +15,13 @@
 
 ## Råvarer
 
-- Brent er 2,0 prosent lavere på 90,72 dollar, 12,4 prosent ned siste uke, etter meldinger om positive møter mellom USA og Iran og en mulig foreløpig enighet om anrikning. Noe gjennombrudd er ikke bekreftet ([investingLive](https://investinglive.com/commodities/crude-oil-loses-ground-on-renewed-us-iran-deal-hopes-but-a-concrete-breakthrough-isn-t-in-sight-yet/)).
+- Brent er 2,0 prosent lavere på 90,72 dollar, 12,4 prosent ned siste uke, etter at Trump snakket om positiv fremdrift mot å avslutte krigen og sa at militære aksjoner ikke er nødvendige nå; iranske tjenestemenn avviser at forhandlinger pågår, og noe gjennombrudd er ikke bekreftet ([CNBC](https://www.cnbc.com/2026/11/10/oil-prices-trump-iran.html)).
 - Gull er 0,8 prosent lavere på 4 082 dollar, og aluminium falt 2,7 prosent.
 
 ## Data og sentralbanker
 
 - **Norge.** KPI for oktober steg 3,6 prosent på årsbasis mot forventet 3,7, og KPI-JAE 2,7 prosent, som forventet og ned fra 3,0 ([SSB](https://www.ssb.no/priser-og-prisindekser/konsumpriser/statistikk/konsumprisindeksen)). Lavere underliggende inflasjon støtter Norges Banks hold på 4,50 prosent; neste møte er 17. desember.
-- **Federal Reserve.** Waller sa at han vil støtte en renteøkning på 0,25 prosentpoeng i desember selv om oktober-KPI blir bedre, og 0,5 prosentpoeng hvis kjerne-KPI er om lag 0,3 prosent eller mer. Samme kilde oppgir markedets sannsynlighet for en desember-økning til 99 prosent ([investingLive](https://investinglive.com/central-banks/fed-s-waller-says-a-half-point-rate-hike-in-december-may-be-needed-if-core-cpi-comes-in-hot/)).
+- **Federal Reserve.** Waller sa at han vil støtte en renteøkning på 0,25 prosentpoeng i desember selv om oktober-KPI blir bedre, og at 0,5 prosentpoeng bør vurderes hvis kjerne-KPI er om lag 0,3 prosent eller mer ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-10/fed-s-waller-backs-december-rate-hike-says-open-to-larger-move)); futures priser en desember-økning som så godt som sikker ([CME FedWatch](https://www.cmegroup.com/markets/interest-rates/cme-fedwatch-tool.html)).
 
 ## Det man bør følge med på resten av dagen
 

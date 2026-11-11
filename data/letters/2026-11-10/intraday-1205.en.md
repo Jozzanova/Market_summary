@@ -4,7 +4,7 @@
 
 ## Equities
 
-- The STOXX Europe 600 is 0.8 per cent higher at 661.7, the Euro Stoxx 50 1.1 per cent and the DAX 1.2 per cent, extending Monday's rally on lower oil ([investingLive](https://investinglive.com/stocks/european-stock-market-open-stocks-rally-across-the-board-as-market-optimism-grows/)). The FTSE 100 is up 0.4 per cent.
+- The STOXX Europe 600 is 0.8 per cent higher at 661.7, the Euro Stoxx 50 1.1 per cent and the DAX 1.2 per cent, extending Monday's rally on lower oil, with the index close to its August record ([Reuters](https://money.usnews.com/investing/news/articles/2026-11-10/european-shares-near-record-high-as-lower-oil-prices-boost-sentiment)). The FTSE 100 is up 0.4 per cent.
 - **Norway.** The benchmark index is 0.2 per cent lower at 2,075, lagging Europe, which is consistent with weaker oil-related shares; I could not verify individual movers.
 
 ## Rates and currencies
@@ -15,13 +15,13 @@
 
 ## Commodities
 
-- Brent is 2.0 per cent lower at 90.72 dollars, 12.4 per cent lower over the week, after reports of positive US–Iran meetings and a possible preliminary agreement on enrichment; no breakthrough has been confirmed ([investingLive](https://investinglive.com/commodities/crude-oil-loses-ground-on-renewed-us-iran-deal-hopes-but-a-concrete-breakthrough-isn-t-in-sight-yet/)).
+- Brent is 2.0 per cent lower at 90.72 dollars, 12.4 per cent lower over the week, after Trump spoke of positive momentum towards ending the war and said military action is not needed at this point; Iranian officials dispute that negotiations are under way, and no breakthrough has been confirmed ([CNBC](https://www.cnbc.com/2026/11/10/oil-prices-trump-iran.html)).
 - Gold is 0.8 per cent lower at 4,082 dollars; aluminium fell 2.7 per cent.
 
 ## Data and central banks
 
 - **Norway.** October CPI rose 3.6 per cent on the year, against a consensus of 3.7, and CPI-ATE 2.7 per cent, in line with consensus and down from 3.0 ([SSB](https://www.ssb.no/priser-og-prisindekser/konsumpriser/statistikk/konsumprisindeksen)). The easing of underlying inflation supports Norges Bank's hold at 4.50 per cent; the next meeting is on 17 December.
-- **Federal Reserve.** Waller said he would back a quarter-point hike in December even if October CPI improves, and a half-point hike if core CPI is about 0.3 per cent or higher; the same source puts the market probability of a December hike at 99 per cent ([investingLive](https://investinglive.com/central-banks/fed-s-waller-says-a-half-point-rate-hike-in-december-may-be-needed-if-core-cpi-comes-in-hot/)).
+- **Federal Reserve.** Waller said he would back a quarter-point hike in December even if October CPI improves, and that a half-point hike should be considered if core CPI is about 0.3 per cent or higher ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-10/fed-s-waller-backs-december-rate-hike-says-open-to-larger-move)); futures price a December hike as all but certain ([CME FedWatch](https://www.cmegroup.com/markets/interest-rates/cme-fedwatch-tool.html)).
 
 ## What to watch for the rest of the day
 

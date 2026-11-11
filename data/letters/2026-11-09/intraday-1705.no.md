@@ -5,7 +5,7 @@
 ## Aksjer
 
 - **Europa.** STOXX 600 står i 656,8 (+1,3 prosent), DAX i 26 259 (+1,7 prosent) og FTSE 100 i 10 777 (+1,0 prosent), sterkere enn ved midtdagstid.
-- **USA.** S&P 500 står i 7 531, Nasdaq Composite i 25 208 (+2,6 prosent), og halvlederindeksen SOX er opp 6,6 prosent, men fortsatt 20 prosent lavere over måneden. Nvidia er om lag 4 prosent ned, like over bunnen for 2026 ([investingLive](https://investinglive.com/stocks/us-stocks-rebound-even-as-nvidia-slides-4-what-next-technically/)); regnskapet kommer 17. november ([CNBC](https://www.cnbc.com/2026/11/09/nvidia-jensen-huang-chinese-spy-investigation.html)). VIX har falt til 20,7.
+- **USA.** S&P 500 står i 7 531, Nasdaq Composite i 25 208 (+2,6 prosent), og halvlederindeksen SOX er opp 6,6 prosent, men fortsatt 20 prosent lavere over måneden. Nvidia er om lag 4 prosent ned etter at styret åpnet gransking av Huang; regnskapet kommer 17. november ([CNBC](https://www.cnbc.com/2026/11/09/nvidia-jensen-huang-chinese-spy-investigation.html)). VIX har falt til 20,7.
 - **Norge.** OSEBX står i 2 079,5 (+1,3 prosent) og er opp 23,2 prosent hittil i år.
 
 ## Renter og valuta
@@ -16,12 +16,12 @@
 
 ## Råvarer
 
-- Brent er ned 3,6 prosent til 94,8 dollar, laveste på to måneder ([investingLive](https://investinglive.com/commodities/brent-crude-breaks-the-200-day-moving-average-in-fall-to-the-lowest-in-two-months/)), etter en melding om at Trump ba Iraks statsminister bringe iranske forslag om å avslutte krigen ([investingLive](https://investinglive.com/commodities/oil-falls-further-on-report-that-trump-asked-iraqi-pm-to-bring-iran-proposals-to-end-the-war/)). Qatar sier samtalene lever, mens Rubio kalte dem uproduktive ([investingLive](https://investinglive.com/commodities/qatar-says-us-iran-talks-alive-as-trump-meets-qatari-pm-oil-swings-on-mixed-signals/)).
+- Brent er ned 3,6 prosent til 94,8 dollar, laveste på to måneder, etter at Trump sa det er svært lite sannsynlig med nye angrep på Iran så lenge samtalene gjør fremskritt ([CNBC](https://www.cnbc.com/2026/11/09/oil-falls-as-trump-says-new-iran-attacks-unlikely.html)). Trump møtte Qatars statsminister, som megler, i Det hvite hus i dag ([Axios](https://www.axios.com/2026/11/09/trump-qatar-prime-minister-iran-war-mediation)), mens Rubio søndag sa at samtalene ikke hadde vært særlig produktive fordi Irans krav var uakseptable ([CBS News](https://www.cbsnews.com/live-updates/iran-war-us-trump-deal-negotiations)).
 - Gull er 4 131 dollar (+1,4 prosent), kobber +2,0 prosent.
 
 ## Data og sentralbanker
 
-- Chicago-Fed-sjef Goolsbee sier at inflasjonen begynner å ta seg opp i tjenester ([investingLive](https://investinglive.com/central-banks/fed-s-goolsbee-starting-to-see-inflation-kicking-up-in-services/)); markedet priser om lag 80 prosent sannsynlighet for renteheving i desember.
+- Chicago-Fed-sjef Goolsbee sa at tjenesteinflasjonen har begynt å stige igjen, og at sentralbanken må ta tak i at den ikke har nådd inflasjonsmålet ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-09/fed-s-goolsbee-says-officials-must-address-inflation-failure)); futures priser om lag 80 prosent sannsynlighet for renteheving i desember ([CME FedWatch](https://www.cmegroup.com/markets/interest-rates/cme-fedwatch-tool.html)).
 - Ingen sentralbankbeslutninger i dag. Jeg fikk ikke verifisert norske produsentpriser.
 
 ## Hva du bør følge med på
