@@ -1,6 +1,23 @@
 {
- "updated": "2026-11-10T16:07:25Z",
+ "updated": "2026-11-11T05:07:13Z",
  "events": [
+  {
+   "id": "USDNOK=X:2026-11-11",
+   "time": "2026-11-11T05:06:00Z",
+   "severity": "medium",
+   "kind": "fx",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/USDNOK%3DX",
+   "text_en": "USD/NOK rose 1.0 per cent to 9.4974 on 11 November 2026. A rise is a weaker krone.",
+   "text_no": "USD/NOK steg 1,0 prosent til 9,4974 2026-11-11. Oppgang betyr svakere krone.",
+   "value": {
+    "symbol": "USDNOK=X",
+    "last": 9.49735,
+    "d1": 1.025,
+    "unit": "%"
+   }
+  },
   {
    "id": "^N225:2026-11-10",
    "time": "2026-11-10T04:50:00Z",
