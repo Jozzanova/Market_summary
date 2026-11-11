@@ -780,8 +780,23 @@ function drawAlerts() {
   const upd = (LIVE_ALERTS && LIVE_ALERTS.updated) || (D.alerts || {}).updated;
   $("#alMeta").textContent = upd ? `${t("al_meta")} ${fmtT(upd)}.` : "";
 }
+// Norges Bank publishes the I-44 fix at 14:15 CET; the worker polls it every five minutes and the page adds any day the
+// data file does not have yet to the series (last value, changes and the charts follow), so the fix shows within minutes
+function applyLiveI44(live) {
+  const s = NB.nok_i44; if (!s || !live || !Array.isArray(live.obs)) return false;
+  const add = live.obs.filter(o => o[0] > s.last_date && isFinite(o[1])); if (!add.length) return false;
+  add.forEach(([d, v]) => { s.dates.push(d); s.values.push(v); });
+  const d = s.dates, v = s.values, last = v[v.length - 1], lastD = d[d.length - 1];
+  const at = iso => { for (let k = d.length - 1; k >= 0; k--) if (d[k] <= iso) return v[k]; return null; };
+  const back = days => { const x = new Date(lastD + "T00:00:00Z"); x.setUTCDate(x.getUTCDate() - days); return at(x.toISOString().slice(0, 10)); };
+  const pct = b => b == null ? null : Math.round(1000 * 100 * (last / b - 1)) / 1000;
+  let ytdBase = null; for (let i = 0; i < d.length; i++) if (d[i].slice(0, 4) === lastD.slice(0, 4)) { ytdBase = i > 0 ? v[i - 1] : null; break; }
+  Object.assign(s, {last, last_date: lastD, prev: v[v.length - 2], d1: pct(v[v.length - 2]), w1: pct(back(7)), m1: pct(back(30)), ytd: pct(ytdBase), hi52: Math.max(...v.slice(-252)), lo52: Math.min(...v.slice(-252)), live_fix: live.updated});
+  return true;
+}
 async function loadLiveAlerts() {
-  try { const r = await fetch("/api/alerts", {cache: "no-store"}); if (r.ok) { LIVE_ALERTS = await r.json(); paintAlertTab(); if (currentTab() === "alerts") { drawAlerts(); drawTiles("alerts"); } } } catch (e) {}
+  try { const r = await fetch("/api/alerts", {cache: "no-store"}); if (r.ok) { LIVE_ALERTS = await r.json(); paintAlertTab(); if (currentTab() === "alerts") { drawAlerts(); drawTiles("alerts"); }
+    if (applyLiveI44(LIVE_ALERTS.i44)) { drawn.clear(); showTab(currentTab(), true); } } } catch (e) {}
 }
 loadLiveAlerts(); setInterval(loadLiveAlerts, 5 * 60 * 1000);
 
@@ -943,7 +958,7 @@ function drawMacroCharts() {
 }
 // the krone matrix: one row per currency with the exchange rate and its changes, then the policy, 12-month and 10-year
 // rate differentials against Norway; cells shaded on a diverging scale
-const NOK_CCY = [["USD", "USDNOK=X", "USA", 1], ["EUR", "EURNOK=X", "EA", 1], ["GBP", "GBPNOK=X", "GBR", 1], ["SEK", "SEKNOK=X", "SWE", 1], ["DKK", "DKKNOK=X", "DNK", 1], ["CHF", "CHFNOK=X", "CHE", 1], ["JPY", "JPYNOK=X", "JPN", 100], ["CAD", "CADNOK=X", "CAN", 1], ["AUD", "AUDNOK=X", "AUS", 1]];
+const NOK_CCY = [["USD", "USDNOK=X", "USA", 1], ["EUR", "EURNOK=X", "EA", 1], ["GBP", "GBPNOK=X", "GBR", 1], ["SEK", "SEKNOK=X", "SWE", 1], ["DKK", "DKKNOK=X", "DNK", 1], ["CHF", "CHFNOK=X", "CHE", 1], ["JPY", "JPYNOK=X", "JPN", 100], ["CAD", "CADNOK=X", "CAN", 1], ["AUD", "AUDNOK=X", "AUS", 1], ["NZD", "NZDNOK=X", "NZL", 1]];
 const shade = (v, cap) => v == null || !isFinite(v) ? "" : ` style="background: color-mix(in srgb, var(${v > 0 ? "--ok" : "--bad"}) ${Math.round(Math.min(1, Math.abs(v) / cap) * 42)}%, transparent)"`;
 function drawNokMatrix() {
   const el = $("#nokMatrix"); if (!el) return;
@@ -1045,7 +1060,7 @@ function drawCentral() {
 
 // one year of policy rates as step lines, one per bank, labelled at the right edge (banks on the same rate share a label)
 function drawPolicyHistory() {
-  const order = ["NO", "US", "GB", "XM", "SE", "JP", "CA", "AU", "CH"], areas = order.filter(a => CB[a]);
+  const order = ["NO", "US", "GB", "XM", "SE", "JP", "CA", "AU", "NZ", "CH"], areas = order.filter(a => CB[a]);
   const node = $("#cbHistPlot"); if (!node) return;
   if (!areas.length) { node.innerHTML = `<p class="empty">${t("no_events")}</p>`; $("#cbHistNote").textContent = ""; return; }
   const col = [...COLORS(), cssv("--muted")];

@@ -43,13 +43,15 @@ ECB_YC = {"SR_1Y": "Euro area AAA 1-year", "SR_2Y": "Euro area AAA 2-year", "SR_
 BIS_AREAS = {"US": ("Federal Reserve", "Federal Reserve", "Fed"), "XM": ("ECB", "ESB", "ECB"), "GB": ("Bank of England", "Bank of England", "BoE"),
              "JP": ("Bank of Japan", "Bank of Japan", "BoJ"), "NO": ("Norges Bank", "Norges Bank", "NB"), "SE": ("Riksbank", "Riksbanken", "Riksbank"),
              "CH": ("Swiss National Bank", "Sveitsiske nasjonalbanken", "SNB"), "AU": ("Reserve Bank of Australia", "Reserve Bank of Australia", "RBA"),
-             "CA": ("Bank of Canada", "Bank of Canada", "BoC"), "DK": ("Danmarks Nationalbank", "Danmarks Nationalbank", "DN")}
-BIS_TABLE = {"US": r"federal reserve", "XM": r"\becb\b", "GB": r"bank of england", "JP": r"bank of japan", "NO": r"norges", "SE": r"riksbank", "CH": r"swiss", "AU": r"australia", "CA": r"canada", "DK": r"danmarks|denmark"}
+             "CA": ("Bank of Canada", "Bank of Canada", "BoC"), "DK": ("Danmarks Nationalbank", "Danmarks Nationalbank", "DN"),
+             "NZ": ("Reserve Bank of New Zealand", "Reserve Bank of New Zealand", "RBNZ")}
+BIS_TABLE = {"US": r"federal reserve", "XM": r"\becb\b", "GB": r"bank of england", "JP": r"bank of japan", "NO": r"norges", "SE": r"riksbank", "CH": r"swiss", "AU": r"australia", "CA": r"canada", "NZ": r"new zealand", "DK": r"danmarks|denmark"}
 # the economies of the key-figures tab: OECD code -> (name_en, name_no, currency, BIS policy-rate area)
 MACRO_AREAS = {"NOR": ("Norway", "Norge", "NOK", "NO"), "SWE": ("Sweden", "Sverige", "SEK", "SE"), "DNK": ("Denmark", "Danmark", "DKK", "DK"),
                "EA": ("Euro area", "Euroområdet", "EUR", "XM"), "DEU": ("Germany", "Tyskland", "EUR", None), "FRA": ("France", "Frankrike", "EUR", None),
                "GBR": ("United Kingdom", "Storbritannia", "GBP", "GB"), "CHE": ("Switzerland", "Sveits", "CHF", "CH"), "USA": ("United States", "USA", "USD", "US"),
-               "CAN": ("Canada", "Canada", "CAD", "CA"), "JPN": ("Japan", "Japan", "JPY", "JP"), "AUS": ("Australia", "Australia", "AUD", "AU"), "CHN": ("China", "Kina", "CNY", None)}
+               "CAN": ("Canada", "Canada", "CAD", "CA"), "JPN": ("Japan", "Japan", "JPY", "JP"), "AUS": ("Australia", "Australia", "AUD", "AU"),
+               "NZL": ("New Zealand", "New Zealand", "NZD", "NZ"), "CHN": ("China", "Kina", "CNY", None)}
 NB_SERIES = {"B.10Y.GBON": ("nok_10y", "Norway 10-year government bond"), "B.3Y.GBON": ("nok_3y", "Norway 3-year government bond"),
              "B.3M.TBIL": ("nok_3m", "Norway 3-month treasury bill"), "B.12M.TBIL": ("nok_12m", "Norway 12-month treasury bill")}
 
@@ -381,6 +383,12 @@ def fetch_macro():
     for tag, flow in (("c99", "OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0"), ("c18", "OECD.SDD.TPS,DSD_PRICES_COICOP2018@DF_PRICES_C2018_ALL,1.0")):
         for r in oecd_rows(f"oecd_cpi_{tag}.csv", flow, f"{areas}.M..CPI.PA._T+_TXCP01_NRG..GY", "startPeriod=2023-01"):
             add(r["REF_AREA"], "cpi" if r["EXPENDITURE"] == "_T" else "core", (r["METHODOLOGY"], r["ADJUSTMENT"]), r["TIME_PERIOD"], r["OBS_VALUE"])
+    # New Zealand's CPI is quarterly (Stats NZ); the OECD carries it at quarterly frequency only
+    try:
+        for r in oecd_rows("oecd_cpi_nzl_q.csv", "OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0", "NZL.Q..CPI.PA._T+_TXCP01_NRG..GY", "startPeriod=2023-Q1"):
+            add(r["REF_AREA"], "cpi" if r["EXPENDITURE"] == "_T" else "core", (r["METHODOLOGY"], r["ADJUSTMENT"]), r["TIME_PERIOD"], r["OBS_VALUE"])
+    except Exception as e:
+        log(f"  oecd cpi NZL: {repr(e)[:120]}")
     for r in oecd_rows("oecd_unemp.csv", "OECD.SDD.TPS,DSD_LFS@DF_IALFS_UNE_M,1.0", f"{areas}.UNE_LF_M.PT_LF_SUB._Z.Y._T.Y_GE15..", "startPeriod=2023-01"):
         if r["FREQ"] in ("M", "Q"):
             add(r["REF_AREA"], "unemp", (r["FREQ"],), r["TIME_PERIOD"], r["OBS_VALUE"])
@@ -595,6 +603,30 @@ def fetch_extra_commodities(yahoo, previous):
                 yahoo[sym] = previous[sym]
 
 
+# crosses Yahoo quotes without a history (NZD/NOK returns a single print): built from two quoted legs, date by date
+CROSSES = {"NZDNOK=X": ("NZDUSD=X", "USDNOK=X")}
+
+
+def derive_crosses(yahoo):
+    for sym, (a, b) in CROSSES.items():
+        cur = yahoo.get(sym)
+        if cur and len(cur.get("dates", [])) >= 10:
+            continue
+        x, y = yahoo.get(a), yahoo.get(b)
+        if not x or not y:
+            continue
+        ya = dict(zip(y["dates"], y["values"]))
+        pts = [(d, round(v * ya[d], 5)) for d, v in zip(x["dates"], x["values"]) if d in ya]
+        if len(pts) < 10:
+            continue
+        s = {"dates": [q[0] for q in pts], "values": [q[1] for q in pts]}
+        if x.get("last") is not None and y.get("last") is not None and x.get("last_time") and y.get("last_time"):
+            s["last"] = round(float(x["last"]) * float(y["last"]), 5); s["last_time"] = min(x["last_time"], y["last_time"])
+        base = cur or {"group": "nok", "name_en": sym[:3] + "/" + sym[3:6], "name_no": sym[:3] + "/" + sym[3:6], "kind": "fx", "decimals": "4"}
+        yahoo[sym] = {**{k: base[k] for k in ("group", "name_en", "name_no", "kind", "decimals")}, "currency": sym[3:6], "last_time": s.get("last_time"), "dates": s["dates"][-260:], "values": s["values"][-260:], **stats(s, "fx"), "derived": f"{a} x {b}"}
+        log(f"  {sym}: derived from {a} x {b}, {len(pts)} days, last {yahoo[sym]['last']}")
+
+
 def uk_sap_rows():
     """(date, pence per therm) from the latest ONS 'System Average Price (SAP) of gas' spreadsheet (daily table)."""
     page = cached("ons_sap.html", 6, lambda: get("https://www.ons.gov.uk/economy/economicoutputandproductivity/output/datasets/systemaveragepricesapofgas"))
@@ -642,6 +674,7 @@ def main():
     kept += [f"yahoo:{s}" for s in failed if s in yahoo]
     log("1b. Dated Brent and UK gas")
     fetch_extra_commodities(yahoo, prev.get("yahoo", {}))
+    derive_crosses(yahoo)
     blocks = {}
     for name, fn in (("fred", fetch_fred), ("ecb", fetch_ecb), ("nb", fetch_nb), ("ssb", fetch_ssb), ("bis", fetch_bis), ("macro", fetch_macro), ("fedfunds", fetch_fedfunds), ("news", fetch_news), ("heatmap", fetch_heatmap)):
         log(f"{name}")

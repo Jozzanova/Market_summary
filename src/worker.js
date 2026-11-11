@@ -3,7 +3,9 @@
 //   scheduled()  every 5 minutes (wrangler.jsonc "triggers"): fetches the latest prints for the instruments in RULES
 //                from Yahoo Finance and the I-44 fix from Norges Bank, compares with the previous close, scans a few
 //                headline feeds for shock keywords, and keeps the last 20 events.
-//   fetch()      GET /api/alerts returns that list as JSON; everything else is the static site (binding ASSETS).
+//   fetch()      GET /api/alerts returns that list as JSON, with the latest I-44 observations from Norges Bank (published
+//                14:15 CET; the five-minute run picks the day's fix up within minutes and the page splices it into its series);
+//                everything else is the static site (binding ASSETS).
 //
 // State lives in a Durable Object (binding ALERTS_DO, class AlertsStore, one instance named "main").
 // Event ids follow pipeline/alerts.py (symbol:YYYY-MM-DD for a data alert, feed:<link hash> for a headline), so the
@@ -113,6 +115,7 @@ async function yahoo(sym) {
 async function sniff(env) {
   const db = await readEvents(env);
   const byId = new Map(db.events.map(e => [e.id, e]));
+  let i44 = db.i44 || null;
   const report = {checked: 0, added: [], updated: [], errors: []};
   const upsert = ev => { const old = byId.get(ev.id); if (!old) { byId.set(ev.id, ev); report.added.push(ev.id); } else if (old.origin !== "agent" && (old.severity !== ev.severity || Math.abs((old.value?.d1 || 0) - (ev.value?.d1 || 0)) >= 0.5)) { byId.set(ev.id, {...old, ...ev, time: old.time}); report.updated.push(ev.id); } };
   // prices
@@ -120,10 +123,12 @@ async function sniff(env) {
   results.forEach((r, i) => { if (r.status === "rejected") report.errors.push(`${Object.keys(RULES)[i]}: ${String(r.reason).slice(0, 80)}`); });
   // I-44, the daily fix from Norges Bank
   try {
-    const csv = await get("https://data.norges-bank.no/api/data/EXR/B.I44.NOK.SP?format=csv&lastNObservations=2");
+    const csv = await get("https://data.norges-bank.no/api/data/EXR/B.I44.NOK.SP?format=csv&lastNObservations=15");
     const rows = csv.trim().split("\n").slice(1).map(l => l.split(";")); const hdr = csv.split("\n")[0].split(";");
     const ti = hdr.indexOf("TIME_PERIOD"), vi = hdr.indexOf("OBS_VALUE");
-    if (rows.length >= 2) { const prev = +rows[rows.length - 2][vi], last = +rows[rows.length - 1][vi], d = rows[rows.length - 1][ti]; const ev = makeEvent("nok_i44", I44, last, prev, 2, d, d + "T13:15:00Z", false); if (ev) upsert(ev); report.checked++; }
+    const obs = rows.map(r => [r[ti], +r[vi]]).filter(o => /^\d{4}-\d{2}-\d{2}$/.test(o[0] || "") && isFinite(o[1])).sort((a, b) => a[0].localeCompare(b[0]));
+    if (obs.length >= 2) { const prev = obs[obs.length - 2][1], last = obs[obs.length - 1][1], d = obs[obs.length - 1][0]; const ev = makeEvent("nok_i44", I44, last, prev, 2, d, d + "T13:15:00Z", false); if (ev) upsert(ev); report.checked++;
+      i44 = {updated: new Date().toISOString().slice(0, 19) + "Z", obs}; }
   } catch (e) { report.errors.push("I-44: " + String(e).slice(0, 80)); }
   // headlines
   for (const [src, url] of FEEDS) {
@@ -151,7 +156,7 @@ async function sniff(env) {
     } catch (e) { report.errors.push(src + ": " + String(e).slice(0, 80)); }
   }
   const events = [...byId.values()].sort((a, b) => b.time.localeCompare(a.time)).slice(0, KEEP);
-  await writeEvents(env, {updated: new Date().toISOString().slice(0, 19) + "Z", events, last_report: report});
+  await writeEvents(env, {updated: new Date().toISOString().slice(0, 19) + "Z", events, last_report: report, i44});
   return report;
 }
 

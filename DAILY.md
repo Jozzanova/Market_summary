@@ -14,7 +14,7 @@ done and the reports are committed.
 
 `fetch.py` downloads one year of daily prices for every instrument in `data/instruments.csv` from Yahoo Finance, the
 US yields and credit spreads from FRED, the euro-area AAA curve from the ECB, the Norwegian rates from Norges Bank, the
-policy rates from the BIS and the key figures of thirteen economies from the OECD and Eurostat (block `macro`), and
+policy rates from the BIS and the key figures of fourteen economies from the OECD and Eurostat (block `macro`), and
 writes `data/data.json`. A source that fails keeps the previous run's block and is listed under `kept_from_previous`;
 mention it in the report. `403 Forbidden` from the proxy means the cloud environment's network allowlist lacks that host.
 
