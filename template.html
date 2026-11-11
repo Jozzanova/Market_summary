@@ -132,6 +132,10 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
 .pbar { height: 6px; border-radius: 3px; background: var(--grid); overflow: hidden; margin: 2px 0 3px; }
 .pfill { height: 100%; border-radius: 3px; } .pfill.hike { background: var(--bad); } .pfill.cut { background: var(--ok); } .pfill.hold { background: var(--muted); }
 .phike { color: var(--bad); } .pcut { color: var(--ok); } .phold { color: var(--muted); }
+.cbList { display: none; }
+.cbItem { border-bottom: 1px solid var(--line2); } .cbItem > summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 1fr auto; gap: .1rem .6rem; padding: .5rem .2rem .5rem 1rem; position: relative; }
+.cbItem > summary::-webkit-details-marker { display: none; } .cbItem > summary::before { content: "▸"; color: var(--muted); position: absolute; left: 0; top: .5rem; } .cbItem[open] > summary::before { content: "▾"; }
+.cb-b { font-weight: 600; } .cb-r { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; } .cb-p { text-align: right; } .cb-body { padding: 0 .2rem .7rem 1rem; } .cb-body > div { margin-bottom: .3rem; } .cb-pr { max-width: 22rem; }
 .scrollx { overflow-x: auto; }
 .mx th { text-align: center; } .mx th.num, .mx td.num { text-align: right; } .mx th.grp { border-bottom: none; padding-bottom: 0; color: var(--fg); text-transform: none; letter-spacing: 0; font-size: .8rem; }
 .mx td { vertical-align: middle; } .spark { display: block; }
@@ -173,6 +177,7 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
   .plot { height: 280px; } .plot.tall { height: 330px; } .plot.short { height: 230px; }
   .alert { grid-template-columns: 1fr; gap: .1rem; } .alert .when { white-space: normal; }
   .nw-b { padding-left: .2rem; }
+  #cbTable > table { display: none; } .cbList { display: block; }
   #pane-events td:nth-child(4) { display: none; } #pane-events td:nth-child(1) { width: 3.2rem !important; } #pane-events td:nth-child(2) { width: 2.6rem !important; }
   footer { font-size: .78rem; }
 }
@@ -1018,9 +1023,19 @@ function drawMinutes() {
   }).join("");
   $("#cbMinNote").textContent = M.updated ? `${t("cb_min_upd")} ${fmtDate(M.updated)}.` : "";
 }
+// the same banks as a collapsed list for phones: the summary line carries the bank, the rate, the next decision and
+// the pricing headline; opening a row shows the last decision, the pricing bar with its note, the remaining meetings
+function cbList(pr) {
+  const no = LANG === "no", pc = r => { const h = pricingCell(r), m = h.match(/<b class="p(\w+)">([^<]*)<\/b>/); return {html: h, kind: m ? m[1] : "", label: m ? m[2] : ""}; };
+  return `<div class="cbList">${pr.map(r => { const p = pc(r), move = /hike/i.test(r.last_move) ? "neg" : /cut/i.test(r.last_move) ? "pos" : "muted";
+    return `<details class="cbItem"><summary><span class="cb-b">${esc(r.bank)}</span><span class="cb-r num">${esc(r.rate)}</span><span class="cb-n muted small">${t("next")} ${fmtDate(r.next_meeting)}</span>${p.label ? `<span class="cb-p small"><b class="p${p.kind}">${esc(p.label)}</b></span>` : ""}</summary>
+      <div class="cb-body"><div class="small"><span class="muted">${t("lastdec")}:</span> ${fmtDate(r.last_decision)} · <span class="${move}" style="font-weight:600">${esc(t(r.last_move) || r.last_move)}</span></div>
+      <div class="cb-pr">${p.html}</div>${r.remaining_2026 ? `<div class="small"><span class="muted">${t("remaining")}:</span> ${esc(r.remaining_2026)}</div>` : ""}
+      ${r.source_url ? `<div class="small"><a href="${esc(r.source_url)}" target="_blank" rel="noopener">${t("source")} ↗</a></div>` : ""}</div></details>`; }).join("")}</div>`;
+}
 function drawCentral() {
   const pr = D.policy_rates || [];
-  $("#cbTable").innerHTML = pr.length ? `<table><thead><tr><th>${t("bank")}</th><th class="num">${t("rate")}</th><th>${t("lastdec")}</th><th>${t("move")}</th><th>${t("next")}</th><th>${t("pricing")}</th><th>${t("remaining")}</th><th>${t("source")}</th></tr></thead><tbody>${pr.map(r => `<tr><td>${esc(r.bank)}</td><td class="num">${esc(r.rate)}</td><td>${fmtDate(r.last_decision)}</td><td><span class="${/hike/i.test(r.last_move) ? "neg" : /cut/i.test(r.last_move) ? "pos" : "muted"}" style="font-weight:600">${esc(t(r.last_move) || r.last_move)}</span></td><td>${fmtDate(r.next_meeting)}</td><td style="min-width:11rem">${pricingCell(r)}</td><td class="small muted">${esc(r.remaining_2026)}</td><td>${r.source_url ? `<a href="${esc(r.source_url)}" target="_blank" rel="noopener">↗</a>` : ""}</td></tr>`).join("")}</tbody></table><p class="note">${t("cb_pricing_note")}</p>` : `<p class="empty">${t("no_events")}</p>`;
+  $("#cbTable").innerHTML = pr.length ? `<table><thead><tr><th>${t("bank")}</th><th class="num">${t("rate")}</th><th>${t("lastdec")}</th><th>${t("move")}</th><th>${t("next")}</th><th>${t("pricing")}</th><th>${t("remaining")}</th><th>${t("source")}</th></tr></thead><tbody>${pr.map(r => `<tr><td>${esc(r.bank)}</td><td class="num">${esc(r.rate)}</td><td>${fmtDate(r.last_decision)}</td><td><span class="${/hike/i.test(r.last_move) ? "neg" : /cut/i.test(r.last_move) ? "pos" : "muted"}" style="font-weight:600">${esc(t(r.last_move) || r.last_move)}</span></td><td>${fmtDate(r.next_meeting)}</td><td style="min-width:11rem">${pricingCell(r)}</td><td class="small muted">${esc(r.remaining_2026)}</td><td>${r.source_url ? `<a href="${esc(r.source_url)}" target="_blank" rel="noopener">↗</a>` : ""}</td></tr>`).join("")}</tbody></table>${cbList(pr)}<p class="note">${t("cb_pricing_note")}</p>` : `<p class="empty">${t("no_events")}</p>`;
   drawPolicyHistory(); drawMinutes();
   plot("#nbPlot", levelTraces(["nok_policy", "nok_3m", "nok_12m", "nok_3y", "nok_10y"], RANGE.cb), {yaxis: {ticksuffix: " %"}});
   const today = new Date().toISOString().slice(0, 10);
