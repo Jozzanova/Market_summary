@@ -58,7 +58,7 @@ def main():
         print(f"  US-euro 10y spread: {100 * (fr['DGS10']['last'] - ecb['EA_SR_10Y']['last']):+.0f} bp; NOK-euro 10y spread: {100 * (nb['nok_10y']['last'] - ecb['EA_SR_10Y']['last']):+.0f} bp" if "nok_10y" in nb else "")
     if "nok_12m" in nb:
         d12 = [f"NOK-euro {100 * (nb['nok_12m']['last'] - ecb['EA_SR_1Y']['last']):+.0f} bp" if "EA_SR_1Y" in ecb else "", f"NOK-US {100 * (nb['nok_12m']['last'] - fr['DGS1']['last']):+.0f} bp" if "DGS1" in fr else ""]
-        print(f"  12-month differentials (Norway 12m bill {nb['nok_12m']['last']:.2f}% at {nb['nok_12m']['last_date']}): " + "; ".join(x for x in d12 if x))
+        print(f"  12-month differentials in government rates, stand-in for the swap differential (Norway 12m bill {nb['nok_12m']['last']:.2f}% at {nb['nok_12m']['last_date']}): " + "; ".join(x for x in d12 if x))
     print("\n## Policy rates on file (data/policy_rates.csv; verify after any meeting)")
     for r in D.get("policy_rates", []):
         print(f"  {r['bank']:<24} {r['rate']:<12} last {r['last_decision']} ({r['last_move']}), next {r['next_meeting']}")

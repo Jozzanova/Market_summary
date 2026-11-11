@@ -104,8 +104,8 @@ Format: Markdown with a `# Title, weekday day month year` heading, where the tit
 where a table says it better, and links in the text `([Source](url))`. A line `{chart: SYM1,SYM2 | 3m | indexed}` draws a
 chart of the named instruments (symbols as in `data/instruments.csv`, or the FRED/ECB/Norges Bank keys `DGS2`, `DGS10`,
 `EA_SR_10Y`, `nok_10y`, `nok_12m`, `nok_policy`, `BAMLH0A0HYM2`, and the derived rate differentials `diff_nok_eur_12m` (Norway
-12-month treasury bill minus euro AAA 1-year; the 12-month differential is the one Norges Bank follows, so use it rather than the
-old `diff_nok_eur_short`), `diff_nok_eur_10y` and `diff_nok_eur_policy`, and the same against the dollar: `diff_nok_usd_12m`
+12-month treasury bill minus euro AAA 1-year: the open-data stand-in for the 12-month swap rate differential, see the krone
+rule below; use it rather than the old `diff_nok_eur_short`), `diff_nok_eur_10y` and `diff_nok_eur_policy`, and the same against the dollar: `diff_nok_usd_12m`
 (against the US 1-year), `diff_nok_usd_10y`, `diff_nok_usd_policy`); range `1m`, `3m`, `ytd` or `1y`; mode `indexed`
 (start = 100), `level`, or `dual` (the first series on the left axis, the rest on a right axis in percentage points: the
 mode for an exchange rate against rate differentials). Use one or two charts per report where they help. When a release
@@ -119,6 +119,16 @@ publisher's name. The page floats the figure to the right of the text, the PDF s
 carry the same items with the labels translated. The krone
 section of the Norges Bank report uses `{chart: EURNOK=X,diff_nok_eur_12m,diff_nok_eur_10y | 3m | dual}`, never
 EUR/NOK and a yield on one axis.
+
+Krone rule: when a report explains a move in the krone (or any exchange rate), the differential that matters is the
+12-month swap rate differential, which is the convention at Norges Bank, not treasury bills, bonds or the policy rate
+alone. No open daily swap-rate series exists for NOK, EUR or USD, so the dashboard's `diff_nok_eur_12m` and
+`diff_nok_usd_12m` are built from government 12-month rates (Norwegian 12-month bill against the euro AAA 1-year
+and the US 1-year) and stand in for the swap differential. In the text call them "the 12-month differential in
+government rates" / "tolvmånedersdifferansen i statsrenter", never a swap differential. When a source of the day
+quotes the swap-rate differential itself (Norges Bank's Monetary Policy Report, a bank's morning note, Bloomberg
+figures quoted in the press), use that figure with its link and say that it is the swap differential. Give a
+differential in percentage points and its change in basis points, and do not use the old 3-year-minus-2-year pair.
 
 Tone: measured, factual, central-bank style. State what happened, how much, and the likely reason, in that order; no
 exclamation, no advice, no speculation presented as fact; "per cent" and "basis points" written out. Length: key points
@@ -135,7 +145,7 @@ exclamation, no advice, no speculation presented as fact; "per cent" and "basis 
   the moves, drawn from the other reports of the day: statements from the US president or US authorities, central bank
   decisions and speeches (Fed, ECB, Bank of England, Bank of Japan, the Riksbank, the RBA, the RBNZ), key figures, the oil
   price, geopolitics, company news, each with its link. (6) **Norway** / **Norge**: the rate differential against the euro
-  area (policy rate, 12-month, and 10-year against the AAA curve), what others expect Norges Bank to do (the day's named
+  area (policy rate, the 12-month differential as in the krone rule, and 10-year against the AAA curve), what others expect Norges Bank to do (the day's named
   views and market pricing) and the Norwegian data of the day against consensus. The reader works at Norges Bank: mention
   the bank's own communication only when it is new, in half a sentence, and never retell it. Short and concise: say what
   happened, how much and the likely reason; every number from `brief.py` or the other reports of the day.

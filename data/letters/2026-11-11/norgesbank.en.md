@@ -22,8 +22,8 @@ None of the economists quoted after the print expects a hike in December. No upd
 **Why the krone weakened.** The move was twice as large against the dollar as against the euro. That points to the dollar's strength after the US print as the main factor, with lower oil as the second; no published source attributes the move.
 
 **Differentials.**
-- Against the euro area: 2.00 percentage points on the policy rate; 1.65 points between the Norwegian 3-year and the euro AAA 2-year; about 1.0 point at ten years (Monday's fixes).
-- Against the United States: the Norwegian 10-year is about 60 basis points below the US 10-year, and the gap widened on Tuesday.
+- Against the euro area: 2.00 percentage points on the policy rate; 1.93 points at twelve months in government rates (the Norwegian treasury bill against the euro AAA rate, standing in for the swap-rate differential); about 1.0 point at ten years (Monday's fixes).
+- Against the United States: 0.41 points at twelve months in government rates; the Norwegian 10-year is about 60 basis points below the US 10-year, and the gap widened on Tuesday.
 
 **Implications.** A firmer US path narrows the krone's rate advantage. A weaker krone lifts imported inflation over time, but I-44 is still 8.6 per cent stronger than at the start of the year.
 

@@ -22,8 +22,8 @@ Ingen av økonomene som har uttalt seg etter tallet, venter heving i desember. D
 **Hvorfor kronen svekket seg.** Utslaget var dobbelt så stort mot dollar som mot euro. Det peker mot dollarstyrken etter de amerikanske tallene som den viktigste faktoren, med lavere oljepris som den andre; ingen publisert kilde forklarer bevegelsen.
 
 **Rentedifferansene.**
-- Mot euroområdet: 2,00 prosentenheter på styringsrenten; 1,65 prosentenheter mellom norsk treårsrente og AAA-renten på to år i euroområdet; om lag 1,0 prosentenhet på ti år (mandagens notater).
-- Mot USA: den norske tiårsrenten er om lag 60 basispunkter under den amerikanske, og avstanden økte tirsdag.
+- Mot euroområdet: 2,00 prosentenheter på styringsrenten; 1,93 prosentenheter på tolv måneder i statsrenter (norsk statskasseveksel mot AAA-renten i euroområdet, som står inn for swaprentedifferansen); om lag 1,0 prosentenhet på ti år (mandagens notater).
+- Mot USA: 0,41 prosentenheter på tolv måneder i statsrenter; den norske tiårsrenten er om lag 60 basispunkter under den amerikanske, og avstanden økte tirsdag.
 
 **Hva det betyr.** En strammere amerikansk rentebane reduserer kronens rentefordel. En svakere krone løfter importert prisvekst over tid, men I-44 er fortsatt 8,6 prosent sterkere enn ved årsskiftet.
 
