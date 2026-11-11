@@ -20,6 +20,7 @@ not empty the page. Everything is in per cent for yields and index points / pric
 import csv
 import io
 import json
+import re
 import sys
 import time
 import urllib.error
@@ -532,12 +533,115 @@ def fetch_heatmap(n=150):
     return {"fetched": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"), "items": items}
 
 
+def xlsx_rows(raw, sheet_name):
+    """The rows of one sheet of an .xlsx as lists of values (float, str or None), without openpyxl: dates come back as
+    Excel serial numbers (floats), strings through the shared-string table."""
+    import xml.etree.ElementTree as ET
+    ns = {"m": "http://schemas.openxmlformats.org/spreadsheetml/2006/main", "r": "http://schemas.openxmlformats.org/officeDocument/2006/relationships",
+          "p": "http://schemas.openxmlformats.org/package/2006/relationships"}
+    with zipfile.ZipFile(io.BytesIO(raw)) as z:
+        wb = ET.fromstring(z.read("xl/workbook.xml"))
+        rid = next(s.get("{%s}id" % ns["r"]) for s in wb.find("m:sheets", ns) if s.get("name") == sheet_name)
+        rels = ET.fromstring(z.read("xl/_rels/workbook.xml.rels"))
+        target = next(r.get("Target") for r in rels if r.get("Id") == rid).lstrip("/")
+        path = target if target.startswith("xl/") else "xl/" + target
+        shared = []
+        if "xl/sharedStrings.xml" in z.namelist():
+            shared = ["".join(t.text or "" for t in si.iter("{%s}t" % ns["m"])) for si in ET.fromstring(z.read("xl/sharedStrings.xml"))]
+        rows = []
+        for row in ET.fromstring(z.read(path)).iter("{%s}row" % ns["m"]):
+            vals = []
+            for c in row.findall("m:c", ns):
+                v = c.find("m:v", ns)
+                if v is None or v.text is None:
+                    vals.append(None)
+                elif c.get("t") == "s":
+                    vals.append(shared[int(v.text)])
+                elif c.get("t") in ("str", "inlineStr"):
+                    vals.append(v.text)
+                else:
+                    vals.append(float(v.text))
+            rows.append(vals)
+    return rows
+
+
+def excel_date(serial):
+    return (datetime(1899, 12, 30) + timedelta(days=float(serial))).strftime("%Y-%m-%d")
+
+
+def fetch_extra_commodities(yahoo, previous):
+    """Two reference prices that no futures contract gives, added to the instrument block next to the Yahoo futures:
+    Dated Brent, the physical spot price that the oil companies' krone purchases follow (EIA's Europe Brent spot FOB
+    through FRED, series DCOILBRENTEU; the EIA updates it weekly, so it runs a few days behind the front contract), and
+    the UK gas price at the NBP, which prices about a quarter of Norwegian gas exports, as National Gas's daily System
+    Average Price of gas traded on the on-the-day market (the ONS real-time indicators spreadsheet, weekly, p/kWh here
+    converted to pence per therm at 29.3071 kWh per therm)."""
+    start = (datetime.now(timezone.utc) - timedelta(days=400)).strftime("%Y-%m-%d")
+    def add(sym, obs, name_en, name_no, currency, decimals):
+        obs = sorted(set((d, float(v)) for d, v in obs if v is not None and d >= start))
+        if len(obs) < 10:
+            raise ValueError(f"only {len(obs)} observations")
+        s = {"dates": [o[0] for o in obs], "values": [round(o[1], 3) for o in obs]}
+        yahoo[sym] = {"group": "commodity", "name_en": name_en, "name_no": name_no, "kind": "price", "decimals": decimals, "currency": currency, "last_time": None, **s, **stats(s, "price")}
+        log(f"  {sym}: {yahoo[sym]['last']} ({yahoo[sym]['last_date']})")
+    for sym, fn in (("BRENT_DATED", lambda: add("BRENT_DATED", parse_csv_tables(cached("fred_brent.csv", 6, lambda: get(f"https://fred.stlouisfed.org/graph/fredgraph.csv?id=DCOILBRENTEU&cosd={start}"))).get("DCOILBRENTEU", []),
+                                                "Dated Brent spot (USD/bbl)", "Dated Brent spot (USD/fat)", "USD", 2)),
+                    ("UK_SAP", lambda: add("UK_SAP", uk_sap_rows(), "UK gas, NBP system average price (p/therm)", "Britisk gass, NBP systemgjennomsnittspris (pence/therm)", "GBp", 1))):
+        try:
+            fn()
+        except Exception as e:
+            log(f"  !! {sym}: {repr(e)[:160]}")
+            if sym in previous:
+                yahoo[sym] = previous[sym]
+
+
+def uk_sap_rows():
+    """(date, pence per therm) from the latest ONS 'System Average Price (SAP) of gas' spreadsheet (daily table)."""
+    page = cached("ons_sap.html", 6, lambda: get("https://www.ons.gov.uk/economy/economicoutputandproductivity/output/datasets/systemaveragepricesapofgas"))
+    m = re.search(r'href="(/file\?uri=[^"]*systemaveragepriceofgasdataset[^"]*\.xlsx)"', page.decode("utf-8", "ignore"))
+    if not m:
+        raise ValueError("no spreadsheet link on the ONS page")
+    raw = cached("ons_sap.xlsx", 6, lambda: get("https://www.ons.gov.uk" + m.group(1).replace("&amp;", "&")))
+    out = []
+    for r in xlsx_rows(raw, "1.Daily SAP Gas"):
+        if len(r) >= 2 and isinstance(r[0], float) and isinstance(r[1], float) and r[0] > 40000:
+            out.append((excel_date(r[0]), r[1] * 29.3071))
+    return out
+
+
+def fetch_pce(blocks):
+    """US PCE and core PCE inflation over a year (BEA through FRED, PCEPI and PCEPILFE), added to the macro block of the
+    United States as the indicators pce and pce_core; the key-figures table shows them under the CPI figures."""
+    series = blocks.get("macro", {}).get("series")
+    if series is None:
+        return
+    start = (datetime.now(timezone.utc) - timedelta(days=4 * 366)).strftime("%Y-%m-%d")
+    tables = parse_csv_tables(cached("fred_pce.csv", 6, lambda: get(f"https://fred.stlouisfed.org/graph/fredgraph.csv?id=PCEPI,PCEPILFE&cosd={start}")))
+    for sid, ind in (("PCEPI", "pce"), ("PCEPILFE", "pce_core")):
+        obs = tables.get(sid, [])
+        idx = {d[:7]: v for d, v in obs}
+        pts = []
+        for d, v in obs:
+            y, mth = int(d[:4]), int(d[5:7])
+            base = idx.get(f"{y - 1:04d}-{mth:02d}")
+            if base:
+                pts.append((d, round(100 * (v / base - 1), 3)))
+        pts = pts[-37:]
+        if pts:
+            series.setdefault("USA", {})[ind] = {"freq": "M", "dates": [p[0] for p in pts], "values": [p[1] for p in pts], "last": pts[-1][1], "last_date": pts[-1][0],
+                                                 "prev": pts[-2][1] if len(pts) > 1 else None, "variant": "BEA via FRED, " + sid}
+    blocks["macro"]["sources"]["pce"] = "BEA personal consumption expenditures price indices via FRED (PCEPI, PCEPILFE), 12-month change"
+    log("pce: " + ", ".join(f"{k} {series['USA'][k]['last']} ({series['USA'][k]['last_date'][:7]})" for k in ("pce", "pce_core") if k in series.get("USA", {})))
+
+
 def main():
     prev = json.loads((DATA / "data.json").read_text(encoding="utf-8")) if (DATA / "data.json").exists() else {}
     kept = []
     log("1. Yahoo")
     yahoo, failed = fetch_yahoo(prev.get("yahoo", {}))
     kept += [f"yahoo:{s}" for s in failed if s in yahoo]
+    log("1b. Dated Brent and UK gas")
+    fetch_extra_commodities(yahoo, prev.get("yahoo", {}))
     blocks = {}
     for name, fn in (("fred", fetch_fred), ("ecb", fetch_ecb), ("nb", fetch_nb), ("ssb", fetch_ssb), ("bis", fetch_bis), ("macro", fetch_macro), ("fedfunds", fetch_fedfunds), ("news", fetch_news), ("heatmap", fetch_heatmap)):
         log(f"{name}")
@@ -551,6 +655,10 @@ def main():
         fetch_r12m(blocks)
     except Exception as e:
         log(f"  !! r12m failed: {repr(e)[:200]}")
+    try:
+        fetch_pce(blocks)
+    except Exception as e:
+        log(f"  !! pce failed: {repr(e)[:200]}")
     data = {"asof": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"), "yahoo": yahoo, **blocks,
             "policy_rates": read_csv("policy_rates.csv"), "events": read_csv("events.csv"), "cpi_consensus": read_csv("cpi_consensus.csv"), "cb_minutes": read_json("cb_minutes.json", {}), "kept_from_previous": kept}
     (DATA / "data.json").write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")

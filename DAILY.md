@@ -141,7 +141,9 @@ exclamation, no advice, no speculation presented as fact; "per cent" and "basis 
   (2) **Government bonds** / **Statsrenter**: the US 2- and 10-year, the euro-area AAA 10-year and the Norwegian 10-year, in
   basis points, and what the market prices for the next Fed and ECB meetings when it changed. (3) **Currencies** / **Valuta**:
   the dollar index, EUR/USD, USD/JPY, and the krone (EUR/NOK, USD/NOK, I-44, and why it moved). (4) **Energy** / **Energi**:
-  Brent, and gas or power when they moved, with the reason. (5) **Drivers** / **Drivkrefter**: the likely factors behind
+  Brent (the front contract; Dated Brent spot, `BRENT_DATED`, is the price the oil companies' krone purchases follow,
+  so note it when the two diverge; it is the EIA's weekly series and runs a few days behind), and gas (TTF, and the UK
+  NBP price, `UK_SAP`, which prices about a quarter of Norwegian gas) or power when they moved, with the reason. (5) **Drivers** / **Drivkrefter**: the likely factors behind
   the moves, drawn from the other reports of the day: statements from the US president or US authorities, central bank
   decisions and speeches (Fed, ECB, Bank of England, Bank of Japan, the Riksbank, the RBA, the RBNZ), key figures, the oil
   price, geopolitics, company news, each with its link. (6) **Norway** / **Norge**: the rate differential against the euro
@@ -154,7 +156,8 @@ exclamation, no advice, no speculation presented as fact; "per cent" and "basis 
   a rise is a weaker krone; the brief prints all three), Today (the calendar for the day with consensus where known). The page shows a table
   of key prices above the report automatically, so the text should explain rather than list.
 - **Macro** / **Makro** (`macro`): central banks and the business cycle. A bold summary; a table of this week's or the latest
-  decisions when there were any; a section per central bank that acted or spoke; the data of note; an Assessment section
+  decisions when there were any; a section per central bank that acted or spoke; the data of note (for US prices both CPI and PCE, the Fed's own measure, which the
+  key-figures tab carries under the US CPI figures); an Assessment section
   on the balance of risks.
 - **Politics** / **Politikk** (`politics`): the political developments that matter for markets, by region (United States, Europe,
   Middle East and energy, Asia, Norway, as relevant), each with the market channel; a Dates to watch section.

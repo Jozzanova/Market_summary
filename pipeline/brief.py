@@ -44,6 +44,10 @@ def main():
     table([(v["name_en"], v) for v in D.get("fred", {}).values() if v["group"] == "rates"] + [(v["name_en"], v) for v in D.get("ecb", {}).values()] + [(v["name_en"], v) for v in D.get("nb", {}).values()],
           "Government yields and policy rate, official daily fixes (FRED, ECB AAA curve, Norges Bank; one day behind the live prints)")
     table([(v["name_en"], v) for v in D.get("fred", {}).values() if v["group"] == "credit"], "Credit spreads, ICE BofA option-adjusted spreads in per cent (FRED)")
+    us = D.get("macro", {}).get("series", {}).get("USA", {})
+    if "pce" in us:
+        g = lambda k: f"{us[k]['last']:.1f}% ({us[k]['last_date'][:7]})" if k in us else "n/a"
+        print(f"\n## US inflation, 12-month change\n  CPI {g('cpi')}, core CPI {g('core')} (OECD); PCE {g('pce')}, core PCE {g('pce_core')} (BEA via FRED)")
     # movers
     movers = sorted(((v["d1"], v["name_en"], v["group"]) for v in y.values() if v.get("d1") is not None and v["kind"] != "yield" and v["group"] != "sector"), key=lambda t: -abs(t[0]))
     print("\n## Largest one-day moves (prices and FX)")
