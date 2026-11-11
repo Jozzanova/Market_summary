@@ -691,9 +691,9 @@ const SNAP_GROUPS = [["g_equities", ["^GSPC", "^IXIC", "^SOX", "^STOXX", "OSEBX.
   ["g_commodities", ["BZ=F", "BRENT_DATED", "GC=F", "HG=F", "TTF=F", "UK_SAP"]], ["g_fx", ["DX-Y.NYB", "EURUSD=X", "USDJPY=X", "EURNOK=X", "USDNOK=X", "nok_i44"]]];
 const SHORT = {"^GSPC": ["S&P 500", "S&P 500"], "^IXIC": ["Nasdaq", "Nasdaq"], "^STOXX": ["STOXX 600", "STOXX 600"], "^SOX": ["SOX (semis)", "SOX (halvledere)"], "OSEBX.OL": ["OSEBX", "OSEBX"], "^N225": ["Nikkei 225", "Nikkei 225"], "^HSI": ["Hang Seng", "Hang Seng"], "^VIX": ["VIX", "VIX"],
   "^TNX": ["US 10y (live)", "USA 10 år (live)"], "DGS2": ["US 2y", "USA 2 år"], "EA_SR_10Y": ["Euro area 10y", "Eurosonen 10 år"], "nok_10y": ["Norway 10y", "Norge 10 år"], "BAMLH0A0HYM2": ["US HY spread", "USA high yield-påslag"],
-  "BZ=F": ["Brent, USD/bbl", "Brent, USD/fat"], BRENT_DATED: ["Dated Brent spot, USD/bbl", "Dated Brent spot, USD/fat"], UK_SAP: ["UK gas NBP (SAP), p/therm", "Britisk gass NBP (SAP), pence/therm"], "GC=F": ["Gold, USD/oz", "Gull, USD/unse"], "HG=F": ["Copper, USD/lb", "Kobber, USD/pund"], "TTF=F": ["TTF gas, EUR/MWh", "TTF-gass, EUR/MWh"],
-  diff_nok_eur_policy: ["EUR, policy rate", "EUR, styringsrente"], diff_nok_eur_short: ["EUR, short end (3y − 2y)", "EUR, kort ende (3 år − 2 år)"], diff_nok_eur_12m: ["EUR, 12-month (government rates)", "EUR, 12 måneder (statsrenter)"], diff_nok_eur_10y: ["EUR, 10-year", "EUR, 10 år"],
-  diff_nok_usd_policy: ["USD, policy rate (upper)", "USD, styringsrente (øvre)"], diff_nok_usd_short: ["USD, short end (3y − 2y)", "USD, kort ende (3 år − 2 år)"], diff_nok_usd_12m: ["USD, 12-month (government rates)", "USD, 12 måneder (statsrenter)"], diff_nok_usd_10y: ["USD, 10-year", "USD, 10 år"],
+  "BZ=F": ["Brent, USD/bbl", "Brent, USD/fat"], BRENT_DATED: ["Dated Brent, USD/bbl", "Dated Brent, USD/fat"], UK_SAP: ["UK gas NBP, p/therm", "Britisk gass NBP, p/therm"], "GC=F": ["Gold, USD/oz", "Gull, USD/unse"], "HG=F": ["Copper, USD/lb", "Kobber, USD/pund"], "TTF=F": ["TTF gas, EUR/MWh", "TTF-gass, EUR/MWh"],
+  diff_nok_eur_policy: ["EUR, policy rate", "EUR, styringsrente"], diff_nok_eur_short: ["EUR, short end (3y − 2y)", "EUR, kort ende (3 år − 2 år)"], diff_nok_eur_12m: ["EUR, 12-month gov. rates", "EUR, 12 md. statsrenter"], diff_nok_eur_10y: ["EUR, 10-year", "EUR, 10 år"],
+  diff_nok_usd_policy: ["USD, policy rate (upper)", "USD, styringsrente (øvre)"], diff_nok_usd_short: ["USD, short end (3y − 2y)", "USD, kort ende (3 år − 2 år)"], diff_nok_usd_12m: ["USD, 12-month gov. rates", "USD, 12 md. statsrenter"], diff_nok_usd_10y: ["USD, 10-year", "USD, 10 år"],
   "DX-Y.NYB": ["Dollar index", "Dollarindeksen"], "EURUSD=X": ["EUR/USD", "EUR/USD"], "USDJPY=X": ["USD/JPY", "USD/JPY"], "EURNOK=X": ["EUR/NOK", "EUR/NOK"], "USDNOK=X": ["USD/NOK", "USD/NOK"], "nok_i44": ["I-44 (up = weaker NOK)", "I-44 (opp = svakere krone)"]};
 const shortName = (sym, v) => (SHORT[sym] || [nameOf(v), nameOf(v)])[LANG === "no" ? 1 : 0];
 const chgText = (v, unit) => v == null || !isFinite(v) ? "–" : unit === "bp" ? (r => `${r > 0 ? "+" : ""}${fmt(r, 0)} bp`)(Math.round(v) || 0) : `${v > 0 ? "+" : ""}${fmt(v, 2)} %`;
@@ -1492,7 +1492,7 @@ async function pdfDefinition(m) {
     const keep = b.head.map((h, j) => j !== b.head.length - 1), head = b.head.filter((_, j) => keep[j]), num = b.num.filter((_, j) => keep[j]);
     const tbl = secs => ({table: {headerRows: 1, widths: head.map((_, j) => j === 0 ? "*" : "auto"), dontBreakRows: true,
         body: [head.map((h, j) => ({text: h, style: "th", alignment: num[j] ? "right" : "left"})), ...secs.flatMap(sec => [[{text: sec.title, colSpan: head.length, style: "td", bold: true, color: ACC, margin: [0, 3, 0, 0]}, ...Array(head.length - 1).fill({})],
-          ...sec.rows.map(r => r.filter((_, j) => keep[j]).map((c, j) => ({text: c, style: "td", alignment: num[j] ? "right" : "left"})))])]},
+          ...sec.rows.map(r => r.filter((_, j) => keep[j]).map((c, j) => ({text: c, style: "td", alignment: num[j] ? "right" : "left", noWrap: !!num[j]})))])]},
       fontSize: 7.5, layout: {hLineWidth: (i, t) => i === 0 || i === 1 || i === t.table.body.length ? 0.8 : 0.25, vLineWidth: () => 0, hLineColor: (i, t) => i === 0 || i === 1 || i === t.table.body.length ? INK : GRAY, paddingTop: () => 2, paddingBottom: () => 2, paddingLeft: () => 3, paddingRight: () => 3}});
     const left = sections.filter(x => /^(Equities|Aksjer|Commodities|Råvarer)$/.test(x.title)), right = sections.filter(x => !left.includes(x));
     return {columns: [{width: COLW, stack: [tbl(left)]}, {width: COLW, stack: [tbl(right)]}], columnGap: GAP, margin: [0, 2, 0, 10]};
@@ -1501,7 +1501,7 @@ async function pdfDefinition(m) {
   for (const b of m.blocks) {
     if (b.pageBreak) { cur = {h1: null, lead: null, body: [], figs: []}; letters.push(cur); }
     if (!cur) { if (b.type === "table" && !frontTable) { frontTable = true; front.push(snapColumns(b)); continue; }
-      if (b.type === "figs") { const fs = nodeOf(b, COLW); if (fs.length) front.push({columns: fs.map(n => ({width: COLW, stack: [n]})), columnGap: GAP}); continue; }
+      if (b.type === "figs") { const fs = nodeOf(b, COLW); if (fs.length) front.push({columns: fs.map(n => ({width: COLW, stack: [n]})), columnGap: GAP, unbreakable: true}); continue; }
       const n = nodeOf(b, FULLW); if (n) front.push(...[].concat(n)); continue; }
     if (b.type === "h1") { cur.h1 = nodeOf(b, FULLW); continue; }
     if (b.type === "p" && !cur.lead) { cur.lead = {text: runs(b.runs), style: "lead"}; continue; }
