@@ -878,7 +878,7 @@ function drawCommodities() { $("#cmTable").innerHTML = instrTable(group("commodi
 function drawFx() {
   const rows = [...group("fx")]; if (NB.nok_i44) rows.push({section: LANG === "no" ? "Norges Banks kroneindeks (daglig notering kl. 14.15)" : "Norges Bank's krone index (daily fix at 14:15 CET)"}, {sym: "nok_i44", ...NB.nok_i44});
   $("#fxTable").innerHTML = instrTable(rows);
-  plot("#fxPlot", indexedTraces(["DX-Y.NYB", "EURUSD=X", "USDJPY=X", "EURNOK=X", "USDNOK=X", "nok_i44"], RANGE.fx));
+  plot("#fxPlot", indexedTraces(["DX-Y.NYB", "EURUSD=X", "USDJPY=X", "EURNOK=X", "USDNOK=X", "NZDNOK=X", "nok_i44"], RANGE.fx));
 }
 
 /* ---------- key figures ---------- */
