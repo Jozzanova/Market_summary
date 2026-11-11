@@ -140,6 +140,8 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
 .mx th { text-align: center; } .mx th.num, .mx td.num { text-align: right; } .mx th.grp { border-bottom: none; padding-bottom: 0; color: var(--fg); text-transform: none; letter-spacing: 0; font-size: .8rem; }
 .mx td { vertical-align: middle; } .spark { display: block; }
 .g10 th { text-align: center; } .g10 tbody th { text-align: left; color: var(--fg); } .g10 td.num { text-align: center; font-size: .84rem; }
+.g10 th.me, .g10 tr.me th { color: var(--accent); } .g10 tr.me td, .g10 td.me { font-weight: 600; } .g10 tr.me th, .g10 tr.me td { border-top: 2px solid var(--accent); border-bottom: 2px solid var(--accent); }
+.g10 td.me, .g10 th.me { border-left: 2px solid var(--accent); border-right: 2px solid var(--accent); }
 .dcell { display: inline-flex; align-items: center; gap: .45rem; } .dcell b { font-weight: 600; min-width: 3.2rem; text-align: right; font-variant-numeric: tabular-nums; }
 .dbar { position: relative; width: 64px; height: 9px; border-radius: 3px; background: var(--line2); flex: none; } .dbar::after { content: ""; position: absolute; left: 50%; top: -2px; bottom: -2px; width: 1px; background: var(--muted); }
 .dbar i { position: absolute; top: 0; bottom: 0; border-radius: 2px; } .dbar i.pos { left: 50%; background: var(--ok); } .dbar i.neg { right: 50%; background: var(--bad); }
@@ -902,8 +904,8 @@ function drawG10() {
   const cols = Object.keys(legs).filter(c => r[c] != null); if (cols.length < 3) { el.innerHTML = ""; return; }
   const x = (b, q) => 100 * ((1 + r[b]) / (1 + r[q]) - 1);
   const rowsC = [...cols].sort((a, b) => r[b] - r[a]);
-  const head = `<tr><th></th>${cols.map(c => `<th class="num">${c}</th>`).join("")}</tr>`;
-  const body = rowsC.map(b => `<tr><th>${b}</th>${cols.map(q => b === q ? `<td class="num muted">–</td>` : `<td class="num"${shade(x(b, q), 1.5)}>${(x(b, q) > 0 ? "+" : "") + fmt(x(b, q), 2)} %</td>`).join("")}</tr>`).join("");
+  const head = `<tr><th></th>${cols.map(c => `<th class="num${c === "NOK" ? " me" : ""}">${c}</th>`).join("")}</tr>`;
+  const body = rowsC.map(b => `<tr${b === "NOK" ? ' class="me"' : ""}><th>${b}</th>${cols.map(q => b === q ? `<td class="num muted">–</td>` : `<td class="num${q === "NOK" ? " me" : ""}"${shade(x(b, q), 1.5)}>${(x(b, q) > 0 ? "+" : "") + fmt(x(b, q), 2)} %</td>`).join("")}</tr>`).join("");
   el.innerHTML = `<table class="mx g10"><thead>${head}</thead><tbody>${body}</tbody></table>`;
 }
 
