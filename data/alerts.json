@@ -1,6 +1,23 @@
 {
- "updated": "2026-11-11T11:06:19Z",
+ "updated": "2026-11-11T16:13:49Z",
  "events": [
+  {
+   "id": "^SOX:2026-11-11",
+   "time": "2026-11-11T16:09:00Z",
+   "severity": "medium",
+   "kind": "equity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/%5ESOX",
+   "text_en": "The SOX semiconductor index rose 6.0 per cent to 10,599 on 11 November 2026.",
+   "text_no": "Halvlederindeksen SOX steg 6,0 prosent til 10 599 2026-11-11.",
+   "value": {
+    "symbol": "^SOX",
+    "last": 10598.860352,
+    "d1": 6.006,
+    "unit": "%"
+   }
+  },
   {
    "id": "USDNOK=X:2026-11-11",
    "time": "2026-11-11T05:06:00Z",
