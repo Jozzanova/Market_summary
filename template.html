@@ -646,8 +646,11 @@ function parseBars(src, unit) {
   return items;
 }
 function md(src) {
-  const inline = s => esc(s).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<i>$2</i>").replace(/_([^_\n]+)_/g, "<i>$1</i>").replace(/`([^`]+)`/g, "<code>$1</code>")
-    .replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+  // links are lifted out before the emphasis rules run, so underscores and asterisks inside a URL (PE26_382_611.html)
+  // are left alone; _italics_ only when the underscores are not part of a word
+  const inline = s => { const links = []; let t = esc(s).replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g, (m, txt, url) => { links.push(`<a href="${url}" target="_blank" rel="noopener noreferrer">${txt}</a>`); return `\u0000${links.length - 1}\u0000`; });
+    t = t.replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<i>$2</i>").replace(/(^|[^\w])_([^_\n]+)_(?!\w)/g, "$1<i>$2</i>").replace(/`([^`]+)`/g, "<code>$1</code>");
+    return t.replace(/\u0000(\d+)\u0000/g, (m, i) => links[+i]); };
   const lines = src.replace(/\r/g, "").split("\n"); const out = []; let i = 0, figN = 0;
   const para = []; const flush = () => { if (para.length) { out.push(`<p>${para.map(inline).join(" ")}</p>`); para.length = 0; } };
   while (i < lines.length) {
