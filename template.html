@@ -262,7 +262,7 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
   <div class="card"><h2 data-i="eq_title">Equity indices</h2><div id="eqTable"></div></div>
   <div class="card"><h2 data-i="ai_title">AI and semiconductors <small data-i="ai_s">the indices and ETFs the market uses as AI proxies</small></h2><div id="aiTable"></div></div>
   <div class="grid2">
-    <div class="card"><h2 data-i="eq_perf">Indexed performance <small data-i="eq_perf_s">start of period = 100, local currency</small></h2>
+    <div class="card"><h2 data-i="eq_perf">Indexed performance <small data-i="eq_perf_hint">start of period = 100, local currency</small></h2>
       <div class="row"><select id="eqSet"></select><div class="seg rangeSeg" data-for="eq"><button data-v="1m">1M</button><button data-v="3m">3M</button><button data-v="ytd">YTD</button><button data-v="1y" class="on">1Y</button></div></div>
       <div class="plot" id="eqPlot"></div></div>
     <div class="card"><h2 data-i="sec_title">US sectors <small data-i="sec_s">S&amp;P 500 sector ETFs</small></h2>
@@ -290,7 +290,7 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
 <section class="pane" id="pane-commodities">
   <div class="tiles" id="tiles-commodities"></div>
   <div class="card"><h2 data-i="cm_title">Commodities</h2><div id="cmTable"></div></div>
-  <div class="card"><h2 data-i="cm_perf">Indexed performance <small data-i="eq_perf_s">start of period = 100</small></h2>
+  <div class="card"><h2 data-i="cm_perf">Indexed performance <small data-i="eq_perf_hint">start of period = 100</small></h2>
     <div class="row"><div class="seg rangeSeg" data-for="cm"><button data-v="1m">1M</button><button data-v="3m">3M</button><button data-v="ytd">YTD</button><button data-v="1y" class="on">1Y</button></div></div>
     <div class="plot" id="cmPlot"></div></div>
 </section>
@@ -299,7 +299,7 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
   <div class="tiles" id="tiles-fx"></div>
   <div class="card"><h2 data-i="fx_title">Currencies</h2><div id="fxTable"></div><p class="note" data-i="fx_note">Quoted as named: a rise in EUR/NOK or USD/NOK is a weaker krone; a rise in EUR/USD is a weaker dollar.</p></div>
   <div class="card"><h2 data-i="g10_title">G10 currencies, change over the last day</h2><div class="scrollx" id="g10Table"></div><p class="note" data-i="g10_note">The row's currency against the column's: green means the row's currency strengthened against the column's, red that it weakened. Computed from each currency's move against the dollar since the previous close (live prints during the session).</p></div>
-  <div class="card"><h2 data-i="fx_perf">Indexed performance <small data-i="eq_perf_s">start of period = 100</small></h2>
+  <div class="card"><h2 data-i="fx_perf">Indexed performance <small data-i="eq_perf_hint">start of period = 100</small></h2>
     <div class="row"><div class="seg rangeSeg" data-for="fx"><button data-v="1m">1M</button><button data-v="3m">3M</button><button data-v="ytd">YTD</button><button data-v="1y" class="on">1Y</button></div></div>
     <div class="plot" id="fxPlot"></div></div>
 </section>
@@ -378,7 +378,7 @@ const T = {
   brent_title: ["Brent oil", "Brent-olje"], brent_s: ["USD per barrel, same period", "USD per fat, samme periode"], i44_title: ["The krone: I-44", "Kronen: I-44"], i44_s: ["Norges Bank's import-weighted index; up = weaker krone. Fixed at 14:15 CET and published by Norges Bank around 14:30; the page picks it up within five minutes", "Norges Banks importveide kroneindeks; opp = svakere krone. Noteres kl. 14.15 og legges ut av Norges Bank rundt kl. 14.30; siden henter den innen fem minutter"],
   g_equities: ["Equities", "Aksjer"], r_us: ["United States", "USA"], r_europe: ["Europe", "Europa"], r_nordic: ["Nordics", "Norden"], r_asia: ["Asia", "Asia"], r_em: ["Emerging markets", "Fremvoksende markeder"], r_vol: ["Volatility", "Volatilitet"], g_bonds: ["Bonds and credit", "Obligasjoner og kreditt"], g_diff: ["Rate differentials, NOK minus (pp; changes in bp)", "Rentedifferanser, NOK minus (pp; endringer i bp)"], g_commodities: ["Commodities", "Råvarer"], g_fx: ["Currencies", "Valuta"],
   ev_title: ["Upcoming events", "Kommende hendelser"], ev_note: ["Central bank decisions, data releases and political dates kept by the daily agent; times are Oslo time. Importance: high (orange), medium (blue), low.", "Sentralbankmøter, statistikkslipp og politiske datoer, vedlikeholdt av den daglige agenten; tidene er norsk tid. Viktighet: høy (oransje), middels (blå), lav."],
-  eq_title: ["Equity indices", "Aksjeindekser"], ai_title: ["AI and semiconductors", "KI og halvledere"], ai_s: ["the indices and ETFs the market uses as AI proxies", "indeksene og ETF-ene markedet bruker som KI-indikatorer"], set_ai: ["AI and semiconductors", "KI og halvledere"], eq_perf: ["Indexed performance", "Indeksert utvikling"], eq_perf_s: ["start of period = 100, local currency", "start av perioden = 100, lokal valuta"],
+  eq_title: ["Equity indices", "Aksjeindekser"], ai_title: ["AI and semiconductors", "KI og halvledere"], ai_s: ["the indices and ETFs the market uses as AI proxies", "indeksene og ETF-ene markedet bruker som KI-indikatorer"], set_ai: ["AI and semiconductors", "KI og halvledere"], eq_perf: ["Indexed performance", "Indeksert utvikling"], eq_perf_s: ["start of period = 100, local currency", "start av perioden = 100, lokal valuta"], eq_perf_hint: ["start of period = 100, local currency · click a name in the legend to show that series alone, Ctrl+click to add or remove series", "start av perioden = 100, lokal valuta · klikk på et navn i tegnforklaringen for å vise serien alene, Ctrl+klikk velger flere"],
   hm_title: ["Largest US stocks, latest session", "De største amerikanske aksjene, siste handelsdag"], hm_s: ["box size = market capitalisation, colour = change on the day", "boksstørrelse = markedsverdi, farge = endring på dagen"],
   sec_title: ["US sectors", "Amerikanske sektorer"], sec_s: ["S&P 500 sector ETFs", "S&P 500 sektor-ETF-er"],
   rt_title: ["Government yields, policy rates and credit spreads", "Statsrenter, styringsrenter og kredittpåslag"],
