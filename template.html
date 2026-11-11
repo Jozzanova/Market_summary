@@ -556,12 +556,17 @@ function plot(el, traces, layout = {}) {
   const lay = Object.assign({}, base, layout); lay.xaxis = Object.assign({}, base.xaxis, layout.xaxis || {}); lay.yaxis = Object.assign({}, base.yaxis, layout.yaxis || {}); lay.margin = Object.assign({}, base.margin, layout.margin || {}); lay.legend = Object.assign({}, base.legend, layout.legend || {});
   const {marks, ann, right} = endPoints(node, traces, lay);
   if (ann.length) { lay.annotations = [...(layout.annotations || []), ...ann]; lay.margin.r = Math.max(lay.margin.r, right); }
-  Plotly.react(node, [...traces, ...marks], lay, {displayModeBar: false, responsive: true});
+  // phones: no zooming or panning (a drag scrolls the page instead); hover and the legend still work
+  const phone = innerWidth <= 700;
+  if (phone) { lay.dragmode = false; lay.xaxis.fixedrange = true; lay.yaxis.fixedrange = true; if (lay.yaxis2) lay.yaxis2 = Object.assign({}, lay.yaxis2, {fixedrange: true}); }
+  Plotly.react(node, [...traces, ...marks], lay, {displayModeBar: false, responsive: true, scrollZoom: false, doubleClick: phone ? false : "reset+autosize"});
   pngButton(node);
   if (!node.__iso) { node.__iso = true; node.on("plotly_legendclick", ev => {
     // click a legend entry to show that series alone (click again to show all); the end-point dots follow their series
     const parent = d => d.meta && d.meta.endOf != null ? d.meta.endOf : null, cur = ev.curveNumber;
     const vis = ev.data.map(d => parent(d) == null && d.visible !== "legendonly"); const only = vis.filter(Boolean).length === 1 && vis[cur];
+    // Ctrl/Cmd/Shift + click adds or removes one series instead, so several can be compared
+    const e = ev.event || {}; if (e.ctrlKey || e.metaKey || e.shiftKey) { const on = ev.data[cur].visible !== "legendonly"; Plotly.restyle(node, {visible: ev.data.map((d, i) => (parent(d) ?? i) === cur ? (on ? "legendonly" : true) : (d.visible === "legendonly" ? "legendonly" : true))}); return false; }
     Plotly.restyle(node, {visible: ev.data.map((d, i) => { const p = parent(d) ?? i; return only || p === cur ? true : "legendonly"; })}); return false; }); }
 }
 // a small PNG button on every chart: the image gets the card's title and background, at double resolution
@@ -1074,8 +1079,8 @@ function drawPolicyHistory() {
   const bis = areas.map(a => CB[a].bis_last).sort().pop(), ext = areas.filter(a => CB[a].extended_from).map(a => CB[a].short);
   const no = LANG === "no";
   $("#cbHistNote").textContent = no
-    ? `Daglige styringsrenter fra BIS (datasettet WS_CBPOL) til ${fmtDate(bis)}, deretter forlenget med tabellen over${ext.length ? ` (${ext.join(", ")} har en nyere beslutning enn BIS-serien)` : ""}. Klikk på et navn i tegnforklaringen for å vise bare den banken.`
-    : `Daily policy rates from the BIS (dataset WS_CBPOL) to ${fmtDate(bis)}, then extended with the table above${ext.length ? ` (${ext.join(", ")} have a decision newer than the BIS series)` : ""}. Click a name in the legend to show that bank alone.`;
+    ? `Daglige styringsrenter fra BIS (datasettet WS_CBPOL) til ${fmtDate(bis)}, deretter forlenget med tabellen over${ext.length ? ` (${ext.join(", ")} har en nyere beslutning enn BIS-serien)` : ""}. Klikk på et navn i tegnforklaringen for å vise bare den banken; Ctrl+klikk legger til eller fjerner en serie (gjelder alle linjefigurene).`
+    : `Daily policy rates from the BIS (dataset WS_CBPOL) to ${fmtDate(bis)}, then extended with the table above${ext.length ? ` (${ext.join(", ")} have a decision newer than the BIS series)` : ""}. Click a name in the legend to show that bank alone; Ctrl+click adds or removes a series (this works in every line chart).`;
 }
 
 /* ---------- Norges Bank ---------- */
