@@ -142,6 +142,40 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
 .mc th.grp { border-bottom: none; padding-bottom: 0; color: var(--fg); text-transform: none; letter-spacing: 0; font-size: .8rem; text-align: center; }
 .mc th.sortable { cursor: pointer; } .mc th.sortable:hover, .mc th.sortable.on { color: var(--accent); }
 .mc tr.me td { font-weight: 600; } .mc tr.me td:first-child { color: var(--accent); }
+/* phones: a compact sticky head (title, language, PDF, theme; the tabs in one scrollable row), two tiles across, cards
+   that scroll sideways when a table is wider than the screen, shorter charts, the snapshot without its date column */
+@media (max-width: 700px) {
+  html { scroll-padding-top: 100px; }
+  body { font-size: 14.5px; }
+  .pagehead .inner { padding: .45rem 12px .2rem; }
+  .titlerow { align-items: center; gap: .25rem .6rem; }
+  h1 { font-size: 1.2rem; } .sub { display: none; }
+  .ctl { gap: .35rem; } #docxBtn, #xlBtn { display: none; }
+  .seg button, .btn { padding: .22rem .55rem; font-size: .68rem; }
+  select { font-size: .82rem; padding: .22rem .4rem; }
+  nav.tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; margin: .15rem -12px 0; padding: 0 12px; gap: 0; }
+  nav.tabs::-webkit-scrollbar { display: none; }
+  nav.tabs a { flex: none; white-space: nowrap; font-size: .84rem; padding: .4rem .5rem; border-radius: 0; }
+  main { padding: .7rem 12px 2rem; }
+  .card { padding: .75rem .8rem; border-radius: 10px; overflow-x: auto; margin-bottom: .75rem; }
+  .card h2 { font-size: .98rem; } .card h2 small { display: block; margin: .1rem 0 0; }
+  .grid2 { gap: .75rem; }
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-bottom: .75rem; }
+  .tile { padding: 9px 11px; border-radius: 10px; } .tile .n { font-size: 1.22rem; } .tile .n.txt { font-size: 1rem; } .tile .l, .tile .s { font-size: .72rem; }
+  .row.kinds { padding: calc(12px + .3rem) 0 .3rem; margin: -12px 0 .4rem; gap: .4rem; }
+  #kindSeg { max-width: 100%; overflow-x: auto; scrollbar-width: none; } #kindSeg::-webkit-scrollbar { display: none; } #kindSeg button { white-space: nowrap; flex: none; }
+  #runBtn { display: none; }
+  .letterwrap { gap: .75rem; } .letter { font-size: .97rem; line-height: 1.55; } .letter h1 { font-size: 1.25rem; } .letter h2 { font-size: 1.05rem; margin-top: 1.1rem; }
+  .letter .fig .plot { height: 250px; } #i44Plot, #brentPlot { height: 190px; }
+  .snapshot tr:not(.sect) td:last-child, .snapshot th:last-child { display: none; }
+  .snapshot table { font-size: .74rem; } .snapshot td, .snapshot th { padding: .16rem .2rem; }
+  table { font-size: .82rem; } th, td { padding: .28rem .35rem; }
+  .plot { height: 280px; } .plot.tall { height: 330px; } .plot.short { height: 230px; }
+  .alert { grid-template-columns: 1fr; gap: .1rem; } .alert .when { white-space: normal; }
+  .nw-b { padding-left: .2rem; }
+  #pane-events td:nth-child(4) { display: none; } #pane-events td:nth-child(1) { width: 3.2rem !important; } #pane-events td:nth-child(2) { width: 2.6rem !important; }
+  footer { font-size: .78rem; }
+}
 </style>
 </head>
 <body>
@@ -439,6 +473,7 @@ function currentTab() { const h = location.hash.replace("#", ""); return TABS.in
 function showTab(name, force) {
   $$("section.pane").forEach(s => s.classList.toggle("on", s.id === "pane-" + name));
   $$("nav.tabs a").forEach(a => a.classList.toggle("on", a.dataset.tab === name));
+  { const nav = $("nav.tabs"), a = nav.querySelector("a.on"); if (a && nav.scrollWidth > nav.clientWidth + 4) nav.scrollTo({left: Math.max(0, a.offsetLeft - nav.offsetLeft - 12), behavior: "smooth"}); }
   if (force || !drawn.has(name)) { DRAW[name](); drawTiles(name); drawn.add(name); }
   $$(`#pane-${name} .plot`).forEach(p => p.data && Plotly.Plots.resize(p));
 }
@@ -512,6 +547,7 @@ function plot(el, traces, layout = {}) {
   const base = {margin: {l: 48, r: 12, t: 10, b: 64}, paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)", font: {family: "system-ui, sans-serif", size: 12, color: cssv("--fg")},
     xaxis: {gridcolor: cssv("--grid"), zeroline: false, linecolor: cssv("--axis"), tickfont: {color: cssv("--muted")}}, yaxis: {gridcolor: cssv("--grid"), zeroline: false, tickfont: {color: cssv("--muted")}},
     legend: {orientation: "h", y: -0.16, yanchor: "top", x: 0, font: {size: 11}}, hovermode: "x unified", hoverlabel: {bgcolor: cssv("--card"), bordercolor: cssv("--line"), font: {color: cssv("--fg")}}};
+  if (innerWidth <= 700) { base.legend.font.size = 10; base.font.size = 11; base.margin.l = 40; }
   const lay = Object.assign({}, base, layout); lay.xaxis = Object.assign({}, base.xaxis, layout.xaxis || {}); lay.yaxis = Object.assign({}, base.yaxis, layout.yaxis || {}); lay.margin = Object.assign({}, base.margin, layout.margin || {}); lay.legend = Object.assign({}, base.legend, layout.legend || {});
   const {marks, ann, right} = endPoints(node, traces, lay);
   if (ann.length) { lay.annotations = [...(layout.annotations || []), ...ann]; lay.margin.r = Math.max(lay.margin.r, right); }
