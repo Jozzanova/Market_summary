@@ -375,7 +375,7 @@ const T = {
   tl_none: ["none", "ingen"], t_target: ["target 2 %", "mål 2 %"],
   k_highlights: ["Key points", "Hovedtrekk"], k_markets: ["Markets", "Markedet"], k_intraday: ["Intraday", "Intradag"], k_macro: ["Macro", "Makro"], k_politics: ["Politics", "Politikk"], run_now: ["Update now", "Oppdater nå"],
   snap_title: ["The last 24 hours at a glance", "Det siste døgnet i korte trekk"], fig_title: ["Figures", "Figurer"],
-  brent_title: ["Brent oil", "Brent-olje"], brent_s: ["USD per barrel, same period", "USD per fat, samme periode"], i44_title: ["The krone: I-44", "Kronen: I-44"], i44_s: ["Norges Bank's import-weighted index; up = weaker krone. Fixed at 14:15 CET and published by Norges Bank around 14:30; the page picks it up within five minutes", "Norges Banks importveide kroneindeks; opp = svakere krone. Noteres kl. 14.15 og legges ut av Norges Bank rundt kl. 14.30; siden henter den innen fem minutter"],
+  brent_title: ["Brent oil", "Brent-olje"], brent_s: ["USD per barrel, same period", "USD per fat, samme periode"], i44_title: ["The krone: I-44", "Kronen: I-44"], i44_s: ["Norges Bank's import-weighted index; up = weaker krone. Fixed at 14:15 CET and published by Norges Bank around 16:00; the page picks it up within five minutes", "Norges Banks importveide kroneindeks; opp = svakere krone. Noteres kl. 14.15 og publiseres av Norges Bank ca. kl. 16.00; siden henter den innen fem minutter"],
   g_equities: ["Equities", "Aksjer"], r_us: ["United States", "USA"], r_europe: ["Europe", "Europa"], r_nordic: ["Nordics", "Norden"], r_asia: ["Asia", "Asia"], r_em: ["Emerging markets", "Fremvoksende markeder"], r_vol: ["Volatility", "Volatilitet"], g_bonds: ["Bonds and credit", "Obligasjoner og kreditt"], g_diff: ["Rate differentials, NOK minus (pp; changes in bp)", "Rentedifferanser, NOK minus (pp; endringer i bp)"], g_commodities: ["Commodities", "Råvarer"], g_fx: ["Currencies", "Valuta"],
   ev_title: ["Upcoming events", "Kommende hendelser"], ev_note: ["Central bank decisions, data releases and political dates kept by the daily agent; times are Oslo time. Importance: high (orange), medium (blue), low.", "Sentralbankmøter, statistikkslipp og politiske datoer, vedlikeholdt av den daglige agenten; tidene er norsk tid. Viktighet: høy (oransje), middels (blå), lav."],
   eq_title: ["Equity indices", "Aksjeindekser"], ai_title: ["AI and semiconductors", "KI og halvledere"], ai_s: ["the indices and ETFs the market uses as AI proxies", "indeksene og ETF-ene markedet bruker som KI-indikatorer"], set_ai: ["AI and semiconductors", "KI og halvledere"], eq_perf: ["Indexed performance", "Indeksert utvikling"], eq_perf_s: ["start of period = 100, local currency", "start av perioden = 100, lokal valuta"], eq_perf_hint: ["start of period = 100, local currency · click a name in the legend to show that series alone, Ctrl+click to add or remove series", "start av perioden = 100, lokal valuta · klikk på et navn i tegnforklaringen for å vise serien alene, Ctrl+klikk velger flere"],
@@ -790,7 +790,7 @@ function drawAlerts() {
   const upd = (LIVE_ALERTS && LIVE_ALERTS.updated) || (D.alerts || {}).updated;
   $("#alMeta").textContent = upd ? `${t("al_meta")} ${fmtT(upd)}.` : "";
 }
-// Norges Bank fixes I-44 at 14:15 CET and publishes it in its open data around 14:30; the worker polls it every five minutes and the page adds any day the
+// Norges Bank fixes I-44 at 14:15 CET and publishes it around 16:00 (its own page: 'Kursene publiseres ca. kl. 16.00'); the worker polls it every five minutes and the page adds any day the
 // data file does not have yet to the series (last value, changes and the charts follow), so the fix shows within minutes
 function applyLiveI44(live) {
   const s = NB.nok_i44; if (!s || !live || !Array.isArray(live.obs)) return false;
@@ -888,7 +888,7 @@ function drawCommodities() { $("#cmTable").innerHTML = instrTable(group("commodi
 function drawFx() {
   const no = LANG === "no", nokSyms = ["USDNOK=X", "EURNOK=X", "JPYNOK=X", "GBPNOK=X", "SEKNOK=X", "CHFNOK=X", "DKKNOK=X", "CADNOK=X", "AUDNOK=X", "NZDNOK=X"];
   const rows = [{section: no ? "De store kryssene" : "Major crosses"}, ...group("fx").filter(v => !nokSyms.includes(v.sym))];
-  if (NB.nok_i44) rows.push({section: no ? "Norges Banks kroneindeks (noteres kl. 14.15, legges ut av Norges Bank rundt kl. 14.30; siden oppdateres innen fem minutter)" : "Norges Bank's krone index (fixed at 14:15 CET, published by Norges Bank around 14:30; the page updates within five minutes)"}, {sym: "nok_i44", ...NB.nok_i44});
+  if (NB.nok_i44) rows.push({section: no ? "Norges Banks kroneindeks (noteres kl. 14.15, publiseres av Norges Bank ca. kl. 16.00; siden henter den innen fem minutter)" : "Norges Bank's krone index (fixed at 14:15 CET, published by Norges Bank around 16:00; the page picks it up within five minutes)"}, {sym: "nok_i44", ...NB.nok_i44});
   rows.push({section: no ? "Mot norske kroner" : "Against the krone"}, ...nokSyms.map(x => Y[x] && {sym: x, ...Y[x]}).filter(Boolean));
   $("#fxTable").innerHTML = instrTable(rows);
   drawG10();
