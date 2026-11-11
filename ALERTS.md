@@ -26,7 +26,7 @@ worker flags, when its cause is known and worth a line.
     python -X utf8 pipeline/alerts.py --add "One or two sentences in English: what happened, when, and the market effect." --no "Det samme på norsk." --url "https://..." --source "Reuters" --severity high --kind shock
 
 Rules: one alert per event; a primary or established source with a link (central bank, exchange, Reuters, Bloomberg,
-FT, WSJ, E24, DN); state the time of the event; severity `high` for the categories above, `medium` for a large move
+FT, WSJ, E24, DN; never investingLive, and tier-3 sites such as FXStreet only when nothing better exists); state the time of the event; severity `high` for the categories above, `medium` for a large move
 with a known cause; never speculate; never add routine news, earnings, or ordinary daily moves. Do not edit or remove
 the worker's entries; if one is clearly wrong (a bad print), say so in the report.
 

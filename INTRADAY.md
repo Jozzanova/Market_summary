@@ -23,6 +23,15 @@ the dollar, the euro and the krone (EUR/NOK, USD/NOK and the I-44 index are in t
 with the outcome against consensus; central bank decisions, speeches and comments; political news with a market
 effect. Always cover Norway. Every fact needs a source you can link; say what could not be verified.
 
+Sources, in order of preference, exactly as in `DAILY.md`: (1) primary sources (central banks, statistics agencies,
+exchanges, companies, governments); (2) the established financial press (Financial Times, Bloomberg, Reuters, Wall Street
+Journal, CNBC, Nikkei Asia; for Norway E24, DN, Finansavisen, NRK); (3) everything else (FXStreet, Kitco, StockTitan, Trading
+Economics, aggregators, brokers' blogs) only when a fact exists nowhere in tiers 1 and 2, never as the sole source for a
+number, a quote or a market move, and when such a page cites a tier-1 or tier-2 source, cite that source instead.
+**Do not use investingLive (investinglive.com) at all**, not even as a fallback: the session's moves are on Reuters
+("European shares", "Wall Street", "Oil", "Forex" wraps), Bloomberg, CNBC and the exchanges, and the numbers themselves
+are in the brief. Label a citation with the outlet that wrote the piece, not the site that hosts it.
+
 ## 3. Write the intraday report, in English and in Norwegian
 
 Write a new pair of files `data/letters/YYYY-MM-DD/intraday-HHMM.en.md` and `intraday-HHMM.no.md`, where HHMM is the
