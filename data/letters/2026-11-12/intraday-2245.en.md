@@ -8,7 +8,7 @@
 - **Europe closed higher.** STOXX Europe 600 rose 0.15 per cent, the DAX 0.41 per cent and the FTSE 100 0.26 per cent. Oslo Børs ended unchanged. In Asia the Hang Seng fell 1.26 per cent and the Nikkei 0.70 per cent.
 
 ## Rates and currencies
-- **Treasury yields rose further.** The 10-year is 5.14 per cent and the 5-year 4.98 per cent in the delayed prints, up 14 and 15 basis points on the day, though CNBC's midday reading of the 10-year was lower ([CNBC](https://www.cnbc.com/2026/11/11/stock-market-today-live-updates.html)), so treat the level with care. Markets are weighing a possible Fed hike in December.
+- **Treasury yields rose further.** The 10-year yield is 5.14 per cent and the 5-year 4.98 per cent in the delayed prints, up 14 and 15 basis points on the day. The levels come from the reserve source and should be read with care. Markets are weighing a possible Fed hike in December.
 - **The dollar is firmer.** EUR/USD is 1.1054 (down 1.0 per cent), USD/JPY 159.86 and the dollar index 103.19.
 - **The krone ended mixed.** EUR/NOK is 10.564 (0.5 per cent lower, a stronger krone), USD/NOK 9.557 (0.6 per cent higher). The I-44 index is 109.28, 0.4 per cent lower. Norway's 10-year yield was 4.30 per cent on Wednesday.
 

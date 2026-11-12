@@ -8,7 +8,7 @@
 - **Europa stengte høyere.** STOXX Europe 600 steg 0,15 prosent, DAX 0,41 prosent og FTSE 100 0,26 prosent. Oslo Børs endte uendret. I Asia falt Hang Seng 1,26 prosent og Nikkei 0,70 prosent.
 
 ## Renter og valuta
-- **Amerikanske statsrenter steg videre.** Ti-årsrenten er 5,14 prosent og fem-årsrenten 4,98 prosent i de forsinkede kursene, opp 14 og 15 basispoeng på dagen, men CNBCs middagsavlesning av ti-årsrenten var lavere ([CNBC](https://www.cnbc.com/2026/11/11/stock-market-today-live-updates.html)), så nivået bør tas med forbehold. Markedet vurderer en mulig renteøkning fra Fed i desember.
+- **Amerikanske statsrenter steg videre.** Tiårsrenten er 5,14 prosent og femårsrenten 4,98 prosent i de forsinkede kursene, opp 14 og 15 basispunkter på dagen. Nivåene er fra reservekilden og bør tas med forbehold. Markedet vurderer en mulig renteøkning fra Fed i desember.
 - **Dollaren er sterkere.** EUR/USD er 1,1054 (ned 1,0 prosent), USD/JPY 159,86 og dollarindeksen 103,19.
 - **Kronen endte blandet.** EUR/NOK er 10,564 (0,5 prosent lavere, sterkere krone), USD/NOK 9,557 (0,6 prosent høyere). I-44-indeksen er 109,28, 0,4 prosent lavere. Norges tiårsrente var 4,30 prosent onsdag.
 

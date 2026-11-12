@@ -1,6 +1,6 @@
 # Intradagoppdatering, tirsdag 10. november 2026, per kl. 17.05
 
-**Sammendrag.** Et høyere enn ventet amerikansk kjernekonsumprisvekst har snudd formiddagens ro: statsrentene har steget kraftig, dollaren har styrket seg og amerikanske aksjer er lavere, mens europeiske aksjer holdt moderate oppganger og kronen svekket seg. Kjerne-KPI i USA økte 0,3 prosent i oktober mot 0,2 ventet, og markedet priser nå en renteøkning fra Fed i desember, mens Fed-talere diskuterer størrelsen. S&P 500 er ned 0,7 prosent, amerikansk 10-årsrente er om lag 13 basispoeng høyere på 4,99 prosent, og EUR/NOK er 0,8 prosent høyere på 10,63.
+**Sammendrag.** Et høyere enn ventet amerikansk kjernekonsumprisvekst har snudd formiddagens ro: statsrentene har steget kraftig, dollaren har styrket seg og amerikanske aksjer er lavere, mens europeiske aksjer holdt moderate oppganger og kronen svekket seg. Kjerne-KPI i USA økte 0,3 prosent i oktober mot 0,2 ventet, og markedet priser nå en renteøkning fra Fed i desember, mens Fed-talere diskuterer størrelsen. S&P 500 er ned 0,7 prosent, amerikansk 10-årsrente er om lag 13 basispunkter høyere på 4,99 prosent, og EUR/NOK er 0,8 prosent høyere på 10,63.
 
 ## Aksjer
 
