@@ -802,7 +802,7 @@ function drawLetters() {
 }
 // the market phase an intraday snapshot belongs to, from its as-of time in Oslo: Asia open (before 06), Europe open (06-11),
 // Europe midday (11-15), US open (15-21), US close (21 on); the heading's own phase words are dropped so they are not shown twice
-const snapPhase = hhmm => { const h = +hhmm.slice(0, 2); return h < 6 ? "asia" : h < 11 ? "eu_open" : h < 15 ? "eu_mid" : h < 21 ? "us_open" : "us_close"; };
+const snapPhase = hhmm => { const h = +hhmm.slice(0, 2); return h < 6 ? "asia" : h < 11 ? "eu_open" : h < 15 ? "eu_mid" : h < 22 ? "us_open" : "us_close"; };   // US regular session 15:30-22:00 Oslo
 const snapHead = h => h.replace(/^(Intraday update|Intraday|Intradagoppdatering|Intradag)\s*[,:]?\s*/i, "").replace(/^[^·]{0,40}·\s*/, "").trim();
 function drawUs() {
   const us = D.us_session || {}, card = $("#usCard"); if (!card) return;
