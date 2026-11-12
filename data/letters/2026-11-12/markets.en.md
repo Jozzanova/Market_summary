@@ -1,0 +1,33 @@
+# Markets, Thursday 12 November 2026
+
+**Equities recovered on Wednesday as strong results from CoreWeave revived demand for AI-related shares: the S&P 500 rose 1.31 per cent and the semiconductor index 5.7 per cent. The recovery was partly reversed after the close, when Nvidia fell almost 9 per cent in extended trading on reports that its board is preparing to remove the chief executive. Cash Treasuries were closed for Veterans Day. The dollar strengthened further on expectations of a Fed hike in December, and Brent is 91.3 dollars this morning, 1.6 per cent lower.**
+
+## Equities
+
+The S&P 500 rose 1.31 per cent to 7,619, the Nasdaq 1.60 per cent to 25,466 and the Dow 0.49 per cent. The driver was CoreWeave, which beat third-quarter estimates, roughly doubled revenue and raised its 2026 revenue guidance to 13–13.3 billion dollars; the shares rose 24.8 per cent and Nebius 15.4 per cent ([E24](https://e24.no/boers-og-finans/i/r8LBlw/wall-street-aapner-opp)). The results eased concern that AI earnings would come too late to service the debt taken on for data centres ([WSJ](https://www.wsj.com/finance/stocks/investors-run-back-to-ai-stocks-less-than-a-week-after-a-historic-selloff-854483e8)), and the Nasdaq recovered last week's losses, helped also by signs of strong demand in Anthropic's listing ([FT](https://www.ft.com/content/639de881-6017-454f-abfa-cfb191d1e7cd)). Apple closed at a record ([Finansavisen](https://news.google.com/rss/articles/CBMitwFBVV95cUxNX2M2Y0JMVlNfd3lyQ0E2X2hIYloxUTJwWUFtOVN5LXpFWm9MSnJ2dVRtLWJaY3ZQQnJkZG1lM1Nacm9lNkwzcHRqQWhoTWZaWlc2SFVaeFh1cnFZLVpBZ0NsQVVGWTRDX3B5djhULVByTVNHY0FGRVdNNEF2SnMwTVdOTmpsZTFaT3ZxaGFmTjM1ZFVQZF9uVFpLMTIxcVdnT2FCZFlpZUNMekEtWllQQ1JIZjh2Yk0?oc=5)).
+
+The AI proxies outperformed by a wide margin: SOX rose 5.66 per cent, the SOXX ETF 6.0 per cent and NYSE FANG+ 1.80 per cent, while the Magnificent Seven ETF rose only 0.50 per cent. The technology sector gained 3.2 per cent; consumer discretionary was flat. The VIX fell 10 per cent to 17.5. Nvidia rose 2.9 per cent in regular trading but fell almost 9 per cent after the close as its board weighed the future of Jensen Huang ([FT](https://www.ft.com/content/a93307a7-e2cd-4abd-bd89-c38832d8c40e), [Bloomberg](https://www.bloomberg.com/news/articles/2026-11-11/nvidia-tumbles-as-investors-consider-future-without-ceo-huang)); AMD, Broadcom and Alphabet rose after hours on expectations that they could gain business ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-12/nvidia-turmoil-lifts-amd-broadcom-on-bets-for-business-gains)). The after-hours fall suggests that part of Wednesday's gain in the AI segment will be given back today.
+
+STOXX Europe 600 rose 0.72 per cent and the DAX 1.20 per cent. Oslo Børs rose 1.21 per cent to 2,106.5, led by energy and shipping as oil rose during the session: Equinor gained 3.4 per cent, Frontline 4.7 per cent and Aker 3.3 per cent, the latter helped by CoreWeave's results through its stake in Nscale ([E24](https://e24.no/boers-og-finans/i/AR2eBx/oppgang-paa-oslo-boers)).
+
+In Asia this morning the Nikkei is down 0.24 per cent, dragged by electronics makers ([WSJ](https://www.wsj.com/finance/stocks/nikkei-falls-0-2-dragged-by-electronics-stocks-0da84013)), the Hang Seng 0.92 per cent and the KOSPI 0.42 per cent; Shanghai is up 0.20 per cent.
+
+{chart: ^GSPC,^SOX,^STOXX,OSEBX.OL | 1m | indexed}
+
+## Fixed income and credit
+
+The US cash bond market was closed on Wednesday ([SIFMA](https://www.sifma.org/news/press-releases/sifma-fixed-income-market-close-recommendation-in-the-u-s-the-u-k-and-japan-for-the-u-s-veterans-day-holiday-2026)). When trading resumed in Asia, long-dated Treasuries gained as the Nvidia news lifted demand for safe assets ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-12/long-us-bonds-reopen-with-gains-as-risk-sentiment-sours-again)); the 10-year yield is about 5.00 per cent. The latest official fix for the 2-year, 4.56 per cent on 9 November, predates Tuesday's inflation report. Fed funds futures price 26 basis points of tightening on 9 December, a fully priced hike with a small probability of a larger move. In Europe, Tuesday's fixes put the euro-area AAA 10-year at 3.33 per cent (+5.9 basis points) and the Norwegian 10-year at 4.32 per cent (+3.9). US high-yield spreads were 3.34 per cent on Monday.
+
+## Commodities and currencies
+
+**Oil.** Brent rose 1.4 per cent on Wednesday after Tuesday's two-month low and is down 1.6 per cent at 91.3 dollars this morning. Reuters attributes the fall to hopes of a ceasefire in Ukraine, a lower perceived risk of escalation with Iran before next week's US–China summit, higher OPEC+ output and an industry estimate of a 9 million barrel rise in US crude stocks ([Reuters](https://www.globalbankingandfinance.com/oil-prices-drop-1-hopes-iran-ukraine-peace-talks-pressure/)). Saudi output is close to pre-war levels ([FT](https://www.ft.com/content/c844b957-3c98-43a3-b02e-2d0f5368bd49)). TTF gas rose 2.3 per cent to 86.7 euros.
+
+**Metals.** Gold is 3,980 dollars, below 4,000 on expectations of a Fed hike ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-12/gold-holds-below-4-000-as-market-looks-ahead-to-fed-rate-hike)).
+
+**Currencies.** The dollar reached a 19-month high on Fed hike expectations ([WSJ](https://www.wsj.com/economy/central-banking/euro-falls-to-18-month-low-against-dollar-on-fed-rate-hike-bets-02d386c5)); the index is 102.98, 1.45 per cent higher on the week. EUR/USD is 1.108 (−0.8 per cent) and USD/JPY 159.75, close to the level at which Japan intervened in the summer; the currency chief has warned against forgetting that episode ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-12/japan-s-fx-chief-warns-against-forgetting-summer-intervention)). The krone strengthened slightly against the euro, to EUR/NOK 10.599 (−0.16 per cent), but weakened against the dollar, to USD/NOK 9.567 (+0.66 per cent). I-44 rose 0.13 per cent to 109.71 at Wednesday's fix. The pattern is consistent with a broadly stronger dollar, partly offset against the euro by higher oil during the European session; no source attributes the move.
+
+## Today
+
+- **08:00:** UK GDP for the third quarter; Statistics Norway's investment survey for the fourth quarter, retail trade and job vacancies ([SSB](https://www.ssb.no/kalender)).
+- **US:** weekly EIA oil inventories, delayed a day by the holiday ([Reuters](https://www.globalbankingandfinance.com/oil-prices-drop-1-hopes-iran-ukraine-peace-talks-pressure/)).
+- **Nvidia:** a board decision on the chief executive may come at any time ([FT](https://www.ft.com/content/d3838274-a055-4d5d-a1ff-48f2979a08f0)).
