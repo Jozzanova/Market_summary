@@ -111,6 +111,10 @@ degree words "noe", "litt", "klart", "markert"; "prosentenheter" for differences
 (not "high yield"), "statsobligasjonsmarkedet" (not "kontantmarkedet"); "innstramming" is about policy as a whole, a rate
 rise is "en heving"; the bokmål forms "frem", "fremover", "lagt frem", "fremfor" (not "fram"). Avoid "hardliner",
 "valutasjefen", "gis tilbake" (write "reverseres"), "gjorde det bedre enn" (write "steg mer enn").
+People are named and their position described, never labelled: "styremedlem Toichiro Asada tok til orde for et forsiktig
+tempo i rentehevingene", not "et duete styremedlem manet til forsiktighet". "Haukete"/"duete" ("hawkish"/"dovish") may
+qualify a named person whose stance is known ("Asada, som har argumentert for å holde renten lav"), never stand in for
+the name or the argument. The same in English: name the official and say what they argued.
 Market English does not translate word for word; use the Norwegian a central-bank economist would: "firm inflation" is
 "vedvarende høy inflasjon" (never "fast"), "sticky" is "seig" or "treg", "elevated" is "høy", "soft data" is "svake tall",
 "hawkish/dovish" is "haukete/duete", "rally" is "oppgang", "sell-off" is "kursfall", "risk-off" is "flukt til trygge

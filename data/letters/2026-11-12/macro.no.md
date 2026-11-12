@@ -1,6 +1,6 @@
 # Makro, torsdag 12. november 2026
 
-**Ingen av de store sentralbankene fattet rentebeslutninger det siste døgnet. Dagens informasjon kom fra taler og nøkkeltall som peker i samme retning som tidligere i uken: prispresset er fortsatt høyt i USA og Japan, og markedet venter ytterligere innstramming. I USA er en heving i desember fullt priset; i Japan manet et duete styremedlem til forsiktighet samtidig som produsentprisene steg raskere. I Norge beskrev Norges Banks rapport om finansiell stabilitet et robust system, men økt risiko for alvorlige hendelser.**
+**Ingen av de store sentralbankene fattet rentebeslutninger det siste døgnet. Dagens informasjon kom fra taler og nøkkeltall som peker i samme retning som tidligere i uken: prispresset er fortsatt høyt i USA og Japan, og markedet venter ytterligere innstramming. I USA er en heving i desember fullt priset; i Japan tok styremedlem Toichiro Asada til orde for et forsiktig tempo i rentehevingene, samtidig som produsentprisene steg raskere. I Norge beskrev Norges Banks rapport om finansiell stabilitet et robust system, men økt risiko for alvorlige hendelser.**
 
 ## Siste beslutninger
 
@@ -18,7 +18,7 @@ Ingen talere fra Fed er omtalt onsdag, som var helligdag i USA. Den gjeldende ve
 
 ## Bank of Japan
 
-Styremedlem Toichiro Asada, regnet som det mest duete medlemmet, sa at banken bør være forsiktig med tempoet i hevingene fordi høyere renter kan dempe den underliggende prisveksten ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-12/boj-s-dovish-member-calls-for-caution-on-pace-of-rate-increases)). Samme morgen tiltok veksten i produsentprisene for første gang på tre måneder, noe som støtter argumentet for en heving i desember ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-12/japan-producer-prices-pick-up-backing-case-for-another-boj-hike)). Med USD/JPY på 159,75 løfter den svake yenen importprisene og gjør det mer kostbart å vente.
+Styremedlem Toichiro Asada, som har argumentert for å holde renten lav lenger enn flertallet, sa at banken bør være forsiktig med tempoet i hevingene fordi høyere renter kan dempe den underliggende prisveksten ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-12/boj-s-dovish-member-calls-for-caution-on-pace-of-rate-increases)). Samme morgen tiltok veksten i produsentprisene for første gang på tre måneder, noe som støtter argumentet for en heving i desember ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-12/japan-producer-prices-pick-up-backing-case-for-another-boj-hike)). Med USD/JPY på 159,75 løfter den svake yenen importprisene og gjør det mer kostbart å vente.
 
 ## Europa
 

@@ -1,6 +1,6 @@
 # Macro, Thursday 12 November 2026
 
-**There were no policy decisions among the major central banks in the last 24 hours. The day's information came from speeches and data that point the same way as earlier in the week: price pressures remain high in the United States and Japan, and markets expect further tightening. In the United States a December hike is fully priced; in Japan a dovish board member urged caution while producer prices accelerated. In Norway, Norges Bank's Financial Stability Report described a robust system but a higher risk of serious events.**
+**There were no policy decisions among the major central banks in the last 24 hours. The day's information came from speeches and data that point the same way as earlier in the week: price pressures remain high in the United States and Japan, and markets expect further tightening. In the United States a December hike is fully priced; in Japan board member Toichiro Asada argued for a cautious pace of rate rises while producer prices accelerated. In Norway, Norges Bank's Financial Stability Report described a robust system but a higher risk of serious events.**
 
 ## Latest decisions
 
@@ -18,7 +18,7 @@ No Fed officials were reported speaking on Wednesday, a federal holiday. The sta
 
 ## Bank of Japan
 
-Board member Toichiro Asada, regarded as the most dovish, said the bank should be cautious about the pace of hikes because higher rates could weigh on the underlying price trend ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-12/boj-s-dovish-member-calls-for-caution-on-pace-of-rate-increases)). The same morning, corporate goods prices accelerated for the first time in three months, which supports the case for a December hike ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-12/japan-producer-prices-pick-up-backing-case-for-another-boj-hike)). With USD/JPY at 159.75, a weak yen adds to import prices and raises the cost of waiting.
+Board member Toichiro Asada, who has argued for keeping rates low longer than the majority, said the bank should be cautious about the pace of hikes because higher rates could weigh on the underlying price trend ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-12/boj-s-dovish-member-calls-for-caution-on-pace-of-rate-increases)). The same morning, corporate goods prices accelerated for the first time in three months, which supports the case for a December hike ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-12/japan-producer-prices-pick-up-backing-case-for-another-boj-hike)). With USD/JPY at 159.75, a weak yen adds to import prices and raises the cost of waiting.
 
 ## Europe
 
