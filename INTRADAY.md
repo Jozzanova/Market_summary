@@ -1,7 +1,7 @@
 # Intraday update routine
 
 This file is the playbook for the scheduled cloud agents that write the intraday reports on weekdays. There are four runs
-a day, Oslo time: about 09:05 (after the European open), 12:05 (noon), 15:40 (after the US open) and 22:40 (after the US
+a day, Oslo time: about 09:05 (after the European open), 12:05 (noon), 15:45 (after the US open) and 22:15 (after the US
 close). Two routines share this playbook ("intraday update" for the first two, "intraday update (US)" for the last two);
 the clock tells you which run you are. The morning routine (`DAILY.md`) has already written the day's reports from the
 data and news available at 06:00; your job is to refresh the numbers and say what has happened since. You start with a
@@ -36,10 +36,10 @@ Decide from the current Oslo time (UTC+1 in winter, UTC+2 in summer):
   Norway) against consensus, oil and gas, the krone. Short: what the day starts with.
 - **Noon (about 12:05).** The European morning (STOXX 600, DAX, FTSE, Oslo Børs), government bonds, the krone and the
   I-44, commodities, the morning's data and speeches, and the US futures ahead of the open and of the 14:30 US releases.
-- **US open (about 15:40).** The US releases at 14:30 (CPI, payrolls, claims, retail sales …) against consensus and the
+- **US open (about 15:45).** The US releases at 14:30 (CPI, payrolls, claims, retail sales …) against consensus and the
   market reaction, the first minutes of US trading (the ETF proxies and futures in the brief; the index prints are live),
   Europe into the afternoon, the I-44 fix at 14:15, Treasury yields and the dollar.
-- **US close (about 22:40).** The day's wrap: US closing changes (the equity rows in the brief are the closes once the
+- **US close (about 22:15).** The day's wrap: US closing changes (the equity rows in the brief are the closes once the
   market has closed), the after-hours prints of the index ETFs and the futures (the "after hrs" columns; write "the S&P 500
   ETF is 0.3 per cent lower after hours", never an index level), earnings and news after the bell, the European and
   Oslo closes, yields, oil, the krone at the end of the day, and what to watch overnight and tomorrow morning. This run
@@ -75,7 +75,7 @@ adds its own pair, and the Intraday view on the page shows the last four snapsho
 sections with the newest on top, each tagged with its market phase. Heading, with the phase of your run:
 `# Intraday, <phase> · <weekday day month year>, HH:MM Oslo time` (Norwegian: `# Intradag, <fase> · <ukedag dag. måned
 år>, kl. HH.MM`), where the phase is one of "Europe open" / "Europa åpnet" (the 09:05 run), "Europe midday" / "Europa
-midt på dagen" (12:05), "US open" / "USA åpnet" (15:40) and "US close" / "USA stengt" (22:40). Example:
+midt på dagen" (12:05), "US open" / "USA åpnet" (15:45) and "US close" / "USA stengt" (22:15). Example:
 `# Intradag, USA stengt · torsdag 12. november 2026, kl. 22.50`. Format and tone as in DAILY.md: a bold
 summary paragraph, then short sections (Equities; Rates and currencies; Commodities; Data and central banks; What to
 watch next), bullets, links in the text, 250-400 words. A `{chart: ...}` line is allowed where it helps. Do not change the
