@@ -37,10 +37,10 @@ sector,XLB,Materials,Materialer,price,2
 sector,XLE,Energy,Energi,price,2
 sector,XLU,Utilities,Kraft og forsyning,price,2
 sector,XLRE,Real estate,Eiendom,price,2
-rates,^IRX,US 3-month bill,USA 3-måneders statskasseveksel,yield,2
-rates,^FVX,US 5-year Treasury,USA 5-års statsobligasjon,yield,2
-rates,^TNX,US 10-year Treasury,USA 10-års statsobligasjon,yield,2
-rates,^TYX,US 30-year Treasury,USA 30-års statsobligasjon,yield,2
+rates,^IRX,US 3-month bill yield,USA 3-måneders statskassevekselrente,yield,2
+rates,^FVX,US 5-year Treasury yield,USA 5-års statsrente,yield,2
+rates,^TNX,US 10-year Treasury yield,USA 10-års statsrente,yield,2
+rates,^TYX,US 30-year Treasury yield,USA 30-års statsrente,yield,2
 rates,ZN=F,US 10-year note future,USA 10-års statsobligasjonsfuture,price,2
 rates,ZB=F,US 30-year bond future,USA 30-års statsobligasjonsfuture,price,2
 commodity,^SPGSCI,S&P GSCI commodity index,S&P GSCI råvareindeks,price,1

@@ -86,7 +86,9 @@ go back and replace them.
   stays visible as a dot against the printed line on the Norges Bank tab.
 - `data/events.csv`: the calendar of upcoming events for the next four to six weeks. Columns: date (YYYY-MM-DD), time_oslo
   (HH:MM or blank), region (US, EA, UK, JP, NO, SE, CH, AU, CA, CN, global), category (central bank, data, politics,
-  markets, other), event, importance (high, medium, low), note_en, note_no (the consensus or what to look for), source_url.
+  markets, other), event (English), event_no (the same in Norwegian, in Norges Bank's register: "SSB: KPI, november", "ESB: rentebeslutning og
+pressekonferanse", "USA: sysselsettingsrapport, november"; never leave it blank), importance (high, medium, low), note_en, note_no (the
+consensus or what to look for), source_url.
   Add what you learn (central bank meetings, CPI, payrolls, GDP, PMIs, Norwegian CPI and Norges Bank dates, elections,
   summits, fiscal deadlines), keep the dates verified, and delete rows older than yesterday.
 
