@@ -172,6 +172,13 @@ def fetch_yahoo(previous):
         sym = ins["symbol"]
         try:
             s = yahoo_chart(sym)
+            # Yahoo sometimes returns a single point for a continuous futures contract around a roll (TTF=F, 12 Nov 2026):
+            # splice the new prints onto the history kept from the previous run instead of losing the series for a day
+            pv = previous.get(sym)
+            if len(s["values"]) < 20 and pv and len(pv.get("dates", [])) >= 20:
+                keep = [(d, v) for d, v in zip(pv["dates"], pv["values"]) if not s["dates"] or d < s["dates"][0]]
+                s = {**s, "dates": [d for d, _ in keep] + s["dates"], "values": [v for _, v in keep] + s["values"]}
+                log(f"  {sym}: Yahoo returned {len(s['dates']) - len(keep)} point(s); history kept from the previous run")
             out[sym] = {**{k: ins[k] for k in ("group", "name_en", "name_no", "kind", "decimals")}, "currency": s["currency"], "last_time": s["last_time"],
                         "dates": s["dates"][-260:], "values": s["values"][-260:], **stats(s, ins["kind"])}
         except Exception as e:
