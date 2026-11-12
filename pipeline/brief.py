@@ -6,7 +6,7 @@
 
 Reads data/data.json (written by fetch.py), data/policy_rates.csv, data/events.csv and the letters folder."""
 import json
-from datetime import datetime, timezone, timedelta
+from datetime import date, datetime, timezone, timedelta
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -23,12 +23,18 @@ def ch(v, unit):
     return f"{v:+.1f} bp" if unit == "bp" else f"{v:+.2f}%"
 
 
+STALE_DAYS = 4      # an observation older than this many days before the data date is marked, and must not be quoted as current
+
+
 def table(rows, title):
     print(f"\n## {title}")
     print(f"{'instrument':<40} {'last':>12} {'date':>11} {'1d':>10} {'1w':>10} {'1m':>10} {'ytd':>10}")
+    asof = D.get("asof", "")[:10]
     for name, v in rows:
         dec = int(v.get("decimals", 2))
-        print(f"{name:<40} {f(v.get('last'), dec):>12} {v.get('last_date', ''):>11} {ch(v.get('d1'), v.get('unit')):>10} {ch(v.get('w1'), v.get('unit')):>10} {ch(v.get('m1'), v.get('unit')):>10} {ch(v.get('ytd'), v.get('unit')):>10}")
+        d = v.get("last_date", "")
+        stale = "  STALE: do not quote" if d and asof and (date.fromisoformat(asof) - date.fromisoformat(d[:10])).days > STALE_DAYS else ""
+        print(f"{name:<40} {f(v.get('last'), dec):>12} {d:>11} {ch(v.get('d1'), v.get('unit')):>10} {ch(v.get('w1'), v.get('unit')):>10} {ch(v.get('m1'), v.get('unit')):>10} {ch(v.get('ytd'), v.get('unit')):>10}{stale}")
 
 
 def main():

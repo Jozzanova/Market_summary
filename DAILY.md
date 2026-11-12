@@ -141,9 +141,14 @@ exclamation, no advice, no speculation presented as fact; "per cent" and "basis 
   (2) **Government bonds** / **Statsrenter**: the US 2- and 10-year, the euro-area AAA 10-year and the Norwegian 10-year, in
   basis points, and what the market prices for the next Fed and ECB meetings when it changed. (3) **Currencies** / **Valuta**:
   the dollar index, EUR/USD, USD/JPY, and the krone (EUR/NOK, USD/NOK, I-44, and why it moved). (4) **Energy** / **Energi**:
-  Brent (the front contract; Dated Brent spot, `BRENT_DATED`, is the price the oil companies' krone purchases follow,
-  so note it when the two diverge; it is the EIA's weekly series and runs a few days behind), and gas (TTF, and the UK
-  NBP price, `UK_SAP`, which prices about a quarter of Norwegian gas) or power when they moved, with the reason. (5) **Drivers** / **Drivkrefter**: the likely factors behind
+  Brent (the front contract) and gas (TTF) or power when they moved, with the reason. Dated Brent spot (`BRENT_DATED`,
+  the price the oil companies' krone purchases follow) and the UK NBP gas price (`UK_SAP`, about a quarter of Norwegian
+  gas) are weekly series that run a week or more behind: they are shown on the page with their date, but a price that
+  old says nothing about today, so leave them out of the letters. The same goes for any figure whose observation is older
+  than the previous trading day: the brief prints the date of every row, and a stale row is marked.
+  Equity indices are described by their percentage change only, never by their level ("the S&P 500 rose 1.3 per cent",
+  not "to 7,619"): the level carries no information for the reader and dates the text. Levels stay for prices that are
+  read as levels: exchange rates, yields, oil and gas, the VIX, I-44. (5) **Drivers** / **Drivkrefter**: the likely factors behind
   the moves, drawn from the other reports of the day: statements from the US president or US authorities, central bank
   decisions and speeches (Fed, ECB, Bank of England, Bank of Japan, the Riksbank, the RBA, the RBNZ), key figures, the oil
   price, geopolitics, company news, each with its link. (6) **Norway** / **Norge**: the rate differential against the euro

@@ -28,6 +28,10 @@ exchanges, companies, governments); (2) the established financial press (Financi
 Journal, CNBC, Nikkei Asia; for Norway E24, DN, Finansavisen, NRK); (3) everything else (FXStreet, Kitco, StockTitan, Trading
 Economics, aggregators, brokers' blogs) only when a fact exists nowhere in tiers 1 and 2, never as the sole source for a
 number, a quote or a market move, and when such a page cites a tier-1 or tier-2 source, cite that source instead.
+Equity indices are described by their percentage change only, never by their level ("the S&P 500 is up 0.7 per cent",
+not "at 7,531"); levels stay for exchange rates, yields, oil, gas and the VIX. Do not quote a figure whose observation is
+older than the previous trading day (the brief marks stale rows); Dated Brent and the UK NBP gas price are weekly series a
+week or more behind and stay out of the intraday report.
 **Do not use investingLive (investinglive.com) at all**, not even as a fallback: the session's moves are on Reuters
 ("European shares", "Wall Street", "Oil", "Forex" wraps), Bloomberg, CNBC and the exchanges, and the numbers themselves
 are in the brief. Label a citation with the outlet that wrote the piece, not the site that hosts it.
