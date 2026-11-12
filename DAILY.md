@@ -100,6 +100,10 @@ Create the folder `data/letters/YYYY-MM-DD/` (today's date, UTC) with ten files:
 Norwegian bokmål (not a word-for-word translation; Norwegian number style: comma decimals, space thousands, "prosent").
 In Norwegian, bond moves are written as rate moves: "de lange rentene falt", "tiårsrenten steg 12 basispunkter", never
 "obligasjonene steg i kurs" or "falt i kurs". If the English source says bonds gained or rallied, write that yields fell.
+Market English does not translate word for word; use the Norwegian a central-bank economist would: "firm inflation" is
+"vedvarende høy inflasjon" (never "fast"), "sticky" is "seig" or "treg", "elevated" is "høy", "soft data" is "svake tall",
+"hawkish/dovish" is "haukete/duete", "rally" is "oppgang", "sell-off" is "kursfall", "risk-off" is "flukt til trygge
+plasseringer", "repricing" is "reprising", "front-loaded" is "framskyndet", "the curve steepened" is "kurven ble brattere".
 Format: Markdown with a `# Title, weekday day month year` heading, where the title is just the name of the piece, never
 "report", "rapport", "letter" or "brev": `Key points` / `Hovedtrekk`, `Markets` / `Markedet`, `Macro` / `Makro`, `Politics` / `Politikk`,
 `Norges Bank` / `Norges Bank` (for example `# Markedet, tirsdag 10. november 2026`); `##` sections, bullets, bold lead-ins, Markdown tables
