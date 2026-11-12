@@ -302,7 +302,11 @@ details.src > summary::before { content: "▸ "; } details.src[open] > summary::
 <section class="pane" id="pane-commodities">
   <div class="tiles" id="tiles-commodities"></div>
   <div class="card"><h2 data-i="cm_title">Commodities</h2><div id="cmTable"></div></div>
-  <div class="card"><h2 data-i="cm_curve">Brent and WTI futures curves <small data-i="cm_curve_s">dollars per barrel by delivery month: today, a week ago, a month ago and at the last Monetary Policy Report</small></h2><div class="plot" id="curveFutPlot" style="height:380px"></div><p class="note" data-i="cm_curve_note">ICE Brent and NYMEX WTI monthly contracts via Yahoo Finance; the latest curve can include the current session, the earlier ones are settlement prices.</p></div>
+  <div class="grid2">
+    <div class="card"><h2 data-i="cm_curve_bz">Brent futures curve <small data-i="cm_curve_s">dollars per barrel by delivery month: today, a week ago, a month ago and at the last Monetary Policy Report</small></h2><div class="plot" id="curveBZ" style="height:360px"></div></div>
+    <div class="card"><h2 data-i="cm_curve_cl">WTI futures curve <small data-i="cm_curve_s">dollars per barrel by delivery month: today, a week ago, a month ago and at the last Monetary Policy Report</small></h2><div class="plot" id="curveCL" style="height:360px"></div></div>
+  </div>
+  <p class="note" data-i="cm_curve_note">ICE Brent and NYMEX WTI monthly contracts via Yahoo Finance; the latest curve can include the current session, the earlier ones are settlement prices.</p>
   <div class="card"><h2 data-i="cm_perf">Indexed performance <small data-i="eq_perf_hint">start of period = 100</small></h2>
     <div class="row"><div class="seg rangeSeg" data-for="cm"><button data-v="1m">1M</button><button data-v="3m">3M</button><button data-v="ytd">YTD</button><button data-v="1y" class="on">1Y</button></div></div>
     <div class="plot" id="cmPlot"></div></div>
@@ -398,7 +402,7 @@ const T = {
   rt_title: ["Government yields, policy rates and credit spreads", "Statsrenter, styringsrenter og kredittpåslag"],
   rt_note: ["Changes in basis points. The two US sections are the same yields from two sources: the live prints move through the session, the official closes come after the close and run one business day behind. The euro-area AAA curve is the ECB's curve of the highest-rated governments; the all-issuer curve covers every euro-area government, and the gap between the two at 10 years is the periphery spread. 5y5y forwards are 2 × 10-year minus 5-year. The financial-conditions index is weekly and lagged, so it is not used in the letters. The percentile column ranks today's absolute move among the past year's daily moves; the last column marks where the last value sits in its 52-week range.", "Endringer i basispunkter. De to USA-delene er samme renter fra to kilder: de løpende noteringene beveger seg gjennom handelsdagen, den offisielle slutten kommer etter stengetid og er én virkedag bak. Eurosonens AAA-kurve er ESBs kurve for de høyest ratede statene; kurven for alle utstedere dekker alle statene i eurosonen, og avstanden mellom dem på ti år er periferipåslaget. 5 år om 5 år er 2 × 10-årsrenten minus 5-årsrenten. Indeksen for finansielle forhold er ukentlig og forsinket, og brukes ikke i brevene. Persentilkolonnen rangerer dagens absolutte bevegelse blant det siste årets daglige bevegelser; siste kolonne viser hvor siste verdi ligger i 52-ukersintervallet."],
   rt_10y: ["10-year yields", "10-årsrenter"], rt_2y: ["Short end", "Kort ende"], rt_oas: ["Credit spreads", "Kredittpåslag"], rt_oas_s: ["ICE BofA option-adjusted spreads and the euro-area periphery spread, percentage points", "ICE BofA-påslag og eurosonens periferipåslag, prosentpoeng"], rt_curve: ["US curve and real yields", "Amerikansk kurve og realrenter"], rt_30y: ["30-year yields", "30-årsrenter"], rt_fwd: ["5y5y forwards", "5 år om 5 år"], rt_fwd_s: ["nominal forward rates (2 × 10-year − 5-year) and the US 5y5y inflation expectation", "nominelle terminrenter (2 × 10-års − 5-års) og amerikansk inflasjonsforventning 5 år om 5 år"],
-  cm_curve: ["Brent and WTI futures curves", "Terminkurvene for Brent og WTI"], cm_curve_s: ["dollars per barrel by delivery month: today, a week ago, a month ago and at the last Monetary Policy Report", "dollar per fat etter leveringsmåned: i dag, for en uke siden, for en måned siden og ved siste pengepolitiske rapport"],
+  cm_curve_bz: ["Brent futures curve", "Terminkurven for Brent"], cm_curve_cl: ["WTI futures curve", "Terminkurven for WTI"], cm_curve_s: ["dollars per barrel by delivery month: today, a week ago, a month ago and at the last Monetary Policy Report", "dollar per fat etter leveringsmåned: i dag, for en uke siden, for en måned siden og ved siste pengepolitiske rapport"],
   cm_curve_note: ["ICE Brent and NYMEX WTI monthly contracts via Yahoo Finance; the latest curve can include the current session, the earlier ones are settlement prices.", "Månedskontrakter for ICE Brent og NYMEX WTI via Yahoo Finance; dagens kurve kan omfatte inneværende handelsdag, de tidligere er oppgjørspriser."],
   cv_today: ["today", "i dag"], cv_week: ["a week ago", "for en uke siden"], cv_month: ["a month ago", "for en måned siden"], cv_mpr: ["at the MPR of", "ved PPR"],
   eer_title: ["Effective exchange rates", "Effektive valutakurser"], eer_s: ["BIS nominal broad indices, 2020 = 100; a rise is a stronger currency", "BIS' nominelle brede indekser, 2020 = 100; en oppgang er en sterkere valuta"],
@@ -936,19 +940,18 @@ function drawRates() {
 function drawCommodities() { $("#cmTable").innerHTML = instrTable(group("commodity")); plot("#cmPlot", indexedTraces(["BZ=F", "BRENT_DATED", "TTF=F", "UK_SAP", "NG=F", "GC=F", "HG=F", "^SPGSCI"], RANGE.cm)); drawCurves(); }
 // Brent and WTI futures curves by delivery month: today's, a week ago, a month ago, and at the last Monetary Policy Report
 function drawCurves() {
-  const el = $("#curveFutPlot"); if (!el) return;
-  const asof = Object.values(CURVES).flatMap(c => (c.contracts || []).map(k => k.dates[k.dates.length - 1])).sort().pop(); if (!asof) { el.innerHTML = ""; return; }
+  const asof = Object.values(CURVES).flatMap(c => (c.contracts || []).map(k => k.dates[k.dates.length - 1])).sort().pop();
   const back = n => new Date(new Date(asof + "T00:00:00Z").getTime() - n * 86400000).toISOString().slice(0, 10);
-  const snaps = [[asof, t("cv_today")], [back(7), t("cv_week")], [back(30), t("cv_month")], MPR.last && MPR.last < back(30) ? [MPR.last, `${t("cv_mpr")} ${fmtDateShort(MPR.last)}`] : null].filter(Boolean);
+  const snaps = asof ? [[asof, t("cv_today")], [back(7), t("cv_week")], [back(30), t("cv_month")], MPR.last && MPR.last < back(30) ? [MPR.last, `${t("cv_mpr")} ${fmtDateShort(MPR.last)}`] : null].filter(Boolean) : [];
   const near = (k, d) => { let x = null; for (let i = 0; i < k.dates.length; i++) { if (k.dates[i] <= d) { if (new Date(d) - new Date(k.dates[i]) <= 7 * 86400000) x = k.values[i]; else x = null; } else break; } return x; };
-  const cols = COLORS(), tr = []; let i = 0;
-  for (const c of Object.values(CURVES)) {
+  const cols = COLORS();
+  for (const [root, id] of [["BZ", "#curveBZ"], ["CL", "#curveCL"]]) {
+    const el = $(id), c = CURVES[root]; if (!el) continue; if (!c) { el.innerHTML = ""; continue; }
+    const tr = [];
     snaps.forEach(([d, label], j) => { const x = [], y = []; (c.contracts || []).forEach(k => { const v = near(k, d); if (v != null) { x.push(k.m + "-01"); y.push(v); } }); if (x.length < 3) return;
-      const name = `${nameOf(c)}, ${label}`;
-      tr.push({x, y, name, type: "scatter", mode: "lines+markers", noEnd: true, line: {width: j === 0 ? 2.5 : 1.4, color: cols[(i * 4 + j) % cols.length], dash: ["solid", "dot", "dash", "dashdot"][j]}, marker: {size: j === 0 ? 5 : 3}, hovertemplate: esc(name) + "<br>%{x|%b %Y}: %{y:.2f} $<extra></extra>"}); });
-    i++;
+      tr.push({x, y, name: label, type: "scatter", mode: "lines+markers", noEnd: true, line: {width: j === 0 ? 2.5 : 1.4, color: cols[j % cols.length], dash: ["solid", "dot", "dash", "dashdot"][j]}, marker: {size: j === 0 ? 5 : 3}, hovertemplate: esc(label) + "<br>%{x|%b %Y}: %{y:.2f} $<extra></extra>"}); });
+    plot(el, tr, {yaxis: {ticksuffix: " $"}, xaxis: {tickformat: "%b %y"}, hovermode: "closest", legend: {y: -0.18}});
   }
-  plot(el, tr, {yaxis: {ticksuffix: " $"}, xaxis: {tickformat: "%b %y"}, hovermode: "closest", legend: {y: -0.18}});
 }
 function drawFx() {
   const no = LANG === "no", nokSyms = ["USDNOK=X", "EURNOK=X", "JPYNOK=X", "GBPNOK=X", "SEKNOK=X", "CHFNOK=X", "DKKNOK=X", "CADNOK=X", "AUDNOK=X", "NZDNOK=X"];
