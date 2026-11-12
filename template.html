@@ -403,7 +403,7 @@ const T = {
   tl_none: ["none", "ingen"], t_target: ["target 2 %", "mål 2 %"],
   k_highlights: ["Key points", "Hovedtrekk"], k_markets: ["Markets", "Markedet"], k_intraday: ["Intraday", "Intradag"], k_macro: ["Macro", "Makro"], k_politics: ["Politics", "Politikk"], run_now: ["Update now", "Oppdater nå"],
   snap_title: ["The last 24 hours at a glance", "Det siste døgnet i korte trekk"], fig_title: ["Figures", "Figurer"],
-  brent_title: ["Brent oil", "Brent-olje"], brent_s: ["USD per barrel, same period", "USD per fat, samme periode"], i44_title: ["The krone: I-44", "Kronen: I-44"], i44_s: ["Norges Bank's import-weighted index; up = weaker krone. Fixed at 14:15 CET and published by Norges Bank around 16:00; the page picks it up within five minutes", "Norges Banks importveide kroneindeks; opp = svakere krone. Noteres kl. 14.15 og publiseres av Norges Bank ca. kl. 16.00; siden henter den innen fem minutter"],
+  brent_title: ["Brent oil", "Brent-olje"], brent_s: ["USD per barrel, same period", "USD per fat, samme periode"], last_print: ["latest print", "siste kurs"], i44_title: ["The krone: I-44", "Kronen: I-44"], i44_s: ["Norges Bank's import-weighted index; up = weaker krone. Fixed at 14:15 CET and published by Norges Bank around 16:00; the page picks it up within five minutes", "Norges Banks importveide kroneindeks; opp = svakere krone. Noteres kl. 14.15 og publiseres av Norges Bank ca. kl. 16.00; siden henter den innen fem minutter"],
   g_equities: ["Equities", "Aksjer"], r_us: ["United States", "USA"], r_europe: ["Europe", "Europa"], r_nordic: ["Nordics", "Norden"], r_asia: ["Asia", "Asia"], r_em: ["Emerging markets", "Fremvoksende markeder"], r_vol: ["Volatility", "Volatilitet"], g_bonds: ["Bonds and credit", "Obligasjoner og kreditt"], g_diff: ["Rate differentials, NOK minus (pp; changes in bp)", "Rentedifferanser, NOK minus (pp; endringer i bp)"], g_commodities: ["Commodities", "Råvarer"], g_fx: ["Currencies", "Valuta"],
   ev_title: ["Upcoming events", "Kommende hendelser"], ev_note: ["Central bank decisions, data releases and political dates kept by the daily agent; times are Oslo time. Importance: high (orange), medium (blue), low.", "Sentralbankmøter, statistikkslipp og politiske datoer, vedlikeholdt av den daglige agenten; tidene er norsk tid. Viktighet: høy (oransje), middels (blå), lav."],
   eq_title: ["Equity indices", "Aksjeindekser"], ai_title: ["AI and semiconductors", "KI og halvledere"], ai_s: ["the indices and ETFs the market uses as AI proxies", "indeksene og ETF-ene markedet bruker som KI-indikatorer"], set_ai: ["AI and semiconductors", "KI og halvledere"], eq_perf: ["Indexed performance", "Indeksert utvikling"], eq_perf_s: ["start of period = 100, local currency", "start av perioden = 100, lokal valuta"], eq_perf_hint: ["start of period = 100, local currency · click a name in the legend to show that series alone, Ctrl+click to add or remove series", "start av perioden = 100, lokal valuta · klikk på et navn i tegnforklaringen for å vise serien alene, Ctrl+klikk velger flere"],
@@ -589,6 +589,11 @@ function indexedTraces(syms, range) {
 function levelTraces(syms, range, dec = 2) {
   return syms.map((s, i) => { const v = bySym(s); if (!v) return null; const sr = series(v, range); if (sr.dates.length < 3) return null; return {x: sr.dates, y: sr.values, name: nameOf(v), type: "scatter", mode: "lines", line: {width: 2, color: COLORS()[i % 8]}, hovertemplate: `%{x}<br>%{y:.${dec}f}<extra>` + esc(nameOf(v)) + "</extra>"}; }).filter(Boolean);
 }
+const NB_LOCALE = {moduleType: "locale", name: "nb", dictionary: {}, format: {days: ["søndag", "mandag", "tirsdag", "onsdag", "torsdag", "fredag", "lørdag"], shortDays: ["søn", "man", "tir", "ons", "tor", "fre", "lør"],
+  months: ["januar", "februar", "mars", "april", "mai", "juni", "juli", "august", "september", "oktober", "november", "desember"], shortMonths: ["jan", "feb", "mar", "apr", "mai", "jun", "jul", "aug", "sep", "okt", "nov", "des"],
+  date: "%d.%m.%Y", decimal: ",", thousands: " "}};
+let nbRegistered = false;
+function plotLocale() { if (LANG !== "no") return "en"; if (!nbRegistered && window.Plotly && Plotly.register) { Plotly.register(NB_LOCALE); nbRegistered = true; } return "nb"; }
 function plot(el, traces, layout = {}) {
   const node = typeof el === "string" ? $(el) : el;
   const base = {margin: {l: 48, r: 12, t: 10, b: 64}, paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)", font: {family: "system-ui, sans-serif", size: 12, color: cssv("--fg")},
@@ -601,7 +606,7 @@ function plot(el, traces, layout = {}) {
   // phones: no zooming or panning (a drag scrolls the page instead); hover and the legend still work
   const phone = innerWidth <= 700;
   if (phone) { lay.dragmode = false; lay.xaxis.fixedrange = true; lay.yaxis.fixedrange = true; if (lay.yaxis2) lay.yaxis2 = Object.assign({}, lay.yaxis2, {fixedrange: true}); }
-  Plotly.react(node, [...traces, ...marks], lay, {displayModeBar: false, responsive: true, scrollZoom: false, doubleClick: phone ? false : "reset+autosize"});
+  Plotly.react(node, [...traces, ...marks], lay, {displayModeBar: false, responsive: true, scrollZoom: false, doubleClick: phone ? false : "reset+autosize", locale: plotLocale()});
   pngButton(node);
   if (!node.__iso) { node.__iso = true; node.on("plotly_legendclick", ev => {
     // click a legend entry to show that series alone (click again to show all); the end-point dots follow their series
@@ -661,6 +666,8 @@ function movePctl(v) { if (!v || !v.values || v.values.length < 30 || v.d1 == nu
   for (let i = 1; i < vals.length; i++) mv.push(Math.abs(v.unit === "bp" ? 100 * (vals[i] - vals[i - 1]) : v.unit === "pt" ? vals[i] - vals[i - 1] : vals[i - 1] ? 100 * (vals[i] / vals[i - 1] - 1) : 0));
   const a = Math.abs(v.d1); return Math.round(100 * mv.filter(x => x <= a).length / mv.length); }
 const rangeBar = v => { if (v.lo52 == null || v.hi52 == null || v.last == null || !(v.hi52 > v.lo52)) return ""; const p = Math.max(0, Math.min(100, 100 * (v.last - v.lo52) / (v.hi52 - v.lo52))); return `<span class="rng" title="${esc(t("rng_hint"))}"><i style="left:${p.toFixed(0)}%"></i></span>`; };
+const fmtOslo = s => { const m = /^(\d{4}-\d{2}-\d{2}) (\d{2}):(\d{2})/.exec(s || ""); if (!m) return s || ""; const d = new Date(`${m[1]}T${m[2]}:${m[3]}:00Z`); if (isNaN(d)) return s;
+  return LANG === "no" ? d.toLocaleDateString("nb-NO", {day: "numeric", month: "short", timeZone: "Europe/Oslo"}) + " kl. " + d.toLocaleTimeString("nb-NO", {hour: "2-digit", minute: "2-digit", timeZone: "Europe/Oslo"}).replace(":", ".") : d.toLocaleString("en-GB", {day: "numeric", month: "short", hour: "2-digit", minute: "2-digit", timeZone: "Europe/Oslo"}); };
 const fmtDateShort = s => { if (!s) return ""; const d = new Date(s.slice(0, 10) + "T00:00:00Z"); return isNaN(d) ? s : d.toLocaleDateString(LANG === "no" ? "nb-NO" : "en-GB", {day: "numeric", month: "short", timeZone: "UTC"}); };
 const mprLabel = () => MPR.last ? `${t("since_mpr")} ${fmtDateShort(MPR.last)}` : t("since_mpr");
 function instrTable(rows, opts = {}) {
@@ -792,6 +799,7 @@ function drawI44() {
   const bt = levelTraces(["BZ=F"], RANGE.aside, 2); bt[0].name = "Brent"; bt[0].line.color = COLORS()[1];
   const bl = Math.min(...bt[0].y), bh = Math.max(...bt[0].y), bp = Math.max(1, 0.08 * (bh - bl));
   plot("#brentPlot", bt, {margin: {l: 44, r: 8, t: 8, b: 30}, showlegend: false, yaxis: {range: [bl - bp, bh + bp], tickprefix: "$"}});
+  { const sm = $("#brentCard small"), v = Y["BZ=F"]; if (sm && v && v.last_time) sm.textContent = `${t("brent_s")} · ${t("last_print")} ${fmtOslo(v.last_time)}`; }
 }
 
 /* ---------- events ---------- */
