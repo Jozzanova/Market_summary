@@ -243,7 +243,7 @@ CNBC_SCALE = {"JPYNOK=X": 0.01}     # CNBC quotes the krone per 100 yen, Yahoo p
 TV_SYM = {"^GSPC": "SP:SPX", "^IXIC": "NASDAQ:IXIC", "^DJI": "DJ:DJI", "^RUT": "TVC:RUT", "^STOXX": "TVC:SXXP", "^STOXX50E": "TVC:SX5E",
           "^GDAXI": "XETR:DAX", "^FTSE": "TVC:UKX", "^FCHI": "TVC:CAC40", "OSEBX.OL": "OSL:OSEBX", "^OMX": "OMXSTO:OMXS30", "^N225": "TVC:NI225",
           "^HSI": "HSI:HSI", "000001.SS": "SSE:000001", "^KS11": "KRX:KOSPI", "EEM": "AMEX:EEM", "URTH": "AMEX:URTH", "EXX1.DE": "XETR:EXX1",
-          "^VIX": "TVC:VIX", "^SOX": "NASDAQ:SOX", "SOXX": "NASDAQ:SOXX", "SMH": "NASDAQ:SMH", "MAGS": "NASDAQ:MAGS", "AIQ": "NASDAQ:AIQ",
+          "^VIX": "TVC:VIX", "^SOX": "NASDAQ:SOX", "^NYFANG": "ICEUS:NYFANG", "SOXX": "NASDAQ:SOXX", "SMH": "NASDAQ:SMH", "MAGS": "CBOE:MAGS", "AIQ": "NASDAQ:AIQ",
           "BOTZ": "NASDAQ:BOTZ", "ROBT": "NASDAQ:ROBT", "XLK": "AMEX:XLK", "XLC": "AMEX:XLC", "XLY": "AMEX:XLY", "XLP": "AMEX:XLP", "XLV": "AMEX:XLV",
           "XLF": "AMEX:XLF", "XLI": "AMEX:XLI", "XLB": "AMEX:XLB", "XLE": "AMEX:XLE", "XLU": "AMEX:XLU", "XLRE": "AMEX:XLRE", "^FVX": "TVC:US05Y",
           "^TNX": "TVC:US10Y", "^TYX": "TVC:US30Y", "ZN=F": "CBOT:ZN1!", "ZB=F": "CBOT:ZB1!", "^SPGSCI": "SP:SPGSCI", "BZ=F": "ICEEUR:BRN1!",
@@ -309,7 +309,8 @@ def tradingview_quotes(syms):
     syms = [s for s in syms if s in TV_SYM]
     if not syms:
         return {}
-    body = json.dumps({"symbols": {"tickers": [TV_SYM[s] for s in syms], "query": {"types": []}}, "columns": ["close", "change", "time"], "range": [0, 500]}).encode()
+    body = json.dumps({"symbols": {"tickers": [TV_SYM[s] for s in syms], "query": {"types": []}},
+                       "columns": ["close", "change", "time", "premarket_close", "premarket_change", "postmarket_close", "postmarket_change"], "range": [0, 500]}).encode()
     req = urllib.request.Request("https://scanner.tradingview.com/global/scan", data=body, headers={"User-Agent": UA, "Content-Type": "application/json"})
     with urllib.request.urlopen(req, timeout=30) as r:
         rows = json.loads(r.read()).get("data", [])
@@ -321,7 +322,8 @@ def tradingview_quotes(syms):
         if not sym or len(d) < 3 or d[0] is None:
             continue
         close, chg, t = float(d[0]), d[1], d[2]
-        out[sym] = {"last": close, "prev": round(close / (1 + chg / 100), 6) if chg is not None and chg > -100 else None,
+        ext = {k: d[i] for k, i in (("pre", 3), ("pre_chg", 4), ("post", 5), ("post_chg", 6)) if len(d) > i and d[i] is not None}
+        out[sym] = {**ext, "last": close, "prev": round(close / (1 + chg / 100), 6) if chg is not None and chg > -100 else None,
                     # the bar's time is the session's start (FX and futures start the evening before, UTC): seven hours on gives the session date
                     "date": (datetime.fromtimestamp(t, tz=timezone.utc) + timedelta(hours=7)).strftime("%Y-%m-%d") if t else now[:10], "time": now, "source": "TradingView"}
     return out
@@ -1152,20 +1154,27 @@ def fetch_us_session():
         etf[sym] = e
     sources = {"Yahoo Finance"} if etf else set()
     if need:
-        # Yahoo refused: the regular close and the extended-hours print from CNBC (TradingView has no extended hours)
+        # Yahoo refused: the regular close and the extended-hours print from CNBC or TradingView
         q = reserve_quotes([s for s, _, _ in need])
+        h = datetime.now(timezone.utc).hour
         for sym, en, no in need:
             r = q.get(sym)
-            if not r or r.get("source") != "CNBC":
+            if not r:
                 continue
             e = {"name_en": en, "name_no": no, "close": r["last"], "close_time": r.get("time"), "prev_close": r.get("prev"),
                  "d1": pct(r["last"], r.get("prev")) if r.get("prev") != r["last"] else None,     # before the open CNBC's last is the previous close
-                 "session_date": r.get("date"), "source": "CNBC"}
+                 "session_date": r.get("date"), "source": r["source"]}
             if r.get("ext_type") == "POST_MKT":
                 e.update(post=r["ext"], post_time=r.get("ext_time"), post_chg=pct(r["ext"], r["last"]))
             elif r.get("ext_type") == "PRE_MKT":
                 e.update(pre=r["ext"], pre_time=r.get("ext_time"), pre_chg=pct(r["ext"], r["last"]))
-            etf[sym] = e; sources.add("CNBC")
+            elif r["source"] == "TradingView":
+                # the scanner carries both prints without a time: after the close (from 20 UTC) the post-market one, before the open the pre-market one
+                if (h >= 20 or h < 2) and r.get("post") is not None:
+                    e.update(post=r["post"], post_time=r.get("time"), post_chg=round(r["post_chg"], 3) if r.get("post_chg") is not None else pct(r["post"], r["last"]))
+                elif 8 <= h < 15 and r.get("pre") is not None:
+                    e.update(pre=r["pre"], pre_time=r.get("time"), pre_chg=round(r["pre_chg"], 3) if r.get("pre_chg") is not None else pct(r["pre"], r["last"]))
+            etf[sym] = e; sources.add(r["source"])
     fut, need = {}, []
     for sym, en, no in US_FUTURES:
         try:

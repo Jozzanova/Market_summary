@@ -17,8 +17,8 @@
 - **Metals fell.** Gold is down 3.0 per cent at 3,879 dollars, silver 3.8 per cent at 49.93 and copper 1.4 per cent.
 
 ## Data and central banks
-- **No major data or central-bank decisions** that I could verify with a source today. Policy rates are unchanged: Norges Bank 4.50 per cent, Federal Reserve 3.75–4.00 per cent.
-- **After the bell,** Applied Materials reported fiscal fourth-quarter revenue of 10.41 billion dollars, above estimates ([Investing.com](https://www.investing.com/news/earnings/applied-materials-shares-trade-lower-depite-q4-beat-5023202)); I could not verify the share reaction or Cisco's results.
+- **No major data or central-bank decisions** that could be verified with a source today. Policy rates are unchanged: Norges Bank 4.50 per cent, Federal Reserve 3.75–4.00 per cent.
+- **After the bell,** Applied Materials reported fiscal fourth-quarter revenue of 10.41 billion dollars, above estimates ([Investing.com](https://www.investing.com/news/earnings/applied-materials-shares-trade-lower-depite-q4-beat-5023202)); it was not possible to verify the share reaction or Cisco's results.
 
 ## What to watch next
 - Tomorrow at 14:30: US producer prices for October; at 08:00 Statistics Norway publishes Q3 balance-of-payments figures.

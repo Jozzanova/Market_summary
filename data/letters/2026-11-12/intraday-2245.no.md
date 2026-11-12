@@ -17,8 +17,8 @@
 - **Metaller falt.** Gull er ned 3,0 prosent til 3 879 dollar, sølv 3,8 prosent til 49,93 og kobber 1,4 prosent.
 
 ## Data og sentralbanker
-- **Ingen større data eller rentebeslutninger** som jeg kunne verifisere med kilde i dag. Styringsrentene er uendret: Norges Bank 4,50 prosent, Federal Reserve 3,75–4,00 prosent.
-- **Etter børsslutt** la Applied Materials frem omsetning på 10,41 milliarder dollar i fjerde regnskapskvartal, over estimatene ([Investing.com](https://www.investing.com/news/earnings/applied-materials-shares-trade-lower-depite-q4-beat-5023202)); jeg kunne ikke verifisere aksjereaksjonen eller Ciscos tall.
+- **Ingen større data eller rentebeslutninger** som lot seg verifisere med kilde i dag. Styringsrentene er uendret: Norges Bank 4,50 prosent, Federal Reserve 3,75–4,00 prosent.
+- **Etter børsslutt** la Applied Materials frem omsetning på 10,41 milliarder dollar i fjerde regnskapskvartal, over estimatene ([Investing.com](https://www.investing.com/news/earnings/applied-materials-shares-trade-lower-depite-q4-beat-5023202)); det lot seg ikke verifisere aksjereaksjonen eller Ciscos tall.
 
 ## Å følge med på
 - I morgen kl. 14.30: amerikanske produsentpriser for oktober; kl. 08.00 publiserer Statistisk sentralbyrå betalingsbalansen for 3. kvartal.

@@ -36,6 +36,8 @@ RULES = [
     ("warn", "no", r"\b(et|en|ett) (duete|haukete)\b", "name the person and describe the position instead of 'et duete/haukete medlem'"),
     ("warn", "en", r"(?i)\ba (dovish|hawkish) (board |committee |fed |fomc )?(member|official|governor|policymaker)\b", "name the official and say what they argued"),
     ("warn", "en no", r"\d\s?%(?!\s*\))", "write 'per cent' / 'prosent' in running text"),
+    ("warn", "no", r"\b(jeg|meg|mitt|mine)\b", "no first person: the report speaks for the service ('som lot seg verifisere', not 'som jeg kunne verifisere')"),
+    ("warn", "en", r"\b(I|I'm|I've|I'd|me|my)\b(?!-44)", "no first person: the report speaks for the service ('that could be verified', not 'that I could verify')"),
 ]
 
 

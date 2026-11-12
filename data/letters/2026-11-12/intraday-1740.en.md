@@ -17,8 +17,8 @@
 - **Metals sold off.** Gold is down 3.0 per cent at 3,881 dollars and silver 3.4 per cent at 50.13 dollars, in step with a stronger dollar and higher yields.
 
 ## Data and central banks
-- **The 14:30 US releases could not be verified.** I found no reliable report of today's jobless claims against consensus, so none is quoted.
-- **Norway:** Statistics Norway's lower estimate of oil and gas investment for 2026 ([E24](https://e24.no/energi-og-klima/i/Qrlp88/jekker-ned-aarets-oljeinvesteringer)) does not change the rate outlook; the policy rate is 4.50 per cent and the next decision is on 17 December. I found no Norwegian source for the afternoon krone move.
+- **The 14:30 US releases could not be verified.** No reliable report of today's jobless claims against consensus was found, so none is quoted.
+- **Norway:** Statistics Norway's lower estimate of oil and gas investment for 2026 ([E24](https://e24.no/energi-og-klima/i/Qrlp88/jekker-ned-aarets-oljeinvesteringer)) does not change the rate outlook; the policy rate is 4.50 per cent and the next decision is on 17 December. No Norwegian source was found for the afternoon krone move.
 
 ## What to watch next
 - Whether Nvidia names a permanent successor, and how the AI trade holds into the close.
