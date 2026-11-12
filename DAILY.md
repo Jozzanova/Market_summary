@@ -100,6 +100,17 @@ Create the folder `data/letters/YYYY-MM-DD/` (today's date, UTC) with ten files:
 Norwegian bokmål (not a word-for-word translation; Norwegian number style: comma decimals, space thousands, "prosent").
 In Norwegian, bond moves are written as rate moves: "de lange rentene falt", "tiårsrenten steg 12 basispunkter", never
 "obligasjonene steg i kurs" or "falt i kurs". If the English source says bonds gained or rallied, write that yields fell.
+The Norwegian register is Norges Bank's own, as in the Monetary Policy Report (Pengepolitisk rapport): "prisveksten" and
+"tolvmånedersveksten i KPI" rather than "inflasjonen"; "den underliggende prisveksten" for core; "styringsrenten" is "satt
+opp/ned" or "hevet/senket", "holdt oppe"; "markedsprisingen indikerer/tilsier" rather than "futures priser"; "som følge av"
+for causes rather than "på" ("steg som følge av forventninger om", never "steg på forventninger om"); "bidrar til å
+dempe/løfte", "avtar/tiltar", "tar seg opp", "lite endret", "om lag", "trolig", "anslag", "utsiktene", "fremover";
+degree words "noe", "litt", "klart", "markert"; "prosentenheter" for differences between rates (never "poeng" alone or
+"prosentpoeng"), "basispunkter" for small changes; "renteforskjellen overfor utlandet" or "rentedifferansen";
+"kronekursen", "I-44 (en oppgang er en svakere krone)", "handelspartnerne"; "statsobligasjoner", "høyrenteobligasjoner"
+(not "high yield"), "statsobligasjonsmarkedet" (not "kontantmarkedet"); "innstramming" is about policy as a whole, a rate
+rise is "en heving"; the bokmål forms "frem", "fremover", "lagt frem", "fremfor" (not "fram"). Avoid "hardliner",
+"valutasjefen", "gis tilbake" (write "reverseres"), "gjorde det bedre enn" (write "steg mer enn").
 Market English does not translate word for word; use the Norwegian a central-bank economist would: "firm inflation" is
 "vedvarende høy inflasjon" (never "fast"), "sticky" is "seig" or "treg", "elevated" is "høy", "soft data" is "svake tall",
 "hawkish/dovish" is "haukete/duete", "rally" is "oppgang", "sell-off" is "kursfall", "risk-off" is "flukt til trygge
