@@ -1,6 +1,40 @@
 {
- "updated": "2026-11-12T21:18:13Z",
+ "updated": "2026-11-12T21:43:40Z",
  "events": [
+  {
+   "id": "TTF=F:2026-11-12",
+   "time": "2026-11-12T21:43:00Z",
+   "severity": "medium",
+   "kind": "commodity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/TTF%3DF",
+   "text_en": "Dutch TTF gas rose 9.0 per cent to 95.05 on 12 November 2026.",
+   "text_no": "Nederlandsk TTF-gass steg 9,0 prosent til 95,05 2026-11-12.",
+   "value": {
+    "symbol": "TTF=F",
+    "last": 95.045,
+    "d1": 8.972,
+    "unit": "%"
+   }
+  },
+  {
+   "id": "GC=F:2026-11-12",
+   "time": "2026-11-12T21:43:00Z",
+   "severity": "medium",
+   "kind": "commodity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/GC%3DF",
+   "text_en": "Gold fell 3.0 per cent to 3,879 on 12 November 2026.",
+   "text_no": "Gull falt 3,0 prosent til 3 879 2026-11-12.",
+   "value": {
+    "symbol": "GC=F",
+    "last": 3878.7,
+    "d1": -3.045,
+    "unit": "%"
+   }
+  },
   {
    "id": "^SOX:2026-11-11",
    "time": "2026-11-11T16:09:00Z",
@@ -304,23 +338,6 @@
     "symbol": "^SOX",
     "last": 9011.139648,
     "d1": -12.246,
-    "unit": "%"
-   }
-  },
-  {
-   "id": "^GSPC:2026-11-05",
-   "time": "2026-11-05T21:34:00Z",
-   "severity": "high",
-   "kind": "equity",
-   "origin": "data",
-   "source": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/quote/%5EGSPC",
-   "text_en": "The S&P 500 fell 4.4 per cent to 7,354 on 5 November 2026.",
-   "text_no": "S&P 500 falt 4,4 prosent til 7 354 2026-11-05.",
-   "value": {
-    "symbol": "^GSPC",
-    "last": 7353.72998,
-    "d1": -4.356,
     "unit": "%"
    }
   }
