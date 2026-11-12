@@ -29,7 +29,11 @@ Buttons at the top: **PDF** and **Word** download the selected day's reports in 
 
 ```
 python -X utf8 pipeline/fetch.py --refresh   # Yahoo, FRED, ECB, Norges Bank -> data/data.json (standard library only)
+python -X utf8 pipeline/fetch.py --refresh --intraday   # prices only, in a few requests (the intraday routines); daily blocks as the morning run left them
+python -X utf8 pipeline/fetch.py --offline   # the previous run's data (from the live site) as data.json, when every source is down
 python -X utf8 pipeline/brief.py             # the numbers for the reports, as text
+
+When Yahoo refuses the cloud address (HTTP 429, a shared egress address), `fetch.py` stops asking after four refusals and takes the prices from the reserve sources, CNBC's quote service and then TradingView (delayed up to 15 minutes), spliced onto the previous run's history; the brief and the data-quality list say so.
 python -X utf8 build.py                      # inline data and reports into template.html -> site/index.html
 npx wrangler deploy                          # Cloudflare Workers static assets, worker "market-summary"
 ```

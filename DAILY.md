@@ -15,7 +15,10 @@ done and the reports are committed.
 `fetch.py` downloads one year of daily prices for every instrument in `data/instruments.csv` from Yahoo Finance, the
 US yields and credit spreads from FRED, the euro-area AAA curve from the ECB, the Norwegian rates from Norges Bank, the
 policy rates from the BIS and the key figures of fourteen economies from the OECD and Eurostat (block `macro`), and
-writes `data/data.json`. A source that fails keeps the previous run's block and is listed under `kept_from_previous`;
+writes `data/data.json`. If Yahoo refuses the cloud address (HTTP 429), `fetch.py` stops asking after four refusals and takes
+the prices from the reserve sources, CNBC's quote service and then TradingView (delayed up to 15 minutes), spliced onto the
+previous run's history; the brief then opens with a warning that names the source, and the reports say the prices are
+delayed and where they come from. A source that fails keeps the previous run's block and is listed under `kept_from_previous`;
 mention it in the report. `403 Forbidden` from the proxy means the cloud environment's network allowlist lacks that host.
 
 `brief.py` prints every table with one-day, one-week, one-month and year-to-date changes, the largest moves, the curve,

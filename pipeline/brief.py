@@ -62,8 +62,13 @@ def main():
     if now.weekday() == 0:
         print("Monday: there has been no session since Friday. The 1d column is Friday against Thursday; the 1w column (Friday close against the previous Friday) is the week's change for the weekly review.")
     if D.get("kept_from_previous"):
-        print(f"kept from the previous run (source down): {', '.join(D['kept_from_previous'])}")
-    if D.get("yahoo_asof") and D["yahoo_asof"] != D["asof"]:
+        print(f"from the previous run: {'; '.join(D['kept_from_previous'])}")
+    st = D.get("yahoo_status") or {}
+    if st.get("reserve"):
+        print(f"!! Yahoo refused the refresh: {st['reserve']} price(s) come from the reserve source(s) {', '.join(st.get('reserve_sources', []))} "
+              f"(delayed up to 15 minutes, fetched {D['asof']}); {st.get('kept', 0)} kept from the previous run ({st.get('prev_asof')}"
+              f"{': ' + ', '.join(st.get('kept_symbols', [])[:12]) if st.get('kept') else ''}). Say in the report that the prices are delayed and name the source.")
+    elif D.get("yahoo_asof") and D["yahoo_asof"] != D["asof"]:
         print(f"!! Yahoo refused the refresh (rate limit): the prices below are from the previous run, as of {D['yahoo_asof']}. Say so in the report, "
               f"quote them with that time, and take any later move only from a linked source.")
     y = D["yahoo"]

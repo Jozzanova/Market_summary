@@ -36,6 +36,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DATA, RAW = ROOT / "data", ROOT / "rawData"
 RAW.mkdir(exist_ok=True)
 REFRESH = "--refresh" in sys.argv
+INTRADAY = "--intraday" in sys.argv     # prices only, in a few requests; the daily blocks stay as the morning run left them
 UA = "market-summary/0.1 admin@jskjeltorp.workers.dev"
 FRED_SERIES = {"DGS1": "US 1-year", "DGS2": "US 2-year", "DGS5": "US 5-year", "DGS10": "US 10-year", "DGS30": "US 30-year", "DFII10": "US 10-year real (TIPS)", "T10YIE": "US 10-year breakeven",
                "T5YIFR": "US 5y5y inflation expectation", "SOFR": "SOFR (US overnight)", "NFCI": "Chicago Fed financial conditions (NFCI, weekly)",
@@ -217,6 +218,204 @@ def fetch_yahoo(previous):
             if sym in previous:
                 out[sym] = previous[sym]
     log(f"yahoo: {len(out) - len(failed)} fetched, {len(failed)} failed{' (' + ', '.join(failed) + ')' if failed else ''}")
+    return out, failed
+
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Reserve sources: CNBC's quote service and TradingView's scanner, both without a key and many symbols per request.
+# Used only when Yahoo refuses (429 on the cloud address, 12 Nov 2026). Delayed up to 15 minutes; a print is spliced onto
+# the history kept from the previous run, so the daily changes stay comparable. ^IRX stays out (Yahoo quotes the discount
+# rate, CNBC the yield). Symbols without a map, or whose print fails the sanity check, keep the previous run's data.
+# ----------------------------------------------------------------------------------------------------------------------
+CNBC_SYM = {"^GSPC": ".SPX", "^IXIC": ".IXIC", "^DJI": ".DJI", "^RUT": ".RUT", "^STOXX": ".STOXX", "^STOXX50E": ".STOXX50E", "^GDAXI": ".GDAXI",
+            "^FTSE": ".FTSE", "^FCHI": ".FCHI", "OSEBX.OL": ".OSEBX", "^OMX": ".OMXS30", "^N225": ".N225", "^HSI": ".HSI", "000001.SS": ".SSEC",
+            "^KS11": ".KS11", "EEM": "EEM", "URTH": "URTH", "EXX1.DE": "EXX1-DE", "^VIX": ".VIX", "^SOX": ".SOX", "^NYFANG": ".NYFANG", "SOXX": "SOXX",
+            "SMH": "SMH", "MAGS": "MAGS", "AIQ": "AIQ", "BOTZ": "BOTZ", "ROBT": "ROBT", "XLK": "XLK", "XLC": "XLC", "XLY": "XLY", "XLP": "XLP",
+            "XLV": "XLV", "XLF": "XLF", "XLI": "XLI", "XLB": "XLB", "XLE": "XLE", "XLU": "XLU", "XLRE": "XLRE", "^FVX": "US5Y", "^TNX": "US10Y",
+            "^TYX": "US30Y", "ZN=F": "@TY.1", "ZB=F": "@US.1", "^SPGSCI": ".SPGSCI", "BZ=F": "@LCO.1", "CL=F": "@CL.1", "NG=F": "@NG.1",
+            "GC=F": "@GC.1", "SI=F": "@SI.1", "HG=F": "@HG.1", "PL=F": "@PL.1", "ZW=F": "@W.1", "ZC=F": "@C.1", "ZS=F": "@S.1", "DX-Y.NYB": ".DXY",
+            "EURUSD=X": "EUR=", "GBPUSD=X": "GBP=", "USDJPY=X": "JPY=", "USDCHF=X": "CHF=", "USDCAD=X": "CAD=", "USDSEK=X": "SEK=",
+            "USDCNY=X": "CNY=", "AUDUSD=X": "AUD=", "NZDUSD=X": "NZD=", "EURNOK=X": "EURNOK=", "USDNOK=X": "NOK=", "EURSEK=X": "EURSEK=",
+            "BTC-USD": "BTC.CB=", "GBPNOK=X": "GBPNOK=", "SEKNOK=X": "SEKNOK=", "CHFNOK=X": "CHFNOK=", "JPYNOK=X": "JPYNOK=", "CADNOK=X": "CADNOK=",
+            "AUDNOK=X": "AUDNOK=", "SPY": "SPY", "QQQ": "QQQ", "DIA": "DIA", "IWM": "IWM"}
+CNBC_SCALE = {"JPYNOK=X": 0.01}     # CNBC quotes the krone per 100 yen, Yahoo per yen
+TV_SYM = {"^GSPC": "SP:SPX", "^IXIC": "NASDAQ:IXIC", "^DJI": "DJ:DJI", "^RUT": "TVC:RUT", "^STOXX": "TVC:SXXP", "^STOXX50E": "TVC:SX5E",
+          "^GDAXI": "XETR:DAX", "^FTSE": "TVC:UKX", "^FCHI": "TVC:CAC40", "OSEBX.OL": "OSL:OSEBX", "^OMX": "OMXSTO:OMXS30", "^N225": "TVC:NI225",
+          "^HSI": "HSI:HSI", "000001.SS": "SSE:000001", "^KS11": "KRX:KOSPI", "EEM": "AMEX:EEM", "URTH": "AMEX:URTH", "EXX1.DE": "XETR:EXX1",
+          "^VIX": "TVC:VIX", "^SOX": "NASDAQ:SOX", "SOXX": "NASDAQ:SOXX", "SMH": "NASDAQ:SMH", "MAGS": "NASDAQ:MAGS", "AIQ": "NASDAQ:AIQ",
+          "BOTZ": "NASDAQ:BOTZ", "ROBT": "NASDAQ:ROBT", "XLK": "AMEX:XLK", "XLC": "AMEX:XLC", "XLY": "AMEX:XLY", "XLP": "AMEX:XLP", "XLV": "AMEX:XLV",
+          "XLF": "AMEX:XLF", "XLI": "AMEX:XLI", "XLB": "AMEX:XLB", "XLE": "AMEX:XLE", "XLU": "AMEX:XLU", "XLRE": "AMEX:XLRE", "^FVX": "TVC:US05Y",
+          "^TNX": "TVC:US10Y", "^TYX": "TVC:US30Y", "ZN=F": "CBOT:ZN1!", "ZB=F": "CBOT:ZB1!", "^SPGSCI": "SP:SPGSCI", "BZ=F": "ICEEUR:BRN1!",
+          "CL=F": "NYMEX:CL1!", "NG=F": "NYMEX:NG1!", "TTF=F": "ICEENDEX:TFM1!", "GC=F": "COMEX:GC1!", "SI=F": "COMEX:SI1!", "HG=F": "COMEX:HG1!",
+          "ALI=F": "COMEX:ALI1!", "PL=F": "NYMEX:PL1!", "ZW=F": "CBOT:ZW1!", "ZC=F": "CBOT:ZC1!", "ZS=F": "CBOT:ZS1!", "DX-Y.NYB": "TVC:DXY",
+          "EURUSD=X": "FX:EURUSD", "GBPUSD=X": "FX:GBPUSD", "USDJPY=X": "FX:USDJPY", "USDCHF=X": "FX:USDCHF", "USDCAD=X": "FX:USDCAD",
+          "USDSEK=X": "FX:USDSEK", "AUDUSD=X": "FX:AUDUSD", "NZDUSD=X": "FX:NZDUSD", "EURNOK=X": "FX:EURNOK", "USDNOK=X": "FX:USDNOK",
+          "EURSEK=X": "FX:EURSEK", "BTC-USD": "BITSTAMP:BTCUSD", "DKKNOK=X": "FX_IDC:DKKNOK", "NZDNOK=X": "FX_IDC:NZDNOK", "GBPNOK=X": "FX_IDC:GBPNOK",
+          "SEKNOK=X": "FX_IDC:SEKNOK", "CHFNOK=X": "FX_IDC:CHFNOK", "JPYNOK=X": "FX_IDC:JPYNOK", "CADNOK=X": "FX_IDC:CADNOK", "AUDNOK=X": "FX_IDC:AUDNOK",
+          "USDCNY=X": "FX_IDC:USDCNY", "ES=F": "CME_MINI:ES1!", "NQ=F": "CME_MINI:NQ1!", "YM=F": "CBOT_MINI:YM1!", "RTY=F": "CME_MINI:RTY1!",
+          "SPY": "AMEX:SPY", "QQQ": "NASDAQ:QQQ", "DIA": "AMEX:DIA", "IWM": "AMEX:IWM"}
+
+
+def _num(x):
+    if x is None:
+        return None
+    try:
+        return float(str(x).replace(",", "").replace("%", "").strip())
+    except ValueError:
+        return None
+
+
+def _cnbc_time(t):
+    """CNBC's '2026-11-12T16:20:00.000-0500' (or a bare date) -> (local session date, 'YYYY-MM-DD HH:MM UTC' or None)."""
+    m = re.match(r"(\d{4}-\d{2}-\d{2})(?:T(\d{2}):(\d{2}):(\d{2})(?:\.\d+)?([+-])(\d{2})(\d{2}))?", str(t or ""))
+    if not m:
+        return None, None
+    if not m.group(2):
+        return m.group(1), None
+    local = datetime.strptime(m.group(1) + " " + m.group(2) + ":" + m.group(3), "%Y-%m-%d %H:%M")
+    off = timedelta(hours=int(m.group(6)), minutes=int(m.group(7))) * (1 if m.group(5) == "+" else -1)
+    return m.group(1), (local - off).strftime("%Y-%m-%d %H:%M UTC")
+
+
+def cnbc_quotes(syms):
+    """{yahoo symbol: {last, prev, date, time, ext, ext_time, ext_type}} from CNBC's quote service, 40 symbols a request."""
+    out = {}
+    syms = [s for s in syms if s in CNBC_SYM]
+    for ci in range(0, len(syms), 40):
+        chunk = syms[ci:ci + 40]
+        url = ("https://quote.cnbc.com/quote-html-webservice/restQuote/symbolType/symbol?symbols=" + urllib.request.quote("|".join(CNBC_SYM[s] for s in chunk), safe="@.=-")
+               + "&requestMethod=itv&noform=1&partnerId=2&fund=1&exthrs=1&output=json")
+        qs = json.loads(get(url, retries=1, timeout=30)).get("FormattedQuoteResult", {}).get("FormattedQuote", [])
+        back = {CNBC_SYM[s]: s for s in chunk}
+        for q in qs:
+            sym = back.get(q.get("symbol"))
+            last = _num(q.get("last"))
+            if not sym or last is None:
+                continue
+            k = CNBC_SCALE.get(sym, 1)
+            date, when = _cnbc_time(q.get("last_time"))
+            ext = q.get("ExtendedMktQuote") if isinstance(q.get("ExtendedMktQuote"), dict) else {}
+            prev = _num(q.get("previous_day_closing"))
+            e = {"last": last * k, "prev": prev * k if prev else None, "date": date, "time": when, "source": "CNBC"}
+            if _num(ext.get("last")) is not None and ext.get("type") in ("PRE_MKT", "POST_MKT"):
+                e.update(ext=_num(ext["last"]) * k, ext_time=_cnbc_time(ext.get("last_time"))[1], ext_type=ext["type"])
+            out[sym] = e
+    return out
+
+
+def tradingview_quotes(syms):
+    """{yahoo symbol: {last, prev, date, time}} from TradingView's scanner (one POST; the time is the session's start)."""
+    syms = [s for s in syms if s in TV_SYM]
+    if not syms:
+        return {}
+    body = json.dumps({"symbols": {"tickers": [TV_SYM[s] for s in syms], "query": {"types": []}}, "columns": ["close", "change", "time"], "range": [0, 500]}).encode()
+    req = urllib.request.Request("https://scanner.tradingview.com/global/scan", data=body, headers={"User-Agent": UA, "Content-Type": "application/json"})
+    with urllib.request.urlopen(req, timeout=30) as r:
+        rows = json.loads(r.read()).get("data", [])
+    back = {TV_SYM[s]: s for s in syms}
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    out = {}
+    for row in rows:
+        sym, d = back.get(row.get("s")), row.get("d") or []
+        if not sym or len(d) < 3 or d[0] is None:
+            continue
+        close, chg, t = float(d[0]), d[1], d[2]
+        out[sym] = {"last": close, "prev": round(close / (1 + chg / 100), 6) if chg is not None and chg > -100 else None,
+                    # the bar's time is the session's start (FX and futures start the evening before, UTC): seven hours on gives the session date
+                    "date": (datetime.fromtimestamp(t, tz=timezone.utc) + timedelta(hours=7)).strftime("%Y-%m-%d") if t else now[:10], "time": now, "source": "TradingView"}
+    return out
+
+
+def reserve_quotes(syms):
+    """CNBC first, TradingView for what is missing or if CNBC fails; never raises."""
+    out = {}
+    for fn in (cnbc_quotes, tradingview_quotes):
+        want = [s for s in syms if s not in out]
+        if not want:
+            break
+        try:
+            out.update(fn(want))
+        except Exception as e:
+            log(f"  !! reserve source {fn.__name__}: {repr(e)[:120]}")
+    return out
+
+
+def apply_reserve(out, failed, previous):
+    """For instruments Yahoo refused: a reserve print spliced onto the previous run's series. Returns the symbols filled."""
+    want = [s for s in failed if s in previous and len(previous[s].get("dates", [])) >= 20 and (s in CNBC_SYM or s in TV_SYM)]
+    if not want:
+        return []
+    q = reserve_quotes(want)
+    by_sym = {i["symbol"]: i for i in instruments()}
+    filled = []
+    for sym in want:
+        e, pv = q.get(sym), previous[sym]
+        if not e or not e.get("date"):
+            continue
+        dates, vals = list(pv["dates"]), list(pv["values"])
+        x = e["last"]
+        if not (vals[-1] / 3 < x < vals[-1] * 3):      # a different basis or contract: keep the previous data
+            log(f"  reserve {sym}: {x} rejected against {vals[-1]}")
+            continue
+        if e["date"] == dates[-1]:
+            vals[-1] = x
+        elif e["date"] > dates[-1]:
+            dates.append(e["date"]); vals.append(x)
+        else:
+            continue                                       # older than what we have
+        s = {"dates": dates, "values": vals, "last": None, "last_time": None}
+        ins = by_sym.get(sym) or {k: pv.get(k) for k in ("group", "name_en", "name_no", "kind", "decimals")}
+        out[sym] = {**{k: ins[k] for k in ("group", "name_en", "name_no", "kind", "decimals")}, "currency": pv.get("currency"), "last_time": e.get("time"),
+                    "dates": dates[-260:], "values": vals[-260:], **stats(s, ins["kind"]), "source": e["source"]}
+        filled.append(sym)
+    if filled:
+        log(f"reserve: {len(filled)} instrument(s) from " + ", ".join(sorted({out[s]['source'] for s in filled})) + " (" + ", ".join(filled) + ")")
+    return filled
+
+
+def fetch_yahoo_spark(previous):
+    """Intraday runs: every instrument from Yahoo's spark endpoint, twenty symbols a request and five days of closes
+    spliced onto the history kept from the previous run (the morning run fetched the full year). The last close of an
+    open market is its live print, as in the chart endpoint."""
+    ins, out, failed = instruments(), {}, []
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    for ci in range(0, len(ins), 20):
+        chunk = ins[ci:ci + 20]
+        try:
+            raw = cached(f"yahoo_spark_ins_{ci // 20}.json", 0.2, lambda chunk=chunk: yahoo_get("https://query1.finance.yahoo.com/v8/finance/spark?symbols="
+                         + ",".join(urllib.request.quote(i["symbol"]) for i in chunk) + "&range=5d&interval=1d"))
+            sp = json.loads(raw)
+        except Exception as e:
+            log(f"  !! yahoo spark chunk {ci // 20}: {repr(e)[:100]}")
+            sp = {}
+        for i in chunk:
+            sym = i["symbol"]; pv = previous.get(sym)
+            r = sp.get(sym) or {}
+            pts = [(datetime.fromtimestamp(t, tz=timezone.utc).strftime("%Y-%m-%d"), round(float(c), 6)) for t, c in zip(r.get("timestamp") or [], r.get("close") or []) if c is not None]
+            if pts and (r.get("close") or [None])[-1] is None:
+                # spark leaves the latest bar empty for some markets after their close (the Asian indices): the chart endpoint has it
+                try:
+                    c = yahoo_chart(sym, "5d")
+                    pts = list(zip(c["dates"], c["values"]))
+                    if c.get("last") is not None and c.get("last_time") and c["last_time"][:10] > pts[-1][0]:
+                        pts.append((c["last_time"][:10], round(float(c["last"]), 6)))
+                except Exception as e:
+                    log(f"  {sym}: spark bar empty and chart failed ({repr(e)[:60]})")
+            if not pts or not pv or len(pv.get("dates", [])) < 20:
+                failed.append(sym)
+                if pv:
+                    out[sym] = pv
+                continue
+            keep = [(d, v) for d, v in zip(pv["dates"], pv["values"]) if d < pts[0][0]]
+            dates, vals = [d for d, _ in keep] + [d for d, _ in pts], [v for _, v in keep] + [v for _, v in pts]
+            while len(vals) > 1 and not (vals[-2] / 3 < vals[-1] < vals[-2] * 3):
+                dates.pop(); vals.pop()
+            s = {"dates": dates, "values": vals, "last": None, "last_time": None}
+            unchanged = pv.get("values") and pv["values"][-1] == vals[-1] and pv.get("dates", [None])[-1] == dates[-1]
+            out[sym] = {**{k: i[k] for k in ("group", "name_en", "name_no", "kind", "decimals")}, "currency": pv.get("currency"),
+                        "last_time": pv.get("last_time") if unchanged else now, "dates": dates[-260:], "values": vals[-260:], **stats(s, i["kind"])}
+    log(f"yahoo spark: {len(out) - len(failed)} fetched, {len(failed)} failed{' (' + ', '.join(failed) + ')' if failed else ''}")
     return out, failed
 
 
@@ -855,9 +1054,10 @@ CROSSES = {"NZDNOK=X": ("NZDUSD=X", "USDNOK=X")}
 def derive_crosses(yahoo):
     for sym, (a, b) in CROSSES.items():
         cur = yahoo.get(sym)
-        if cur and len(cur.get("dates", [])) >= 10:
-            continue
         x, y = yahoo.get(a), yahoo.get(b)
+        fresher = x and y and (cur or {}).get("last_date") and min(x.get("last_date") or "", y.get("last_date") or "") > cur["last_date"]
+        if cur and len(cur.get("dates", [])) >= 10 and not fresher:
+            continue
         if not x or not y:
             continue
         ya = dict(zip(y["dates"], y["values"]))
@@ -923,9 +1123,14 @@ def fetch_us_session():
     themselves have none. The index futures trade almost round the clock and carry the overnight move. Read by the
     US-open and US-close intraday runs (INTRADAY.md) and shown on the Intraday report page."""
     stamp = lambda t: datetime.fromtimestamp(t, tz=timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
-    etf = {}
+    etf, need = {}, []
     for sym, en, no in US_SESSION:
-        raw = cached(f"yahoo_pp_{sym}.json", 0.2, lambda sym=sym: yahoo_get(f"https://query1.finance.yahoo.com/v8/finance/chart/{sym}?range=1d&interval=5m&includePrePost=true"))
+        try:
+            raw = cached(f"yahoo_pp_{sym}.json", 0.2, lambda sym=sym: yahoo_get(f"https://query1.finance.yahoo.com/v8/finance/chart/{sym}?range=1d&interval=5m&includePrePost=true"))
+        except Exception as e:
+            log(f"  {sym}: {repr(e)[:80]}")
+            need.append((sym, en, no))
+            continue
         res = json.loads(raw)["chart"]["result"][0]
         meta, ts = res["meta"], res.get("timestamp") or []
         closes = (res.get("indicators", {}).get("quote") or [{}])[0].get("close") or []
@@ -945,15 +1150,40 @@ def fetch_us_session():
             ref = close if (close_t and r0 and close_t < r0) else prev
             e.update(pre=round(float(pre[-1][1]), 4), pre_time=stamp(pre[-1][0]), pre_chg=pct(pre[-1][1], ref))
         etf[sym] = e
-    fut = {}
+    sources = {"Yahoo Finance"} if etf else set()
+    if need:
+        # Yahoo refused: the regular close and the extended-hours print from CNBC (TradingView has no extended hours)
+        q = reserve_quotes([s for s, _, _ in need])
+        for sym, en, no in need:
+            r = q.get(sym)
+            if not r or r.get("source") != "CNBC":
+                continue
+            e = {"name_en": en, "name_no": no, "close": r["last"], "close_time": r.get("time"), "prev_close": r.get("prev"),
+                 "d1": pct(r["last"], r.get("prev")) if r.get("prev") != r["last"] else None,     # before the open CNBC's last is the previous close
+                 "session_date": r.get("date"), "source": "CNBC"}
+            if r.get("ext_type") == "POST_MKT":
+                e.update(post=r["ext"], post_time=r.get("ext_time"), post_chg=pct(r["ext"], r["last"]))
+            elif r.get("ext_type") == "PRE_MKT":
+                e.update(pre=r["ext"], pre_time=r.get("ext_time"), pre_chg=pct(r["ext"], r["last"]))
+            etf[sym] = e; sources.add("CNBC")
+    fut, need = {}, []
     for sym, en, no in US_FUTURES:
         try:
             s = yahoo_chart(sym, "5d")
             fut[sym] = {"name_en": en, "name_no": no, "last": s["last"], "last_time": s["last_time"], "prev_close": s["prev_close"], "d1": pct(s["last"], s["prev_close"])}
         except Exception as e:
             log(f"  {sym}: {repr(e)[:80]}")
+            need.append((sym, en, no))
+    if need:
+        q = reserve_quotes([s for s, _, _ in need])
+        for sym, en, no in need:
+            r = q.get(sym)
+            if r:
+                fut[sym] = {"name_en": en, "name_no": no, "last": r["last"], "last_time": r.get("time"), "prev_close": r.get("prev"), "d1": pct(r["last"], r.get("prev")), "source": r["source"]}
+                sources.add(r["source"])
     return {"etf": etf, "futures": fut, "fetched": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
-            "source": "Yahoo Finance chart API with includePrePost; the ETFs stand in for the indices, which have no pre- or post-market prints"}
+            "source": ", ".join(sorted(sources)) + "; the ETFs stand in for the indices, which have no pre- or post-market prints"
+                      + ("; reserve prints are delayed up to 15 minutes" if sources - {"Yahoo Finance"} else "")}
 
 
 def main():
@@ -975,21 +1205,39 @@ def main():
         log(f"wrote data/data.json from the previous run ({prev.get('asof')}), nothing refreshed")
         return 0
     kept = []
-    log("1. Yahoo")
-    yahoo, failed = fetch_yahoo(prev.get("yahoo", {}))
+    intraday = INTRADAY and len(prev.get("yahoo", {})) >= 20
+    if INTRADAY and not intraday:
+        log("!! --intraday needs the previous run's data; running the full fetch")
+    log("1. Yahoo" + (" (intraday: spark, five days per instrument)" if intraday else ""))
+    yahoo, failed = fetch_yahoo_spark(prev["yahoo"]) if intraday else fetch_yahoo(prev.get("yahoo", {}))
     now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    reserve = apply_reserve(yahoo, failed, prev.get("yahoo", {})) if failed else []
+    failed = [s for s in failed if s not in reserve]
+    prev_asof = prev.get("yahoo_asof") or prev.get("asof")
     yahoo_asof = now
-    if len(failed) > 8 and prev.get("asof"):
-        # most of Yahoo refused: the prices are the previous run's, dated as such for the brief
-        yahoo_asof = prev.get("yahoo_asof") or prev["asof"]
-        kept.append(f"yahoo: {len(failed)} of {len(yahoo)} instruments kept from the previous run ({yahoo_asof}; Yahoo rate-limited)")
+    if len(failed) > len(yahoo) / 2 and prev_asof:
+        yahoo_asof = prev_asof     # most prices are the previous run's: dated as such for the brief
+    if reserve:
+        kept.append(f"yahoo: {len(reserve)} instrument(s) from the reserve source(s) {', '.join(sorted({yahoo[s]['source'] for s in reserve}))} (Yahoo refused; delayed up to 15 minutes, as of {now})")
+    if failed:
+        kept.append(f"yahoo: {len(failed)} instrument(s) kept from the previous run ({prev_asof}): {', '.join(failed[:15])}{', …' if len(failed) > 15 else ''}")
+    status = {"fetched": len(yahoo) - len(failed) - len(reserve), "reserve": len(reserve), "reserve_sources": sorted({yahoo[s]["source"] for s in reserve}),
+              "reserve_symbols": reserve, "kept": len(failed), "kept_symbols": failed, "prev_asof": prev_asof, "mode": "intraday" if intraday else "full"}
+    if intraday:
+        log("1b. Dated Brent and UK gas: as the morning run left them")
+        for k, v in prev["yahoo"].items():
+            if k not in yahoo and k not in CROSSES:
+                yahoo[k] = v
     else:
-        kept += [f"yahoo:{s}" for s in failed if s in yahoo]
-    log("1b. Dated Brent and UK gas")
-    fetch_extra_commodities(yahoo, prev.get("yahoo", {}))
+        log("1b. Dated Brent and UK gas")
+        fetch_extra_commodities(yahoo, prev.get("yahoo", {}))
     derive_crosses(yahoo)
     blocks = {}
+    daily = ("fred", "ecb", "nb", "ssb", "bis", "macro", "fedfunds", "gov", "curves", "eer", "mpr")
     for name, fn in (("fred", fetch_fred), ("ecb", fetch_ecb), ("nb", fetch_nb), ("ssb", fetch_ssb), ("bis", fetch_bis), ("macro", fetch_macro), ("fedfunds", fetch_fedfunds), ("gov", fetch_gov), ("curves", fetch_curves), ("eer", fetch_eer), ("mpr", fetch_mpr), ("us_session", fetch_us_session), ("news", fetch_news), ("heatmap", fetch_heatmap)):
+        if intraday and name in daily:
+            blocks[name] = prev.get(name, {})
+            continue
         log(f"{name}")
         try:
             blocks[name] = fn()
@@ -997,26 +1245,31 @@ def main():
             log(f"  !! {name} failed: {repr(e)[:200]}; keeping the previous data")
             blocks[name] = prev.get(name, {})
             kept.append(name)
-    try:
-        fetch_r12m(blocks)
-    except Exception as e:
-        log(f"  !! r12m failed: {repr(e)[:200]}")
-    try:
-        fetch_pce(blocks)
-    except Exception as e:
-        log(f"  !! pce failed: {repr(e)[:200]}")
-    try:
-        blocks["ppr"] = fetch_ppr(blocks.get("mpr"))
-    except Exception as e:
-        log(f"  !! ppr failed: {repr(e)[:200]}; keeping the previous data")
+    if intraday:
         blocks["ppr"] = prev.get("ppr", {})
-        kept.append("ppr")
+        kept.append(f"daily blocks (FRED, ECB, Norges Bank, SSB, BIS, macro, fed funds, government curves, MPR) as the morning run left them ({prev.get('asof')}); intraday run")
+        log("daily blocks: as the morning run left them")
+    else:
+        try:
+            fetch_r12m(blocks)
+        except Exception as e:
+            log(f"  !! r12m failed: {repr(e)[:200]}")
+        try:
+            fetch_pce(blocks)
+        except Exception as e:
+            log(f"  !! pce failed: {repr(e)[:200]}")
+        try:
+            blocks["ppr"] = fetch_ppr(blocks.get("mpr"))
+        except Exception as e:
+            log(f"  !! ppr failed: {repr(e)[:200]}; keeping the previous data")
+            blocks["ppr"] = prev.get("ppr", {})
+            kept.append("ppr")
     try:
         blocks["derived"] = derive(blocks)
     except Exception as e:
         log(f"  !! derived failed: {repr(e)[:200]}")
         blocks["derived"] = prev.get("derived", {})
-    data = {"asof": now, "yahoo_asof": yahoo_asof, "yahoo": yahoo, **blocks,
+    data = {"asof": now, "yahoo_asof": yahoo_asof, "yahoo_status": status, "yahoo": yahoo, **blocks,
             "policy_rates": read_csv("policy_rates.csv"), "events": read_csv("events.csv"), "cpi_consensus": read_csv("cpi_consensus.csv"), "cb_minutes": read_json("cb_minutes.json", {}), "kept_from_previous": kept}
     (DATA / "data.json").write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     log(f"wrote data/data.json ({(DATA / 'data.json').stat().st_size // 1024} kB); kept from previous: {kept or 'none'}")
