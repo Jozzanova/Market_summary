@@ -8,20 +8,20 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.35.3/plotly.min.js"></script>
 <style>
 :root {
-  --bg: #F5F2EB; --card: #ffffff; --card2: #FAF8F3; --fg: #001538; --muted: #35445F; --line: #E8EAED; --line2: #F0F1F3;
-  --accent: #0026FF; --accent-soft: rgba(0,38,255,.09); --warn: #D65218; --ok: #00755F; --bad: #AE1F26;
+  --bg: #F5F2EB; --card: #FFFFFF; --card2: #F5F2EB; --fg: #001538; --muted: #35445F; --line: #E8EAED; --line2: #E8EAED;
+  --accent: #0026FF; --accent-soft: rgba(0,38,255,.09); --warn: #EF954A; --ok: #00755F; --bad: #AE1F26;
   --grid: #E8EAED; --axis: #BFC3C9; --shadow: 0 1px 2px rgba(0,21,56,.06);
-  --s1: #0026FF; --s2: #D65218; --s3: #3DD173; --s4: #884DF7; --s5: #EF954A; --s6: #0093B5; --s7: #AE1F26; --s8: #EE7ED9;
+  --s1: #0026FF; --s2: #D65218; --s3: #00755F; --s4: #884DF7; --s5: #0A5877; --s6: #EF954A; --s7: #3DD173; --s8: #EE7ED9;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --bg: #001538; --card: #0D2550; --card2: #132D5C; --fg: #F5F2EB; --muted: #BFC3C9; --line: #35445F; --line2: #2A3A58;
-  --accent: #3E9DFF; --accent-soft: rgba(62,157,255,.16); --warn: #EF954A; --ok: #3DD173; --bad: #FF7A85; --grid: #2A3A58; --axis: #BFC3C9; --shadow: none;
-  --s1: #3E9DFF; --s2: #FF8A5B; --s3: #3DD173; --s4: #B48CFF; --s5: #FFC56E; --s6: #45C4E0; --s7: #FF7A85; --s8: #F3A2E6;
+  --bg: #001538; --card: #142747; --card2: #1A2C4B; --fg: #FFFFFF; --muted: #BFC3C9; --line: #35445F; --line2: #2E3D5A;
+  --accent: #3E9DFF; --accent-soft: rgba(62,157,255,.16); --warn: #EF954A; --ok: #3DD173; --bad: #FF7A85; --grid: #2E3D5A; --axis: #BFC3C9; --shadow: none;
+  --s1: #3E9DFF; --s2: #FCC083; --s3: #3DD173; --s4: #AF9DFF; --s5: #4EC2E2; --s6: #D65218; --s7: #EE7ED9; --s8: #BFC3C9;
 } }
 :root[data-theme="dark"] {
-  --bg: #001538; --card: #0D2550; --card2: #132D5C; --fg: #F5F2EB; --muted: #BFC3C9; --line: #35445F; --line2: #2A3A58;
-  --accent: #3E9DFF; --accent-soft: rgba(62,157,255,.16); --warn: #EF954A; --ok: #3DD173; --bad: #FF7A85; --grid: #2A3A58; --axis: #BFC3C9; --shadow: none;
-  --s1: #3E9DFF; --s2: #FF8A5B; --s3: #3DD173; --s4: #B48CFF; --s5: #FFC56E; --s6: #45C4E0; --s7: #FF7A85; --s8: #F3A2E6;
+  --bg: #001538; --card: #142747; --card2: #1A2C4B; --fg: #FFFFFF; --muted: #BFC3C9; --line: #35445F; --line2: #2E3D5A;
+  --accent: #3E9DFF; --accent-soft: rgba(62,157,255,.16); --warn: #EF954A; --ok: #3DD173; --bad: #FF7A85; --grid: #2E3D5A; --axis: #BFC3C9; --shadow: none;
+  --s1: #3E9DFF; --s2: #FCC083; --s3: #3DD173; --s4: #AF9DFF; --s5: #4EC2E2; --s6: #D65218; --s7: #EE7ED9; --s8: #BFC3C9;
 }
 * { box-sizing: border-box; }
 html { scroll-padding-top: 120px; }
@@ -742,8 +742,8 @@ function snapRows() {
     rows: SNAP_GROUPS.flatMap(([g, syms]) => { const rs = syms.map(s => [s, bySym(s)]).filter(([, v]) => v && v.last != null); return rs.length ? [{section: t(g)}, ...rs.map(([s, v]) => [shortName(s, v), fmt(v.last, +v.decimals), chgText(v.d1, v.unit), chgText(v.w1, v.unit), chgText(v.ytd, v.unit), MPR.last ? chgText(chgSince(v, MPR.last), v.unit) : "–", fmtDate(v.last_date)])] : []; })};
 }
 function snapshot() {
-  const rows = SNAP_GROUPS.flatMap(([g, syms]) => { const rs = syms.map(s => [s, bySym(s)]).filter(([, v]) => v && v.last != null); return rs.length ? [`<tr class="sect"><td colspan="7">${t(g)}</td></tr>`, ...rs.map(([s, v]) => `<tr><td>${esc(shortName(s, v))}</td><td class="num">${fmt(v.last, +v.decimals)}</td><td class="num">${chg(v.d1, v.unit)}</td><td class="num">${chg(v.w1, v.unit)}</td><td class="num">${chg(v.ytd, v.unit)}</td><td class="num">${MPR.last ? chg(chgSince(v, MPR.last), v.unit) : '<span class="muted">–</span>'}</td><td class="num muted small" title="${esc(fmtDate(v.last_date))}">${fmtDateShort(v.last_date)}</td></tr>`)] : []; });
-  return `<table><thead><tr><th></th><th class="num">${t("last")}</th><th class="num">${t("d1")}</th><th class="num">${t("w1")}</th><th class="num">${t("ytd")}</th><th class="num" title="${esc(t("mpr_hint"))}">${t("since_mpr")}${MPR.last ? `<br><span style="font-weight:400;letter-spacing:0">${fmtDateShort(MPR.last)}</span>` : ""}</th><th class="num">${t("date")}</th></tr></thead><tbody>${rows.join("")}</tbody></table>`;
+  const rows = SNAP_GROUPS.flatMap(([g, syms]) => { const rs = syms.map(s => [s, bySym(s)]).filter(([, v]) => v && v.last != null); return rs.length ? [`<tr class="sect"><td colspan="6">${t(g)}</td></tr>`, ...rs.map(([s, v]) => `<tr><td>${esc(shortName(s, v))}</td><td class="num">${fmt(v.last, +v.decimals)}</td><td class="num">${chg(v.d1, v.unit)}</td><td class="num">${chg(v.ytd, v.unit)}</td><td class="num">${MPR.last ? chg(chgSince(v, MPR.last), v.unit) : '<span class="muted">–</span>'}</td><td class="num muted small" title="${esc(fmtDate(v.last_date))}">${fmtDateShort(v.last_date)}</td></tr>`)] : []; });
+  return `<table><thead><tr><th></th><th class="num">${t("last")}</th><th class="num">${t("d1")}</th><th class="num">${t("ytd")}</th><th class="num" title="${esc(t("mpr_hint"))}">${t("since_mpr")}${MPR.last ? `<br><span style="font-weight:400;letter-spacing:0">${fmtDateShort(MPR.last)}</span>` : ""}</th><th class="num">${t("date")}</th></tr></thead><tbody>${rows.join("")}</tbody></table>`;
 }
 function drawLetters() {
   $$("#kindSeg button").forEach(b => b.classList.toggle("on", b.dataset.v === KIND));
@@ -1461,7 +1461,7 @@ const PDF_FIGS = {
     {t: ["I-44, up = weaker krone (1 year)", "I-44, opp = svakere krone (1 år)"], syms: ["nok_i44"], range: "1y", mode: "level"},
     {t: ["Rate differential NOK − EUR, percentage points (1 year)", "Rentedifferanse NOK − EUR, prosentenheter (1 år)"], syms: ["diff_nok_eur_policy", "diff_nok_eur_12m", "diff_nok_eur_10y"], range: "1y", mode: "level"}]};
 // print palette: midnight, steel blue, light steel blue, muted teal, ochre, grey
-const PDF_PAL = ["#001538", "#4682B4", "#7FA7D3", "#4F9A94", "#B8905A", "#8A94A6"];
+const PDF_PAL = ["#001538", "#0026FF", "#D65218", "#0A5877", "#00755F", "#884DF7", "#BFC3C9"];      // Norges Bank "Grafer" palette
 const PDF_SHORT = {cb_US: ["Fed", "Fed"], cb_XM: ["ECB", "ESB"], cb_GB: ["BoE", "BoE"], cb_NO: ["Norges Bank", "Norges Bank"], DGS10: ["US 10y", "USA 10 år"], DGS2: ["US 2y", "USA 2 år"], EA_SR_10Y: ["Euro AAA 10y", "Euro AAA 10 år"],
   nok_policy: ["Policy rate", "Styringsrente"], nok_3m: ["Norway 3m", "Norge 3 md."], nok_12m: ["Norway 12m", "Norge 12 md."], nok_3y: ["Norway 3y", "Norge 3 år"], nok_10y: ["Norway 10y", "Norge 10 år"], nok_i44: ["I-44", "I-44"], cpi_12m: ["CPI", "KPI"], cpiate_12m: ["CPI-ATE", "KPI-JAE"],
   T10YIE: ["Breakeven", "Breakeven"], DFII10: ["Real yield", "Realrente"], "TTF=F": ["TTF", "TTF"], "DX-Y.NYB": ["DXY", "DXY"], BAMLH0A0HYM2: ["HY spread", "HY-påslag"], "^SOX": ["SOX", "SOX"], "^N225": ["Nikkei", "Nikkei"], "^KS11": ["KOSPI", "KOSPI"], "^HSI": ["Hang Seng", "Hang Seng"],
@@ -1504,10 +1504,10 @@ async function pdfChart(syms, range, mode, w, h, dec = 2, names) {
     if (range === "1m") { for (let d = new Date(x0 + "T00:00:00Z"); d.toISOString().slice(0, 10) <= x1; d.setUTCDate(d.getUTCDate() + 1)) if (d.getUTCDay() === 1) { tickvals.push(d.toISOString().slice(0, 10)); ticktext.push(no ? `${d.getUTCDate()}. ${MON[d.getUTCMonth()]}` : `${d.getUTCDate()} ${MON[d.getUTCMonth()]}`); } }
     else { const months = []; for (let d = new Date(x0.slice(0, 7) + "-01T00:00:00Z"); d.toISOString().slice(0, 10) <= x1; d.setUTCMonth(d.getUTCMonth() + 1)) if (d.toISOString().slice(0, 10) >= x0) months.push(new Date(d));
       const step = Math.max(1, Math.ceil(months.length / 5)); months.forEach((d, i) => { if (i % step) return; tickvals.push(d.toISOString().slice(0, 10)); ticktext.push(range === "3m" ? MON[d.getUTCMonth()] : `${MON[d.getUTCMonth()]} ${String(d.getUTCFullYear()).slice(2)}`); }); }
-    const grid = "#E4E7EC", muted = "#6B7383";
+    const grid = "#E8EAED", muted = "#35445F";
     const lay = {width: w, height: h, margin: mar, paper_bgcolor: "#FFFFFF", plot_bgcolor: "#FFFFFF", showlegend: false, annotations: ann, separators: no ? ", " : ".,",
       font: {family: "Helvetica, Arial, sans-serif", size: 7.5, color: "#001538"},
-      xaxis: {showgrid: false, showline: true, linecolor: "#C9CDD4", linewidth: 0.6, ticks: "outside", ticklen: 3, tickwidth: 0.6, tickcolor: "#C9CDD4", zeroline: false, tickfont: {size: 6.5, color: muted}, tickvals, ticktext, range: [x0, x1], tickangle: 0},
+      xaxis: {showgrid: false, showline: true, linecolor: "#BFC3C9", linewidth: 0.6, ticks: "outside", ticklen: 3, tickwidth: 0.6, tickcolor: "#BFC3C9", zeroline: false, tickfont: {size: 6.5, color: muted}, tickvals, ticktext, range: [x0, x1], tickangle: 0},
       yaxis: {gridcolor: grid, gridwidth: 0.5, showline: false, zeroline: false, ticks: "", tickfont: {size: 6.5, color: muted}, nticks: 5},
       ...(dual ? {yaxis2: {overlaying: "y", side: "right", showticklabels: false, gridcolor: "rgba(0,0,0,0)", zeroline: false}} : {})};
     await Plotly.newPlot(el, [...traces, ...marks], lay, {displayModeBar: false, staticPlot: true});
@@ -1530,7 +1530,7 @@ async function renderPdfFigs(m, btn) {
    block by block, page by page, headings kept with the block that follows them. */
 async function pdfDefinition(m) {
   // Norges Bank's palette: midnight for text and headings, accent blue for links and rules, sky and sand as tints
-  const ACC = "#0026FF", INK = "#001538", SKY = "#F5F2EB", SAND = "#F2DABB", GRAY = "#D7D7D7", MUTED = "#5A6478", no = LANG === "no";
+  const ACC = "#0026FF", INK = "#001538", SKY = "#F5F2EB", SAND = "#F4CEA4", GRAY = "#BFC3C9", MUTED = "#35445F", no = LANG === "no";
   const PW = 595.28, PH = 841.89, MX = 56, MY = 64, COLW = 236, GAP = 11, BODY = PH - 2 * MY, FULLW = PW - 2 * MX;
   const runs = rs => rs.map(r => ({text: r.text, bold: !!r.bold, italics: !!r.italic, ...(r.link ? {link: r.link, color: ACC, decoration: "underline"} : {})}));
   const rule = () => ({canvas: [{type: "line", x1: 0, y1: 0, x2: 54, y2: 0, lineWidth: 2.5, lineColor: ACC}], margin: [0, 2, 0, 12]});
@@ -1557,7 +1557,7 @@ async function pdfDefinition(m) {
     if (b.type === "ul" || b.type === "ol") return b.items.map((it, i) => ({[b.type]: [{text: runs(it), style: "p", margin: [0, 0, 0, 0]}], ...(b.type === "ol" ? {start: i + 1} : {}), margin: [0, 0, 0, i === b.items.length - 1 ? 7 : 3]}));
     if (b.type === "table") return tableNode(b, w);
     if (b.type === "fig") return figNode({syms: b.syms, image: b.image, legend: b.legend}, w);
-    if (b.type === "bars") return {stack: [...(b.title ? [{text: b.title, style: "figcap"}] : []), {svg: barsSvg(b.items, {w, row: 11, fs: 6.5, valW: 24, font: "Roboto", pos: "#4682B4", neg: "#B0413E", ink: INK, axis: "#C9CDD4"}), width: w},
+    if (b.type === "bars") return {stack: [...(b.title ? [{text: b.title, style: "figcap"}] : []), {svg: barsSvg(b.items, {w, row: 11, fs: 6.5, valW: 24, font: "Roboto", pos: "#0026FF", neg: "#AE1F26", ink: INK, axis: "#BFC3C9"}), width: w},
       ...(b.source ? [{text: b.source, style: "figsrc"}] : [])], unbreakable: true, margin: [0, 2, 0, 8]};
     if (b.type === "figs") return b.figs.map(f => figNode(f, w)).filter(Boolean);
     return null;
@@ -1658,7 +1658,7 @@ function exportDocx() {
     else if (b.type === "h3") body.push(para(b.runs, "Heading3"));
     else if (b.type === "p") body.push(para(b.runs, null));
     else if (b.type === "quote") body.push(para(b.runs, "Quote"));
-    else if (b.type === "hr") body.push('<w:p><w:pPr><w:pBdr><w:bottom w:val="single" w:sz="4" w:space="1" w:color="C9CDD4"/></w:pBdr></w:pPr></w:p>');
+    else if (b.type === "hr") body.push('<w:p><w:pPr><w:pBdr><w:bottom w:val="single" w:sz="4" w:space="1" w:color="BFC3C9"/></w:pBdr></w:pPr></w:p>');
     else if (b.type === "ul") b.items.forEach(it => body.push(para(it, "ListParagraph", '<w:numPr><w:ilvl w:val="0"/><w:numId w:val="1"/></w:numPr>')));
     else if (b.type === "ol") { const id = ++nums; numDefs.push(id); b.items.forEach(it => body.push(para(it, "ListParagraph", `<w:numPr><w:ilvl w:val="0"/><w:numId w:val="${id}"/></w:numPr>`))); }
     else if (b.type === "table") {
@@ -1669,16 +1669,16 @@ function exportDocx() {
   const W = 'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"';
   const hdr = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
   const docXml = `${hdr}<w:document ${W}><w:body>${body.join("")}<w:sectPr><w:footerReference w:type="default" r:id="rIdFooter"/><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1300" w:right="1300" w:bottom="1200" w:left="1300" w:header="600" w:footer="600" w:gutter="0"/></w:sectPr></w:body></w:document>`;
-  const footer = `${hdr}<w:ftr ${W}><w:p><w:pPr><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:color w:val="5A6478"/><w:sz w:val="16"/></w:rPr><w:t xml:space="preserve">${xe(t("title"))} · ${xe(fmtDateLong(m.date))} · </w:t></w:r><w:r><w:rPr><w:color w:val="5A6478"/><w:sz w:val="16"/></w:rPr><w:fldChar w:fldCharType="begin"/></w:r><w:r><w:rPr><w:color w:val="5A6478"/><w:sz w:val="16"/></w:rPr><w:instrText xml:space="preserve"> PAGE </w:instrText></w:r><w:r><w:fldChar w:fldCharType="separate"/></w:r><w:r><w:rPr><w:color w:val="5A6478"/><w:sz w:val="16"/></w:rPr><w:t>1</w:t></w:r><w:r><w:fldChar w:fldCharType="end"/></w:r></w:p></w:ftr>`;
+  const footer = `${hdr}<w:ftr ${W}><w:p><w:pPr><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:color w:val="35445F"/><w:sz w:val="16"/></w:rPr><w:t xml:space="preserve">${xe(t("title"))} · ${xe(fmtDateLong(m.date))} · </w:t></w:r><w:r><w:rPr><w:color w:val="35445F"/><w:sz w:val="16"/></w:rPr><w:fldChar w:fldCharType="begin"/></w:r><w:r><w:rPr><w:color w:val="35445F"/><w:sz w:val="16"/></w:rPr><w:instrText xml:space="preserve"> PAGE </w:instrText></w:r><w:r><w:fldChar w:fldCharType="separate"/></w:r><w:r><w:rPr><w:color w:val="35445F"/><w:sz w:val="16"/></w:rPr><w:t>1</w:t></w:r><w:r><w:fldChar w:fldCharType="end"/></w:r></w:p></w:ftr>`;
   const styles = `${hdr}<w:styles ${W}><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:eastAsia="Calibri" w:cs="Calibri"/><w:sz w:val="22"/><w:szCs w:val="22"/><w:lang w:val="${LANG === "no" ? "nb-NO" : "en-GB"}"/><w:color w:val="001538"/></w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:after="140" w:line="276" w:lineRule="auto"/></w:pPr></w:pPrDefault></w:docDefaults>
 <w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/><w:qFormat/></w:style>
 <w:style w:type="paragraph" w:styleId="Title"><w:name w:val="Title"/><w:basedOn w:val="Normal"/><w:qFormat/><w:pPr><w:spacing w:after="60"/></w:pPr><w:rPr><w:b/><w:color w:val="0026FF"/><w:sz w:val="48"/></w:rPr></w:style>
-<w:style w:type="paragraph" w:styleId="Meta"><w:name w:val="Meta"/><w:basedOn w:val="Normal"/><w:pPr><w:spacing w:after="320"/></w:pPr><w:rPr><w:color w:val="5A6478"/><w:sz w:val="18"/></w:rPr></w:style>
+<w:style w:type="paragraph" w:styleId="Meta"><w:name w:val="Meta"/><w:basedOn w:val="Normal"/><w:pPr><w:spacing w:after="320"/></w:pPr><w:rPr><w:color w:val="35445F"/><w:sz w:val="18"/></w:rPr></w:style>
 <w:style w:type="paragraph" w:styleId="Heading1"><w:name w:val="heading 1"/><w:basedOn w:val="Normal"/><w:qFormat/><w:pPr><w:keepNext/><w:spacing w:before="120" w:after="160"/><w:outlineLvl w:val="0"/></w:pPr><w:rPr><w:b/><w:color w:val="0026FF"/><w:sz w:val="34"/></w:rPr></w:style>
 <w:style w:type="paragraph" w:styleId="Heading2"><w:name w:val="heading 2"/><w:basedOn w:val="Normal"/><w:qFormat/><w:pPr><w:keepNext/><w:spacing w:before="280" w:after="100"/><w:outlineLvl w:val="1"/></w:pPr><w:rPr><w:b/><w:color w:val="001538"/><w:sz w:val="26"/></w:rPr></w:style>
 <w:style w:type="paragraph" w:styleId="Heading3"><w:name w:val="heading 3"/><w:basedOn w:val="Normal"/><w:qFormat/><w:pPr><w:keepNext/><w:spacing w:before="200" w:after="60"/><w:outlineLvl w:val="2"/></w:pPr><w:rPr><w:b/><w:sz w:val="23"/></w:rPr></w:style>
 <w:style w:type="paragraph" w:styleId="ListParagraph"><w:name w:val="List Paragraph"/><w:basedOn w:val="Normal"/><w:pPr><w:spacing w:after="80"/><w:ind w:left="720"/><w:contextualSpacing/></w:pPr></w:style>
-<w:style w:type="paragraph" w:styleId="Quote"><w:name w:val="Quote"/><w:basedOn w:val="Normal"/><w:pPr><w:ind w:left="567"/><w:pBdr><w:left w:val="single" w:sz="12" w:space="8" w:color="0026FF"/></w:pBdr></w:pPr><w:rPr><w:i/><w:color w:val="5A6478"/></w:rPr></w:style>
+<w:style w:type="paragraph" w:styleId="Quote"><w:name w:val="Quote"/><w:basedOn w:val="Normal"/><w:pPr><w:ind w:left="567"/><w:pBdr><w:left w:val="single" w:sz="12" w:space="8" w:color="0026FF"/></w:pBdr></w:pPr><w:rPr><w:i/><w:color w:val="35445F"/></w:rPr></w:style>
 <w:style w:type="character" w:styleId="Hyperlink"><w:name w:val="Hyperlink"/><w:rPr><w:color w:val="0026FF"/><w:u w:val="single"/></w:rPr></w:style>
 <w:style w:type="table" w:styleId="TableGrid"><w:name w:val="Table Grid"/><w:tblPr><w:tblBorders><w:top w:val="single" w:sz="6" w:color="9AA3B2"/><w:bottom w:val="single" w:sz="6" w:color="9AA3B2"/><w:insideH w:val="single" w:sz="4" w:color="D9DDE3"/></w:tblBorders><w:tblCellMar><w:left w:w="80" w:type="dxa"/><w:right w:w="80" w:type="dxa"/></w:tblCellMar></w:tblPr></w:style></w:styles>`;
   const numbering = `${hdr}<w:numbering ${W}><w:abstractNum w:abstractNumId="0"><w:multiLevelType w:val="hybridMultilevel"/><w:lvl w:ilvl="0"><w:start w:val="1"/><w:numFmt w:val="bullet"/><w:lvlText w:val="•"/><w:lvlJc w:val="left"/><w:pPr><w:ind w:left="720" w:hanging="360"/></w:pPr></w:lvl></w:abstractNum><w:abstractNum w:abstractNumId="1"><w:multiLevelType w:val="hybridMultilevel"/><w:lvl w:ilvl="0"><w:start w:val="1"/><w:numFmt w:val="decimal"/><w:lvlText w:val="%1."/><w:lvlJc w:val="left"/><w:pPr><w:ind w:left="720" w:hanging="360"/></w:pPr></w:lvl></w:abstractNum><w:num w:numId="1"><w:abstractNumId w:val="0"/></w:num>${numDefs.map(id => `<w:num w:numId="${id}"><w:abstractNumId w:val="1"/><w:lvlOverride w:ilvl="0"><w:startOverride w:val="1"/></w:lvlOverride></w:num>`).join("")}</w:numbering>`;
