@@ -223,7 +223,7 @@ details.src > summary::before { content: "▸ "; } details.src[open] > summary::
 <section class="pane" id="pane-letters">
   <div class="tiles" id="tiles-letters"></div>
   <div class="row kinds">
-    <div class="seg" id="kindSeg"><button data-v="highlights" data-i="k_highlights" class="hot">Key points</button><button data-v="markets" data-i="k_markets">Markets</button><button data-v="macro" data-i="k_macro">Macro</button><button data-v="politics" data-i="k_politics">Politics</button><button data-v="intraday" data-i="k_intraday">Intraday</button></div>
+    <div class="seg" id="kindSeg"><button data-v="highlights" data-i="k_highlights" class="hot">Key points</button><button data-v="markets" data-i="k_markets">Markets</button><button data-v="macro" data-i="k_macro">Macro</button><button data-v="politics" data-i="k_politics">Politics</button><button data-v="week" data-i="k_week" id="kindWeek">Week in review</button><button data-v="intraday" data-i="k_intraday">Intraday</button></div>
     <select id="letterDate"></select>
     <a class="btn" id="runBtn" href="https://claude.ai/code/routines/trig_01Dw8S7S3SZDmYF9RygoT5UK" target="_blank" rel="noopener" data-i="run_now" title="Opens the routine page on claude.ai; press Run there to refresh the numbers and rewrite today's reports" style="display:none">Update now</a>
   </div>
@@ -403,7 +403,7 @@ const T = {
   tl_diff12: ["NOK − EUR 12-month, government rates", "NOK − EUR 12 md., statsrenter"], tl_news24: ["headlines, last 24 hours", "overskrifter, siste døgn"], tl_news_all: ["on file in total", "overskrifter i alt"], tl_last24: ["last 24 hours", "siste døgn"],
   tl_al_status: ["status now", "status nå"], tl_al_24: ["alerts, last 24 hours", "varsler, siste døgn"], tl_al_high: ["of which high severity", "hvorav alvorlige"], tl_al_latest: ["latest alert", "siste varsel"], tl_al_check: ["last check", "siste sjekk"],
   tl_none: ["none", "ingen"], t_target: ["target 2 %", "mål 2 %"],
-  k_highlights: ["Key points", "Hovedtrekk"], k_markets: ["Markets", "Markedene"], k_intraday: ["Intraday", "Intradag"], k_macro: ["Macro", "Makro"], k_politics: ["Politics", "Politikk"], run_now: ["Update now", "Oppdater nå"],
+  k_highlights: ["Key points", "Hovedtrekk"], k_markets: ["Markets", "Markedene"], k_intraday: ["Intraday", "Intradag"], k_week: ["Week in review", "Uken som gikk"], k_macro: ["Macro", "Makro"], k_politics: ["Politics", "Politikk"], run_now: ["Update now", "Oppdater nå"],
   snap_title: ["The last 24 hours at a glance", "Det siste døgnet i korte trekk"], fig_title: ["Figures", "Figurer"],
   brent_title: ["Brent oil", "Brent-olje"], brent_s: ["USD per barrel, same period", "USD per fat, samme periode"], last_print: ["latest print", "siste kurs"],
   us_title: ["US trading outside regular hours", "USA utenom ordinær handelstid"], us_s: ["index ETFs before the open and after the close, index futures; Oslo time. Close: change from the previous close; after hours: from today's close; pre-market: from the last close", "indeks-ETF-er før åpning og etter stengetid, indeksfutures; norsk tid. Slutt: endring fra forrige sluttkurs; etter stengetid: fra dagens sluttkurs; før åpning: fra siste sluttkurs"],
@@ -683,7 +683,7 @@ function instrTable(rows, opts = {}) {
 }
 
 /* ---------- letters ---------- */
-const LETTERS = D.letters || {}; const DATES = Object.keys(LETTERS).sort().reverse();
+const LETTERS = D.letters || {}; const DATES = Object.keys(LETTERS).filter(d => LETTERS[d].highlights).sort().reverse();      // days without the key points (the first days on file) are left out
 let LDATE = DATES[0], KIND = (LETTERS[LDATE] || {}).highlights ? "highlights" : "markets";
 $$("#kindSeg button").forEach(b => b.onclick = () => { KIND = b.dataset.v; drawLetters(); });
 // a small horizontal bar chart of named components (a CPI breakdown, contributions to GDP growth): labels left, bars from
@@ -766,6 +766,7 @@ function snapshot() {
   return `<table><thead><tr><th></th><th class="num">${t("last")}</th><th class="num">${t("d1")}</th><th class="num">${t("ytd")}</th><th class="num" title="${esc(t("mpr_hint"))}">${t("since_mpr")}${MPR.last ? `<br><span style="font-weight:400;letter-spacing:0">${fmtDateShort(MPR.last)}</span>` : ""}</th><th class="num">${t("date")}</th></tr></thead><tbody>${rows.join("")}</tbody></table>`;
 }
 function drawLetters() {
+  { const hasWeek = !!((LETTERS[LDATE] || {}).week); $("#kindWeek").style.display = hasWeek ? "" : "none"; if (KIND === "week" && !hasWeek) KIND = "highlights"; }
   $$("#kindSeg button").forEach(b => b.classList.toggle("on", b.dataset.v === KIND));
   const sel = $("#letterDate"); sel.innerHTML = DATES.map(d => `<option value="${d}"${d === LDATE ? " selected" : ""}>${fmtDateLong(d)}</option>`).join("") || `<option>–</option>`;
   sel.onchange = () => { LDATE = sel.value; drawLetters(); };
@@ -1475,7 +1476,7 @@ $("#xlBtn").onclick = () => {
    One document: title and date, the snapshot table, then the markets, macro, politics and Norges Bank letters of the
    selected date in the current language. The letters' Markdown is rendered with md() and the resulting elements are
    walked into a small block model, which feeds pdfmake (loaded on first use) and a hand-written .docx. */
-const DOC_KINDS = ["highlights", "markets", "macro", "politics", "norgesbank"];   // the intraday snapshots stay on the page only
+const DOC_KINDS = ["highlights", "week", "markets", "macro", "politics", "norgesbank"];   // the weekly review exists on Mondays; the intraday snapshots stay on the page only
 function runsOf(node) {
   const out = [];
   const walk = (n, st) => {

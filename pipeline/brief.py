@@ -59,6 +59,8 @@ def table(rows, title):
 def main():
     now = datetime.now(timezone.utc)
     print(f"# Market brief, data as of {D['asof']} (now {now.strftime('%Y-%m-%d %H:%M UTC')})")
+    if now.weekday() == 0:
+        print("Monday: there has been no session since Friday. The 1d column is Friday against Thursday; the 1w column (Friday close against the previous Friday) is the week's change for the weekly review.")
     if D.get("kept_from_previous"):
         print(f"kept from the previous run (source down): {', '.join(D['kept_from_previous'])}")
     y = D["yahoo"]

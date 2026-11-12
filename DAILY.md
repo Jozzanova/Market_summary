@@ -29,6 +29,14 @@ Search the web for what moved markets in the last 24 hours and why: US close, Eu
 morning, government bonds, credit, oil, gas, metals, FX; central bank decisions, speeches, minutes and reports; the macro
 data released yesterday and due today; and the political developments that matter for markets (elections, fiscal policy,
 trade, sanctions, geopolitics). Always cover Norway: Oslo Børs, the krone, what others expect of Norges Bank, Statistics Norway releases.
+
+**Mondays.** There has been no session since Friday, so the "last 24 hours" are Friday's session and the weekend: the
+Friday close in the US and Europe (the brief's 1-day column is Friday against Thursday), the data released on Friday,
+and everything that happened from Friday evening to Monday morning that matters for the open: speeches and interviews
+by central bankers, election results, government decisions, sanctions, geopolitics, company news, Norwegian news (the
+weekend press, NRK, E24, DN), and the Asian session this morning with the futures. Say in the summary paragraph of the
+key points and the markets report that the reports cover Friday and the weekend. On Mondays you also write the weekly
+review (step 4). The Saturday and Sunday runs cover Friday and the day before as usual, and may be short.
 **Register.** Write as a central bank writes: measured, precise, impersonal, without journalistic colour. Separate what
 happened from what it means, and give the reasoning behind every interpretation (the mechanism: oil and the terms of
 trade for the krone, rates and the differential, risk appetite, base effects in the inflation numbers). State uncertainty
@@ -92,13 +100,14 @@ consensus or what to look for), source_url.
   Add what you learn (central bank meetings, CPI, payrolls, GDP, PMIs, Norwegian CPI and Norges Bank dates, elections,
   summits, fiscal deadlines), keep the dates verified, and delete rows older than yesterday.
 
-## 4. Write the five reports, in English and in Norwegian
+## 4. Write the five reports (six on Mondays), in English and in Norwegian
 
 (The intraday snapshots, `intraday-HHMM.en.md` / `intraday-HHMM.no.md`, are written by the separate intraday routine, playbook `INTRADAY.md`; leave any existing intraday files alone.)
 
 Create the folder `data/letters/YYYY-MM-DD/` (today's date, UTC) with ten files: `highlights.en.md`, `highlights.no.md`,
 `markets.en.md`, `markets.no.md`, `macro.en.md`, `macro.no.md`, `politics.en.md`, `politics.no.md`, `norgesbank.en.md`,
-`norgesbank.no.md`. Write the key points last, from the other four, so they agree. The Norwegian versions carry the same facts in
+`norgesbank.no.md`; on Mondays also `week.en.md` and `week.no.md` (the weekly review, below). Write the key points last,
+from the other four, so they agree. The Norwegian versions carry the same facts in
 Norwegian bokmål (not a word-for-word translation; Norwegian number style: comma decimals, space thousands, "prosent").
 In Norwegian, bond moves are written as rate moves: "de lange rentene falt", "tiårsrenten steg 12 basispunkter", never
 "obligasjonene steg i kurs" or "falt i kurs". If the English source says bonds gained or rallied, write that yields fell.
@@ -222,6 +231,21 @@ politics 250-450 words.
   Financial Stability Report). On a day with no new comments or data, say so in one line and summarise the standing
   expectations and the next dates. 250-450 words. The tab shows the policy rate, next decision, CPI and CPI-ATE, the
   10-year yield and EUR/NOK automatically, so the text should interpret rather than list.
+
+- **Week in review** / **Uken som gikk** (`week`, Mondays only; its button appears on the page only on days that have it;
+  in the PDF it follows the key points): the week that ended on Friday, as a whole, for a reader who did not follow it
+  day by day. Heading `# Week in review, week NN (D–D Month YYYY)` / `# Uken som gikk, uke NN (D.–D. måned YYYY)`.
+  A bold summary paragraph: the week's theme in two or three sentences. Then sections with bullets: Equities / Aksjer
+  (the weekly changes of the main indices, the sectors and stocks that set the tone, Oslo Børs); Rates / Renter (the
+  2- and 10-year moves over the week in basis points, the US, euro-area and Norwegian curves, what the pricing of the
+  next Fed, ECB and Norges Bank meetings did); Currencies / Valuta (the dollar, the euro, the krone with EUR/NOK, USD/NOK
+  and the I-44, the 12-month differential in government rates); Commodities / Råvarer (Brent, gas, gold, metals over
+  the week); Data and central banks / Nøkkeltall og sentralbanker (the week's releases against consensus and the
+  decisions, speeches and minutes, in a short table where it reads better); Norway / Norge (the Norwegian week: data,
+  Norges Bank comments by others, the krone); The week ahead / Uken som kommer (the main dates from `data/events.csv`,
+  with what the market expects). The weekly changes are the brief's 1-week column (Friday close against the previous
+  Friday); use them, never a number computed in your head. One `{chart: ... | 1m | indexed}` of the main indices or the
+  krone is welcome. 400-600 words, same register and source rules as the other reports.
 
 ## 5. Build and deploy
 

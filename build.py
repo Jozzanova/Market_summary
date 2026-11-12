@@ -15,7 +15,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-KINDS = ("highlights", "markets", "intraday", "macro", "politics", "norgesbank")
+KINDS = ("highlights", "markets", "intraday", "macro", "politics", "norgesbank", "week")
 
 
 def letters():
@@ -33,7 +33,7 @@ def letters():
                 if hm:
                     p.rename(day / f"intraday-{int(hm.group(1)):02d}{hm.group(2)}.{lang}.md")
         for p in day.glob("*.md"):
-            m = re.fullmatch(r"(highlights|markets|intraday|macro|politics|norgesbank)\.(en|no)\.md", p.name)
+            m = re.fullmatch(r"(highlights|markets|intraday|macro|politics|norgesbank|week)\.(en|no)\.md", p.name)
             if m:
                 entry.setdefault(m.group(1), {})[m.group(2)] = p.read_text(encoding="utf-8")
             # intraday snapshots: intraday-HHMM.<lang>.md (Oslo time), one pair per run, all kept
