@@ -944,13 +944,15 @@ function drawCurves() {
   const back = n => new Date(new Date(asof + "T00:00:00Z").getTime() - n * 86400000).toISOString().slice(0, 10);
   const snaps = asof ? [[asof, t("cv_today")], [back(7), t("cv_week")], [back(30), t("cv_month")], MPR.last && MPR.last < back(30) ? [MPR.last, `${t("cv_mpr")} ${fmtDateShort(MPR.last)}`] : null].filter(Boolean) : [];
   const near = (k, d) => { let x = null; for (let i = 0; i < k.dates.length; i++) { if (k.dates[i] <= d) { if (new Date(d) - new Date(k.dates[i]) <= 7 * 86400000) x = k.values[i]; else x = null; } else break; } return x; };
-  const cols = COLORS();
+  const cols = COLORS(), all = [];
+  for (const c of Object.values(CURVES)) snaps.forEach(([d]) => (c.contracts || []).forEach(k => { const v = near(k, d); if (v != null) all.push(v); }));
+  const pad = all.length ? 0.04 * (Math.max(...all) - Math.min(...all)) : 0, yr = all.length ? [Math.min(...all) - pad, Math.max(...all) + pad] : undefined;
   for (const [root, id] of [["BZ", "#curveBZ"], ["CL", "#curveCL"]]) {
     const el = $(id), c = CURVES[root]; if (!el) continue; if (!c) { el.innerHTML = ""; continue; }
     const tr = [];
     snaps.forEach(([d, label], j) => { const x = [], y = []; (c.contracts || []).forEach(k => { const v = near(k, d); if (v != null) { x.push(k.m + "-01"); y.push(v); } }); if (x.length < 3) return;
       tr.push({x, y, name: label, type: "scatter", mode: "lines+markers", noEnd: true, line: {width: j === 0 ? 2.5 : 1.4, color: cols[j % cols.length], dash: ["solid", "dot", "dash", "dashdot"][j]}, marker: {size: j === 0 ? 5 : 3}, hovertemplate: esc(label) + "<br>%{x|%b %Y}: %{y:.2f} $<extra></extra>"}); });
-    plot(el, tr, {yaxis: {ticksuffix: " $"}, xaxis: {tickformat: "%b %y"}, hovermode: "closest", legend: {y: -0.18}});
+    plot(el, tr, {yaxis: {ticksuffix: " $", range: yr}, xaxis: {tickformat: "%b %y"}, hovermode: "closest", legend: {y: -0.18}});
   }
 }
 function drawFx() {
