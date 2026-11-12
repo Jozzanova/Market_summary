@@ -32,6 +32,7 @@ RULES = [
     ("warn", "no", r"(?i)\bfutures priser\b", "write 'markedsprisingen tilsier'"),
     ("warn", "no", r"(?i)\binnstramming på \d+ basispunkter\b", "a rate rise is 'en heving på … basispunkter'"),
     ("warn", "no", r"\bkontantmarkedet\b", "write 'statsobligasjonsmarkedet'"),
+    ("warn", "no", r"\brullert\w*\b", "'rotate' is 'rotere' (roterte ut av), not 'rullere'"),
     ("warn", "en no", r"\d\s?%(?!\s*\))", "write 'per cent' / 'prosent' in running text"),
 ]
 

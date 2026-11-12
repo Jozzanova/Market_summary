@@ -114,7 +114,7 @@ rise is "en heving"; the bokmål forms "frem", "fremover", "lagt frem", "fremfor
 Market English does not translate word for word; use the Norwegian a central-bank economist would: "firm inflation" is
 "vedvarende høy inflasjon" (never "fast"), "sticky" is "seig" or "treg", "elevated" is "høy", "soft data" is "svake tall",
 "hawkish/dovish" is "haukete/duete", "rally" is "oppgang", "sell-off" is "kursfall", "risk-off" is "flukt til trygge
-plasseringer", "repricing" is "reprising", "front-loaded" is "framskyndet", "the curve steepened" is "kurven ble brattere".
+plasseringer", "repricing" is "reprising", "front-loaded" is "framskyndet", "the curve steepened" is "kurven ble brattere". "Rotated out of / into" is "roterte ut av / inn i" (never "rullerte"); "unwind" is "avvikle" or "reversere".
 Format: Markdown with a `# Title, weekday day month year` heading, where the title is just the name of the piece, never
 "report", "rapport", "letter" or "brev": `Key points` / `Hovedtrekk`, `Markets` / `Markedet`, `Macro` / `Makro`, `Politics` / `Politikk`,
 `Norges Bank` / `Norges Bank` (for example `# Markedet, tirsdag 10. november 2026`); `##` sections, bullets, bold lead-ins, Markdown tables
