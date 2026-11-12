@@ -37,9 +37,19 @@ DATA, RAW = ROOT / "data", ROOT / "rawData"
 RAW.mkdir(exist_ok=True)
 REFRESH = "--refresh" in sys.argv
 UA = "market-summary/0.1 admin@jskjeltorp.workers.dev"
-FRED_SERIES = {"DGS1": "US 1-year", "DGS2": "US 2-year", "DGS10": "US 10-year", "DGS30": "US 30-year", "DFII10": "US 10-year real (TIPS)", "T10YIE": "US 10-year breakeven",
+FRED_SERIES = {"DGS1": "US 1-year", "DGS2": "US 2-year", "DGS5": "US 5-year", "DGS10": "US 10-year", "DGS30": "US 30-year", "DFII10": "US 10-year real (TIPS)", "T10YIE": "US 10-year breakeven",
+               "T5YIFR": "US 5y5y inflation expectation", "SOFR": "SOFR (US overnight)", "NFCI": "Chicago Fed financial conditions (NFCI, weekly)",
                "BAMLC0A0CM": "US IG OAS", "BAMLH0A0HYM2": "US HY OAS", "BAMLHE00EHYIOAS": "Euro HY OAS", "BAMLEMCBPIOAS": "EM corporate OAS"}
-ECB_YC = {"SR_1Y": "Euro area AAA 1-year", "SR_2Y": "Euro area AAA 2-year", "SR_10Y": "Euro area AAA 10-year"}
+FRED_GROUP = {"SOFR": "money", "NFCI": "conditions"}          # the rest: "credit" for the OAS series, "rates" otherwise
+ECB_YC = {"SR_1Y": "Euro area AAA 1-year", "SR_2Y": "Euro area AAA 2-year", "SR_5Y": "Euro area AAA 5-year", "SR_10Y": "Euro area AAA 10-year", "SR_30Y": "Euro area AAA 30-year"}
+ECB_YC_ALL = {"SR_2Y": "Euro area all issuers 2-year", "SR_10Y": "Euro area all issuers 10-year"}      # the ECB's second curve, every euro-area government
+# BIS nominal effective exchange rates, broad basket (64 economies), daily; published with a lag of about a week
+EER_AREAS = {"US": ("US dollar", "Amerikanske dollar"), "XM": ("Euro", "Euro"), "JP": ("Japanese yen", "Japanske yen"), "GB": ("British pound", "Britiske pund"),
+             "CH": ("Swiss franc", "Sveitsiske franc"), "SE": ("Swedish krona", "Svenske kroner"), "DK": ("Danish krone", "Danske kroner"), "CA": ("Canadian dollar", "Canadiske dollar"),
+             "AU": ("Australian dollar", "Australske dollar"), "NZ": ("New Zealand dollar", "New Zealandske dollar"), "NO": ("Norwegian krone", "Norske kroner"), "CN": ("Chinese yuan", "Kinesiske yuan"),
+             "BR": ("Brazilian real", "Brasilianske real"), "IN": ("Indian rupee", "Indiske rupi"), "ID": ("Indonesian rupiah", "Indonesiske rupiah"), "KR": ("Korean won", "Sørkoreanske won"),
+             "MX": ("Mexican peso", "Meksikanske peso"), "ZA": ("South African rand", "Sørafrikanske rand"), "TR": ("Turkish lira", "Tyrkiske lira"), "PL": ("Polish zloty", "Polske zloty")}
+FUT_MONTHS = "FGHJKMNQUVXZ"
 BIS_AREAS = {"US": ("Federal Reserve", "Federal Reserve", "Fed"), "XM": ("ECB", "ESB", "ECB"), "GB": ("Bank of England", "Bank of England", "BoE"),
              "JP": ("Bank of Japan", "Bank of Japan", "BoJ"), "NO": ("Norges Bank", "Norges Bank", "NB"), "SE": ("Riksbank", "Riksbanken", "Riksbank"),
              "CH": ("Swiss National Bank", "Sveitsiske nasjonalbanken", "SNB"), "AU": ("Reserve Bank of Australia", "Reserve Bank of Australia", "RBA"),
@@ -86,9 +96,9 @@ def cached(name, max_age_h, producer):
 # ----------------------------------------------------------------------------------------------------------------------
 # Yahoo
 # ----------------------------------------------------------------------------------------------------------------------
-def yahoo_chart(sym):
+def yahoo_chart(sym, rng="1y"):
     raw = cached(f"yahoo_{sym.replace('^', '_').replace('=', '_').replace('/', '_')}.json", 2,
-                 lambda: get(f"https://query1.finance.yahoo.com/v8/finance/chart/{urllib.request.quote(sym)}?range=1y&interval=1d"))
+                 lambda: get(f"https://query1.finance.yahoo.com/v8/finance/chart/{urllib.request.quote(sym)}?range={rng}&interval=1d"))
     res = json.loads(raw)["chart"]["result"][0]
     meta, ts = res["meta"], res["timestamp"]
     closes = res["indicators"]["quote"][0]["close"]
@@ -141,12 +151,14 @@ def stats(s, kind):
             break
     if kind == "yield":
         ch = lambda base: None if base is None else round(100 * (last - base), 1)   # basis points
+    elif kind == "diff":
+        ch = lambda base: None if base is None else round(last - base, 3)          # units of the index
     else:
         ch = lambda base: pct(last, base)
     hi, lo = max(v[-252:]), min(v[-252:])
     return {"last": last, "last_date": last_date if (s.get("last") is None or s["last_time"][:10] <= last_date) else s["last_time"][:10],
             "prev": prev, "d1": ch(prev), "w1": ch(back(7)), "m1": ch(back(30)), "ytd": ch(ytd_base), "hi52": hi, "lo52": lo,
-            "unit": "bp" if kind == "yield" else "%"}
+            "unit": "bp" if kind == "yield" else "pt" if kind == "diff" else "%"}
 
 
 def instruments():
@@ -206,7 +218,8 @@ def fetch_fred():
         obs = [o for o in tables.get(sid, []) if o[0] >= start]
         if obs:
             s = {"dates": [o[0] for o in obs], "values": [o[1] for o in obs]}
-            out[sid] = {"name_en": label, "group": "credit" if "OAS" in label else "rates", "kind": "yield", "decimals": 2, "dates": s["dates"], "values": s["values"], **stats(s, "yield")}
+            kind = "diff" if sid == "NFCI" else "yield"
+            out[sid] = {"name_en": label, "group": FRED_GROUP.get(sid, "credit" if "OAS" in label else "rates"), "kind": kind, "decimals": 2, "dates": s["dates"], "values": s["values"], **stats(s, kind)}
     log(f"fred: {len(out)} series, latest {max(v['last_date'] for v in out.values()) if out else 'none'}")
     return out
 
@@ -219,7 +232,151 @@ def fetch_ecb():
         obs = sorted((r["TIME_PERIOD"], float(r["OBS_VALUE"])) for r in rows if r.get("OBS_VALUE"))
         s = {"dates": [o[0] for o in obs], "values": [o[1] for o in obs]}
         out["EA_" + key] = {"name_en": label, "group": "rates", "kind": "yield", "decimals": 2, **s, **stats(s, "yield")}
+    for key, label in ECB_YC_ALL.items():
+        raw = cached(f"ecb_all_{key}.csv", 6, lambda key=key: get(f"https://data-api.ecb.europa.eu/service/data/YC/B.U2.EUR.4F.G_N_C.SV_C_YM.{key}?format=csvdata&lastNObservations=280"))
+        rows = list(csv.DictReader(io.StringIO(raw.decode("utf-8", "ignore"))))
+        obs = sorted((r["TIME_PERIOD"], float(r["OBS_VALUE"])) for r in rows if r.get("OBS_VALUE"))
+        s = {"dates": [o[0] for o in obs], "values": [o[1] for o in obs]}
+        out["EA_ALL_" + key.replace("SR_", "")] = {"name_en": label, "group": "rates", "kind": "yield", "decimals": 2, **s, **stats(s, "yield")}
+    raw = cached("ecb_estr.csv", 6, lambda: get("https://data-api.ecb.europa.eu/service/data/EST/B.EU000A2X2A25.WT?format=csvdata&lastNObservations=280"))
+    obs = sorted((r["TIME_PERIOD"], float(r["OBS_VALUE"])) for r in csv.DictReader(io.StringIO(raw.decode("utf-8", "ignore"))) if r.get("OBS_VALUE"))
+    s = {"dates": [o[0] for o in obs], "values": [o[1] for o in obs]}
+    out["ESTR"] = {"name_en": "€STR (euro overnight)", "group": "money", "kind": "yield", "decimals": 3, **s, **stats(s, "yield")}
     log(f"ecb: {len(out)} series, latest {max(v['last_date'] for v in out.values())}")
+    return out
+
+
+def fetch_gov():
+    """Government yields beyond the OECD and FRED: Germany 2, 10 and 30 years (Bundesbank term structure of listed
+    Federal securities), Japan 2, 10 and 30 years (Ministry of Finance JGB file), and SONIA, the sterling overnight rate
+    (Bank of England). Each from its own open daily source."""
+    out = {}
+    start = (datetime.now(timezone.utc) - timedelta(days=400)).strftime("%Y-%m-%d")
+    def put(key, name_en, pts, group="rates", decimals=2):
+        pts = sorted((d, float(v)) for d, v in pts if v is not None and d >= start)
+        if not pts:
+            raise ValueError("no observations")
+        s = {"dates": [q[0] for q in pts], "values": [round(q[1], 4) for q in pts]}
+        out[key] = {"name_en": name_en, "group": group, "kind": "yield", "decimals": decimals, **s, **stats(s, "yield")}
+    for code, key, name in (("R02XX", "DE_2Y", "Germany 2-year"), ("R10XX", "DE_10Y", "Germany 10-year"), ("R30XX", "DE_30Y", "Germany 30-year")):
+        try:
+            raw = cached(f"bbk_{code}.csv", 6, lambda code=code: get(f"https://api.statistiken.bundesbank.de/rest/data/BBSIS/D.I.ZST.ZI.EUR.S1311.B.A604.{code}.R.A.A._Z._Z.A?format=csv&startPeriod={start}"))
+            pts = []
+            for line in raw.decode("utf-8-sig", "ignore").splitlines():
+                f = line.split(";")
+                if len(f) >= 2 and len(f[0]) == 10 and f[0][4] == "-" and f[1] not in ("", "."):
+                    pts.append((f[0], f[1].replace(",", ".")))
+            put(key, name, pts)
+        except Exception as e:
+            log(f"  gov {key}: {repr(e)[:120]}")
+    try:
+        raw = cached("mof_jgb.csv", 6, lambda: get("https://www.mof.go.jp/english/policy/jgbs/reference/interest_rate/historical/jgbcme_all.csv", timeout=90))
+        cur = cached("mof_jgb_month.csv", 6, lambda: get("https://www.mof.go.jp/english/policy/jgbs/reference/interest_rate/jgbcme.csv", timeout=60))
+        cols = {"JP_2Y": ("2Y", "Japan 2-year"), "JP_10Y": ("10Y", "Japan 10-year"), "JP_30Y": ("30Y", "Japan 30-year")}
+        pts = {k: [] for k in cols}
+        for r in csv.reader(io.StringIO(raw.decode("utf-8", "ignore") + chr(10) + cur.decode("utf-8", "ignore"))):
+            if r and r[0] == "Date":
+                idx = {k: r.index(c) for k, (c, _) in cols.items() if c in r}
+                continue
+            if len(r) > 1 and r[0].count("/") == 2:
+                y, m, d = r[0].split("/")
+                for k, j in idx.items():
+                    if len(r) > j and r[j] not in ("", "-"):
+                        pts[k].append((f"{y}-{int(m):02d}-{int(d):02d}", r[j]))
+        for k, (_, name) in cols.items():
+            put(k, name, pts[k], decimals=3)
+    except Exception as e:
+        log(f"  gov JP: {repr(e)[:120]}")
+    try:
+        raw = cached("boe_sonia.csv", 6, lambda: get("https://www.bankofengland.co.uk/boeapps/database/_iadb-fromshowcolumns.asp?csv.x=yes&Datefrom=01/Jan/2025&Dateto=now&SeriesCodes=IUDSOIA&CSVF=TN&UsingCodes=Y&VPD=Y&VFD=N", timeout=60))
+        pts = []
+        for r in csv.reader(io.StringIO(raw.decode("utf-8", "ignore"))):
+            if len(r) >= 2 and r[0] != "DATE":
+                try:
+                    pts.append((datetime.strptime(r[0], "%d %b %Y").strftime("%Y-%m-%d"), r[1]))
+                except ValueError:
+                    pass
+        put("SONIA", "SONIA (sterling overnight)", pts, group="money", decimals=3)
+    except Exception as e:
+        log(f"  gov SONIA: {repr(e)[:120]}")
+    log(f"gov: {len(out)} series: " + ", ".join(f"{k} {v['last']} ({v['last_date']})" for k, v in out.items()))
+    return out
+
+
+def fetch_curves():
+    """Futures curves for Brent and WTI from Yahoo's monthly contracts: the next 24 delivery months, each with six months
+    of closes, so the page can draw today's curve against earlier ones. (TTF has only two listed months on Yahoo, so no
+    gas curve.)"""
+    out = {}
+    now = datetime.now(timezone.utc)
+    for root, name_en, name_no in (("BZ", "Brent", "Brent"), ("CL", "WTI", "WTI")):
+        contracts = []
+        y, m = now.year, now.month
+        for i in range(26):
+            mm = (m - 1 + i) % 12 + 1
+            yy = y + (m - 1 + i) // 12
+            sym = f"{root}{FUT_MONTHS[mm - 1]}{str(yy)[2:]}.NYM"
+            try:
+                sr = yahoo_chart(sym, "6mo")
+                if len(sr["values"]) < 5:
+                    continue
+                contracts.append({"m": f"{yy}-{mm:02d}", "sym": sym, "dates": sr["dates"][-130:], "values": sr["values"][-130:]})
+            except Exception:
+                continue
+        out[root] = {"name_en": name_en, "name_no": name_no, "unit": "USD/bbl", "contracts": contracts}
+        log(f"curves {root}: {len(contracts)} contracts" + (f", {contracts[0]['m']} {contracts[0]['values'][-1]} … {contracts[-1]['m']} {contracts[-1]['values'][-1]}" if contracts else ""))
+    return out
+
+
+def fetch_eer():
+    """BIS nominal effective exchange rates, broad basket, daily (2020 = 100; a rise is a stronger currency). The BIS
+    publishes them about a week behind, so every row carries its date and the page marks the block as lagged."""
+    raw = cached("bis_eer.csv", 12, lambda: get(f"https://stats.bis.org/api/v2/data/dataflow/BIS/WS_EER/1.0/D.N.B.{'+'.join(EER_AREAS)}?lastNObservations=420&format=csv", timeout=90))
+    rows = list(csv.DictReader(io.StringIO(raw.decode("utf-8", "ignore"))))
+    out = {}
+    num = lambda x: (lambda v: v if v == v else None)(float(x)) if x not in (None, "", "NaN", "nan") else None      # the BIS writes NaN on holidays
+    for area, (en, no) in EER_AREAS.items():
+        obs = sorted((r["TIME_PERIOD"], num(r.get("OBS_VALUE"))) for r in rows if r.get("REF_AREA") == area and num(r.get("OBS_VALUE")) is not None)
+        if not obs:
+            continue
+        s = {"dates": [o[0] for o in obs], "values": [o[1] for o in obs]}
+        out["EER_" + area] = {"name_en": en, "name_no": no, "group": "eer", "kind": "price", "decimals": 2, "lagged": True, **s, **stats(s, "price")}
+    log(f"bis eer: {len(out)} currencies, latest {max(v['last_date'] for v in out.values()) if out else 'none'}")
+    return out
+
+
+def fetch_mpr():
+    """The publication dates of Norges Bank's Monetary Policy Reports, from the bank's own list page, so the tables can
+    show every change since the last report."""
+    raw = cached("nb_mpr_list.html", 12, lambda: get("https://www.norges-bank.no/aktuelt/publikasjoner/Pengepolitisk-rapport/", timeout=60))
+    html = raw.decode("utf-8", "ignore")
+    dates = sorted(set(re.findall(r'Pengepolitisk-rapport/20\d\d/[^"]*"[^<]*>Pengepolitisk rapport \d/20\d\d</a>.*?dateTime="(20\d\d-\d\d-\d\d)', html, flags=re.S)))
+    if not dates:
+        raise ValueError("no report dates found")
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    past = [d for d in dates if d <= today]
+    log(f"mpr: {len(dates)} reports, last {past[-1] if past else 'none'}")
+    return {"dates": dates, "last": past[-1] if past else None}
+
+
+def derive(blocks):
+    """Series built from others: the 5y5y forward nominal rates for the US and the euro area (2 x 10-year minus 5-year),
+    and the euro-area periphery spread (all-issuer minus AAA 10-year, percentage points)."""
+    out = {}
+    def combine(key, a, b, fn, name_en, decimals=2):
+        if not a or not b:
+            return
+        m = {d: v for d, v in zip(b["dates"], b["values"])}
+        pts = [(d, round(fn(v, m[d]), 4)) for d, v in zip(a["dates"], a["values"]) if d in m]
+        if len(pts) < 5:
+            return
+        s = {"dates": [q[0] for q in pts], "values": [q[1] for q in pts]}
+        out[key] = {"name_en": name_en, "group": "rates", "kind": "yield", "decimals": decimals, **s, **stats(s, "yield")}
+    fr, ec = blocks.get("fred", {}), blocks.get("ecb", {})
+    combine("US_5Y5Y", fr.get("DGS10"), fr.get("DGS5"), lambda t, f: 2 * t - f, "US 5y5y forward")
+    combine("EA_5Y5Y", ec.get("EA_SR_10Y"), ec.get("EA_SR_5Y"), lambda t, f: 2 * t - f, "Euro area AAA 5y5y forward")
+    combine("EA_PERIPH", ec.get("EA_ALL_10Y"), ec.get("EA_SR_10Y"), lambda a, b: a - b, "Euro area 10-year: all issuers over AAA")
+    log("derived: " + ", ".join(f"{k} {v['last']:.2f} ({v['last_date']})" for k, v in out.items()))
     return out
 
 
@@ -676,7 +833,7 @@ def main():
     fetch_extra_commodities(yahoo, prev.get("yahoo", {}))
     derive_crosses(yahoo)
     blocks = {}
-    for name, fn in (("fred", fetch_fred), ("ecb", fetch_ecb), ("nb", fetch_nb), ("ssb", fetch_ssb), ("bis", fetch_bis), ("macro", fetch_macro), ("fedfunds", fetch_fedfunds), ("news", fetch_news), ("heatmap", fetch_heatmap)):
+    for name, fn in (("fred", fetch_fred), ("ecb", fetch_ecb), ("nb", fetch_nb), ("ssb", fetch_ssb), ("bis", fetch_bis), ("macro", fetch_macro), ("fedfunds", fetch_fedfunds), ("gov", fetch_gov), ("curves", fetch_curves), ("eer", fetch_eer), ("mpr", fetch_mpr), ("news", fetch_news), ("heatmap", fetch_heatmap)):
         log(f"{name}")
         try:
             blocks[name] = fn()
@@ -692,6 +849,11 @@ def main():
         fetch_pce(blocks)
     except Exception as e:
         log(f"  !! pce failed: {repr(e)[:200]}")
+    try:
+        blocks["derived"] = derive(blocks)
+    except Exception as e:
+        log(f"  !! derived failed: {repr(e)[:200]}")
+        blocks["derived"] = prev.get("derived", {})
     data = {"asof": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"), "yahoo": yahoo, **blocks,
             "policy_rates": read_csv("policy_rates.csv"), "events": read_csv("events.csv"), "cpi_consensus": read_csv("cpi_consensus.csv"), "cb_minutes": read_json("cb_minutes.json", {}), "kept_from_previous": kept}
     (DATA / "data.json").write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")

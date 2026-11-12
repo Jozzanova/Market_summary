@@ -20,21 +20,40 @@ def f(x, dec=2):
 def ch(v, unit):
     if v is None:
         return "n/a"
-    return f"{v:+.1f} bp" if unit == "bp" else f"{v:+.2f}%"
+    return f"{v:+.1f} bp" if unit == "bp" else f"{v:+.2f}" if unit == "pt" else f"{v:+.2f}%"
 
 
 STALE_DAYS = 4      # an observation older than this many days before the data date is marked, and must not be quoted as current
 
 
+MPR_LAST = (D.get("mpr") or {}).get("last")      # the publication date of Norges Bank's last Monetary Policy Report
+
+
+def since_mpr(v):
+    """The change since the last Monetary Policy Report, from the last observation on or before its date."""
+    if not MPR_LAST or not v.get("dates") or v.get("last") is None:
+        return None
+    base = None
+    for d, x in zip(v["dates"], v["values"]):
+        if d <= MPR_LAST:
+            base = x
+        else:
+            break
+    if base is None:
+        return None
+    u = v.get("unit")
+    return round(100 * (v["last"] - base), 1) if u == "bp" else round(v["last"] - base, 3) if u == "pt" else (None if not base else round(100 * (v["last"] / base - 1), 3))
+
+
 def table(rows, title):
     print(f"\n## {title}")
-    print(f"{'instrument':<40} {'last':>12} {'date':>11} {'1d':>10} {'1w':>10} {'1m':>10} {'ytd':>10}")
+    print(f"{'instrument':<40} {'last':>12} {'date':>11} {'1d':>10} {'1w':>10} {'1m':>10} {'ytd':>10} {'sinceMPR':>10}")
     asof = D.get("asof", "")[:10]
     for name, v in rows:
         dec = int(v.get("decimals", 2))
         d = v.get("last_date", "")
         stale = "  STALE: do not quote" if d and asof and (date.fromisoformat(asof) - date.fromisoformat(d[:10])).days > STALE_DAYS else ""
-        print(f"{name:<40} {f(v.get('last'), dec):>12} {d:>11} {ch(v.get('d1'), v.get('unit')):>10} {ch(v.get('w1'), v.get('unit')):>10} {ch(v.get('m1'), v.get('unit')):>10} {ch(v.get('ytd'), v.get('unit')):>10}{stale}")
+        print(f"{name:<40} {f(v.get('last'), dec):>12} {d:>11} {ch(v.get('d1'), v.get('unit')):>10} {ch(v.get('w1'), v.get('unit')):>10} {ch(v.get('m1'), v.get('unit')):>10} {ch(v.get('ytd'), v.get('unit')):>10} {ch(since_mpr(v), v.get('unit')):>10}{stale}")
 
 
 def main():
@@ -50,6 +69,36 @@ def main():
     table([(v["name_en"], v) for v in D.get("fred", {}).values() if v["group"] == "rates"] + [(v["name_en"], v) for v in D.get("ecb", {}).values()] + [(v["name_en"], v) for v in D.get("nb", {}).values()],
           "Government yields and policy rate, official daily fixes (FRED, ECB AAA curve, Norges Bank; one day behind the live prints)")
     table([(v["name_en"], v) for v in D.get("fred", {}).values() if v["group"] == "credit"], "Credit spreads, ICE BofA option-adjusted spreads in per cent (FRED)")
+    if MPR_LAST:
+        print(f"\nNorges Bank's last Monetary Policy Report was published {MPR_LAST}; the sinceMPR column is the change since then.")
+    gov = D.get("gov", {})
+    table([(v["name_en"], v) for v in gov.values() if v["group"] == "rates"], "Government yields, Germany and Japan (Bundesbank term structure, Ministry of Finance JGB file; official daily)")
+    dv = D.get("derived", {})
+    table([(v["name_en"], v) for v in dv.values()], "Derived: 5y5y forwards (2 x 10-year minus 5-year) and the euro-area periphery spread (all issuers minus AAA, 10-year, pp)")
+    table([(v["name_en"], v) for src in (D.get("fred", {}), D.get("ecb", {}), gov) for v in src.values() if v["group"] == "money"], "Overnight rates (SOFR, euro short-term rate, SONIA)")
+    table([(v["name_en"], v) for v in D.get("fred", {}).values() if v["group"] == "conditions"], "Financial conditions, Chicago Fed NFCI (weekly, lagged; shown on the page only, never in the letters; positive = tighter than average)")
+    eer = D.get("eer", {})
+    if eer:
+        table([(v["name_en"], v) for v in eer.values()], "Effective exchange rates, BIS nominal broad (2020 = 100, up = stronger; LAGGED about a week: shown on the page with dates, never in the letters)")
+    cv = D.get("curves", {})
+    if cv:
+        print("\n## Brent and WTI futures curves (USD/bbl; delivery month: price today, a week ago, at the last MPR)")
+        for root, c in cv.items():
+            ks = c.get("contracts", [])
+            if not ks:
+                continue
+            asof = max(k["dates"][-1] for k in ks)
+            def at(k, d):
+                x = None
+                for dd, v in zip(k["dates"], k["values"]):
+                    if dd <= d:
+                        x = v
+                    else:
+                        break
+                return x
+            wk = (date.fromisoformat(asof) - timedelta(days=7)).isoformat()
+            picks = [ks[0]] + [k for i, k in enumerate(ks) if i in (5, 11, 23)]
+            print(f"  {c['name_en']} (as of {asof}): " + "; ".join(f"{k['m']} {f(at(k, asof))} (week ago {f(at(k, wk))}, MPR {f(at(k, MPR_LAST)) if MPR_LAST else 'n/a'})" for k in picks))
     us = D.get("macro", {}).get("series", {}).get("USA", {})
     if "pce" in us:
         g = lambda k: f"{us[k]['last']:.1f}% ({us[k]['last_date'][:7]})" if k in us else "n/a"

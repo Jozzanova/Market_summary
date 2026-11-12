@@ -15,6 +15,8 @@ equity,^HSI,Hang Seng,Hang Seng,price,0
 equity,000001.SS,Shanghai Composite,Shanghai Composite,price,0
 equity,^KS11,KOSPI,KOSPI,price,0
 equity,EEM,MSCI Emerging Markets (EEM ETF),MSCI fremvoksende markeder (EEM ETF),price,2
+equity,URTH,MSCI World (URTH ETF),MSCI verden (URTH ETF),price,2
+equity,EXX1.DE,Euro Stoxx Banks (EXX1 ETF),Euro Stoxx-banker (EXX1 ETF),price,2
 equity,^VIX,VIX,VIX,price,1
 ai,^SOX,PHLX Semiconductor (SOX),PHLX halvlederindeks (SOX),price,0
 ai,^NYFANG,NYSE FANG+,NYSE FANG+,price,0

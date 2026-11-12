@@ -150,13 +150,19 @@ politics 250-450 words.
   paragraph, so the reader can find each market in the same place every day. (1) **Equities** / **Aksjer**: the broad
   indices (US, Europe, Norway, Asia this morning) and the single stocks or sectors that stood out, with the numbers.
   (2) **Government bonds** / **Statsrenter**: the US 2- and 10-year, the euro-area AAA 10-year and the Norwegian 10-year, in
-  basis points, and what the market prices for the next Fed and ECB meetings when it changed. (3) **Currencies** / **Valuta**:
+  basis points, and what the market prices for the next Fed and ECB meetings when it changed. The brief also carries German and Japanese
+  2-, 10- and 30-year yields, the euro-area all-issuer curve and the periphery spread (all issuers minus AAA at 10 years),
+  5y5y forwards for the US and the euro area, the US 5y5y inflation expectation, the overnight rates SOFR, €STR and SONIA,
+  and a column with every change since Norges Bank's last Monetary Policy Report: use them when they carry the story
+  (a periphery move, a shift in long-run expectations, the long end), not as a list. (3) **Currencies** / **Valuta**:
   the dollar index, EUR/USD, USD/JPY, and the krone (EUR/NOK, USD/NOK, I-44, and why it moved). (4) **Energy** / **Energi**:
   Brent (the front contract) and gas (TTF) or power when they moved, with the reason. Dated Brent spot (`BRENT_DATED`,
   the price the oil companies' krone purchases follow) and the UK NBP gas price (`UK_SAP`, about a quarter of Norwegian
   gas) are weekly series that run a week or more behind: they are shown on the page with their date, but a price that
   old says nothing about today, so leave them out of the letters. The same goes for any figure whose observation is older
-  than the previous trading day: the brief prints the date of every row, and a stale row is marked.
+  than the previous trading day: the brief prints the date of every row, and a stale row is marked. The BIS effective
+  exchange rates and the Chicago Fed NFCI are published with a lag by design; they are on the page, marked as lagged, and
+  never in the letters or the PDF.
   Equity indices are described by their percentage change only, never by their level ("the S&P 500 rose 1.3 per cent",
   not "to 7,619"): the level carries no information for the reader and dates the text. Levels stay for prices that are
   read as levels: exchange rates, yields, oil and gas, the VIX, I-44. (5) **Drivers** / **Drivkrefter**: the likely factors behind

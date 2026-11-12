@@ -33,7 +33,8 @@ conclusion in a short bold clause, understated verbs, small rate moves in words,
 Equity indices are described by their percentage change only, never by their level ("the S&P 500 is up 0.7 per cent",
 not "at 7,531"); levels stay for exchange rates, yields, oil, gas and the VIX. Do not quote a figure whose observation is
 older than the previous trading day (the brief marks stale rows); Dated Brent and the UK NBP gas price are weekly series a
-week or more behind and stay out of the intraday report.
+week or more behind and stay out of the intraday report, as do the BIS effective exchange rates and the NFCI. The brief's
+sinceMPR column (change since Norges Bank's last Monetary Policy Report) and the Brent futures curve are fair game.
 **Do not use investingLive (investinglive.com) at all**, not even as a fallback: the session's moves are on Reuters
 ("European shares", "Wall Street", "Oil", "Forex" wraps), Bloomberg, CNBC and the exchanges, and the numbers themselves
 are in the brief. Label a citation with the outlet that wrote the piece, not the site that hosts it.
