@@ -28,6 +28,8 @@ exchanges, companies, governments); (2) the established financial press (Financi
 Journal, CNBC, Nikkei Asia; for Norway E24, DN, Finansavisen, NRK); (3) everything else (FXStreet, Kitco, StockTitan, Trading
 Economics, aggregators, brokers' blogs) only when a fact exists nowhere in tiers 1 and 2, never as the sole source for a
 number, a quote or a market move, and when such a page cites a tier-1 or tier-2 source, cite that source instead.
+Tone as in DAILY.md: a one- or two-sentence reading of the session so far at the top, bullets that open with their
+conclusion in a short bold clause, understated verbs, small rate moves in words, numbers only where they carry the point.
 Equity indices are described by their percentage change only, never by their level ("the S&P 500 is up 0.7 per cent",
 not "at 7,531"); levels stay for exchange rates, yields, oil, gas and the VIX. Do not quote a figure whose observation is
 older than the previous trading day (the brief marks stale rows); Dated Brent and the UK NBP gas price are weekly series a

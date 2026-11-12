@@ -132,9 +132,18 @@ quotes the swap-rate differential itself (Norges Bank's Monetary Policy Report, 
 figures quoted in the press), use that figure with its link and say that it is the swap differential. Give a
 differential in percentage points and its change in basis points, and do not use the old 3-year-minus-2-year pair.
 
-Tone: measured, factual, central-bank style. State what happened, how much, and the likely reason, in that order; no
-exclamation, no advice, no speculation presented as fact; "per cent" and "basis points" written out. Length: key points
-250-380 words, markets 400-600 words, macro 400-600 words, politics 250-450 words.
+Tone: measured, factual, central-bank style, the voice of a markets desk briefing its own economists. The summary
+paragraph is a reading of the day, one or two sentences that say what drove the session and how it differed from the
+day before ("AI optimism displaced the inflation worry in equities while the Fed repricing kept supporting the dollar"),
+not a list of numbers. Each bullet opens with its conclusion in a short bold clause, then the facts that carry it, then
+the likely reason, in that order. Understated verbs and degrees: "rose markedly", "changed little", "recovered",
+"edged"; small basis-point moves in words ("five to ten basis points"); causal claims hedged when the link is a reading
+rather than a fact ("appears to have outweighed", "partly on"). Numbers only where they carry the point: percentage
+changes, basis points, a level only when the level is the news (USD/JPY near 160, gold below 4,000 dollars, I-44 at
+109.7). No exclamation, no advice, no speculation presented as fact; "per cent" and "basis points" written out. The
+Norwegian text has the same register: "endret seg forholdsvis lite", "steg markert", "hentet seg inn", "noteres i
+morgentimene", "handelsvektet", "reprising". Length: key points 250-380 words, markets 400-600 words, macro 400-600 words,
+politics 250-450 words.
 
 - **Key points** (`highlights`, Norwegian title `Hovedtrekk`; the first and default report on the page, its button is red): six
   short paragraphs with bold lead-ins, always in this order and always all six, nothing else, no chart. One market per
