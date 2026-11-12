@@ -102,6 +102,7 @@ details.nw.cb > summary { grid-template-columns: 1fr auto; } details.nw.cb > .nw
 .letter h2 { font-size: 1.12rem; margin: 1.4rem 0 .4rem; color: var(--accent); }
 .letter h3 { font-size: 1rem; margin: 1rem 0 .3rem; }
 .letter p { margin: 0 0 .8rem; } .letter ul, .letter ol { margin: 0 0 .8rem; padding-left: 1.3rem; } .letter li { margin-bottom: .25rem; }
+.letter b.li { color: var(--accent); }
 .letter blockquote { margin: .6rem 0; padding: .3rem .9rem; border-left: 3px solid var(--accent); color: var(--muted); }
 .letter table { font-size: .86rem; margin: .5rem 0 1rem; } .letter hr { border: 0; border-top: 1px solid var(--line); margin: 1.2rem 0; }
 .letter .fig { position: relative; margin: .8rem 0 1.2rem; } .letter .fig .plot { height: 320px; }
@@ -694,7 +695,7 @@ function md(src) {
     t = t.replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<i>$2</i>").replace(/(^|[^\w])_([^_\n]+)_(?!\w)/g, "$1<i>$2</i>").replace(/`([^`]+)`/g, "<code>$1</code>");
     return t.replace(/\u0000(\d+)\u0000/g, (m, i) => links[+i]); };
   const lines = src.replace(/\r/g, "").split("\n"); const out = []; let i = 0, figN = 0;
-  const para = []; const flush = () => { if (para.length) { out.push(`<p>${para.map(inline).join(" ")}</p>`); para.length = 0; } };
+  const para = []; const flush = () => { if (para.length) { let h = para.map(inline).join(" "); h = h.replace(/^<b>([^<]{1,60}?)<\/b>(?=\s*\S)/, '<b class="li">$1</b>'); out.push(`<p>${h}</p>`); para.length = 0; } };
   while (i < lines.length) {
     const L = lines[i];
     let m;
