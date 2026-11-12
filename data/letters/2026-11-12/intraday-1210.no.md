@@ -4,7 +4,7 @@
 
 ## Aksjer
 - **Europa er opp, ledet av Tyskland.** STOXX Europe 600 er opp 0,36 prosent, DAX 0,77 prosent og FTSE 100 0,30 prosent. Den teknologilette regionen har nytt godt av rotasjonen bort fra KI-aksjer ([WSJ](https://www.wsj.com/finance/stocks/nikkei-falls-0-2-dragged-by-electronics-stocks-0da84013)). Oslo Børs er flat, ned 0,04 prosent.
-- **Nvidia er hovedrisikoen for åpningen i USA.** Aksjen var ned nesten 6 prosent før åpning mens styret vurderer Jensen Huangs framtid ([FT](https://www.ft.com/content/a93307a7-e2cd-4abd-bd89-c38832d8c40e)), og har trukket amerikanske futures ned ([WSJ](https://www.wsj.com/finance/stocks/nvidia-leadership-scandal-drags-on-u-s-stock-futures-pressures-ai-trade-e7f6e5b8)). VIX er 18,3.
+- **Nvidia er hovedrisikoen for åpningen i USA.** Aksjen var ned nesten 6 prosent før åpning mens styret vurderer Jensen Huangs fremtid ([FT](https://www.ft.com/content/a93307a7-e2cd-4abd-bd89-c38832d8c40e)), og har trukket amerikanske futures ned ([WSJ](https://www.wsj.com/finance/stocks/nvidia-leadership-scandal-drags-on-u-s-stock-futures-pressures-ai-trade-e7f6e5b8)). VIX er 18,3.
 
 ## Renter og valuta
 - **Amerikanske statsrenter er høyere og europeiske lavere**, og dollaren er sterk som følge av forventninger om flere rentehevinger fra Fed ([WSJ](https://www.wsj.com/economy/central-banking/treasury-yields-rise-as-fed-rate-hike-expectations-remain-strong-401fed89)). Tiårsrenten i USA var 5,00 prosent ved onsdagens stenging.
