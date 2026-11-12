@@ -1,9 +1,10 @@
 # Intraday update routine
 
-This file is the playbook for the scheduled cloud agents that write the intraday reports on weekdays. There are four runs
-a day, Oslo time: about 09:05 (after the European open), 12:05 (noon), 15:45 (after the US open) and 22:15 (after the US
-close). Two routines share this playbook ("intraday update" for the first two, "intraday update (US)" for the last two);
-the clock tells you which run you are. The morning routine (`DAILY.md`) has already written the day's reports from the
+This file is the playbook for the scheduled cloud agents that write the intraday reports on weekdays. There are three runs
+a day, Oslo time: about 09:05 (after the European open), 12:05 (noon) and 15:45 (after the US open). A fourth run after
+the US close (22:15) is described below but its routine is switched off (12 Nov 2026: the morning report is the product,
+and the evening run added little). Two routines share this playbook ("intraday update (Europe)" for the first two,
+"intraday update (US open)" for the third); the clock tells you which run you are. The morning routine (`DAILY.md`) has already written the day's reports from the
 data and news available at 06:00; your job is to refresh the numbers and say what has happened since. You start with a
 fresh clone of this repository and no other context; read this file first, then do the steps in order. Python's standard
 library is enough; Node is used for the deploy. Do not end the run before step 5 is done.
@@ -44,7 +45,7 @@ Decide from the current Oslo time (UTC+1 in winter, UTC+2 in summer):
 - **US open (about 15:45).** The US releases at 14:30 (CPI, payrolls, claims, retail sales …) against consensus and the
   market reaction, the first minutes of US trading (the ETF proxies and futures in the brief; the index prints are live),
   Europe into the afternoon, the I-44 fix at 14:15, Treasury yields and the dollar.
-- **US close (about 22:15).** The day's wrap: US closing changes (the equity rows in the brief are the closes once the
+- **US close (about 22:15; routine switched off at present).** The day's wrap: US closing changes (the equity rows in the brief are the closes once the
   market has closed), the after-hours prints of the index ETFs and the futures (the "after hrs" columns; write "the S&P 500
   ETF is 0.3 per cent lower after hours", never an index level), earnings and news after the bell, the European and
   Oslo closes, yields, oil, the krone at the end of the day, and what to watch overnight and tomorrow morning. This run
