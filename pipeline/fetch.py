@@ -164,10 +164,13 @@ def stats(s, kind):
     if len(v) < 2:
         return {}
     last, last_date = v[-1], d[-1]
-    # the last daily close is taken as the "latest" value; if Yahoo reports a later live print, that is used instead
-    if s.get("last") is not None and s.get("last_time") and s["last_time"][:10] > last_date:
-        last = float(s["last"])
-    prev = v[-2] if (s.get("last") is None or s["last_time"][:10] <= last_date) else v[-1]
+    # the last daily close is taken as the "latest" value; if Yahoo reports a later live print, that is used instead, and
+    # the day-, week- and month-ago references are counted from the print's date (not from the last close's, which put
+    # the week-ago reference a day early)
+    live = s.get("last") is not None and bool(s.get("last_time")) and s["last_time"][:10] > last_date
+    if live:
+        last, last_date = float(s["last"]), s["last_time"][:10]
+    prev = v[-1] if live else v[-2]
     def back(days):
         target = (datetime.strptime(last_date, "%Y-%m-%d") - timedelta(days=days)).strftime("%Y-%m-%d")
         for i in range(len(d) - 1, -1, -1):
@@ -187,7 +190,7 @@ def stats(s, kind):
     else:
         ch = lambda base: pct(last, base)
     hi, lo = max(v[-252:]), min(v[-252:])
-    return {"last": last, "last_date": last_date if (s.get("last") is None or s["last_time"][:10] <= last_date) else s["last_time"][:10],
+    return {"last": last, "last_date": last_date,
             "prev": prev, "d1": ch(prev), "w1": ch(back(7)), "m1": ch(back(30)), "ytd": ch(ytd_base), "hi52": hi, "lo52": lo,
             "unit": "bp" if kind == "yield" else "pt" if kind == "diff" else "%"}
 
@@ -376,17 +379,18 @@ def apply_reserve(out, failed, previous):
     return filled
 
 
-def fetch_yahoo_spark(previous):
-    """Intraday runs: every instrument from Yahoo's spark endpoint, twenty symbols a request and five days of closes
-    spliced onto the history kept from the previous run (the morning run fetched the full year). The last close of an
-    open market is its live print, as in the chart endpoint."""
-    ins, out, failed = instruments(), {}, []
+def fetch_yahoo_spark(previous, rng="5d", heal=False):
+    """Every instrument from Yahoo's spark endpoint, twenty symbols a request and the last days (`rng`: five days for the
+    intraday runs, a month for the morning run) spliced onto the history kept from the previous run; the full year is only
+    fetched for an instrument whose history is missing or short (`heal`, the morning run) or by fetch_yahoo (--full, and
+    Sundays). The last close of an open market is its live print, as in the chart endpoint."""
+    ins, out, failed, healed = instruments(), {}, [], []
     now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     for ci in range(0, len(ins), 20):
         chunk = ins[ci:ci + 20]
         try:
-            raw = cached(f"yahoo_spark_ins_{ci // 20}.json", 0.2, lambda chunk=chunk: yahoo_get("https://query1.finance.yahoo.com/v8/finance/spark?symbols="
-                         + ",".join(urllib.request.quote(i["symbol"]) for i in chunk) + "&range=5d&interval=1d"))
+            raw = cached(f"yahoo_spark_ins_{rng}_{ci // 20}.json", 0.2, lambda chunk=chunk: yahoo_get("https://query1.finance.yahoo.com/v8/finance/spark?symbols="
+                         + ",".join(urllib.request.quote(i["symbol"]) for i in chunk) + f"&range={rng}&interval=1d"))
             sp = json.loads(raw)
         except Exception as e:
             log(f"  !! yahoo spark chunk {ci // 20}: {repr(e)[:100]}")
@@ -404,6 +408,16 @@ def fetch_yahoo_spark(previous):
                         pts.append((c["last_time"][:10], round(float(c["last"]), 6)))
                 except Exception as e:
                     log(f"  {sym}: spark bar empty and chart failed ({repr(e)[:60]})")
+            if heal and pts and (not pv or len(pv.get("dates", [])) < 200):
+                # no usable history from the previous run: this instrument's full year from the chart endpoint
+                try:
+                    c = yahoo_chart(sym)
+                    out[sym] = {**{k: i[k] for k in ("group", "name_en", "name_no", "kind", "decimals")}, "currency": c["currency"], "last_time": c["last_time"],
+                                "dates": c["dates"][-260:], "values": c["values"][-260:], **stats(c, i["kind"])}
+                    healed.append(sym)
+                    continue
+                except Exception as e:
+                    log(f"  {sym}: full history failed ({repr(e)[:60]})")
             if not pts or not pv or len(pv.get("dates", [])) < 20:
                 failed.append(sym)
                 if pv:
@@ -417,7 +431,8 @@ def fetch_yahoo_spark(previous):
             unchanged = pv.get("values") and pv["values"][-1] == vals[-1] and pv.get("dates", [None])[-1] == dates[-1]
             out[sym] = {**{k: i[k] for k in ("group", "name_en", "name_no", "kind", "decimals")}, "currency": pv.get("currency"),
                         "last_time": pv.get("last_time") if unchanged else now, "dates": dates[-260:], "values": vals[-260:], **stats(s, i["kind"])}
-    log(f"yahoo spark: {len(out) - len(failed)} fetched, {len(failed)} failed{' (' + ', '.join(failed) + ')' if failed else ''}")
+    log(f"yahoo spark ({rng}): {len(out) - len(failed)} fetched{', ' + str(len(healed)) + ' with the full year (' + ', '.join(healed) + ')' if healed else ''}, "
+        f"{len(failed)} failed{' (' + ', '.join(failed) + ')' if failed else ''}")
     return out, failed
 
 
@@ -1214,11 +1229,15 @@ def main():
         log(f"wrote data/data.json from the previous run ({prev.get('asof')}), nothing refreshed")
         return 0
     kept = []
-    intraday = INTRADAY and len(prev.get("yahoo", {})) >= 20
-    if INTRADAY and not intraday:
+    # Yahoo: the full year of every instrument only with --full, on Sundays (a weekly heal) or without previous data; otherwise
+    # the last month (the morning run) or five days (--intraday) in four requests, spliced onto the previous run's history
+    full = "--full" in sys.argv or len(prev.get("yahoo", {})) < 20 or (datetime.now(timezone.utc).weekday() == 6 and not INTRADAY)
+    intraday = INTRADAY and not full
+    mode = "intraday" if intraday else "full" if full else "incremental"
+    if INTRADAY and full:
         log("!! --intraday needs the previous run's data; running the full fetch")
-    log("1. Yahoo" + (" (intraday: spark, five days per instrument)" if intraday else ""))
-    yahoo, failed = fetch_yahoo_spark(prev["yahoo"]) if intraday else fetch_yahoo(prev.get("yahoo", {}))
+    log("1. Yahoo (" + {"intraday": "spark, five days per instrument", "incremental": "spark, a month per instrument, spliced onto the previous history", "full": "chart, the full year per instrument"}[mode] + ")")
+    yahoo, failed = fetch_yahoo(prev.get("yahoo", {})) if full else fetch_yahoo_spark(prev["yahoo"], "5d" if intraday else "1mo", heal=not intraday)
     now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     reserve = apply_reserve(yahoo, failed, prev.get("yahoo", {})) if failed else []
     failed = [s for s in failed if s not in reserve]
@@ -1231,7 +1250,7 @@ def main():
     if failed:
         kept.append(f"yahoo: {len(failed)} instrument(s) kept from the previous run ({prev_asof}): {', '.join(failed[:15])}{', …' if len(failed) > 15 else ''}")
     status = {"fetched": len(yahoo) - len(failed) - len(reserve), "reserve": len(reserve), "reserve_sources": sorted({yahoo[s]["source"] for s in reserve}),
-              "reserve_symbols": reserve, "kept": len(failed), "kept_symbols": failed, "prev_asof": prev_asof, "mode": "intraday" if intraday else "full"}
+              "reserve_symbols": reserve, "kept": len(failed), "kept_symbols": failed, "prev_asof": prev_asof, "mode": mode}
     if intraday:
         log("1b. Dated Brent and UK gas: as the morning run left them")
         for k, v in prev["yahoo"].items():

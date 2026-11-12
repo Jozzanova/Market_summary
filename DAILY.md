@@ -12,7 +12,9 @@ done and the reports are committed.
     python -X utf8 pipeline/alerts.py              # data alerts (large moves) into data/alerts.json, the Alerts tab
     python -X utf8 pipeline/brief.py               # the numbers for the reports
 
-`fetch.py` downloads one year of daily prices for every instrument in `data/instruments.csv` from Yahoo Finance, the
+`fetch.py` refreshes the daily prices of every instrument in `data/instruments.csv` from Yahoo Finance (the last month in
+four requests, spliced onto the history the previous run left on the live site; the full year only on Sundays, with
+`--full`, or for an instrument whose history is missing), the
 US yields and credit spreads from FRED, the euro-area AAA curve from the ECB, the Norwegian rates from Norges Bank, the
 policy rates from the BIS and the key figures of fourteen economies from the OECD and Eurostat (block `macro`), and
 writes `data/data.json`. If Yahoo refuses the cloud address (HTTP 429), `fetch.py` stops asking after four refusals and takes

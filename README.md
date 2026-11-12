@@ -28,7 +28,8 @@ Buttons at the top: **PDF** and **Word** download the selected day's reports in 
 ## Rebuild
 
 ```
-python -X utf8 pipeline/fetch.py --refresh   # Yahoo, FRED, ECB, Norges Bank -> data/data.json (standard library only)
+python -X utf8 pipeline/fetch.py --refresh   # Yahoo (last month, spliced onto the previous history), FRED, ECB, Norges Bank -> data/data.json
+python -X utf8 pipeline/fetch.py --refresh --full   # the full year of every instrument from Yahoo (done by itself on Sundays)
 python -X utf8 pipeline/fetch.py --refresh --intraday   # prices only, in a few requests (the intraday routines); daily blocks as the morning run left them
 python -X utf8 pipeline/fetch.py --offline   # the previous run's data (from the live site) as data.json, when every source is down
 python -X utf8 pipeline/brief.py             # the numbers for the reports, as text
