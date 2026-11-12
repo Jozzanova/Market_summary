@@ -73,7 +73,7 @@ def main():
         for v in us["etf"].values():
             print(f"{v['name_en']:<26} {f(v.get('close')):>9} {v.get('close_time') or '':>17} {ch(v.get('d1'), '%'):>8} {f(v.get('post')):>10} {v.get('post_time') or '':>17} {ch(v.get('post_chg'), '%'):>9} {f(v.get('pre')):>9} {v.get('pre_time') or '':>17} {ch(v.get('pre_chg'), '%'):>8}")
         if us.get("futures"):
-            print("Index futures (near round-the-clock trading; 1d = last print vs the previous settlement):")
+            print("Index futures (near round-the-clock trading; 1d = last print vs the last close):")
             for v in us["futures"].values():
                 print(f"{v['name_en']:<26} {f(v.get('last')):>9} {v.get('last_time') or '':>17} {ch(v.get('d1'), '%'):>8}")
     table([(v["name_en"], v) for v in D.get("fred", {}).values() if v["group"] == "rates"] + [(v["name_en"], v) for v in D.get("ecb", {}).values()] + [(v["name_en"], v) for v in D.get("nb", {}).values()],
