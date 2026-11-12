@@ -111,7 +111,7 @@ details.nw.cb > summary { grid-template-columns: 1fr auto; } details.nw.cb > .nw
 .letter .bars svg { width: 100%; height: auto; display: block; } .letter h2, .letter h3 { clear: both; }
 @media (max-width: 700px) { .letter .bars { float: none; width: 100%; max-width: none; margin: .4rem 0 .8rem; } }
 .snapshot table { font-size: .68rem; } .snapshot td, .snapshot th { padding: .12rem .25rem; white-space: nowrap; } .snapshot th { font-size: .6rem; letter-spacing: .03em; } .snapshot td:first-child { white-space: normal; }
-.letteraside .snapshot table { table-layout: auto; width: 100%; } .snapshot tr.sect td { padding-top: .4rem; font-size: .62rem; }
+.letteraside .snapshot table { table-layout: auto; width: 100%; } #snapTable { overflow-x: auto; } .snapshot tr.sect td { padding-top: .4rem; font-size: .62rem; }
 .letterwrap { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 1rem; align-items: start; }
 .letterwrap > .card { margin: 0; } .letteraside .card { margin: 0 0 1rem; }
 .letteraside .fig { position: relative; margin: 0 0 1rem; } .letteraside .fig .plot { height: 300px; } #i44Plot, #brentPlot { height: 220px; }
@@ -738,8 +738,8 @@ function snapRows() {
     rows: SNAP_GROUPS.flatMap(([g, syms]) => { const rs = syms.map(s => [s, bySym(s)]).filter(([, v]) => v && v.last != null); return rs.length ? [{section: t(g)}, ...rs.map(([s, v]) => [shortName(s, v), fmt(v.last, +v.decimals), chgText(v.d1, v.unit), chgText(v.w1, v.unit), chgText(v.ytd, v.unit), MPR.last ? chgText(chgSince(v, MPR.last), v.unit) : "–", fmtDate(v.last_date)])] : []; })};
 }
 function snapshot() {
-  const rows = SNAP_GROUPS.flatMap(([g, syms]) => { const rs = syms.map(s => [s, bySym(s)]).filter(([, v]) => v && v.last != null); return rs.length ? [`<tr class="sect"><td colspan="7">${t(g)}</td></tr>`, ...rs.map(([s, v]) => `<tr><td>${esc(shortName(s, v))}</td><td class="num">${fmt(v.last, +v.decimals)}</td><td class="num">${chg(v.d1, v.unit)}</td><td class="num">${chg(v.w1, v.unit)}</td><td class="num">${chg(v.ytd, v.unit)}</td><td class="num">${MPR.last ? chg(chgSince(v, MPR.last), v.unit) : '<span class="muted">–</span>'}</td><td class="num muted small">${fmtDate(v.last_date)}</td></tr>`)] : []; });
-  return `<table><thead><tr><th></th><th class="num">${t("last")}</th><th class="num">${t("d1")}</th><th class="num">${t("w1")}</th><th class="num">${t("ytd")}</th><th class="num" title="${esc(t("mpr_hint"))}">${mprLabel()}</th><th class="num">${t("date")}</th></tr></thead><tbody>${rows.join("")}</tbody></table>`;
+  const rows = SNAP_GROUPS.flatMap(([g, syms]) => { const rs = syms.map(s => [s, bySym(s)]).filter(([, v]) => v && v.last != null); return rs.length ? [`<tr class="sect"><td colspan="7">${t(g)}</td></tr>`, ...rs.map(([s, v]) => `<tr><td>${esc(shortName(s, v))}</td><td class="num">${fmt(v.last, +v.decimals)}</td><td class="num">${chg(v.d1, v.unit)}</td><td class="num">${chg(v.w1, v.unit)}</td><td class="num">${chg(v.ytd, v.unit)}</td><td class="num">${MPR.last ? chg(chgSince(v, MPR.last), v.unit) : '<span class="muted">–</span>'}</td><td class="num muted small" title="${esc(fmtDate(v.last_date))}">${fmtDateShort(v.last_date)}</td></tr>`)] : []; });
+  return `<table><thead><tr><th></th><th class="num">${t("last")}</th><th class="num">${t("d1")}</th><th class="num">${t("w1")}</th><th class="num">${t("ytd")}</th><th class="num" title="${esc(t("mpr_hint"))}">${t("since_mpr")}${MPR.last ? `<br><span style="font-weight:400;letter-spacing:0">${fmtDateShort(MPR.last)}</span>` : ""}</th><th class="num">${t("date")}</th></tr></thead><tbody>${rows.join("")}</tbody></table>`;
 }
 function drawLetters() {
   $$("#kindSeg button").forEach(b => b.classList.toggle("on", b.dataset.v === KIND));
