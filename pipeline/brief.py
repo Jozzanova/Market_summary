@@ -64,13 +64,30 @@ def main():
     if D.get("kept_from_previous"):
         print(f"from the previous run: {'; '.join(D['kept_from_previous'])}")
     st = D.get("yahoo_status") or {}
+    # the morning reports need the previous trading day's closes, not a fresh fetch: a refusal only matters when the closes are missing
+    y = D.get("yahoo", {})
+    need = now.date() - timedelta(days=1)
+    while need.weekday() >= 5:
+        need -= timedelta(days=1)
+    keys = ["^GSPC", "^STOXX", "OSEBX.OL", "EURNOK=X", "BZ=F", "^TNX"]
+    closes_ok = sum(1 for k in keys if (y.get(k) or {}).get("last_date", "") >= need.isoformat()) * 2 > len(keys)
+    morning = now.hour < 8        # UTC: before the European open the prints are the closes
     if st.get("reserve"):
-        print(f"!! Yahoo refused the refresh: {st['reserve']} price(s) come from the reserve source(s) {', '.join(st.get('reserve_sources', []))} "
-              f"(delayed up to 15 minutes, fetched {D['asof']}); {st.get('kept', 0)} kept from the previous run ({st.get('prev_asof')}"
-              f"{': ' + ', '.join(st.get('kept_symbols', [])[:12]) if st.get('kept') else ''}). Say in the report that the prices are delayed and name the source.")
+        src = ", ".join(st.get("reserve_sources", []))
+        if closes_ok and morning:
+            print(f"Yahoo refused the refresh; {st['reserve']} price(s) come from the reserve source(s) {src}. The closes of {need.isoformat()} are complete, "
+                  f"so the reports need no caveat about the prices.")
+        else:
+            print(f"!! Yahoo refused the refresh: {st['reserve']} price(s) come from the reserve source(s) {src} (delayed up to 15 minutes, fetched {D['asof']}); "
+                  f"{st.get('kept', 0)} kept from the previous run ({st.get('prev_asof')}{': ' + ', '.join(st.get('kept_symbols', [])[:12]) if st.get('kept') else ''}). "
+                  f"Say in the report that the prices in live trading are delayed and name the source.")
     elif D.get("yahoo_asof") and D["yahoo_asof"] != D["asof"]:
-        print(f"!! Yahoo refused the refresh (rate limit): the prices below are from the previous run, as of {D['yahoo_asof']}. Say so in the report, "
-              f"quote them with that time, and take any later move only from a linked source.")
+        if closes_ok:
+            print(f"Yahoo refused the refresh; the prices are from the previous run ({D['yahoo_asof']}), which holds the closes of {need.isoformat()}, "
+                  f"so the reports need no caveat about the closes" + ("." if morning else "; prices in live trading are from that time, say so if you quote one."))
+        else:
+            print(f"!! Yahoo refused the refresh and the closes of {need.isoformat()} are MISSING: the prices below are from the previous run, as of {D['yahoo_asof']}. "
+                  f"Say so in the report, quote them with that time, and take the closes and any later move only from a linked source.")
     y = D["yahoo"]
     for grp, title in (("equity", "Equity indices (local currency; 1d = last close vs previous close, or the live print if the market is open)"),
                        ("ai", "AI and semiconductor proxies (SOX, NYSE FANG+, semiconductor, Magnificent 7 and AI ETFs)"), ("sector", "US sectors (S&P 500 sector ETFs)"), ("rates", "US Treasury yields and futures (Yahoo, live prints)"),

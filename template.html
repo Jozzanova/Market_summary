@@ -545,30 +545,43 @@ function setLang(l) {
   drawBanner();
   drawn.clear(); showTab(currentTab(), true);
 }
-// A warning above the content when the data run failed: red if the prices are the previous run's (most of Yahoo kept, the
-// --offline fallback, or the prices dated more than twelve hours before the run) or if no run has happened today (the
-// morning run is due at 06:05 Oslo time); amber if the prices come from a reserve source (delayed up to 15 minutes).
+// A warning above the content when the data are not what the reports need. The morning reports need the previous trading
+// day's closes, so the test is the closes' dates, not the time of the fetch: red when most of the main instruments lack
+// the previous trading day's close (a failed run whose fallback kept older prices), or when no run has happened today by
+// 07:00 Oslo time; amber when the prices come from a reserve source (delayed up to 15 minutes) or were kept from an
+// earlier run that day (the closes are complete, but the intraday prints are older than the run).
+function prevTradingDay(d) { const x = new Date(d); do { x.setUTCDate(x.getUTCDate() - 1); } while (x.getUTCDay() === 0 || x.getUTCDay() === 6); return x.toISOString().slice(0, 10); }
+function closesComplete() {
+  const keys = ["^GSPC", "^STOXX", "OSEBX.OL", "EURNOK=X", "BZ=F", "^TNX"], y = D.yahoo || {};
+  const need = prevTradingDay(new Date(new Date().toLocaleString("en-US", {timeZone: "Europe/Oslo"})));
+  const ok = keys.filter(k => (y[k] || {}).last_date >= need).length;
+  return ok * 2 > keys.length;          // a single market's holiday does not count
+}
 function drawBanner() {
   const el = $("#dataBanner"); if (!el || !D) return;
   const no = LANG === "no";
   const parse = s => { if (!s) return null; const d = new Date(String(s).replace(" UTC", "Z").replace(" ", "T")); return isNaN(d) ? null : d; };
   const fmt = d => d.toLocaleString(no ? "nb-NO" : "en-GB", {weekday: "long", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit", timeZone: "Europe/Oslo"}).replace(/(\d\d):(\d\d)$/, "$1" + (no ? "." : ":") + "$2");   // nb-NO already writes "kl." before the time
-  const asof = parse(D.asof), yasof = parse(D.yahoo_asof || D.asof), st = D.yahoo_status || {}, kept = D.kept_from_previous || [];
+  const asof = parse(D.asof), yasof = parse(D.yahoo_asof || D.asof), st = D.yahoo_status || {};
   const osloDay = d => d.toLocaleDateString("sv-SE", {timeZone: "Europe/Oslo"});
   const osloHour = +new Date().toLocaleString("en-GB", {hour: "2-digit", hour12: false, timeZone: "Europe/Oslo"});
   const noRun = asof && osloDay(asof) < osloDay(new Date()) && osloHour >= 7;
-  const stalePrices = (yasof && asof && asof - yasof > 12 * 36e5) || (st.kept || 0) > 40 || kept.some(k => /--offline/.test(String(k)));
+  const complete = closesComplete();
   let cls = "", html = "";
-  if (noRun || stalePrices) {
+  if (noRun || !complete) {
     const when = fmt(noRun ? asof : yasof);
     cls = "stale";
-    html = no ? `<strong>Kursene på siden er ikke oppdatert.</strong> Siste vellykkede henting var ${when} norsk tid. Feilen er kjent og rettes. Tallene i tabeller, figurer og rapporter kan være utdaterte.`
-              : `<strong>The prices on this page are not up to date.</strong> The last successful refresh was ${when} Oslo time. The fault is known and will be fixed. The figures in the tables, charts and reports may be stale.`;
+    html = no ? `<strong>Kursene på siden er ikke oppdatert.</strong> Siste vellykkede henting var ${when} norsk tid, og sluttkursene for siste handelsdag mangler. Feilen er kjent og rettes. Tallene i tabeller, figurer og rapporter kan være utdaterte.`
+              : `<strong>The prices on this page are not up to date.</strong> The last successful refresh was ${when} Oslo time, and the closes of the last trading day are missing. The fault is known and will be fixed. The figures in the tables, charts and reports may be stale.`;
   } else if ((st.reserve || 0) > 0) {
     const src = (st.reserve_sources || []).join(", ");
     cls = "reserve";
-    html = no ? `Kursene er hentet fra reservekilde (${src}) fordi Yahoo Finance avviste oppdateringen. De er forsinket inntil 15 minutter.`
-              : `The prices come from a reserve source (${src}) because Yahoo Finance refused the refresh. They are delayed up to 15 minutes.`;
+    html = no ? `Kursene er hentet fra reservekilde (${src}) fordi Yahoo Finance avviste oppdateringen. Sluttkursene er komplette; kurser i løpende handel er forsinket inntil 15 minutter.`
+              : `The prices come from a reserve source (${src}) because Yahoo Finance refused the refresh. The closes are complete; prices in live trading are delayed up to 15 minutes.`;
+  } else if (yasof && asof && asof - yasof > 36e5) {
+    cls = "reserve";
+    html = no ? `Yahoo Finance avviste oppdateringen ved siste kjøring. Sluttkursene er komplette, men kurser i løpende handel er fra ${fmt(yasof)}.`
+              : `Yahoo Finance refused the refresh at the last run. The closes are complete, but prices in live trading are from ${fmt(yasof)}.`;
   }
   el.className = "banner" + (cls ? " " + cls : ""); el.hidden = !html; el.innerHTML = html;
 }
