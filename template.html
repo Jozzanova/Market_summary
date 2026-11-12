@@ -98,6 +98,7 @@ details.nw.cb > summary { grid-template-columns: 1fr auto; } details.nw.cb > .nw
 .letter details.snap > summary { cursor: pointer; font-weight: 600; font-size: 1.05rem; padding: .45rem 0; color: var(--fg); }
 .letter details.snap[open] > summary { border-bottom: 1px solid var(--line, #ddd); margin-bottom: .4rem; }
 .letter .snaptag { font-size: .72rem; font-weight: 600; color: var(--accent); background: var(--accent-soft); border-radius: 4px; padding: .1rem .4rem; margin-left: .4rem; vertical-align: middle; }
+.letter .snaptag.phase { margin-left: 0; margin-right: .2rem; min-width: 7.5em; display: inline-block; text-align: center; color: var(--fg); background: var(--card2); border: 1px solid var(--line); }
 .letter h1 { font-size: 1.5rem; color: var(--fg); margin: 0 0 .3rem; letter-spacing: -.01em; }
 .letter h2 { font-size: 1.12rem; margin: 1.4rem 0 .4rem; color: var(--accent); }
 .letter h3 { font-size: 1rem; margin: 1rem 0 .3rem; }
@@ -406,6 +407,7 @@ const T = {
   snap_title: ["The last 24 hours at a glance", "Det siste døgnet i korte trekk"], fig_title: ["Figures", "Figurer"],
   brent_title: ["Brent oil", "Brent-olje"], brent_s: ["USD per barrel, same period", "USD per fat, samme periode"], last_print: ["latest print", "siste kurs"],
   us_title: ["US trading outside regular hours", "USA utenom ordinær handelstid"], us_s: ["index ETFs before the open and after the close, index futures; Oslo time", "indeks-ETF-er før åpning og etter stenging, indeksfutures; norsk tid"],
+  ph_asia: ["Asia open", "Asia åpnet"], ph_eu_open: ["Europe open", "Europa åpnet"], ph_eu_mid: ["Europe midday", "Europa midt på dagen"], ph_us_open: ["US open", "USA åpnet"], ph_us_close: ["US close", "USA stengt"],
   us_close: ["Close", "Slutt"], us_post: ["After hours", "Etterbørs"], us_pre: ["Pre-market", "Førbørs"], us_fut: ["Index futures (last print, change from the last close)", "Indeksfutures (siste kurs, endring fra siste sluttkurs)"], i44_title: ["The krone: I-44", "Kronen: I-44"], i44_s: ["Norges Bank's import-weighted index; up = weaker krone. Fixed at 14:15 CET and published by Norges Bank around 16:00; the page picks it up within five minutes", "Norges Banks importveide kroneindeks; opp = svakere krone. Noteres kl. 14.15 og publiseres av Norges Bank ca. kl. 16.00; siden henter den innen fem minutter"],
   g_equities: ["Equities", "Aksjer"], r_us: ["United States", "USA"], r_europe: ["Europe", "Europa"], r_nordic: ["Nordics", "Norden"], r_asia: ["Asia", "Asia"], r_em: ["Emerging markets", "Fremvoksende markeder"], r_vol: ["Volatility", "Volatilitet"], g_bonds: ["Bonds and credit", "Obligasjoner og kreditt"], g_diff: ["Rate differentials, NOK minus (pp; changes in bp)", "Rentedifferanser, NOK minus (pp; endringer i bp)"], g_commodities: ["Commodities", "Råvarer"], g_fx: ["Currencies", "Valuta"],
   ev_title: ["Upcoming events", "Kommende hendelser"], ev_note: ["Central bank decisions, data releases and political dates kept by the daily agent; times are Oslo time. Importance: high (orange), medium (blue), low.", "Sentralbankmøter, statistikkslipp og politiske datoer, vedlikeholdt av den daglige agenten; tidene er norsk tid. Viktighet: høy (oransje), middels (blå), lav."],
@@ -779,8 +781,8 @@ function drawLetters() {
     body.innerHTML = snaps.map((sn, i) => {
       const txt = sn[LANG] || sn.en || sn.no || "";
       const lines = txt.split("\n"); const h = (lines[0] || "").replace(/^#\s*/, "");
-      const head = h || `${fmtDateLong(sn.date)} ${sn.time.slice(0, 2)}:${sn.time.slice(2)}`;
-      return `<details class="snap"><summary>${esc(head)}${i === 0 ? ` <span class="snaptag">${LANG === "no" ? "siste" : "latest"}</span>` : ""}</summary><div class="snapbody">${md(lines.slice(h ? 1 : 0).join("\n"))}</div></details>`;
+      const head = h ? snapHead(h) : `${fmtDateLong(sn.date)} ${sn.time.slice(0, 2)}:${sn.time.slice(2)}`;
+      return `<details class="snap"><summary><span class="snaptag phase">${t("ph_" + snapPhase(sn.time))}</span> ${esc(head)}${i === 0 ? ` <span class="snaptag">${LANG === "no" ? "siste" : "latest"}</span>` : ""}</summary><div class="snapbody">${md(lines.slice(h ? 1 : 0).join("\n"))}</div></details>`;
     }).join("");
     $("#figCard").style.display = "none";
     drawLetterFigs(body);
@@ -796,6 +798,10 @@ function drawLetters() {
   drawLetterFigs(figs);
   drawI44();
 }
+// the market phase an intraday snapshot belongs to, from its as-of time in Oslo: Asia open (before 06), Europe open (06-11),
+// Europe midday (11-15), US open (15-21), US close (21 on); the heading's own phase words are dropped so they are not shown twice
+const snapPhase = hhmm => { const h = +hhmm.slice(0, 2); return h < 6 ? "asia" : h < 11 ? "eu_open" : h < 15 ? "eu_mid" : h < 21 ? "us_open" : "us_close"; };
+const snapHead = h => h.replace(/^(Intraday update|Intraday|Intradagoppdatering|Intradag)\s*[,:]?\s*/i, "").replace(/^[^·]{0,40}·\s*/, "").trim();
 function drawUs() {
   const us = D.us_session || {}, card = $("#usCard"); if (!card) return;
   const etf = Object.values(us.etf || {}), fut = Object.values(us.futures || {});

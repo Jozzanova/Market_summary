@@ -63,8 +63,11 @@ themselves are in the brief. Label a citation with the outlet that wrote the pie
 Write a new pair of files `data/letters/YYYY-MM-DD/intraday-HHMM.en.md` and `intraday-HHMM.no.md`, where HHMM is the
 as-of time in Oslo time (for example `intraday-1545.en.md`). Never overwrite or delete an earlier snapshot: every run
 adds its own pair, and the Intraday view on the page shows the last four snapshots, whatever the day, as collapsed
-sections with the newest on top. Heading: `# Intraday update, <weekday day month year>, as of HH:MM Oslo time`
-(Norwegian: `# Intradagoppdatering, <ukedag dag. måned år>, per kl. HH.MM`). Format and tone as in DAILY.md: a bold
+sections with the newest on top, each tagged with its market phase. Heading, with the phase of your run:
+`# Intraday, <phase> · <weekday day month year>, HH:MM Oslo time` (Norwegian: `# Intradag, <fase> · <ukedag dag. måned
+år>, kl. HH.MM`), where the phase is one of "Europe open" / "Europa åpnet" (the 09:05 run), "Europe midday" / "Europa
+midt på dagen" (12:05), "US open" / "USA åpnet" (15:40) and "US close" / "USA stengt" (22:40). Example:
+`# Intradag, USA stengt · torsdag 12. november 2026, kl. 22.50`. Format and tone as in DAILY.md: a bold
 summary paragraph, then short sections (Equities; Rates and currencies; Commodities; Data and central banks; What to
 watch next), bullets, links in the text, 250-400 words. A `{chart: ...}` line is allowed where it helps. Do not change the
 other reports. The US-close run may run to 450 words, as it is the day's wrap.
