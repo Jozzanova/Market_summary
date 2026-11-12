@@ -141,6 +141,8 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
 .mx td { vertical-align: middle; } .spark { display: block; }
 .rng { display: inline-block; position: relative; width: 44px; height: 6px; border-radius: 3px; background: var(--line2); vertical-align: middle; margin-right: .4rem; }
 .rng i { position: absolute; top: -2px; width: 3px; height: 10px; margin-left: -1px; border-radius: 1px; background: var(--accent); } .tag.lag { color: var(--warn); border-color: var(--warn); }
+.hmTip { display: none; position: fixed; z-index: 60; max-width: 280px; background: var(--card); color: var(--fg); border: 1px solid var(--line); border-radius: 8px; padding: .5rem .7rem; font-size: .8rem; pointer-events: none; box-shadow: 0 6px 24px rgba(0,21,56,.35); }
+.hmTip .hmT { font-size: .9rem; margin-bottom: .15rem; } .hmTip svg { display: block; margin-top: .2rem; }
 .g10 th { text-align: center; } .g10 tbody th { text-align: left; color: var(--fg); } .g10 td.num { text-align: center; font-size: .84rem; }
 .g10 tr.me th { color: var(--accent); } .g10 tr.me td { font-weight: 600; }
 .g10 tr.me th, .g10 tr.me td { box-shadow: inset 0 2px 0 var(--accent), inset 0 -2px 0 var(--accent); border-bottom-color: transparent; }
@@ -895,12 +897,24 @@ function drawHeatmap() {
   const lab = items.map(i => `<b>${esc(i.s)}</b><br>${pct(i.chg)}`);
   plot("#hmPlot", [{type: "treemap", labels: items.map(i => i.s), parents: items.map(() => ""), values: items.map(i => i.cap), branchvalues: "total",
     text: lab, texttemplate: "%{text}", textposition: "middle center", textfont: {color: "#ffffff", family: "system-ui, sans-serif"},
-    customdata: items.map(i => [i.n, capTxt(i.cap), pct(i.chg)]),
-    hovertemplate: "<b>%{label}</b> %{customdata[0]}<br>%{customdata[2]}<br>" + (no ? "Markedsverdi " : "Market cap ") + "%{customdata[1]}<extra></extra>",
+    hoverinfo: "none",
     marker: {colors: items.map(i => Math.max(-5, Math.min(5, i.chg))), colorscale: scale, cmin: -5, cmax: 5, cmid: 0, line: {width: 1, color: cssv("--bg")}, showscale: innerWidth > 640,
       colorbar: {thickness: 10, len: 0.6, ticksuffix: " %", tickvals: [-5, -2.5, 0, 2.5, 5], tickfont: {color: cssv("--muted"), size: 10}, outlinewidth: 0}},
     tiling: {pad: 0}, pathbar: {visible: false}, sort: true}],
     {margin: {l: 0, r: 0, t: 0, b: 0}, hovermode: "closest", uniformtext: {minsize: 9, mode: "hide"}});
+  // the hover card, with a one-month line of daily closes when the pipeline fetched it
+  const node = $("#hmPlot"); let tip = $("#hmTip"); if (!tip) { tip = document.createElement("div"); tip.id = "hmTip"; tip.className = "hmTip"; document.body.appendChild(tip); }
+  const line = ys => { const n = ys.length; if (n < 2) return ""; const w = 220, h = 56, lo = Math.min(...ys), hi = Math.max(...ys), span = hi - lo || 1;
+    const pts = ys.map((y, i) => `${(i / (n - 1) * (w - 6) + 3).toFixed(1)},${(h - 4 - (y - lo) / span * (h - 8)).toFixed(1)}`), col = ys[n - 1] >= ys[0] ? "var(--ok)" : "var(--bad)";
+    return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><polyline fill="none" stroke="${col}" stroke-width="1.6" points="${pts.join(" ")}"/><circle cx="${pts[n - 1].split(",")[0]}" cy="${pts[n - 1].split(",")[1]}" r="2.4" fill="${col}"/></svg>`; };
+  const show = (i, ev) => { const m = i.m1 || [], mchg = m.length > 1 ? 100 * (m[m.length - 1] / m[0] - 1) : null;
+    tip.innerHTML = `<div class="hmT"><b>${esc(i.s)}</b> <span class="muted">${esc(i.n)}</span></div><div>${chg(i.chg, "%")} ${no ? "i dag" : "today"} · ${no ? "markedsverdi" : "market cap"} ${esc(capTxt(i.cap))}</div>` +
+      (m.length > 1 ? `<div class="muted small" style="margin-top:.35rem">${no ? "Siste måned" : "Last month"}: ${chg(mchg, "%")} · ${fmt(m[0], 2)} → ${fmt(m[m.length - 1], 2)} USD</div>${line(m)}` : "");
+    const x = ev.clientX, y = ev.clientY, W = tip.offsetWidth || 240, H = tip.offsetHeight || 120;
+    tip.style.left = `${Math.min(x + 14, innerWidth - W - 8)}px`; tip.style.top = `${y + 16 + H > innerHeight ? y - H - 12 : y + 16}px`; tip.style.display = "block"; };
+  node.on("plotly_hover", ev => { const p = ev.points && ev.points[0]; const e = ev.event || {}; if (p && items[p.pointNumber] && e.clientX != null) show(items[p.pointNumber], e); });
+  node.on("plotly_unhover", () => { tip.style.display = "none"; });
+  node.addEventListener("mouseleave", () => { tip.style.display = "none"; });
   const last = items.map(i => i.t || "").sort().pop();
   $("#hmNote").textContent = no
     ? `De ${items.length} største amerikansknoterte aksjene etter markedsverdi (én aksjeklasse per selskap), fra Yahoo Finance. Endring mot forrige sluttkurs; i åpningstiden er det siste omsetning. Siste kurs ${last}. Fargeskalaen stopper ved ±5 prosent.`

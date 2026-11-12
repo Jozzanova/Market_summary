@@ -701,7 +701,22 @@ def fetch_heatmap(n=150):
             break
     if len(items) < 20:
         raise ValueError(f"only {len(items)} stocks from the screener")
-    log(f"heatmap: {len(items)} stocks, latest print {max(i['t'] or '' for i in items)}")
+    # a month of daily closes per stock for the hover chart, from Yahoo's spark endpoint (many symbols per call)
+    got = 0
+    for ci in range(0, len(items), 20):
+        chunk = items[ci:ci + 20]
+        try:
+            raw = cached(f"yahoo_spark_{ci // 20}.json", 2, lambda chunk=chunk: get("https://query1.finance.yahoo.com/v8/finance/spark?symbols=" + ",".join(urllib.request.quote(i["s"]) for i in chunk) + "&range=1mo&interval=1d"))
+            sp = json.loads(raw)
+            for i in chunk:
+                r = sp.get(i["s"]) or {}
+                closes = [round(float(c), 2) for c in (r.get("close") or []) if c is not None]
+                if len(closes) >= 5:
+                    i["m1"] = closes[-23:]
+                    got += 1
+        except Exception as e:
+            log(f"  heatmap spark chunk {ci // 20}: {repr(e)[:100]}")
+    log(f"heatmap: {len(items)} stocks, latest print {max(i['t'] or '' for i in items)}, month series for {got}")
     return {"fetched": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"), "items": items}
 
 
