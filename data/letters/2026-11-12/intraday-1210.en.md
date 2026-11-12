@@ -16,7 +16,7 @@
 
 ## Data and central banks
 - **Norway: oil investment is lower.** Statistics Norway expects 266 billion kroner in 2026, nine billion less than in its previous survey, and 237 billion in 2027 ([E24](https://e24.no/energi-og-klima/i/Qrlp88/jekker-ned-aarets-oljeinvesteringer)). The first sets a slightly weaker tone for domestic activity; it does not change the rate outlook.
-- **UK growth was strong.** GDP rose 0.7 per cent in the third quarter, the strongest in more than two years ([FT](https://www.ft.com/content/94f3ad1c-a186-4893-ae97-5f129690d121)), but it will not by itself move the Bank of England in December ([FT](https://www.ft.com/content/f92f05b4-0d1a-4bdb-8759-4d71f1cf58af)). I have not verified the consensus.
+- **UK growth was strong.** GDP rose 0.7 per cent in the third quarter, the strongest in more than two years ([FT](https://www.ft.com/content/94f3ad1c-a186-4893-ae97-5f129690d121)), but it will not by itself move the Bank of England in December ([FT](https://www.ft.com/content/f92f05b4-0d1a-4bdb-8759-4d71f1cf58af)). The consensus has not been verified.
 
 ## What to watch for the rest of the day
 - The Nvidia board's decision and the reaction at the US open.
