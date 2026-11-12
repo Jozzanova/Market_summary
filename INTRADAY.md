@@ -18,6 +18,15 @@ library is enough; Node is used for the deploy. Do not end the run before step 5
 Read today's morning reports and the earlier intraday snapshots in `data/letters/YYYY-MM-DD/` (today's date, UTC) so you
 know what was already said; each run adds to the story, it does not repeat it.
 
+**If the refresh fails, the report is still written.** Yahoo sometimes refuses the cloud runs (HTTP 429, too many requests
+from a shared address; 12 Nov 2026, 15:40 run). `fetch.py` then stops asking after four refusals, keeps the previous run's
+prices, still writes `data/data.json`, and the brief opens with a warning line ("Yahoo refused the refresh ... as of HH:MM
+UTC"). Write the report anyway: quote the brief's prices with that time, say in the summary paragraph that the market data
+is from the earlier run, and take the moves since then only from linked sources (Reuters, Bloomberg, CNBC, the exchanges).
+If `fetch.py` does not finish within its timeout, run `python pipeline/fetch.py --offline`: it writes the previous run's
+data (taken from the live site on a fresh clone) so `alerts.py`, `brief.py` and `build.py` work. A run that ends without a
+report is the worst outcome; a late or thinner report that says what it could not verify is fine.
+
 ## 2. Which run this is, and what it covers
 
 Decide from the current Oslo time (UTC+1 in winter, UTC+2 in summer):

@@ -83,6 +83,36 @@ def get(url, retries=3, timeout=40):
             raise
 
 
+YAHOO_HOSTS = ("query1.finance.yahoo.com", "query2.finance.yahoo.com")
+_yahoo_refused = 0
+YAHOO_DOWN = False
+
+
+def yahoo_get(url):
+    """Yahoo with a circuit breaker. The cloud runs share their egress addresses, and Yahoo answers 429 to all of them for a
+    while (12 Nov 2026, 15:40 run: every symbol refused, fetch.py never finished within the routine's time budget). After four
+    symbols in a row have been refused on both hosts, the rest of the run skips Yahoo and keeps the previous data instead of
+    retrying eighty symbols one by one; data.json is still written and the brief says which prices are from the previous run."""
+    global _yahoo_refused, YAHOO_DOWN
+    if YAHOO_DOWN:
+        raise RuntimeError("Yahoo rate-limited (429); skipped")
+    last = None
+    for host in YAHOO_HOSTS:
+        try:
+            raw = get(url.replace(YAHOO_HOSTS[0], host), retries=1 if host == YAHOO_HOSTS[0] else 0, timeout=30)
+            _yahoo_refused = 0
+            return raw
+        except urllib.error.HTTPError as e:
+            last = e
+            if e.code != 429:
+                raise
+    _yahoo_refused += 1
+    if _yahoo_refused >= 4:
+        YAHOO_DOWN = True
+        log("  !! Yahoo refused four symbols in a row (429 on both hosts); Yahoo skipped for the rest of this run, previous data kept")
+    raise last
+
+
 def cached(name, max_age_h, producer):
     """Raw bytes cached under rawData/ for max_age_h hours (ignored with --refresh)."""
     path = RAW / name
@@ -98,7 +128,7 @@ def cached(name, max_age_h, producer):
 # ----------------------------------------------------------------------------------------------------------------------
 def yahoo_chart(sym, rng="1y"):
     raw = cached(f"yahoo_{sym.replace('^', '_').replace('=', '_').replace('/', '_')}.json", 2,
-                 lambda: get(f"https://query1.finance.yahoo.com/v8/finance/chart/{urllib.request.quote(sym)}?range={rng}&interval=1d"))
+                 lambda: yahoo_get(f"https://query1.finance.yahoo.com/v8/finance/chart/{urllib.request.quote(sym)}?range={rng}&interval=1d"))
     res = json.loads(raw)["chart"]["result"][0]
     meta, ts = res["meta"], res["timestamp"]
     closes = res["indicators"]["quote"][0]["close"]
@@ -718,7 +748,7 @@ def read_csv(name):
 def fetch_heatmap(n=150):
     """The largest US-listed stocks by market cap with the day's change (Yahoo's predefined large-cap screener, which
     needs no login). Used for the treemap on the Equities tab. One share class per company (GOOGL, BRK-B)."""
-    raw = cached("yahoo_screener_large_caps.json", 2, lambda: get(
+    raw = cached("yahoo_screener_large_caps.json", 2, lambda: yahoo_get(
         "https://query1.finance.yahoo.com/v1/finance/screener/predefined/saved?scrIds=large_cap_stocks&count=250"))
     quotes = json.loads(raw)["finance"]["result"][0]["quotes"]
     quotes = [q for q in quotes if q.get("marketCap") and q.get("regularMarketChangePercent") is not None and q.get("quoteType") == "EQUITY"]
@@ -742,7 +772,7 @@ def fetch_heatmap(n=150):
     for ci in range(0, len(items), 20):
         chunk = items[ci:ci + 20]
         try:
-            raw = cached(f"yahoo_spark_{ci // 20}.json", 2, lambda chunk=chunk: get("https://query1.finance.yahoo.com/v8/finance/spark?symbols=" + ",".join(urllib.request.quote(i["s"]) for i in chunk) + "&range=1mo&interval=1d"))
+            raw = cached(f"yahoo_spark_{ci // 20}.json", 2, lambda chunk=chunk: yahoo_get("https://query1.finance.yahoo.com/v8/finance/spark?symbols=" + ",".join(urllib.request.quote(i["s"]) for i in chunk) + "&range=1mo&interval=1d"))
             sp = json.loads(raw)
             for i in chunk:
                 r = sp.get(i["s"]) or {}
@@ -895,7 +925,7 @@ def fetch_us_session():
     stamp = lambda t: datetime.fromtimestamp(t, tz=timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     etf = {}
     for sym, en, no in US_SESSION:
-        raw = cached(f"yahoo_pp_{sym}.json", 0.2, lambda sym=sym: get(f"https://query1.finance.yahoo.com/v8/finance/chart/{sym}?range=1d&interval=5m&includePrePost=true"))
+        raw = cached(f"yahoo_pp_{sym}.json", 0.2, lambda sym=sym: yahoo_get(f"https://query1.finance.yahoo.com/v8/finance/chart/{sym}?range=1d&interval=5m&includePrePost=true"))
         res = json.loads(raw)["chart"]["result"][0]
         meta, ts = res["meta"], res.get("timestamp") or []
         closes = (res.get("indicators", {}).get("quote") or [{}])[0].get("close") or []
@@ -936,10 +966,25 @@ def main():
             log(f"previous data taken from the live site ({prev.get('asof')})")
         except Exception as e:
             log(f"no previous data ({repr(e)[:80]})")
+    if "--offline" in sys.argv:
+        # the sources are unreachable (or the time budget is spent): write the previous run's data as it is, dated as it was
+        if not prev:
+            log("!! --offline: no previous data to write"); return 1
+        prev["kept_from_previous"] = ["all blocks (--offline: the previous run's data, as of " + str(prev.get("asof")) + ")"]
+        (DATA / "data.json").write_text(json.dumps(prev, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+        log(f"wrote data/data.json from the previous run ({prev.get('asof')}), nothing refreshed")
+        return 0
     kept = []
     log("1. Yahoo")
     yahoo, failed = fetch_yahoo(prev.get("yahoo", {}))
-    kept += [f"yahoo:{s}" for s in failed if s in yahoo]
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    yahoo_asof = now
+    if len(failed) > 8 and prev.get("asof"):
+        # most of Yahoo refused: the prices are the previous run's, dated as such for the brief
+        yahoo_asof = prev.get("yahoo_asof") or prev["asof"]
+        kept.append(f"yahoo: {len(failed)} of {len(yahoo)} instruments kept from the previous run ({yahoo_asof}; Yahoo rate-limited)")
+    else:
+        kept += [f"yahoo:{s}" for s in failed if s in yahoo]
     log("1b. Dated Brent and UK gas")
     fetch_extra_commodities(yahoo, prev.get("yahoo", {}))
     derive_crosses(yahoo)
@@ -971,7 +1016,7 @@ def main():
     except Exception as e:
         log(f"  !! derived failed: {repr(e)[:200]}")
         blocks["derived"] = prev.get("derived", {})
-    data = {"asof": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"), "yahoo": yahoo, **blocks,
+    data = {"asof": now, "yahoo_asof": yahoo_asof, "yahoo": yahoo, **blocks,
             "policy_rates": read_csv("policy_rates.csv"), "events": read_csv("events.csv"), "cpi_consensus": read_csv("cpi_consensus.csv"), "cb_minutes": read_json("cb_minutes.json", {}), "kept_from_previous": kept}
     (DATA / "data.json").write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     log(f"wrote data/data.json ({(DATA / 'data.json').stat().st_size // 1024} kB); kept from previous: {kept or 'none'}")

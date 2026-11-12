@@ -63,6 +63,9 @@ def main():
         print("Monday: there has been no session since Friday. The 1d column is Friday against Thursday; the 1w column (Friday close against the previous Friday) is the week's change for the weekly review.")
     if D.get("kept_from_previous"):
         print(f"kept from the previous run (source down): {', '.join(D['kept_from_previous'])}")
+    if D.get("yahoo_asof") and D["yahoo_asof"] != D["asof"]:
+        print(f"!! Yahoo refused the refresh (rate limit): the prices below are from the previous run, as of {D['yahoo_asof']}. Say so in the report, "
+              f"quote them with that time, and take any later move only from a linked source.")
     y = D["yahoo"]
     for grp, title in (("equity", "Equity indices (local currency; 1d = last close vs previous close, or the live print if the market is open)"),
                        ("ai", "AI and semiconductor proxies (SOX, NYSE FANG+, semiconductor, Magnificent 7 and AI ETFs)"), ("sector", "US sectors (S&P 500 sector ETFs)"), ("rates", "US Treasury yields and futures (Yahoo, live prints)"),
