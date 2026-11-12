@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-12T16:38:11Z",
+ "updated": "2026-11-12T21:18:13Z",
  "events": [
   {
    "id": "^SOX:2026-11-11",
@@ -33,6 +33,23 @@
     "last": 9.49735,
     "d1": 1.025,
     "unit": "%"
+   }
+  },
+  {
+   "id": "DGS2:2026-11-10",
+   "time": "2026-11-10T22:00:00Z",
+   "severity": "medium",
+   "kind": "rates",
+   "origin": "data",
+   "source": "FRED",
+   "url": "https://fred.stlouisfed.org/series/DGS2",
+   "text_en": "The US 2-year Treasury yield rose 17 basis points to 4.73 per cent on 10 November 2026.",
+   "text_no": "Den amerikanske toårsrenten steg 17 basispunkter til 4,73 prosent 2026-11-10.",
+   "value": {
+    "symbol": "DGS2",
+    "last": 4.73,
+    "d1": 17.0,
+    "unit": "bp"
    }
   },
   {
