@@ -66,6 +66,16 @@ def main():
                        ("ai", "AI and semiconductor proxies (SOX, NYSE FANG+, semiconductor, Magnificent 7 and AI ETFs)"), ("sector", "US sectors (S&P 500 sector ETFs)"), ("rates", "US Treasury yields and futures (Yahoo, live prints)"),
                        ("commodity", "Commodities"), ("fx", "FX (quoted as named; a rise in EUR/NOK is a weaker krone)")):
         table([(v["name_en"], v) for s, v in y.items() if v["group"] == grp], title)
+    us = D.get("us_session", {})
+    if us.get("etf"):
+        print("\n## US session outside regular hours (Yahoo; the ETFs are proxies, so write 'the S&P 500 ETF after hours', never an index level; times UTC, Oslo = UTC+1 in winter, +2 in summer)")
+        print(f"{'proxy':<26} {'close':>9} {'close time':>17} {'1d':>8} {'after hrs':>10} {'time':>17} {'vs close':>9} {'pre-mkt':>9} {'time':>17} {'vs close':>8}")
+        for v in us["etf"].values():
+            print(f"{v['name_en']:<26} {f(v.get('close')):>9} {v.get('close_time') or '':>17} {ch(v.get('d1'), '%'):>8} {f(v.get('post')):>10} {v.get('post_time') or '':>17} {ch(v.get('post_chg'), '%'):>9} {f(v.get('pre')):>9} {v.get('pre_time') or '':>17} {ch(v.get('pre_chg'), '%'):>8}")
+        if us.get("futures"):
+            print("Index futures (near round-the-clock trading; 1d = last print vs the previous settlement):")
+            for v in us["futures"].values():
+                print(f"{v['name_en']:<26} {f(v.get('last')):>9} {v.get('last_time') or '':>17} {ch(v.get('d1'), '%'):>8}")
     table([(v["name_en"], v) for v in D.get("fred", {}).values() if v["group"] == "rates"] + [(v["name_en"], v) for v in D.get("ecb", {}).values()] + [(v["name_en"], v) for v in D.get("nb", {}).values()],
           "Government yields and policy rate, official daily fixes (FRED, ECB AAA curve, Norges Bank; one day behind the live prints)")
     table([(v["name_en"], v) for v in D.get("fred", {}).values() if v["group"] == "credit"], "Credit spreads, ICE BofA option-adjusted spreads in per cent (FRED)")

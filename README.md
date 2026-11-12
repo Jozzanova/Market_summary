@@ -41,4 +41,4 @@ The table's market-pricing column is computed for the Fed from the CME 30-day Fe
 and kept by the agent from press reports for the other banks (columns p_hike, p_cut, pricing_note, pricing_date, pricing_url). The instrument universe
 is `data/instruments.csv`.
 
-The repository is `https://github.com/Jozzanova/market_summary`; the morning routine (playbook DAILY.md) runs every day at 06:05 Oslo time from the data and news available at 06:00; the intraday routine (playbook INTRADAY.md) runs on weekdays at 12:05 and 17:05 Oslo time and adds a new intraday snapshot each run.
+The repository is `https://github.com/Jozzanova/market_summary`; the morning routine (playbook DAILY.md) runs every day at 06:05 Oslo time from the data and news available at 06:00; the intraday routines (playbook INTRADAY.md) run on weekdays at 09:05 and 12:05 (routine "intraday update") and at 15:40 and 22:40 Oslo time (routine "intraday update (US)", after the US open and close; the crons are in UTC and are moved an hour at the clock changes) and add a new intraday snapshot each run; the Intraday view shows the last four, collapsed.

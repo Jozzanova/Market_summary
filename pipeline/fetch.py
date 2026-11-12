@@ -881,6 +881,51 @@ def fetch_pce(blocks):
     log("pce: " + ", ".join(f"{k} {series['USA'][k]['last']} ({series['USA'][k]['last_date'][:7]})" for k in ("pce", "pce_core") if k in series.get("USA", {})))
 
 
+US_SESSION = [("SPY", "S&P 500 (SPY ETF)", "S&P 500 (SPY-ETF)"), ("QQQ", "Nasdaq 100 (QQQ ETF)", "Nasdaq 100 (QQQ-ETF)"),
+              ("DIA", "Dow Jones (DIA ETF)", "Dow Jones (DIA-ETF)"), ("IWM", "Russell 2000 (IWM ETF)", "Russell 2000 (IWM-ETF)")]
+US_FUTURES = [("ES=F", "S&P 500 futures", "S&P 500-futures"), ("NQ=F", "Nasdaq 100 futures", "Nasdaq 100-futures"),
+              ("YM=F", "Dow futures", "Dow-futures"), ("RTY=F", "Russell 2000 futures", "Russell 2000-futures")]
+
+
+def fetch_us_session():
+    """The US session outside regular hours. The index ETFs (SPY, QQQ, DIA, IWM) trade before the open (09:00-14:30 UTC) and
+    after the close (21:00-01:00 UTC), and Yahoo's chart endpoint returns those prints with includePrePost; the indices
+    themselves have none. The index futures trade almost round the clock and carry the overnight move. Read by the
+    US-open and US-close intraday runs (INTRADAY.md) and shown on the Intraday report page."""
+    stamp = lambda t: datetime.fromtimestamp(t, tz=timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    etf = {}
+    for sym, en, no in US_SESSION:
+        raw = cached(f"yahoo_pp_{sym}.json", 0.2, lambda sym=sym: get(f"https://query1.finance.yahoo.com/v8/finance/chart/{sym}?range=1d&interval=5m&includePrePost=true"))
+        res = json.loads(raw)["chart"]["result"][0]
+        meta, ts = res["meta"], res.get("timestamp") or []
+        closes = (res.get("indicators", {}).get("quote") or [{}])[0].get("close") or []
+        per = meta.get("currentTradingPeriod") or {}
+        r0, r1 = (per.get("regular") or {}).get("start"), (per.get("regular") or {}).get("end")
+        pts = [(t, c) for t, c in zip(ts, closes) if c is not None]
+        pre = [p for p in pts if r0 and p[0] < r0]
+        post = [p for p in pts if r1 and p[0] >= r1]
+        close, close_t = meta.get("regularMarketPrice"), meta.get("regularMarketTime")
+        prev = meta.get("chartPreviousClose") or meta.get("previousClose")
+        e = {"name_en": en, "name_no": no, "close": close, "close_time": stamp(close_t) if close_t else None, "prev_close": prev, "d1": pct(close, prev),
+             "session_date": datetime.fromtimestamp(r0, tz=timezone.utc).strftime("%Y-%m-%d") if r0 else None}
+        if post:
+            e.update(post=round(float(post[-1][1]), 4), post_time=stamp(post[-1][0]), post_chg=pct(post[-1][1], close))
+        if pre:
+            # before the open, Yahoo's regularMarketPrice is still the previous close, so the pre-market change is measured from it
+            ref = close if (close_t and r0 and close_t < r0) else prev
+            e.update(pre=round(float(pre[-1][1]), 4), pre_time=stamp(pre[-1][0]), pre_chg=pct(pre[-1][1], ref))
+        etf[sym] = e
+    fut = {}
+    for sym, en, no in US_FUTURES:
+        try:
+            s = yahoo_chart(sym, "5d")
+            fut[sym] = {"name_en": en, "name_no": no, "last": s["last"], "last_time": s["last_time"], "prev_close": s["prev_close"], "d1": pct(s["last"], s["prev_close"])}
+        except Exception as e:
+            log(f"  {sym}: {repr(e)[:80]}")
+    return {"etf": etf, "futures": fut, "fetched": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
+            "source": "Yahoo Finance chart API with includePrePost; the ETFs stand in for the indices, which have no pre- or post-market prints"}
+
+
 def main():
     prev = json.loads((DATA / "data.json").read_text(encoding="utf-8")) if (DATA / "data.json").exists() else {}
     if not prev:
@@ -899,7 +944,7 @@ def main():
     fetch_extra_commodities(yahoo, prev.get("yahoo", {}))
     derive_crosses(yahoo)
     blocks = {}
-    for name, fn in (("fred", fetch_fred), ("ecb", fetch_ecb), ("nb", fetch_nb), ("ssb", fetch_ssb), ("bis", fetch_bis), ("macro", fetch_macro), ("fedfunds", fetch_fedfunds), ("gov", fetch_gov), ("curves", fetch_curves), ("eer", fetch_eer), ("mpr", fetch_mpr), ("news", fetch_news), ("heatmap", fetch_heatmap)):
+    for name, fn in (("fred", fetch_fred), ("ecb", fetch_ecb), ("nb", fetch_nb), ("ssb", fetch_ssb), ("bis", fetch_bis), ("macro", fetch_macro), ("fedfunds", fetch_fedfunds), ("gov", fetch_gov), ("curves", fetch_curves), ("eer", fetch_eer), ("mpr", fetch_mpr), ("us_session", fetch_us_session), ("news", fetch_news), ("heatmap", fetch_heatmap)):
         log(f"{name}")
         try:
             blocks[name] = fn()
