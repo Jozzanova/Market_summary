@@ -55,6 +55,7 @@ as DAILY.md step 3 describes.
 
 ## 4. Build and deploy
 
+    python -X utf8 pipeline/lint.py        # fix every finding in the intraday report, rerun until clean
     python -X utf8 build.py
     npx wrangler deploy                         # CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID are in the environment; never write them into the repository
 

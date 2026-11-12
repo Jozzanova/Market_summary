@@ -366,6 +366,42 @@ def fetch_mpr():
     return {"dates": dates, "last": past[-1] if past else None}
 
 
+def fetch_ppr(mpr):
+    """Norges Bank's projections from the Monetary Policy Report's published data set (tallsett-ppr-N-YY.xlsx, linked
+    from the report page): the policy rate path (Data A) and I-44 (Data E), quarterly, history and projection. Nothing
+    is typed in by hand: the list page gives the latest report, the report page gives the file."""
+    raw = cached("nb_mpr_list.html", 12, lambda: get("https://www.norges-bank.no/aktuelt/publikasjoner/Pengepolitisk-rapport/", timeout=60))
+    html = raw.decode("utf-8", "ignore")
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    reports = sorted(set((d, h) for h, d in re.findall(r'href="(/aktuelt/publikasjoner/Pengepolitisk-rapport/20\d\d/[^"]+)"[^<]*>Pengepolitisk rapport \d/20\d\d</a>.*?dateTime="(20\d\d-\d\d-\d\d)', html, flags=re.S)))
+    reports = [r for r in reports if r[0] <= today]
+    if not reports:
+        raise ValueError("no report page found")
+    published, href = reports[-1]
+    page = cached("nb_ppr_page.html", 12, lambda: get("https://www.norges-bank.no" + href, timeout=60)).decode("utf-8", "ignore")
+    m = re.search(r'href="([^"]*tallsett-ppr-(\d)-(\d\d)\.xlsx[^"]*)"', page)
+    if not m:
+        raise ValueError("no data set link on the report page")
+    url = m.group(1); url = url if url.startswith("http") else "https://www.norges-bank.no" + url
+    report = f"{m.group(2)}/{m.group(3)}"
+    raw = cached(f"nb_ppr_{m.group(2)}_{m.group(3)}.xlsx", 24 * 30, lambda: get(url.split("?")[0], timeout=90))
+    def column(sheet, col, prev_col=None):
+        pts, prev = [], []
+        for r in xlsx_rows(raw, sheet):
+            if r and isinstance(r[0], (int, float)) and r[0] > 30000:
+                d = excel_date(r[0])
+                if len(r) > col and isinstance(r[col], (int, float)):
+                    pts.append([d, round(float(r[col]), 2)])
+                if prev_col is not None and len(r) > prev_col and isinstance(r[prev_col], (int, float)):
+                    prev.append([d, round(float(r[prev_col]), 2)])
+        return pts, prev
+    policy, policy_prev = column("Data A", 1, 2)
+    i44, _ = column("Data E", 1)
+    out = {"report": report, "published": published, "url": url.split("?")[0], "policy": policy, "policy_prev": policy_prev, "i44": i44}
+    log(f"ppr: report {report} of {published}, policy path {len(policy)} quarters to {policy[-1][0] if policy else '-'} ({policy[-1][1] if policy else '-'}), I-44 {len(i44)} quarters to {i44[-1][0] if i44 else '-'}")
+    return out
+
+
 def derive(blocks):
     """Series built from others: the 5y5y forward nominal rates for the US and the euro area (2 x 10-year minus 5-year),
     and the euro-area periphery spread (all-issuer minus AAA 10-year, percentage points)."""
@@ -847,6 +883,14 @@ def fetch_pce(blocks):
 
 def main():
     prev = json.loads((DATA / "data.json").read_text(encoding="utf-8")) if (DATA / "data.json").exists() else {}
+    if not prev:
+        # data.json is not versioned: a fresh clone takes the previous run's data from the live site, so the fallbacks work
+        try:
+            raw = get("https://market-summary.jskjeltorp.workers.dev/data.js", timeout=60).decode("utf-8")
+            prev = json.loads(raw[raw.index("{"):raw.rindex("}") + 1])
+            log(f"previous data taken from the live site ({prev.get('asof')})")
+        except Exception as e:
+            log(f"no previous data ({repr(e)[:80]})")
     kept = []
     log("1. Yahoo")
     yahoo, failed = fetch_yahoo(prev.get("yahoo", {}))
@@ -871,6 +915,12 @@ def main():
         fetch_pce(blocks)
     except Exception as e:
         log(f"  !! pce failed: {repr(e)[:200]}")
+    try:
+        blocks["ppr"] = fetch_ppr(blocks.get("mpr"))
+    except Exception as e:
+        log(f"  !! ppr failed: {repr(e)[:200]}; keeping the previous data")
+        blocks["ppr"] = prev.get("ppr", {})
+        kept.append("ppr")
     try:
         blocks["derived"] = derive(blocks)
     except Exception as e:

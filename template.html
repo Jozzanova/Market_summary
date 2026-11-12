@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Market summary</title>
 <meta name="description" content="A daily review of equity, bond, commodity and currency markets over the last 24 hours, with a macro report on central banks, a politics report and a calendar of upcoming events, in English and Norwegian.">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.35.3/plotly.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.35.3/plotly.min.js" defer></script>
 <style>
 :root {
   --bg: #F5F2EB; --card: #FFFFFF; --card2: #F5F2EB; --fg: #001538; --muted: #35445F; --line: #E8EAED; --line2: #E8EAED;
@@ -144,6 +144,7 @@ footer { color: var(--muted); font-size: .82rem; border-top: 1px solid var(--lin
 .rng i { position: absolute; top: -2px; width: 3px; height: 10px; margin-left: -1px; border-radius: 1px; background: var(--accent); } .tag.lag { color: var(--warn); border-color: var(--warn); }
 .hmTip { display: none; position: fixed; z-index: 60; max-width: 280px; background: var(--card); color: var(--fg); border: 1px solid var(--line); border-radius: 8px; padding: .5rem .7rem; font-size: .8rem; pointer-events: none; box-shadow: 0 6px 24px rgba(0,21,56,.35); }
 .hmTip .hmT { font-size: .9rem; margin-bottom: .15rem; } .hmTip svg { display: block; margin-top: .2rem; }
+.dq th, .dq td { padding: .3rem .5rem; } .dq .tag { white-space: nowrap; } .dq .tag.ok { color: var(--ok); border-color: var(--ok); } .dq .tag.warn { color: var(--warn); border-color: var(--warn); } .dq .tag.bad { color: var(--bad); border-color: var(--bad); }
 .g10 th { text-align: center; } .g10 tbody th { text-align: left; color: var(--fg); } .g10 td.num { text-align: center; font-size: .84rem; }
 .g10 tr.me th { color: var(--accent); } .g10 tr.me td { font-weight: 600; }
 .g10 tr.me th, .g10 tr.me td { box-shadow: inset 0 2px 0 var(--accent), inset 0 -2px 0 var(--accent); border-bottom-color: transparent; }
@@ -239,18 +240,15 @@ details.src > summary::before { content: "▸ "; } details.src[open] > summary::
   </div>
 </section>
 
-<section class="pane" id="pane-alerts">
-  <div class="tiles" id="tiles-alerts"></div>
+
+<section class="pane" id="pane-news">
+  <div class="tiles" id="tiles-news"></div>
   <div class="card">
     <div class="row" style="justify-content:space-between"><h2 style="margin:0" data-i="al_title">Market-moving events</h2><span id="alStatus" class="tag"></span></div>
     <p class="note" data-i="al_note">A worker checks the krone (I-44, EUR/NOK, USD/NOK), the main equity indices, the VIX, US yields, oil, gas and metals every five minutes against the previous close, and scans the Reuters, Bloomberg, FT and WSJ feeds for shock keywords; an agent reviews the news every two hours on weekdays and adds events with a note and a source. The last 20 are kept. Red: a high-severity event in the last 24 hours; orange: a medium one; green: nothing.</p>
     <div id="alList"></div>
     <p class="note" id="alMeta"></p>
   </div>
-</section>
-
-<section class="pane" id="pane-news">
-  <div class="tiles" id="tiles-news"></div>
   <div class="card">
     <h2 data-i="nw_title">Recent headlines</h2>
     <div class="row"><div class="chips" id="nwSrc"></div></div>
@@ -358,10 +356,13 @@ details.src > summary::before { content: "▸ "; } details.src[open] > summary::
     <div class="card"><h2 data-i="nb_infl">Inflation against the 2 per cent target <small data-i="nb_infl_s">12-month change, Statistics Norway</small></h2><div class="plot" id="nbInflPlot"></div></div>
     <div class="card"><h2 data-i="nb_krone">The krone <small data-i="nb_krone_s">EUR/NOK and USD/NOK, one year</small></h2><div class="plot" id="nbKronePlot"></div></div>
     <div class="card"><h2 data-i="nb_next">Next Norges Bank dates</h2><div id="nbEvents"></div></div>
+    <div class="card"><h2 data-i="nb_ppr_rate">Policy rate: Norges Bank's projection <small id="nbPprSub" data-i="ppr_src">from the report's data set</small></h2><div class="plot" id="nbPprRate"></div></div>
+    <div class="card"><h2 data-i="nb_ppr_i44">I-44: Norges Bank's projection <small data-i="nb_ppr_i44_s">quarterly averages; a rise is a weaker krone</small></h2><div class="plot" id="nbPprI44"></div></div>
   </div>
 </section>
 
-<section class="pane" id="pane-update">
+<section class="pane" id="pane-quality">
+  <div class="card"><h2 data-i="dq_title">Data quality <small data-i="dq_s">every data set on the page: source, latest observation, age and whether it is fresh, lagged by design, stale, or kept from an earlier run</small></h2><div class="scrollx" id="dqTable"></div><p class="note" data-i="dq_note">Fresh means the latest observation is as recent as the source allows (a daily series: the last trading day; official closes: one business day behind). Lagged by design marks sources that publish with a known delay; those series are shown with their date and never used in the reports or the PDF. Stale means older than expected, and kept means the source was unreachable in the last run and the previous data stand in.</p></div>
   <div class="card"><h2 data-i="up_title">Update status</h2><div id="upStatus"></div></div>
   <div class="card"><h2 data-i="up_how">How the page is made</h2><div id="upHow"></div></div>
   <div class="card"><h2 data-i="up_src">Sources</h2><div id="upSources"></div></div>
@@ -386,7 +387,13 @@ const T = {
   al_meta: ["Live list updated", "Listen oppdatert"], al_none: ["No events recorded yet.", "Ingen hendelser registrert ennå."], tab_news: ["News", "Nyheter"], nw_title: ["Recent headlines", "Siste overskrifter"],
   nw_note: ["Headlines and snippets from the outlets' public feeds, refreshed with the data (morning and intraday runs); items from the last 36 hours, newest first. Reuters, DN, Finansavisen and Norges Bank come through Google News and have no snippet. Times are Oslo time.", "Overskrifter og utdrag fra medienes åpne nyhetsstrømmer, oppdatert sammen med dataene (morgen- og intradagkjøringene); saker fra de siste 36 timene, nyeste først. Reuters, DN, Finansavisen og Norges Bank hentes via Google Nyheter og har ikke utdrag. Tidene er norsk tid."],
   nc_markets: ["Markets", "Markeder"], nc_economy: ["Economy", "Økonomi"], "nc_central bank": ["Central banks", "Sentralbanker"], nc_norway: ["Norway", "Norge"], nc_politics: ["Politics", "Politikk"], tab_events: ["Upcoming events", "Kommende hendelser"], tab_equities: ["Equities", "Aksjer"], tab_rates: ["Rates & credit", "Renter og kreditt"],
-  tab_commodities: ["Commodities", "Råvarer"], tab_fx: ["Currencies", "Valuta"], tab_central: ["Central banks", "Sentralbanker"], tab_macro: ["Key figures", "Nøkkeltall"], tab_norgesbank: ["Norges Bank", "Norges Bank"], tab_update: ["Update", "Oppdatering"],
+  tab_commodities: ["Commodities", "Råvarer"], tab_fx: ["Currencies", "Valuta"], tab_central: ["Central banks", "Sentralbanker"], tab_macro: ["Key figures", "Nøkkeltall"], tab_norgesbank: ["Norges Bank", "Norges Bank"], tab_update: ["Update", "Oppdatering"], tab_quality: ["Data quality", "Datakvalitet"],
+  nb_ppr_rate: ["Policy rate: Norges Bank's projection", "Styringsrenten: Norges Banks anslag"], nb_ppr_i44: ["I-44: Norges Bank's projection", "I-44: Norges Banks anslag"], nb_ppr_i44_s: ["quarterly averages; a rise is a weaker krone", "kvartalsgjennomsnitt; en oppgang er en svakere krone"],
+  ppr_hist: ["history", "historikk"], ppr_proj: ["projection, MPR", "anslag, PPR"], ppr_prev: ["previous report", "forrige rapport"], ppr_src: ["from the report's data set", "fra rapportens tallsett"],
+  dq_title: ["Data quality", "Datakvalitet"], dq_s: ["every data set on the page: source, latest observation, age and whether it is fresh, lagged by design, stale, or kept from an earlier run", "alle datasett på siden: kilde, siste observasjon, alder og om de er ferske, forsinket etter kilden, utdaterte eller beholdt fra en tidligere kjøring"],
+  dq_note: ["Fresh means the latest observation is as recent as the source allows (a daily series: the last trading day; official closes: one business day behind). Lagged by design marks sources that publish with a known delay; those series are shown with their date and never used in the reports or the PDF. Stale means older than expected, and kept means the source was unreachable in the last run and the previous data stand in.", "Fersk betyr at siste observasjon er så ny som kilden tillater (en daglig serie: siste handelsdag; offisielle noteringer: én virkedag bak). Forsinket etter kilden merker kilder som publiserer med kjent etterslep; de vises med dato og brukes aldri i rapportene eller PDF-en. Utdatert betyr eldre enn ventet, og beholdt betyr at kilden ikke svarte i siste kjøring, så forrige data står."],
+  dq_set: ["Data set", "Datasett"], dq_src: ["Source", "Kilde"], dq_n: ["Series", "Serier"], dq_latest: ["Latest observation", "Siste observasjon"], dq_age: ["Age", "Alder"], dq_status: ["Status", "Status"], dq_note_c: ["Note", "Merknad"],
+  dq_fresh: ["fresh", "fersk"], dq_lag: ["lagged by design", "forsinket etter kilden"], dq_stale: ["stale", "utdatert"], dq_kept: ["kept from previous run", "beholdt fra forrige kjøring"], dq_missing: ["missing", "mangler"], dq_days: ["days", "dager"], dq_periodic: ["periodic", "periodisk"],
   nb_letter: ["Norges Bank", "Norges Bank"], nb_infl: ["Inflation against the 2 per cent target", "Inflasjon mot målet på 2 prosent"], nb_infl_s: ["12-month change, Statistics Norway", "tolvmånedersvekst, Statistisk sentralbyrå"],
   nb_krone: ["The krone", "Kronen"], nb_krone_s: ["EUR/NOK (left) and the I-44 index (right); up = weaker krone", "EUR/NOK (venstre) og I-44-indeksen (høyre); opp = svakere krone"], nb_next: ["Next Norges Bank dates", "Neste Norges Bank-datoer"],
   t_policy: ["policy rate", "styringsrente"], t_next: ["next decision", "neste beslutning"], t_cpi: ["CPI, 12-month", "KPI, tolvmåneders"], t_cpiate: ["CPI-ATE, 12-month", "KPI-JAE, tolvmåneders"], t_10y: ["10-year yield", "10-årsrente"], t_eurnok: ["EUR/NOK", "EUR/NOK"],
@@ -463,7 +470,7 @@ const COLORS = () => ["--s1", "--s2", "--s3", "--s4", "--s5", "--s6", "--s7", "-
 const cssv = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 
 /* ---------- tabs, language, theme ---------- */
-const TABS = ["letters", "news", "equities", "rates", "commodities", "fx", "central", "macro", "norgesbank", "alerts", "events", "update"];
+const TABS = ["letters", "news", "equities", "rates", "commodities", "fx", "central", "macro", "norgesbank", "events", "quality"];
 const drawn = new Set();
 // the tile row at the top of a tab: the figures a reader wants first, in the same shape on every tab (value, label,
 // change). Instrument tiles show the latest value with the change on the day and the year to date.
@@ -498,12 +505,9 @@ function drawTiles(name) {
     html = cell("NOR", "cpi") + cell("NOR", "core") + cell("NOR", "unemp") + cell("NOR", "gdp_qoq") + cell("USA", "cpi") + cell("USA", "pce_core") + cell("EA", "cpi");
   } else if (name === "news") {
     const items = (D.news || {}).items || [], cut = Date.now() - 24 * 3600e3, recent = items.filter(i => new Date(i.time).getTime() >= cut);
-    html = tileHtml(recent.length, t("tl_news24"), items.length ? `${items.length} ${t("tl_news_all")}` : "") + ["markets", "economy", "central bank", "norway", "politics"].map(c => tileHtml(recent.filter(i => i.category === c).length, t("nc_" + c), t("tl_last24"))).join("");
-  } else if (name === "alerts") {
-    const evs = alertEvents(), lvl = alertLevel(evs), cut = Date.now() - 24 * 3600e3, rec = evs.filter(e => new Date(e.time).getTime() >= cut), hi = rec.filter(e => e.severity === "high"), last = evs[0];
-    const upd = (LIVE_ALERTS && LIVE_ALERTS.updated) || (D.alerts || {}).updated, col = lvl === "red" ? "var(--bad)" : lvl === "orange" ? "var(--warn)" : "var(--ok)";
-    html = tileHtml(`<span style="color:${col}">● ${t("al_" + lvl)}</span>`, t("tl_al_status"), "", "txt") + tileHtml(rec.length, t("tl_al_24"), `${hi.length} ${t("tl_al_high")}`)
-      + tileHtml(last ? fmtT(last.time) : t("tl_none"), t("tl_al_latest"), last ? esc((no ? (last.text_no || last.text_en) : last.text_en) || "").slice(0, 90) : "", "txt") + tileHtml(upd ? fmtT(upd) : "–", t("tl_al_check"), "", "txt");
+    const evs = alertEvents(), lvl = alertLevel(evs), rec = evs.filter(e => new Date(e.time).getTime() >= cut), hi = rec.filter(e => e.severity === "high"), last = evs[0], col = lvl === "red" ? "var(--bad)" : lvl === "orange" ? "var(--warn)" : "var(--ok)";
+    html = tileHtml(`<span style="color:${col}">● ${t("al_" + lvl)}</span>`, t("tl_al_status"), last ? esc((no ? (last.text_no || last.text_en) : last.text_en) || "").slice(0, 70) : "", "txt") + tileHtml(rec.length, t("tl_al_24"), `${hi.length} ${t("tl_al_high")}`)
+      + tileHtml(recent.length, t("tl_news24"), items.length ? `${items.length} ${t("tl_news_all")}` : "") + ["markets", "economy", "central bank", "norway"].map(c => tileHtml(recent.filter(i => i.category === c).length, t("nc_" + c), t("tl_last24"))).join("");
   } else if (name === "events") {
     const today = new Date().toISOString().slice(0, 10), evs = (D.events || []).filter(e => e.date >= today).sort((a, b) => (a.date + (a.time_oslo || "")).localeCompare(b.date + (b.time_oslo || "")));
     const pick = evs.filter(e => /high|medium/i.test(e.importance || "")).slice(0, 6); evs.forEach(e => { if (pick.length < 6 && !pick.includes(e)) pick.push(e); });
@@ -825,7 +829,7 @@ function alertLevel(evs) {
   return lvl;
 }
 function paintAlertTab() {
-  const lvl = alertLevel(alertEvents()); const a = document.querySelector('nav.tabs a[data-tab="alerts"]'); if (a) { a.classList.remove("al-red", "al-orange", "al-green"); a.classList.add("al-" + lvl); }
+  const lvl = alertLevel(alertEvents()); const a = document.querySelector('nav.tabs a[data-tab="news"]'); if (a) { a.classList.remove("al-red", "al-orange", "al-green"); a.classList.add("al-" + lvl); }
   return lvl;
 }
 function drawAlerts() {
@@ -851,7 +855,7 @@ function applyLiveI44(live) {
   return true;
 }
 async function loadLiveAlerts() {
-  try { const r = await fetch("/api/alerts", {cache: "no-store"}); if (r.ok) { LIVE_ALERTS = await r.json(); paintAlertTab(); if (currentTab() === "alerts") { drawAlerts(); drawTiles("alerts"); }
+  try { const r = await fetch("/api/alerts", {cache: "no-store"}); if (r.ok) { LIVE_ALERTS = await r.json(); paintAlertTab(); if (currentTab() === "news") { drawAlerts(); drawTiles("news"); }
     if (applyLiveI44(LIVE_ALERTS.i44)) { drawn.clear(); showTab(currentTab(), true); } } } catch (e) {}
 }
 loadLiveAlerts(); setInterval(loadLiveAlerts, 5 * 60 * 1000);
@@ -1204,7 +1208,20 @@ function drawPolicyHistory() {
 
 /* ---------- Norges Bank ---------- */
 let NBDATE = null;
+// the Monetary Policy Report's projections, from its data set: history as a solid line, the projection dashed, the previous report dotted
+function drawPpr() {
+  const pr = D.ppr || {}; const no = LANG === "no"; if (!pr.policy || !pr.policy.length) { ["#nbPprRate", "#nbPprI44"].forEach(id => { const el = $(id); if (el) el.innerHTML = `<p class="empty">–</p>`; }); return; }
+  const sub = $("#nbPprSub"); if (sub) sub.textContent = `${t("ppr_src")} ${pr.report} (${fmtDate(pr.published)})`;
+  const from = `${new Date().getUTCFullYear() - 3}-01-01`, cut = pr.published;
+  const split = pts => { const h = pts.filter(p => p[0] >= from && p[0] <= cut), f = pts.filter(p => p[0] >= cut); if (h.length && f.length && h[h.length - 1][0] !== f[0][0]) f.unshift(h[h.length - 1]); return [h, f]; };
+  const cols = COLORS();
+  const mk = (pts, label, color, dash, width) => ({x: pts.map(p => p[0]), y: pts.map(p => p[1]), name: label, type: "scatter", mode: "lines", line: {width, color, dash}, noEnd: dash !== "solid", hovertemplate: `%{x|%b %Y}: %{y:.2f}<extra>${esc(label)}</extra>`});
+  const [ph, pf] = split(pr.policy), [qh, qf] = split(pr.policy_prev || []), [ih, if_] = split(pr.i44);
+  plot("#nbPprRate", [mk(ph, t("ppr_hist"), cols[0], "solid", 2.2), mk(pf, `${t("ppr_proj")} ${pr.report}`, cols[0], "dash", 2.2), ...(qf.length ? [mk(qf, t("ppr_prev"), cols[1], "dot", 1.4)] : [])], {yaxis: {ticksuffix: " %"}, hovermode: "x unified"});
+  plot("#nbPprI44", [mk(ih, t("ppr_hist"), cols[0], "solid", 2.2), mk(if_, `${t("ppr_proj")} ${pr.report}`, cols[0], "dash", 2.2)], {hovermode: "x unified"});
+}
 function drawNorgesBank() {
+  drawPpr();
   const pr = (D.policy_rates || []).find(r => /norges/i.test(r.bank)) || {};
   const cpi = SSB.cpi_12m, ate = SSB.cpiate_12m, y10 = NB.nok_10y, eurnok = Y["EURNOK=X"], pol = NB.nok_policy;
   const tiles = [
@@ -1242,6 +1259,44 @@ function drawNorgesBank() {
 }
 
 /* ---------- update ---------- */
+// every data set on the page with its source, latest observation and a status: fresh, lagged by design, stale, kept or missing
+function drawQuality() {
+  const el = $("#dqTable"); if (!el) return;
+  const no = LANG === "no", asof = (D.asof || "").slice(0, 10), kept = D.kept_from_previous || [];
+  const days = d => d && asof ? Math.round((new Date(asof + "T00:00:00Z") - new Date(d.slice(0, 10) + "T00:00:00Z")) / 86400000) : null;
+  const rows = [];
+  // series: objects with a last_date, found up to three levels down
+  const scan = (o, depth = 0) => { if (!o || typeof o !== "object" || depth > 3) return []; if (o.last_date) return [o]; return Object.values(o).flatMap(v => scan(v, depth + 1)); };
+  const add = (name, src, series, o = {}) => { const ss = series.filter(v => v && v.last_date); const dates = ss.map(v => v.last_date.slice(0, 10)).sort(); const latest = o.latest || dates[dates.length - 1] || null, lag = days(latest);
+    const status = o.status || (o.kept ? "kept" : !latest ? "missing" : o.lag ? "lag" : lag <= (o.tol ?? 3) ? "fresh" : "stale");
+    rows.push({name, src, n: o.n ?? ss.length, latest, lag, status, note: o.note || ""}); };
+  const ygroups = [["equity", no ? "aksjeindekser" : "equity indices"], ["ai", no ? "KI-indikatorer" : "AI proxies"], ["sector", no ? "amerikanske sektorer" : "US sectors"], ["rates", no ? "amerikanske renter, løpende" : "US yields, live"], ["commodity", no ? "råvarer" : "commodities"], ["fx", no ? "valuta" : "currencies"], ["nok", no ? "kronekryss" : "krone crosses"]];
+  for (const [g, label] of ygroups) { const vs = Object.entries(Y).filter(([k, v]) => v.group === g && k !== "BRENT_DATED" && k !== "UK_SAP"); const ks = vs.filter(([k]) => kept.includes("yahoo:" + k)).map(([k]) => k);
+    add(`Yahoo Finance: ${label}`, "Yahoo Finance", vs.map(([, v]) => v), {note: ks.length ? `${no ? "beholdt" : "kept"}: ${ks.join(", ")}` : ""}); }
+  if (Y.BRENT_DATED) add("Dated Brent", "EIA via FRED", [Y.BRENT_DATED], {lag: true, note: no ? "ukentlig serie, om lag en uke bak" : "weekly series, about a week behind"});
+  if (Y.UK_SAP) add(no ? "Britisk gass NBP" : "UK gas NBP", "ONS", [Y.UK_SAP], {lag: true, note: no ? "ukentlig regneark" : "weekly spreadsheet"});
+  add(no ? "Amerikanske statsrenter, offisiell slutt, og kredittpåslag" : "US Treasury closes and credit spreads", "FRED", Object.entries(FR).filter(([k]) => k !== "NFCI").map(([, v]) => v), {tol: 4, kept: kept.includes("fred")});
+  if (FR.NFCI) add(no ? "Finansielle forhold (NFCI)" : "Financial conditions (NFCI)", "Chicago Fed via FRED", [FR.NFCI], {lag: true, note: no ? "ukentlig" : "weekly"});
+  add(no ? "Eurosonens rentekurver og €STR" : "Euro-area yield curves and €STR", "ECB", Object.values(EC), {tol: 4, kept: kept.includes("ecb")});
+  add(no ? "Norske statsrenter, styringsrente og I-44" : "Norwegian yields, policy rate and I-44", "Norges Bank", Object.values(NB), {tol: 4, kept: kept.includes("nb"), note: NB.nok_i44 && NB.nok_i44.live_fix ? (no ? "I-44 hentet løpende " : "I-44 live fix ") + NB.nok_i44.live_fix : ""});
+  add(no ? "Tyske og japanske statsrenter, SONIA" : "German and Japanese yields, SONIA", "Bundesbank, MoF, BoE", Object.values(GOV), {tol: 4, kept: kept.includes("gov")});
+  add(no ? "Avledede serier (5 år om 5 år, periferipåslag)" : "Derived series (5y5y, periphery spread)", no ? "beregnet" : "computed", Object.values(DV), {tol: 4});
+  add(no ? "Styringsrenter, 14 sentralbanker" : "Policy rates, 14 central banks", "BIS", scan(CB), {tol: 7, kept: kept.includes("bis"), note: no ? "BIS-serien er noen dager bak; nye beslutninger legges på fra tabellen" : "the BIS series runs a few days behind; new decisions are added from the table"});
+  { const ss = scan(D.macro && D.macro.series); add(no ? "Nøkkeltall (KPI, ledighet, BNP, renter)" : "Key figures (CPI, unemployment, GDP, rates)", "OECD, Eurostat, SSB, FRED", ss, {status: ss.length ? "fresh" : "missing", note: no ? "månedlige og kvartalsvise serier; perioden står i tabellen" : "monthly and quarterly series; the period is in the table"}); }
+  if (SSB && Object.keys(SSB).length) add(no ? "Norsk KPI og KPI-JAE" : "Norwegian CPI and CPI-ATE", "SSB", scan(SSB), {tol: 45, note: no ? "månedlig" : "monthly"});
+  { const ff = D.fedfunds || {}; add(no ? "Fed-prising (Fed funds-futures)" : "Fed pricing (Fed funds futures)", "Yahoo Finance", [], {latest: (ff.asof || ff.fetched || "").slice(0, 10) || null, n: (ff.meetings || []).length, status: ff.meetings && ff.meetings.length ? "fresh" : "missing"}); }
+  { const hm = D.heatmap || {}; const items = hm.items || []; add(no ? "Varmekart, 150 største amerikanske aksjer" : "Heat map, 150 largest US stocks", "Yahoo Finance", [], {latest: (items.map(i => i.t || "").sort().pop() || "").slice(0, 10) || null, n: items.length, status: items.length ? "fresh" : "missing", note: `${items.filter(i => i.m1).length} ${no ? "med månedskurve" : "with a month line"}`}); }
+  { const cs = Object.values(CURVES); const asofC = cs.flatMap(c => (c.contracts || []).map(k => k.dates[k.dates.length - 1])).sort().pop(); add(no ? "Terminkurver, Brent og WTI" : "Futures curves, Brent and WTI", "Yahoo Finance", [], {latest: asofC || null, n: cs.reduce((a, c) => a + (c.contracts || []).length, 0), status: asofC ? (days(asofC) <= 3 ? "fresh" : "stale") : "missing"}); }
+  add(no ? "Effektive valutakurser" : "Effective exchange rates", "BIS", Object.values(EER), {lag: true, note: no ? "om lag en uke bak" : "about a week behind"});
+  { const nw = D.news || {}; add(no ? "Nyhetsoverskrifter (RSS)" : "News headlines (RSS)", "Reuters, Bloomberg, FT, WSJ, E24 …", [], {latest: (nw.fetched || "").slice(0, 10) || null, n: (nw.items || []).length, status: (nw.items || []).length ? "fresh" : "missing", note: nw.failed && nw.failed.length ? `${no ? "ikke tilgjengelig" : "unavailable"}: ${nw.failed.join(", ")}` : ""}); }
+  { const upd = (LIVE_ALERTS && LIVE_ALERTS.updated) || (D.alerts || {}).updated; add(no ? "Varsler (løpende sniffer)" : "Alerts (live sniffer)", "Cloudflare worker", [], {latest: upd ? upd.slice(0, 10) : null, n: alertEvents().length, status: upd ? (Date.now() - new Date(upd).getTime() < 3600e3 ? "fresh" : "stale") : "missing", note: upd ? `${no ? "sist sjekket" : "last check"} ${upd}` : ""}); }
+  if (MPR.last) add(no ? "Pengepolitisk rapport, datoer" : "Monetary Policy Report dates", "Norges Bank", [], {latest: MPR.last, status: "fresh", note: no ? "siste rapport" : "last report"});
+  { const pr = D.ppr || {}; if (pr.report) add(no ? "PPR-anslag (styringsrente, I-44)" : "MPR projections (policy rate, I-44)", "Norges Bank", [], {latest: pr.published || null, n: (pr.policy || []).length + (pr.i44 || []).length, status: "fresh", note: `${no ? "rapport" : "report"} ${pr.report}`}); }
+  { const today = new Date().toISOString().slice(0, 10), L = LETTERS[DATES[0]] || {}; add(no ? "Rapporter" : "Reports", no ? "morgen- og intradagrutinene" : "the morning and intraday routines", [], {latest: DATES[0] || null, n: Object.keys(L).filter(k => k !== "intraday_snaps").length, status: DATES[0] === today ? "fresh" : "stale", note: (L.intraday_snaps || []).length ? `${(L.intraday_snaps || []).length} ${no ? "intradagoppdateringer" : "intraday snapshots"}` : ""}); }
+  const tagCls = st => st === "fresh" ? "ok" : st === "lag" ? "muted" : st === "stale" ? "warn" : "bad";
+  el.innerHTML = `<table class="dq"><thead><tr><th>${t("dq_set")}</th><th>${t("dq_src")}</th><th class="num">${t("dq_n")}</th><th class="num">${t("dq_latest")}</th><th class="num">${t("dq_age")}</th><th>${t("dq_status")}</th><th>${t("dq_note_c")}</th></tr></thead><tbody>${rows.map(r =>
+    `<tr><td>${esc(r.name)}</td><td class="muted">${esc(r.src)}</td><td class="num">${r.n || "–"}</td><td class="num">${r.latest ? fmtDate(r.latest) : "–"}</td><td class="num muted">${r.lag == null ? "–" : `${r.lag} ${t("dq_days")}`}</td><td><span class="tag ${tagCls(r.status)}">${t("dq_" + r.status)}</span></td><td class="small muted">${esc(r.note)}</td></tr>`).join("")}</tbody></table>`;
+}
 function drawUpdate() {
   const kept = D.kept_from_previous || [];
   $("#upStatus").innerHTML = `<p>${t("asof")} <b>${esc(D.asof)}</b>; ${t("generated")} ${esc(D.generated)}.</p>${kept.length ? `<p class="neg">${t("kept")} ${esc(kept.join(", "))}</p>` : ""}<p class="small muted">${t("letters_on")} ${DATES.map(fmtDate).join(", ") || "–"}</p>`;
@@ -1718,7 +1773,7 @@ try {
 } catch (e) {}
 
 /* ---------- boot ---------- */
-const DRAW = {letters: drawLetters, alerts: drawAlerts, news: drawNews, events: drawEvents, equities: drawEquities, rates: drawRates, commodities: drawCommodities, fx: drawFx, central: drawCentral, macro: drawMacro, norgesbank: drawNorgesBank, update: drawUpdate};
+const DRAW = {letters: drawLetters, news: () => { drawAlerts(); drawNews(); }, events: drawEvents, equities: drawEquities, rates: drawRates, commodities: drawCommodities, fx: drawFx, central: drawCentral, macro: drawMacro, norgesbank: drawNorgesBank, quality: () => { drawQuality(); drawUpdate(); }};
 $("#foot").innerHTML = `Market summary · built ${esc(D.generated)} · data ${esc(D.asof)}`;
 setLang(LANG);
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { if (!document.documentElement.dataset.theme) { drawn.clear(); showTab(currentTab(), true); } });

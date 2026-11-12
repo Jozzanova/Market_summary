@@ -4,3 +4,4 @@ __pycache__/
 *.pyc
 .wrangler/
 node_modules/
+data/data.json

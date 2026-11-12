@@ -35,7 +35,7 @@ the worker's entries; if one is clearly wrong (a bad print), say so in the repor
 If you added nothing, end the run without committing or deploying, with a one-line report "no market-moving event".
 If you added an alert:
 
-    python -X utf8 build.py
+    python -X utf8 build.py                 # data/data.json is not versioned; build.py fetches the live copy if it is missing
     npx wrangler deploy                         # CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID are in the environment; never write them into files
     git add data/alerts.json && git commit -m "Alert YYYY-MM-DD HH:MM: <short title>" && git pull --rebase origin main && git push origin main
 

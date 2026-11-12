@@ -1,4 +1,6 @@
-"""Build site/index.html: inline data/data.json and the letters into template.html.
+"""Build the site from template.html: site/index.html (markup and styles), site/data.js (the data, the reports and the
+alerts as window.__D) and site/app.js (the script). The three are cache-busted by a build stamp, so the browser keeps the
+script and Plotly between visits and refetches only what changed.
 
     python -X utf8 pipeline/fetch.py     # the data
     python -X utf8 build.py              # this
@@ -51,20 +53,58 @@ def letters():
     return out
 
 
+LIVE = "https://market-summary.jskjeltorp.workers.dev"
+
+
+def previous_data():
+    """data/data.json, or when it is missing (a fresh clone: the file is not versioned) the live site's copy."""
+    p = ROOT / "data" / "data.json"
+    if p.exists():
+        return json.loads(p.read_text(encoding="utf-8"))
+    import urllib.request
+    raw = urllib.request.urlopen(urllib.request.Request(LIVE + "/data.js", headers={"User-Agent": "market-summary/0.1"}), timeout=60).read().decode("utf-8")
+    data = json.loads(raw[raw.index("{"):raw.rindex("}") + 1])
+    for k in ("letters", "alerts", "generated"):
+        data.pop(k, None)
+    p.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    print("data/data.json taken from the live site")
+    return data
+
+
+def lint_latest():
+    """Run the report linter on the newest day on file and print its findings (the routines fix them before building)."""
+    import subprocess
+    try:
+        r = subprocess.run([sys.executable, "-X", "utf8", str(ROOT / "pipeline" / "lint.py")], capture_output=True, text=True, encoding="utf-8", timeout=60)
+        out = (r.stdout or "").strip()
+        if out:
+            print(out)
+    except Exception as e:
+        print(f"lint skipped: {e!r}")
+
+
 def main():
-    data = json.loads((ROOT / "data" / "data.json").read_text(encoding="utf-8"))
+    data = previous_data()
     data["letters"] = letters()
     ap = ROOT / "data" / "alerts.json"
     data["alerts"] = json.loads(ap.read_text(encoding="utf-8")) if ap.exists() else {"updated": None, "events": []}
     data["generated"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     template = (ROOT / "template.html").read_text(encoding="utf-8")
-    payload = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
     if "/*__DATA__*/null" not in template:
         sys.exit("template.html lacks the /*__DATA__*/null marker")
-    page = template.replace("/*__DATA__*/null", payload)
-    (ROOT / "site").mkdir(exist_ok=True)
-    (ROOT / "site" / "index.html").write_text(page, encoding="utf-8")
-    print(f"wrote site/index.html ({len(page) // 1024} kB), letters for {', '.join(data['letters']) or 'no days yet'}")
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
+    # the script between the main <script> and </script> becomes app.js; the data becomes data.js
+    i = template.index("<script>\nconst D = /*__DATA__*/null;")
+    j = template.index("</script>", i)
+    script = template[i + len("<script>"):j].replace("const D = /*__DATA__*/null;", "const D = window.__D;", 1)
+    page = template[:i] + f'<script src="data.js?v={stamp}" defer></script>\n<script src="app.js?v={stamp}" defer></script>' + template[j + len("</script>"):]
+    payload = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+    site = ROOT / "site"; site.mkdir(exist_ok=True)
+    (site / "index.html").write_text(page, encoding="utf-8")
+    (site / "data.js").write_text("window.__D = " + payload + ";\n", encoding="utf-8")
+    (site / "app.js").write_text(script, encoding="utf-8")
+    lint_latest()
+    print(f"wrote site/index.html ({len(page) // 1024} kB), data.js ({len(payload) // 1024} kB), app.js ({len(script) // 1024} kB); letters for {', '.join(data['letters']) or 'no days yet'}")
 
 
 if __name__ == "__main__":

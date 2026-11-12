@@ -65,7 +65,7 @@ def get(url):
 
 
 def clean(text, limit=320):
-    text = html.unescape(re.sub(r"<[^>]+>", " ", text or ""))
+    text = html.unescape(html.unescape(re.sub(r"<[^>]+>", " ", text or "")))      # some feeds encode twice (&amp;#x2019;)
     text = re.sub(r"\s+", " ", text).strip()
     if len(text) > limit:
         text = text[:limit].rsplit(" ", 1)[0] + "…"

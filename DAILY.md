@@ -219,6 +219,7 @@ politics 250-450 words.
 
 ## 5. Build and deploy
 
+    python -X utf8 pipeline/lint.py        # the house rules: fix every error and warning in the reports, rerun until clean
     python -X utf8 build.py
     npx wrangler deploy                         # uses CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID from the environment; never write them into the repository
 
@@ -230,7 +231,9 @@ politics 250-450 words.
     git commit -m "Market summary YYYY-MM-DD"
     git pull --rebase origin main && git push origin main
 
-`data/data.json` is versioned (so the page can be rebuilt from the repository); `rawData/` and `site/` are not.
+`data/data.json` is not versioned (it is 1.3 MB a day): the live site serves it as `data.js`, and `fetch.py` and `build.py`
+take the previous run's copy from there when the file is missing. `rawData/` and `site/` are not versioned either.
+The build writes three files, `site/index.html`, `site/data.js` and `site/app.js`, cache-busted by a stamp.
 
 ## 7. Report
 
