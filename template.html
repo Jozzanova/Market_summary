@@ -552,8 +552,8 @@ function setLang(l) {
 // A warning above the content when the data are not what the reports need. The morning reports need the previous trading
 // day's closes, so the test is the closes' dates, not the time of the fetch: red when most of the main instruments lack
 // the previous trading day's close (a failed run whose fallback kept older prices), or when no run has happened today by
-// 07:00 Oslo time; amber when the prices come from a reserve source (delayed up to 15 minutes) or were kept from an
-// earlier run that day (the closes are complete, but the intraday prints are older than the run).
+// 07:00 Oslo time. A reserve source (TradingView, when Yahoo refuses) gives no banner: the closes are complete, and the
+// Data quality tab names the sources.
 function prevTradingDay(d) { const x = new Date(d); do { x.setUTCDate(x.getUTCDate() - 1); } while (x.getUTCDay() === 0 || x.getUTCDay() === 6); return x.toISOString().slice(0, 10); }
 function closesComplete() {
   const keys = ["^GSPC", "^STOXX", "OSEBX.OL", "EURNOK=X", "BZ=F", "^TNX"], y = D.yahoo || {};
@@ -582,16 +582,8 @@ function drawBanner() {
     cls = "stale";
     html = no ? `<strong>Ingen ny kjøring i dag.</strong> Siste henting var ${when} norsk tid; sluttkursene for siste handelsdag er på plass, men dagens rapporter og morgenens kurser mangler. Feilen er kjent og rettes.`
               : `<strong>No run today.</strong> The last refresh was ${when} Oslo time; the closes of the last trading day are in, but today's reports and this morning's prices are missing. The fault is known and will be fixed.`;
-  } else if ((st.reserve || 0) > 0) {
-    const src = (st.reserve_sources || []).join(", ");
-    cls = "reserve";
-    html = no ? `Kursene er hentet fra reservekilde (${src}) fordi Yahoo Finance avviste oppdateringen. Sluttkursene er komplette; kurser i løpende handel er forsinket inntil 15 minutter.`
-              : `The prices come from a reserve source (${src}) because Yahoo Finance refused the refresh. The closes are complete; prices in live trading are delayed up to 15 minutes.`;
-  } else if (yasof && asof && asof - yasof > 36e5) {
-    cls = "reserve";
-    html = no ? `Yahoo Finance avviste oppdateringen ved siste kjøring. Sluttkursene er komplette, men kurser i løpende handel er fra ${fmt(yasof)}.`
-              : `Yahoo Finance refused the refresh at the last run. The closes are complete, but prices in live trading are from ${fmt(yasof)}.`;
   }
+  // a reserve source or an older live print is no cause for a banner: the closes are complete and the Data quality tab names the sources
   el.className = "banner" + (cls ? " " + cls : ""); el.hidden = !html; el.innerHTML = html;
 }
 function isDark() { return document.documentElement.dataset.theme === "dark" || (!document.documentElement.dataset.theme && matchMedia("(prefers-color-scheme: dark)").matches); }
