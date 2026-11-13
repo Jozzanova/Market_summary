@@ -500,7 +500,7 @@ function drawTiles(name) {
     const pool = [...group("equity"), ...group("commodity"), ...group("fx"), ...group("nok")].filter(v => v.d1 != null && isFinite(v.d1) && !minor.has(v.sym)).sort((a, b) => Math.abs(b.d1) - Math.abs(a.d1));
     html = `<div class="tiles-cap">${t("tl_movers")}</div>` + pool.slice(0, 6).map(v => instrTile(v.sym)).join("");
   } else if (name === "equities") html = syms(["^GSPC", "^IXIC", "^STOXX", "OSEBX.OL", "^N225", "^VIX"]);
-  else if (name === "rates") html = syms(["^TNX", "DGS2", "EA_SR_10Y", "nok_10y", "BAMLH0A0HYM2"]) + instrTile("diff_nok_eur_12m", t("tl_diff12"));
+  else if (name === "rates") html = syms(["^TNX", "^FVX", "EA_SR_10Y", "nok_10y", "BAMLH0A0HYM2"]) + instrTile("diff_nok_eur_12m", t("tl_diff12"));
   else if (name === "commodities") html = syms(["BZ=F", "CL=F", "TTF=F", "NG=F", "GC=F", "HG=F"]);      // the weekly Dated Brent and NBP series lag a week and stay out of the tiles
   else if (name === "fx") html = syms(["DX-Y.NYB", "EURUSD=X", "USDJPY=X", "EURNOK=X", "USDNOK=X", "nok_i44"]);
   else if (name === "central") {
@@ -798,10 +798,10 @@ function drawLetterFigs(root) {
   });
 }
 // the snapshot table beside the letter: four groups, short names
-const SNAP_GROUPS = [["g_equities", ["^GSPC", "^IXIC", "^SOX", "^STOXX", "OSEBX.OL", "^N225", "^HSI", "^VIX"]], ["g_bonds", ["^TNX", "DGS2", "EA_SR_10Y", "nok_10y", "BAMLH0A0HYM2"]], ["g_diff", ["diff_nok_eur_policy", "diff_nok_eur_12m", "diff_nok_eur_10y", "diff_nok_usd_policy", "diff_nok_usd_12m", "diff_nok_usd_10y"]],
+const SNAP_GROUPS = [["g_equities", ["^GSPC", "^IXIC", "^SOX", "^STOXX", "OSEBX.OL", "^N225", "^HSI", "^VIX"]], ["g_bonds", ["^TNX", "^FVX", "EA_SR_10Y", "nok_10y", "BAMLH0A0HYM2"]], ["g_diff", ["diff_nok_eur_policy", "diff_nok_eur_12m", "diff_nok_eur_10y", "diff_nok_usd_policy", "diff_nok_usd_12m", "diff_nok_usd_10y"]],
   ["g_commodities", ["BZ=F", "GC=F", "HG=F", "TTF=F"]], ["g_fx", ["DX-Y.NYB", "EURUSD=X", "USDJPY=X", "EURNOK=X", "USDNOK=X", "nok_i44"]]];
 const SHORT = {"^GSPC": ["S&P 500", "S&P 500"], "^IXIC": ["Nasdaq", "Nasdaq"], "^STOXX": ["STOXX 600", "STOXX 600"], "^SOX": ["SOX (semis)", "SOX (halvledere)"], "OSEBX.OL": ["OSEBX", "OSEBX"], "^N225": ["Nikkei 225", "Nikkei 225"], "^HSI": ["Hang Seng", "Hang Seng"], "^VIX": ["VIX", "VIX"],
-  "^TNX": ["US 10y (live)", "USA 10 år (løpende)"], "DGS2": ["US 2y", "USA 2 år"], "EA_SR_10Y": ["Euro area 10y", "Euroområdet 10 år"], "nok_10y": ["Norway 10y", "Norge 10 år"], "BAMLH0A0HYM2": ["US HY spread", "USA high yield-påslag"],
+  "^TNX": ["US 10y (live)", "USA 10 år (løpende)"], "^FVX": ["US 5y (live)", "USA 5 år (løpende)"], "DGS2": ["US 2y", "USA 2 år"], "EA_SR_10Y": ["Euro area 10y", "Euroområdet 10 år"], "nok_10y": ["Norway 10y", "Norge 10 år"], "BAMLH0A0HYM2": ["US HY spread", "USA høyrentepåslag"],
   "BZ=F": ["Brent, USD/bbl", "Brent, USD/fat"], BRENT_DATED: ["Dated Brent, USD/bbl", "Dated Brent, USD/fat"], UK_SAP: ["UK gas NBP, p/therm", "Britisk gass NBP, p/therm"], "GC=F": ["Gold, USD/oz", "Gull, USD/unse"], "HG=F": ["Copper, USD/lb", "Kobber, USD/pund"], "TTF=F": ["TTF gas, EUR/MWh", "TTF-gass, EUR/MWh"],
   diff_nok_eur_policy: ["EUR, policy rate", "EUR, styringsrente"], diff_nok_eur_short: ["EUR, short end (3y − 2y)", "EUR, kort ende (3 år − 2 år)"], diff_nok_eur_12m: ["EUR, 12-month gov. rates", "EUR, 12 md. statsrenter"], diff_nok_eur_10y: ["EUR, 10-year", "EUR, 10 år"],
   diff_nok_usd_policy: ["USD, policy rate (upper)", "USD, styringsrente (øvre)"], diff_nok_usd_short: ["USD, short end (3y − 2y)", "USD, kort ende (3 år − 2 år)"], diff_nok_usd_12m: ["USD, 12-month gov. rates", "USD, 12 md. statsrenter"], diff_nok_usd_10y: ["USD, 10-year", "USD, 10 år"],
@@ -1020,7 +1020,7 @@ function drawRates() {
   const ea = ["EA_SR_2Y", "EA_SR_5Y", "EA_SR_10Y", "EA_SR_30Y", "EA_ALL_10Y"].map(s => row(EC, s)).filter(Boolean).concat([row(DV, "EA_PERIPH"), row(DV, "EA_5Y5Y"), row(EC, "ESTR")].filter(Boolean));
   const de = ["DE_2Y", "DE_10Y", "DE_30Y"].map(s => row(GOV, s)).filter(Boolean), jp = ["JP_2Y", "JP_10Y", "JP_30Y"].map(s => row(GOV, s)).filter(Boolean), uk = [row(GOV, "SONIA")].filter(Boolean);
   const nok = ["nok_policy", "nok_3m", "nok_12m", "nok_3y", "nok_10y"].map(s => NB[s] && {...NB[s], sym: s, name_no: NB[s].name_en.replace("Norges Bank policy rate", "Norges Banks styringsrente").replace("Norway 12-month treasury bill", "Norge 12-måneders statskasseveksel").replace("Norway 10-year government bond", "Norge 10-års statsobligasjon").replace("Norway 3-year government bond", "Norge 3-års statsobligasjon").replace("Norway 3-month treasury bill", "Norge 3-måneders statskasseveksel")}).filter(Boolean);
-  const cr = ["BAMLC0A0CM", "BAMLH0A0HYM2", "BAMLHE00EHYIOAS", "BAMLEMCBPIOAS"].map(s => FR[s] && {...FR[s], sym: s, name_no: FR[s].name_en.replace("US IG OAS", "USA IG-påslag").replace("US HY OAS", "USA high yield-påslag").replace("Euro HY OAS", "Europa high yield-påslag").replace("EM corporate OAS", "Fremvoksende markeder, selskapspåslag")}).filter(Boolean);
+  const cr = ["BAMLC0A0CM", "BAMLH0A0HYM2", "BAMLHE00EHYIOAS", "BAMLEMCBPIOAS"].map(s => FR[s] && {...FR[s], sym: s, name_no: FR[s].name_en.replace("US IG OAS", "USA IG-påslag").replace("US HY OAS", "USA høyrentepåslag").replace("Euro HY OAS", "Europa high yield-påslag").replace("EM corporate OAS", "Fremvoksende markeder, selskapspåslag")}).filter(Boolean);
   const fc = [row(FR, "NFCI", {tag: no ? "ukentlig" : "weekly", lagged: true})].filter(Boolean);
   const rows = [{section: no ? "USA, løpende noteringer (CBOE-renteindekser via Yahoo; kan omfatte inneværende handelsdag)" : "United States, live prints (CBOE yield indices via Yahoo; can include the current session)"}, ...live,
     {section: no ? "USA, offisielle sluttnoteringer (det amerikanske finansdepartementet via FRED, én virkedag bak)" : "United States, official closes (Treasury via FRED, one business day behind)"}, ...fix,
