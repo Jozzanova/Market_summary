@@ -192,8 +192,10 @@ politics 250-450 words.
   short paragraphs with bold lead-ins, always in this order and always all six, nothing else, no chart. One market per
   paragraph, so the reader can find each market in the same place every day. (1) **Equities** / **Aksjer**: the broad
   indices (US, Europe, Norway, Asia this morning) and the single stocks or sectors that stood out, with the numbers.
-  (2) **Government bonds** / **Statsrenter**: the US 2- and 10-year, the euro-area AAA 10-year and the Norwegian 10-year, in
-  basis points, and what the market prices for the next Fed and ECB meetings when it changed. The brief also carries German and Japanese
+  (2) **Government bonds** / **Statsrenter**: the US 10-year and 5-year (the live CBOE prints in the brief; the 5-year is
+  always mentioned when it moved 5 basis points or more, or more than the 10-year, as it carries the policy expectations),
+  the euro-area AAA 10-year and the Norwegian 10-year, in basis points, and what the market prices for the next Fed and
+  ECB meetings when it changed (named: "Fed", "ESB"). The brief also carries German and Japanese
   2-, 10- and 30-year yields, the euro-area all-issuer curve and the periphery spread (all issuers minus AAA at 10 years),
   5y5y forwards for the US and the euro area, the US 5y5y inflation expectation, the overnight rates SOFR, €STR and SONIA,
   and a column with every change since Norges Bank's last Monetary Policy Report: use them when they carry the story
@@ -250,7 +252,7 @@ politics 250-450 words.
   day by day. Heading `# Week in review, week NN (D–D Month YYYY)` / `# Uken som gikk, uke NN (D.–D. måned YYYY)`.
   A bold summary paragraph: the week's theme in two or three sentences. Then sections with bullets: Equities / Aksjer
   (the weekly changes of the main indices, the sectors and stocks that set the tone, Oslo Børs); Rates / Renter (the
-  2- and 10-year moves over the week in basis points, the US, euro-area and Norwegian curves, what the pricing of the
+  5- and 10-year moves over the week in basis points, the US, euro-area and Norwegian curves, what the pricing of the
   next Fed, ECB and Norges Bank meetings did); Currencies / Valuta (the dollar, the euro, the krone with EUR/NOK, USD/NOK
   and the I-44, the 12-month differential in government rates); Commodities / Råvarer (Brent, gas, gold, metals over
   the week); Data and central banks / Nøkkeltall og sentralbanker (the week's releases against consensus and the
