@@ -886,9 +886,10 @@ function drawUs() {
   const when = (tm, day) => { const d = parseT(tm); if (!d) return tm ? esc(tm) : ""; return day ? hmOf(d) : dayOf(d) + " " + hmOf(d); };
   const cell = (p, tm, c, day) => p == null ? `<td class="num muted">–</td>` : `<td class="num"><span class="price">${fmt(p, 2)}</span><br><span class="small">${pc(c)} <span class="muted">${when(tm, day)}</span></span></td>`;
   const rows = etf.map(v => `<tr><td>${nm(v)}</td>${cell(v.close, v.close_time, v.d1, closeDay)}${cell(v.post, v.post_time, v.post_chg, postDay)}${cell(v.pre, v.pre_time, v.pre_chg, preDay)}</tr>`).join("");
-  const frows = fut.map(v => `<tr><td>${nm(v)}</td>${cell(v.last, v.last_time, v.d1, null)}<td></td><td></td></tr>`).join("");
+  const futDay = colDay(fut.map(v => v.last_time));
+  const frows = fut.map(v => `<tr><td>${nm(v)}</td>${cell(v.last, v.last_time, v.d1, futDay)}<td></td><td></td></tr>`).join("");
   const th = (label, day) => `<th class="num">${label}${day ? `<br><span class="muted small">${esc(day)}</span>` : ""}</th>`;
-  $("#usTable").innerHTML = `<table><thead><tr><th></th>${th(t("us_close"), closeDay)}${th(t("us_post"), postDay)}${th(t("us_pre"), preDay)}</tr></thead><tbody>${rows}${frows ? `<tr><td colspan="4" class="muted small">${t("us_fut")}</td></tr>${frows}` : ""}</tbody></table>`;
+  $("#usTable").innerHTML = `<table><thead><tr><th></th>${th(t("us_close"), closeDay)}${th(t("us_post"), postDay)}${th(t("us_pre"), preDay)}</tr></thead><tbody>${rows}${frows ? `<tr><td colspan="4" class="muted small">${t("us_fut")}${futDay ? ", " + esc(futDay) : ""}</td></tr>${frows}` : ""}</tbody></table>`;
 }
 function drawI44() {
   if (!NB.nok_i44) { $("#i44Card").style.display = "none"; return; }
