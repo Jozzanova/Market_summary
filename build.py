@@ -57,18 +57,27 @@ LIVE = "https://market-summary.jskjeltorp.workers.dev"
 
 
 def previous_data():
-    """data/data.json, or when it is missing (a fresh clone: the file is not versioned) the live site's copy."""
+    """The newer of data/data.json and the live site's copy (the file is not versioned). A build on a machine whose local
+    copy is older than what the site serves would otherwise overwrite a fresh run's data with stale prices on deploy
+    (13 Nov 2026: a local rebuild of the reports put the previous evening's data back on the site, and the page warned)."""
     p = ROOT / "data" / "data.json"
-    if p.exists():
-        return json.loads(p.read_text(encoding="utf-8"))
-    import urllib.request
-    raw = urllib.request.urlopen(urllib.request.Request(LIVE + "/data.js", headers={"User-Agent": "market-summary/0.1"}), timeout=60).read().decode("utf-8")
-    data = json.loads(raw[raw.index("{"):raw.rindex("}") + 1])
-    for k in ("letters", "alerts", "generated"):
-        data.pop(k, None)
-    p.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
-    print("data/data.json taken from the live site")
-    return data
+    local = json.loads(p.read_text(encoding="utf-8")) if p.exists() else None
+    live = None
+    try:
+        import urllib.request
+        raw = urllib.request.urlopen(urllib.request.Request(LIVE + "/data.js", headers={"User-Agent": "market-summary/0.1"}), timeout=60).read().decode("utf-8")
+        live = json.loads(raw[raw.index("{"):raw.rindex("}") + 1])
+        for k in ("letters", "alerts", "generated"):
+            live.pop(k, None)
+    except Exception as e:
+        print(f"live data not reachable ({repr(e)[:80]})")
+    if live and (not local or (live.get("asof") or "") > (local.get("asof") or "")):
+        p.write_text(json.dumps(live, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+        print(f"data/data.json taken from the live site ({live.get('asof')}), newer than the local copy ({(local or {}).get('asof')})")
+        return live
+    if not local:
+        raise SystemExit("no data: neither data/data.json nor the live site")
+    return local
 
 
 def lint_latest():

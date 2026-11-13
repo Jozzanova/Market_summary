@@ -568,11 +568,16 @@ function drawBanner() {
   const noRun = asof && osloDay(asof) < osloDay(new Date()) && osloHour >= 7;
   const complete = closesComplete();
   let cls = "", html = "";
-  if (noRun || !complete) {
-    const when = fmt(noRun ? asof : yasof);
+  if (!complete) {
+    const when = fmt(yasof);
     cls = "stale";
     html = no ? `<strong>Kursene på siden er ikke oppdatert.</strong> Siste vellykkede henting var ${when} norsk tid, og sluttkursene for siste handelsdag mangler. Feilen er kjent og rettes. Tallene i tabeller, figurer og rapporter kan være utdaterte.`
               : `<strong>The prices on this page are not up to date.</strong> The last successful refresh was ${when} Oslo time, and the closes of the last trading day are missing. The fault is known and will be fixed. The figures in the tables, charts and reports may be stale.`;
+  } else if (noRun) {
+    const when = fmt(asof);
+    cls = "stale";
+    html = no ? `<strong>Ingen ny kjøring i dag.</strong> Siste henting var ${when} norsk tid; sluttkursene for siste handelsdag er på plass, men dagens rapporter og morgenens kurser mangler. Feilen er kjent og rettes.`
+              : `<strong>No run today.</strong> The last refresh was ${when} Oslo time; the closes of the last trading day are in, but today's reports and this morning's prices are missing. The fault is known and will be fixed.`;
   } else if ((st.reserve || 0) > 0) {
     const src = (st.reserve_sources || []).join(", ");
     cls = "reserve";
