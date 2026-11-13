@@ -1,5 +1,8 @@
 # Intraday update routine
 
+**Paused since 13 November 2026**: all three intraday routines are switched off (the morning report comes first), and the
+page hides the Intraday view. Everything below still applies when they are switched on again.
+
 This file is the playbook for the scheduled cloud agents that write the intraday reports on weekdays. There are three runs
 a day, Oslo time: about 09:05 (after the European open), 12:05 (noon) and 15:45 (after the US open). A fourth run after
 the US close (22:15) is described below but its routine is switched off (12 Nov 2026: the morning report is the product,

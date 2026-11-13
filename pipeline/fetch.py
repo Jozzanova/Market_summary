@@ -1318,6 +1318,9 @@ def main():
         if intraday and name in daily:
             blocks[name] = prev.get(name, {})
             continue
+        if name == "us_session" and not intraday:
+            blocks[name] = {}        # the US-session card belongs to the (paused) intraday view; twelve Yahoo requests saved
+            continue
         log(f"{name}")
         try:
             blocks[name] = fn()
