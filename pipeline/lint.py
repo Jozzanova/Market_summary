@@ -38,6 +38,9 @@ RULES = [
     ("warn", "en no", r"\d\s?%(?!\s*\))", "write 'per cent' / 'prosent' in running text"),
     ("warn", "no", r"\bbasispoeng\b", "Norges Bank writes 'basispunkter'"),
     ("warn", "no", r"\b(ti|fem|to|tretti)-års(rente|renten)\b", "write it as one word: tiårsrenten, femårsrenten"),
+    ("warn", "no", r"\b(henger etter|ligger etter|er forsinket)\b", "a lagged series is left out, not described as lagging"),
+    ("warn", "en", r"\b(lags (the move|behind)|is lagged|is behind the move)\b", "a lagged series is left out, not described as lagging"),
+    ("warn", "no", r"(?i)\b(markedsprisingen|markedet) (tilsier|priser( inn)?) en (heving|senkning|renteheving|rentesenkning|kutt)\b", "name the central bank: 'Markedsprisingen tilsier at Fed hever med …'"),
     ("warn", "no", r"\b(jeg|meg|mitt|mine)\b", "no first person: the report speaks for the service ('som lot seg verifisere', not 'som jeg kunne verifisere')"),
     ("warn", "en", r"\b(I|I'm|I've|I'd|me|my)\b(?!-44)", "no first person: the report speaks for the service ('that could be verified', not 'that I could verify')"),
 ]

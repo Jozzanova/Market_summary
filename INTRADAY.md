@@ -65,7 +65,10 @@ Tone as in DAILY.md: a one- or two-sentence reading of the session so far at the
 conclusion in a short bold clause, understated verbs, small rate moves in words, numbers only where they carry the point.
 Equity indices are described by their percentage change only, never by their level ("the S&P 500 is up 0.7 per cent",
 not "at 7,531"); levels stay for exchange rates, yields, oil, gas and the VIX. Do not quote a figure whose observation is
-older than the previous trading day (the brief marks stale rows); Dated Brent and the UK NBP gas price are weekly series a
+older than the previous trading day (the brief marks stale rows), and never write that a series "lags" or "henger etter":
+a stale figure is simply left out (the official US 2-year yield from FRED is always behind; do not mention it). Every
+sentence about market pricing names the central bank and the meeting ("Markedsprisingen tilsier at Fed hever med 27
+basispunkter 9. desember"), never "en heving" without saying whose; Dated Brent and the UK NBP gas price are weekly series a
 week or more behind and stay out of the intraday report, as do the BIS effective exchange rates and the NFCI. The brief's
 sinceMPR column (change since Norges Bank's last Monetary Policy Report) and the Brent futures curve are fair game.
 People are named and their position described ("board member Toichiro Asada argued for a cautious pace"), never labelled

@@ -37,6 +37,12 @@ morning, government bonds, credit, oil, gas, metals, FX; central bank decisions,
 data released yesterday and due today; and the political developments that matter for markets (elections, fiscal policy,
 trade, sanctions, geopolitics). Always cover Norway: Oslo Børs, the krone, what others expect of Norges Bank, Statistics Norway releases.
 
+**Lagged series and market pricing.** A figure whose observation is older than the previous trading day is left out; never
+write that it "lags", "henger etter" or "is behind" (the official US 2-year yield from FRED is a day or two behind: do not
+mention it at all, the live 5- and 10-year prints carry the point). Every sentence about market pricing names the central
+bank and the meeting: "Markedsprisingen tilsier at Fed hever med 27 basispunkter 9. desember", "markets price 27 basis
+points of Fed tightening for 9 December", never "en heving på 27 basispunkter" without saying whose.
+
 **Mondays.** There has been no session since Friday, so the "last 24 hours" are Friday's session and the weekend: the
 Friday close in the US and Europe (the brief's 1-day column is Friday against Thursday), the data released on Friday,
 and everything that happened from Friday evening to Monday morning that matters for the open: speeches and interviews
