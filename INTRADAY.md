@@ -64,7 +64,7 @@ number, a quote or a market move, and when such a page cites a tier-1 or tier-2 
 Tone as in DAILY.md: a one- or two-sentence reading of the session so far at the top, bullets that open with their
 conclusion in a short bold clause, understated verbs, small rate moves in words, numbers only where they carry the point.
 Equity indices are described by their percentage change only, never by their level ("the S&P 500 is up 0.7 per cent",
-not "at 7,531"); levels stay for exchange rates, yields, oil, gas and the VIX. Do not quote a figure whose observation is
+not "at 7,531"); levels stay for exchange rates, yields, oil, gas and the VIX (whose changes are given in points, as in the brief, never in per cent). Do not quote a figure whose observation is
 older than the previous trading day (the brief marks stale rows), and never write that a series "lags" or "henger etter":
 a stale figure is simply left out (the official US 2-year yield from FRED is always behind; do not mention it). Every
 sentence about market pricing names the central bank and the meeting ("Markedsprisingen tilsier at Fed hever med 27

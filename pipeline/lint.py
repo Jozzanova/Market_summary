@@ -41,6 +41,8 @@ RULES = [
     ("warn", "no", r"\b(henger etter|ligger etter|er forsinket)\b", "a lagged series is left out, not described as lagging"),
     ("warn", "en", r"\b(lags (the move|behind)|is lagged|is behind the move)\b", "a lagged series is left out, not described as lagging"),
     ("warn", "no", r"(?i)\b(markedsprisingen|markedet) (tilsier|priser( inn)?) en (heving|senkning|renteheving|rentesenkning|kutt)\b", "name the central bank: 'Markedsprisingen tilsier at Fed hever med …'"),
+    ("warn", "no", r"\bVIX\b[^.\n]{0,50}\bprosent\b", "VIX moves are given in points, not per cent"),
+    ("warn", "en", r"\bVIX\b[^.\n]{0,50}\bper cent\b", "VIX moves are given in points, not per cent"),
     ("warn", "no", r"\b(jeg|meg|mitt|mine)\b", "no first person: the report speaks for the service ('som lot seg verifisere', not 'som jeg kunne verifisere')"),
     ("warn", "en", r"\b(I|I'm|I've|I'd|me|my)\b(?!-44)", "no first person: the report speaks for the service ('that could be verified', not 'that I could verify')"),
 ]

@@ -556,13 +556,55 @@ def fetch_gov():
     return out
 
 
-def fetch_curves():
-    """Futures curves for Brent and WTI from Yahoo's monthly contracts: the next 24 delivery months, each with six months
-    of closes, so the page can draw today's curve against earlier ones. (TTF has only two listed months on Yahoo, so no
-    gas curve.)"""
-    out = {}
+def fetch_ttf_curve(prev):
+    """The TTF gas futures curve (ICE Endex monthly contracts) from TradingView's scanner, which carries no history: each
+    run appends today's print to the series kept from the previous run, so the earlier curves build up from 13 Nov 2026.
+    (Yahoo lists only two TTF months.) Returns None when the scanner fails, and the previous curve is kept."""
     now = datetime.now(timezone.utc)
-    for root, name_en, name_no in (("BZ", "Brent", "Brent"), ("CL", "WTI", "WTI")):
+    y, m = now.year, now.month
+    months = []
+    for i in range(1, 25):
+        mm = (m - 1 + i) % 12 + 1
+        months.append((f"{y + (m - 1 + i) // 12}-{mm:02d}", f"ICEENDEX:TFM{FUT_MONTHS[mm - 1]}{y + (m - 1 + i) // 12}"))
+    body = json.dumps({"symbols": {"tickers": [s for _, s in months], "query": {"types": []}}, "columns": ["close", "time"], "range": [0, 100]}).encode()
+    req = urllib.request.Request("https://scanner.tradingview.com/global/scan", data=body, headers={"User-Agent": UA, "Content-Type": "application/json"})
+    with urllib.request.urlopen(req, timeout=30) as r:
+        rows = {row["s"]: row["d"] for row in json.loads(r.read()).get("data", [])}
+    old = {k["m"]: k for k in (prev or {}).get("contracts", [])}
+    contracts = []
+    for mth, sym in months:
+        d = rows.get(sym)
+        if not d or d[0] is None or not d[1]:
+            continue
+        day = (datetime.fromtimestamp(d[1], tz=timezone.utc) + timedelta(hours=7)).strftime("%Y-%m-%d")
+        if (now - datetime.fromtimestamp(d[1], tz=timezone.utc)).days > 5:
+            continue                                   # an expired or unquoted contract
+        dates, vals = list(old.get(mth, {}).get("dates", [])), list(old.get(mth, {}).get("values", []))
+        if dates and dates[-1] == day:
+            vals[-1] = round(float(d[0]), 4)
+        elif not dates or day > dates[-1]:
+            dates.append(day); vals.append(round(float(d[0]), 4))
+        contracts.append({"m": mth, "sym": sym, "dates": dates[-130:], "values": vals[-130:]})
+    if len(contracts) < 6:
+        raise RuntimeError(f"TTF curve: only {len(contracts)} contracts from TradingView")
+    return {"name_en": "TTF gas", "name_no": "TTF-gass", "unit": "EUR/MWh", "source": "ICE Endex monthly contracts via TradingView, history kept from 13 Nov 2026", "contracts": contracts}
+
+
+def fetch_curves(prev=None):
+    """Futures curves: Brent from Yahoo's monthly contracts (the next 24 delivery months, each with six months of closes,
+    so the page can draw today's curve against earlier ones) and TTF gas from TradingView (fetch_ttf_curve). WTI was
+    dropped on 13 Nov 2026 (user: the gas curve's seasonal pattern says more beside a falling Brent curve)."""
+    out = {}
+    prev = prev or {}
+    now = datetime.now(timezone.utc)
+    try:
+        out["TTF"] = fetch_ttf_curve(prev.get("TTF"))
+        log(f"curves TTF: {len(out['TTF']['contracts'])} contracts, {out['TTF']['contracts'][0]['m']} {out['TTF']['contracts'][0]['values'][-1]} … {out['TTF']['contracts'][-1]['m']} {out['TTF']['contracts'][-1]['values'][-1]}, history {len(out['TTF']['contracts'][0]['dates'])} day(s)")
+    except Exception as e:
+        log(f"  !! curves TTF: {repr(e)[:120]}; keeping the previous curve")
+        if prev.get("TTF"):
+            out["TTF"] = prev["TTF"]
+    for root, name_en, name_no in (("BZ", "Brent", "Brent"),):
         contracts = []
         y, m = now.year, now.month
         for i in range(26):
@@ -576,9 +618,13 @@ def fetch_curves():
                 contracts.append({"m": f"{yy}-{mm:02d}", "sym": sym, "dates": sr["dates"][-130:], "values": sr["values"][-130:]})
             except Exception:
                 continue
+        if len(contracts) < 6 and prev.get(root):
+            log(f"  !! curves {root}: only {len(contracts)} contracts; keeping the previous curve")
+            out[root] = prev[root]
+            continue
         out[root] = {"name_en": name_en, "name_no": name_no, "unit": "USD/bbl", "contracts": contracts}
         log(f"curves {root}: {len(contracts)} contracts" + (f", {contracts[0]['m']} {contracts[0]['values'][-1]} … {contracts[-1]['m']} {contracts[-1]['values'][-1]}" if contracts else ""))
-    return out
+    return {k: out[k] for k in ("BZ", "TTF") if k in out}
 
 
 def fetch_eer():
@@ -1260,9 +1306,15 @@ def main():
         log("1b. Dated Brent and UK gas")
         fetch_extra_commodities(yahoo, prev.get("yahoo", {}))
     derive_crosses(yahoo)
+    for sym, offset, anchor in (("BRENT_DATED", 0, "BZ=F"), ("UK_SAP", 1, "TTF=F")):
+        # the weekly series next to the futures they belong with: Dated Brent before the first Brent contract, NBP after TTF
+        if sym in yahoo and anchor in yahoo:
+            keys = [k for k in yahoo if k != sym]
+            keys.insert(keys.index(anchor) + offset, sym)
+            yahoo = {k: yahoo[k] for k in keys}
     blocks = {}
     daily = ("fred", "ecb", "nb", "ssb", "bis", "macro", "fedfunds", "gov", "curves", "eer", "mpr")
-    for name, fn in (("fred", fetch_fred), ("ecb", fetch_ecb), ("nb", fetch_nb), ("ssb", fetch_ssb), ("bis", fetch_bis), ("macro", fetch_macro), ("fedfunds", fetch_fedfunds), ("gov", fetch_gov), ("curves", fetch_curves), ("eer", fetch_eer), ("mpr", fetch_mpr), ("us_session", fetch_us_session), ("news", fetch_news), ("heatmap", fetch_heatmap)):
+    for name, fn in (("fred", fetch_fred), ("ecb", fetch_ecb), ("nb", fetch_nb), ("ssb", fetch_ssb), ("bis", fetch_bis), ("macro", fetch_macro), ("fedfunds", fetch_fedfunds), ("gov", fetch_gov), ("curves", lambda: fetch_curves(prev.get("curves", {}))), ("eer", fetch_eer), ("mpr", fetch_mpr), ("us_session", fetch_us_session), ("news", fetch_news), ("heatmap", fetch_heatmap)):
         if intraday and name in daily:
             blocks[name] = prev.get(name, {})
             continue

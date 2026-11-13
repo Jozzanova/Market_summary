@@ -38,7 +38,7 @@ RULES = {
     "OSEBX.OL": ("the Oslo Børs benchmark index", "hovedindeksen på Oslo Børs", "equity", 2.0, 3.0, "%", "Yahoo Finance", YQ.format("OSEBX.OL")),
     "^N225": ("the Nikkei 225", "Nikkei 225", "equity", 2.5, 4.0, "%", "Yahoo Finance", YQ.format("%5EN225")),
     "^KS11": ("the KOSPI", "KOSPI", "equity", 3.0, 5.0, "%", "Yahoo Finance", YQ.format("%5EKS11")),
-    "^VIX": ("the VIX", "VIX", "equity", 20.0, 35.0, "%", "Yahoo Finance", YQ.format("%5EVIX")),
+    "^VIX": ("the VIX", "VIX", "equity", 3.0, 5.0, "pt", "Yahoo Finance", YQ.format("%5EVIX")),
     "^TNX": ("the US 10-year Treasury yield", "den amerikanske tiårsrenten", "rates", 15.0, 25.0, "bp", "Yahoo Finance", YQ.format("%5ETNX")),
     "DGS2": ("the US 2-year Treasury yield", "den amerikanske toårsrenten", "rates", 15.0, 25.0, "bp", "FRED", FRED.format("DGS2")),
     "EA_SR_10Y": ("the euro-area AAA 10-year yield", "eurosonens AAA-tiårsrente", "rates", 15.0, 25.0, "bp", "ECB", "https://data.ecb.europa.eu/"),
@@ -49,7 +49,7 @@ RULES = {
     "HG=F": ("copper", "kobber", "commodity", 4.0, 6.0, "%", "Yahoo Finance", YQ.format("HG%3DF")),
     "BAMLH0A0HYM2": ("the US high-yield spread", "det amerikanske high yield-påslaget", "credit", 25.0, 50.0, "bp", "FRED", FRED.format("BAMLH0A0HYM2")),
 }
-VERB = {"%": (("rose", "fell"), ("steg", "falt")), "bp": (("rose", "fell"), ("steg", "falt"))}
+VERB = {"%": (("rose", "fell"), ("steg", "falt")), "bp": (("rose", "fell"), ("steg", "falt")), "pt": (("rose", "fell"), ("steg", "falt"))}
 
 
 def load():
@@ -79,7 +79,7 @@ def scan(db):
             continue
         d1, last = float(v["d1"]), float(v["last"])
         size = abs(d1)
-        if sym == "^VIX":   # the VIX: a level above 30 or a jump of 20 per cent or more
+        if sym == "^VIX":   # the VIX: a level above 30 or a move of three points or more (its changes are in points)
             if last < 30 and size < med:
                 continue
             sev = "high" if (last >= 35 or size >= high) else "medium"
@@ -98,6 +98,8 @@ def scan(db):
         up = d1 > 0
         if unit == "bp":
             chg_en, chg_no = f"{abs(d1):.0f} basis points to {last:.2f} per cent", f"{abs(d1):.0f} basispunkter til {last:.2f} prosent".replace(".", ",")
+        elif unit == "pt":
+            chg_en, chg_no = f"{abs(d1):.1f} points to {fmt_num(last, dec)}", f"{abs(d1):.1f} poeng til {fmt_num(last, dec)}".replace(".", ",")
         else:
             chg_en, chg_no = f"{abs(d1):.1f} per cent to {fmt_num(last, dec)}", f"{abs(d1):.1f} prosent til {fmt_num(last, dec)}".replace(",", " ").replace(".", ",")
         date_en = datetime.strptime(v["last_date"], "%Y-%m-%d").strftime("%-d %B %Y") if sys.platform != "win32" else datetime.strptime(v["last_date"], "%Y-%m-%d").strftime("%d %B %Y").lstrip("0")

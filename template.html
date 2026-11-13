@@ -71,6 +71,9 @@ tr.sect td { font-weight: 600; color: var(--accent); padding-top: .7rem; border-
 .banner.stale { background: #AE1F26; color: #fff; }   /* a fixed dark red: the dark theme's --bad is too light under white text */ .banner.stale strong { color: #fff; }
 .banner.reserve { background: rgba(239,149,74,.14); color: var(--warn); border: 1px solid var(--warn); }
 .muted { color: var(--muted); } .small { font-size: .82rem; }
+/* the US-session card is narrow: a compact table that scrolls sideways rather than overflowing the card */
+#usTable { overflow-x: auto; } #usTable table { font-size: .84rem; } #usTable td, #usTable th { padding: .3rem .25rem; vertical-align: top; } #usTable th .small { text-transform: none; letter-spacing: 0; font-weight: 400; }
+#usTable th.num, #usTable td.num { white-space: normal; } #usTable td.num .price { white-space: nowrap; } #usTable td:first-child { white-space: nowrap; } #usTable .small { font-size: .74rem; }
 .plot { width: 100%; height: 360px; } .plot.tall { height: 440px; } .plot.short { height: 300px; }
 .note { color: var(--muted); font-size: .85rem; }
 .tag { display: inline-block; font-size: .7rem; padding: .05rem .5rem; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-weight: 600; margin-right: .3rem; }
@@ -312,7 +315,7 @@ details.src > summary::before { content: "▸ "; } details.src[open] > summary::
   <div class="card"><h2 data-i="cm_title">Commodities</h2><div id="cmTable"></div></div>
   <div class="grid2">
     <div class="card"><h2 data-i="cm_curve_bz">Brent futures curve <small data-i="cm_curve_s">dollars per barrel by delivery month: today, a week ago, a month ago and at the last Monetary Policy Report</small></h2><div class="plot" id="curveBZ" style="height:360px"></div></div>
-    <div class="card"><h2 data-i="cm_curve_cl">WTI futures curve <small data-i="cm_curve_s">dollars per barrel by delivery month: today, a week ago, a month ago and at the last Monetary Policy Report</small></h2><div class="plot" id="curveCL" style="height:360px"></div></div>
+    <div class="card"><h2 data-i="cm_curve_ttf">TTF gas futures curve <small data-i="cm_curve_ttf_s">euros per megawatt-hour by delivery month: today, a week ago, a month ago and at the last Monetary Policy Report</small></h2><div class="plot" id="curveTTF" style="height:360px"></div></div>
   </div>
   <p class="note" data-i="cm_curve_note">ICE Brent and NYMEX WTI monthly contracts via Yahoo Finance; the latest curve can include the current session, the earlier ones are settlement prices.</p>
   <div class="card"><h2 data-i="cm_perf">Indexed performance <small data-i="eq_perf_hint">start of period = 100</small></h2>
@@ -422,8 +425,9 @@ const T = {
   rt_title: ["Government yields, policy rates and credit spreads", "Statsrenter, styringsrenter og kredittpåslag"],
   rt_note: ["Changes in basis points. The two US sections are the same yields from two sources: the live prints move through the session, the official closes come after the close and run one business day behind. The euro-area AAA curve is the ECB's curve of the highest-rated governments; the all-issuer curve covers every euro-area government, and the gap between the two at 10 years is the periphery spread. 5y5y forwards are 2 × 10-year minus 5-year. The financial-conditions index is weekly and lagged, so it is not used in the letters. The percentile column ranks today's absolute move among the past year's daily moves; the last column marks where the last value sits in its 52-week range.", "Endringer i basispunkter. De to USA-delene er samme renter fra to kilder: de løpende noteringene beveger seg gjennom handelsdagen, de offisielle sluttnoteringene kommer etter stengetid og er én virkedag bak. Euroområdets AAA-kurve er ESBs kurve for de høyest ratede statene; kurven for alle utstedere dekker alle statene i euroområdet, og avstanden mellom dem på ti år er periferipåslaget. 5 år om 5 år er 2 × 10-årsrenten minus 5-årsrenten. Indeksen for finansielle forhold er ukentlig og forsinket, og brukes ikke i rapportene. Persentilkolonnen rangerer dagens utslag (i absoluttverdi) blant det siste årets daglige utslag; siste kolonne viser hvor siste verdi ligger i 52-ukersintervallet."],
   rt_10y: ["10-year yields", "10-årsrenter"], rt_2y: ["Short end", "Korte renter"], rt_oas: ["Credit spreads", "Kredittpåslag"], rt_oas_s: ["ICE BofA option-adjusted spreads and the euro-area periphery spread, percentage points", "ICE BofA-påslag og euroområdets periferipåslag, prosentenheter"], rt_curve: ["US curve and real yields", "Amerikansk rentekurve og realrenter"], rt_30y: ["30-year yields", "30-årsrenter"], rt_fwd: ["5y5y forwards", "5 år om 5 år"], rt_fwd_s: ["nominal forward rates (2 × 10-year − 5-year) and the US 5y5y inflation expectation", "nominelle terminrenter (2 × 10-årsrenten − 5-årsrenten) og markedets inflasjonsforventninger i USA, 5 år om 5 år"],
-  cm_curve_bz: ["Brent futures curve", "Terminkurven for Brent"], cm_curve_cl: ["WTI futures curve", "Terminkurven for WTI"], cm_curve_s: ["dollars per barrel by delivery month: today, a week ago, a month ago and at the last Monetary Policy Report", "dollar per fat etter leveringsmåned: i dag, for en uke siden, for en måned siden og ved siste pengepolitiske rapport"],
-  cm_curve_note: ["ICE Brent and NYMEX WTI monthly contracts via Yahoo Finance; the latest curve can include the current session, the earlier ones are settlement prices.", "Månedskontrakter for ICE Brent og NYMEX WTI via Yahoo Finance; dagens kurve kan omfatte inneværende handelsdag, de tidligere er oppgjørspriser."],
+  cm_curve_bz: ["Brent futures curve", "Terminkurven for Brent"], cm_curve_ttf: ["TTF gas futures curve", "Terminkurven for TTF-gass"], cm_curve_s: ["dollars per barrel by delivery month: today, a week ago, a month ago and at the last Monetary Policy Report", "dollar per fat etter leveringsmåned: i dag, for en uke siden, for en måned siden og ved siste pengepolitiske rapport"],
+  cm_curve_ttf_s: ["euros per megawatt-hour by delivery month: today, a week ago, a month ago and at the last Monetary Policy Report; the seasonal pattern (winter premium) stands against the falling Brent curve", "euro per megawattime etter leveringsmåned: i dag, for en uke siden, for en måned siden og ved siste pengepolitiske rapport; sesongmønsteret (vinterpåslaget) står mot den fallende Brent-kurven"],
+  cm_curve_note: ["ICE Brent monthly contracts via Yahoo Finance and ICE Endex TTF monthly contracts via TradingView; the latest curve can include the current session, the earlier ones are settlement prices. The TTF history is kept from 13 November 2026, so its earlier curves appear as it accumulates.", "Månedskontrakter for ICE Brent via Yahoo Finance og for ICE Endex TTF via TradingView; dagens kurve kan omfatte inneværende handelsdag, de tidligere er oppgjørspriser. TTF-historikken samles fra 13. november 2026, så de tidligere kurvene kommer etter hvert."],
   cv_today: ["today", "i dag"], cv_week: ["a week ago", "for en uke siden"], cv_month: ["a month ago", "for en måned siden"], cv_mpr: ["at the MPR of", "ved PPR"],
   eer_title: ["Effective exchange rates", "Effektive valutakurser"], eer_s: ["BIS nominal broad indices, 2020 = 100; a rise is a stronger currency", "BIS' nominelle brede indekser, 2020 = 100; en oppgang er en sterkere valuta"],
   eer_note: ["The BIS publishes these about a week behind the market, so every row shows its date and is marked as lagged; they are not used in the letters. For the krone, I-44 above is Norges Bank's own daily index.", "BIS publiserer disse om lag en uke etter markedet, så hver rad viser sin dato og er merket som forsinket; de brukes ikke i rapportene. Norges Banks egen daglige kroneindeks, I-44, vises ovenfor."],
@@ -628,7 +632,15 @@ const DIFF = {};
   mk("diff_nok_usd_10y", NB.nok_10y, FR.DGS10, "NOK − USD 10-year", "NOK − USD 10 år");
   mk("diff_nok_usd_short", NB.nok_3y, FR.DGS2, "NOK − USD short end (Norway 3-year minus US 2-year)", "NOK − USD kort ende (norsk 3 år minus USA 2 år)");
 })();
-const group = g => Object.entries(Y).filter(([, v]) => v.group === g).map(([s, v]) => ({sym: s, ...v}));
+const group = g => {
+  const rows = Object.entries(Y).filter(([, v]) => v.group === g).map(([s, v]) => ({sym: s, ...v}));
+  // the weekly series next to the futures they belong with: Dated Brent before the first Brent contract, NBP gas after TTF
+  for (const [sym, offset, anchor] of [["BRENT_DATED", 0, "BZ=F"], ["UK_SAP", 1, "TTF=F"]]) {
+    const i = rows.findIndex(r => r.sym === sym); if (i < 0) continue;
+    const [r] = rows.splice(i, 1); const j = rows.findIndex(x => x.sym === anchor); rows.splice(j < 0 ? rows.length : j + offset, 0, r);
+  }
+  return rows;
+};
 function startDate(range, lastDate) {
   const d = new Date(lastDate + "T00:00:00Z");
   if (range === "ytd") return `${d.getUTCFullYear()}-01-01`;
@@ -860,12 +872,23 @@ function drawUs() {
   const etf = Object.values(us.etf || {}), fut = Object.values(us.futures || {});
   if (!etf.length && !fut.length) { card.style.display = "none"; return; }
   card.style.display = "";
-  const no = LANG === "no", nm = v => esc(no ? v.name_no : v.name_en);
-  const pc = x => x == null ? "" : ` <span class="${x > 0 ? "pos" : x < 0 ? "neg" : ""}">${x > 0 ? "+" : ""}${fmt(x, 2)} %</span>`;
-  const cell = (p, tm, c) => p == null ? `<td class="num muted">–</td>` : `<td class="num">${fmt(p, 2)}${pc(c)}<br><span class="muted small">${esc(fmtOslo(tm))}</span></td>`;
-  const rows = etf.map(v => `<tr><td>${nm(v)}</td>${cell(v.close, v.close_time, v.d1)}${cell(v.post, v.post_time, v.post_chg)}${cell(v.pre, v.pre_time, v.pre_chg)}</tr>`).join("");
-  const frows = fut.map(v => `<tr><td>${nm(v)}</td>${cell(v.last, v.last_time, v.d1)}<td></td><td></td></tr>`).join("");
-  $("#usTable").innerHTML = `<table><thead><tr><th></th><th class="num">${t("us_close")}</th><th class="num">${t("us_post")}</th><th class="num">${t("us_pre")}</th></tr></thead><tbody>${rows}${frows ? `<tr><td colspan="4" class="muted small">${t("us_fut")}</td></tr>${frows}` : ""}</tbody></table>`;
+  // the card is narrow: the name on two lines (the ticker under it), the change and the time on one line under the price,
+  // the date only when the print is not from today
+  const no = LANG === "no";
+  const nm = v => { const m = /^(.*?) \((\w+)[ -]ETF\)$/.exec(no ? v.name_no : v.name_en); return m ? `${esc(m[1])}<br><span class="muted small">${esc(m[2])}</span>` : esc(no ? v.name_no : v.name_en); };
+  const pc = x => x == null ? "" : `<span class="${x > 0 ? "pos" : x < 0 ? "neg" : ""}">${x > 0 ? "+" : ""}${fmt(x, 2)} %</span>`;
+  const parseT = tm => { if (!tm) return null; const d = new Date(String(tm).replace(" UTC", "Z").replace(" ", "T")); return isNaN(d) ? null : d; };
+  const dayOf = d => d.toLocaleDateString(no ? "nb-NO" : "en-GB", {day: "numeric", month: "short", timeZone: "Europe/Oslo"});
+  const hmOf = d => d.toLocaleTimeString(no ? "nb-NO" : "en-GB", {hour: "2-digit", minute: "2-digit", timeZone: "Europe/Oslo"}).replace(":", no ? "." : ":");
+  // when every print in a column is from the same day, that day goes in the column head and the cells carry the time only
+  const colDay = times => { const ds = [...new Set(times.map(parseT).filter(Boolean).map(dayOf))]; return ds.length === 1 ? ds[0] : null; };
+  const closeDay = colDay(etf.map(v => v.close_time)), postDay = colDay(etf.map(v => v.post_time)), preDay = colDay(etf.map(v => v.pre_time));
+  const when = (tm, day) => { const d = parseT(tm); if (!d) return tm ? esc(tm) : ""; return day ? hmOf(d) : dayOf(d) + " " + hmOf(d); };
+  const cell = (p, tm, c, day) => p == null ? `<td class="num muted">–</td>` : `<td class="num"><span class="price">${fmt(p, 2)}</span><br><span class="small">${pc(c)} <span class="muted">${when(tm, day)}</span></span></td>`;
+  const rows = etf.map(v => `<tr><td>${nm(v)}</td>${cell(v.close, v.close_time, v.d1, closeDay)}${cell(v.post, v.post_time, v.post_chg, postDay)}${cell(v.pre, v.pre_time, v.pre_chg, preDay)}</tr>`).join("");
+  const frows = fut.map(v => `<tr><td>${nm(v)}</td>${cell(v.last, v.last_time, v.d1, null)}<td></td><td></td></tr>`).join("");
+  const th = (label, day) => `<th class="num">${label}${day ? `<br><span class="muted small">${esc(day)}</span>` : ""}</th>`;
+  $("#usTable").innerHTML = `<table><thead><tr><th></th>${th(t("us_close"), closeDay)}${th(t("us_post"), postDay)}${th(t("us_pre"), preDay)}</tr></thead><tbody>${rows}${frows ? `<tr><td colspan="4" class="muted small">${t("us_fut")}</td></tr>${frows}` : ""}</tbody></table>`;
 }
 function drawI44() {
   if (!NB.nok_i44) { $("#i44Card").style.display = "none"; return; }
@@ -1042,21 +1065,23 @@ function drawRates() {
 
 /* ---------- commodities, fx ---------- */
 function drawCommodities() { $("#cmTable").innerHTML = instrTable(group("commodity")); plot("#cmPlot", indexedTraces(["BZ=F", "BRENT_DATED", "TTF=F", "UK_SAP", "NG=F", "GC=F", "HG=F", "^SPGSCI"], RANGE.cm)); drawCurves(); }
-// Brent and WTI futures curves by delivery month: today's, a week ago, a month ago, and at the last Monetary Policy Report
+// Brent and TTF gas futures curves by delivery month: today's, a week ago, a month ago, and at the last Monetary Policy Report (each with its own axis and unit)
 function drawCurves() {
   const asof = Object.values(CURVES).flatMap(c => (c.contracts || []).map(k => k.dates[k.dates.length - 1])).sort().pop();
   const back = n => new Date(new Date(asof + "T00:00:00Z").getTime() - n * 86400000).toISOString().slice(0, 10);
   const snaps = asof ? [[asof, t("cv_today")], [back(7), t("cv_week")], [back(30), t("cv_month")], MPR.last && MPR.last < back(30) ? [MPR.last, `${t("cv_mpr")} ${fmtDateShort(MPR.last)}`] : null].filter(Boolean) : [];
   const near = (k, d) => { let x = null; for (let i = 0; i < k.dates.length; i++) { if (k.dates[i] <= d) { if (new Date(d) - new Date(k.dates[i]) <= 7 * 86400000) x = k.values[i]; else x = null; } else break; } return x; };
-  const cols = COLORS(), all = [];
-  for (const c of Object.values(CURVES)) snaps.forEach(([d]) => (c.contracts || []).forEach(k => { const v = near(k, d); if (v != null) all.push(v); }));
-  const pad = all.length ? 0.04 * (Math.max(...all) - Math.min(...all)) : 0, yr = all.length ? [Math.min(...all) - pad, Math.max(...all) + pad] : undefined;
-  for (const [root, id] of [["BZ", "#curveBZ"], ["CL", "#curveCL"]]) {
+  const cols = COLORS();
+  for (const [root, id] of [["BZ", "#curveBZ"], ["TTF", "#curveTTF"]]) {
     const el = $(id), c = CURVES[root]; if (!el) continue; if (!c) { el.innerHTML = ""; continue; }
+    const all = [];
+    snaps.forEach(([d]) => (c.contracts || []).forEach(k => { const v = near(k, d); if (v != null) all.push(v); }));
+    const pad = all.length ? 0.04 * (Math.max(...all) - Math.min(...all)) : 0, yr = all.length ? [Math.min(...all) - pad, Math.max(...all) + pad] : undefined;
+    const suffix = (c.unit || "").startsWith("EUR") ? " €" : " $";
     const tr = [];
     snaps.forEach(([d, label], j) => { const x = [], y = []; (c.contracts || []).forEach(k => { const v = near(k, d); if (v != null) { x.push(k.m + "-01"); y.push(v); } }); if (x.length < 3) return;
       tr.push({x, y, name: label, type: "scatter", mode: "lines+markers", noEnd: true, line: {width: j === 0 ? 2.5 : 1.4, color: cols[j % cols.length], dash: ["solid", "dot", "dash", "dashdot"][j]}, marker: {size: j === 0 ? 5 : 3}, hovertemplate: esc(label) + "<br>%{x|%b %Y}: %{y:.2f} $<extra></extra>"}); });
-    plot(el, tr, {yaxis: {ticksuffix: " $", range: yr}, xaxis: {tickformat: "%b %y"}, hovermode: "closest", legend: {y: -0.18}});
+    plot(el, tr, {yaxis: {ticksuffix: suffix, range: yr}, xaxis: {tickformat: "%b %y"}, hovermode: "closest", legend: {y: -0.18}});
   }
 }
 function drawFx() {
@@ -1371,7 +1396,7 @@ function drawQuality() {
   if (SSB && Object.keys(SSB).length) add(no ? "Norsk KPI og KPI-JAE" : "Norwegian CPI and CPI-ATE", "SSB", scan(SSB), {tol: 45, note: no ? "månedlig" : "monthly"});
   { const ff = D.fedfunds || {}; add(no ? "Fed-prising (Fed funds-futures)" : "Fed pricing (Fed funds futures)", "Yahoo Finance", [], {latest: (ff.asof || ff.fetched || "").slice(0, 10) || null, n: (ff.meetings || []).length, status: ff.meetings && ff.meetings.length ? "fresh" : "missing"}); }
   { const hm = D.heatmap || {}; const items = hm.items || []; add(no ? "Varmekart, de 150 største amerikanske aksjene" : "Heat map, 150 largest US stocks", "Yahoo Finance", [], {latest: (items.map(i => i.t || "").sort().pop() || "").slice(0, 10) || null, n: items.length, status: items.length ? "fresh" : "missing", note: `${items.filter(i => i.m1).length} ${no ? "med kurslinje for siste måned" : "with a month line"}`}); }
-  { const cs = Object.values(CURVES); const asofC = cs.flatMap(c => (c.contracts || []).map(k => k.dates[k.dates.length - 1])).sort().pop(); add(no ? "Terminkurver, Brent og WTI" : "Futures curves, Brent and WTI", "Yahoo Finance", [], {latest: asofC || null, n: cs.reduce((a, c) => a + (c.contracts || []).length, 0), status: asofC ? (days(asofC) <= 3 ? "fresh" : "stale") : "missing"}); }
+  { const cs = Object.values(CURVES); const asofC = cs.flatMap(c => (c.contracts || []).map(k => k.dates[k.dates.length - 1])).sort().pop(); add(no ? "Terminkurver, Brent og TTF-gass" : "Futures curves, Brent and TTF gas", "Yahoo Finance, TradingView", [], {latest: asofC || null, n: cs.reduce((a, c) => a + (c.contracts || []).length, 0), status: asofC ? (days(asofC) <= 3 ? "fresh" : "stale") : "missing"}); }
   add(no ? "Effektive valutakurser" : "Effective exchange rates", "BIS", Object.values(EER), {lag: true, note: no ? "om lag en uke bak" : "about a week behind"});
   { const nw = D.news || {}; add(no ? "Nyhetsoverskrifter (RSS)" : "News headlines (RSS)", "Reuters, Bloomberg, FT, WSJ, E24 …", [], {latest: (nw.fetched || "").slice(0, 10) || null, n: (nw.items || []).length, status: (nw.items || []).length ? "fresh" : "missing", note: nw.failed && nw.failed.length ? `${no ? "ikke tilgjengelig" : "unavailable"}: ${nw.failed.join(", ")}` : ""}); }
   { const upd = (LIVE_ALERTS && LIVE_ALERTS.updated) || (D.alerts || {}).updated; add(no ? "Varsler (automatisk overvåking)" : "Alerts (live sniffer)", "Cloudflare worker", [], {latest: upd ? upd.slice(0, 10) : null, n: alertEvents().length, status: upd ? (Date.now() - new Date(upd).getTime() < 3600e3 ? "fresh" : "stale") : "missing", note: upd ? `${no ? "sist sjekket" : "last check"} ${upd}` : ""}); }

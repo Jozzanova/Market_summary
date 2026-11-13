@@ -119,7 +119,8 @@ def main():
         table([(v["name_en"], v) for v in eer.values()], "Effective exchange rates, BIS nominal broad (2020 = 100, up = stronger; LAGGED about a week: shown on the page with dates, never in the letters)")
     cv = D.get("curves", {})
     if cv:
-        print("\n## Brent and WTI futures curves (USD/bbl; delivery month: price today, a week ago, at the last MPR)")
+        print("\n## Futures curves, Brent (USD/bbl) and TTF gas (EUR/MWh; the TTF history is kept from 13 Nov 2026, so its earlier curves fill in over time) "
+              "(delivery month: price today, a week ago, at the last MPR)")
         for root, c in cv.items():
             ks = c.get("contracts", [])
             if not ks:
@@ -141,7 +142,7 @@ def main():
         g = lambda k: f"{us[k]['last']:.1f}% ({us[k]['last_date'][:7]})" if k in us else "n/a"
         print(f"\n## US inflation, 12-month change\n  CPI {g('cpi')}, core CPI {g('core')} (OECD); PCE {g('pce')}, core PCE {g('pce_core')} (BEA via FRED)")
     # movers
-    movers = sorted(((v["d1"], v["name_en"], v["group"]) for v in y.values() if v.get("d1") is not None and v["kind"] != "yield" and v["group"] != "sector"), key=lambda t: -abs(t[0]))
+    movers = sorted(((v["d1"], v["name_en"], v["group"]) for v in y.values() if v.get("d1") is not None and v["kind"] not in ("yield", "diff") and v["group"] != "sector"), key=lambda t: -abs(t[0]))
     print("\n## Largest one-day moves (prices and FX)")
     for d1, name, grp in movers[:12]:
         print(f"  {d1:+7.2f}%  {name} ({grp})")

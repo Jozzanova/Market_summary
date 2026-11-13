@@ -210,7 +210,7 @@ politics 250-450 words.
   never in the letters or the PDF.
   Equity indices are described by their percentage change only, never by their level ("the S&P 500 rose 1.3 per cent",
   not "to 7,619"): the level carries no information for the reader and dates the text. Levels stay for prices that are
-  read as levels: exchange rates, yields, oil and gas, the VIX, I-44. (5) **Drivers** / **Drivkrefter**: the likely factors behind
+  read as levels: exchange rates, yields, oil and gas, the VIX (its changes in points, as in the brief: "VIX steg 1,2 poeng til 18,7", never in per cent), I-44. (5) **Drivers** / **Drivkrefter**: the likely factors behind
   the moves, drawn from the other reports of the day: statements from the US president or US authorities, central bank
   decisions and speeches (Fed, ECB, Bank of England, Bank of Japan, the Riksbank, the RBA, the RBNZ), key figures, the oil
   price, geopolitics, company news, each with its link. (6) **Norway** / **Norge**: the rate differential against the euro
