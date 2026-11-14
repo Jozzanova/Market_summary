@@ -570,7 +570,8 @@ function drawBanner() {
   const osloDay = d => d.toLocaleDateString("sv-SE", {timeZone: "Europe/Oslo"});
   const osloHour = +new Date().toLocaleString("en-GB", {hour: "2-digit", hour12: false, timeZone: "Europe/Oslo"});
   const osloDow = new Date(new Date().toLocaleString("en-US", {timeZone: "Europe/Oslo"})).getDay();
-  const noRun = asof && osloDay(asof) < osloDay(new Date()) && osloHour >= 7 && osloDow !== 0 && osloDow !== 6;   // not on Saturdays and Sundays
+  // not at weekends, and not on Monday mornings either: the Monday report describes Friday and the weekend (user, 14 Nov 2026)
+  const noRun = asof && osloDay(asof) < osloDay(new Date()) && osloHour >= 7 && osloDow !== 0 && osloDow !== 6 && !(osloDow === 1 && osloHour < 12);
   const complete = closesComplete();
   let cls = "", html = "";
   if (!complete) {
