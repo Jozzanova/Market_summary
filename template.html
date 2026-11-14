@@ -569,7 +569,8 @@ function drawBanner() {
   const asof = parse(D.asof), yasof = parse(D.yahoo_asof || D.asof), st = D.yahoo_status || {};
   const osloDay = d => d.toLocaleDateString("sv-SE", {timeZone: "Europe/Oslo"});
   const osloHour = +new Date().toLocaleString("en-GB", {hour: "2-digit", hour12: false, timeZone: "Europe/Oslo"});
-  const noRun = asof && osloDay(asof) < osloDay(new Date()) && osloHour >= 7;
+  const osloDow = new Date(new Date().toLocaleString("en-US", {timeZone: "Europe/Oslo"})).getDay();
+  const noRun = asof && osloDay(asof) < osloDay(new Date()) && osloHour >= 7 && osloDow !== 0 && osloDow !== 6;   // not on Saturdays and Sundays
   const complete = closesComplete();
   let cls = "", html = "";
   if (!complete) {
@@ -592,6 +593,27 @@ try { document.documentElement.dataset.theme = localStorage.getItem("ms_theme") 
 $("#themeBtn").onclick = () => { const next = isDark() ? "light" : "dark"; document.documentElement.dataset.theme = next; try { localStorage.setItem("ms_theme", next); } catch (e) {} drawn.clear(); showTab(currentTab(), true); };
 $$("#langSeg button").forEach(b => b.onclick = () => setLang(b.dataset.v));
 window.addEventListener("hashchange", () => showTab(currentTab()));
+// A tab left open (overnight, on a wall screen) reloads itself when the server has a newer build: every five minutes the
+// page head is fetched afresh and its build stamp compared with this page's; on a change the page reloads at once when
+// hidden, otherwise as soon as the reader has been idle for three minutes. Without this, a stale tab showed yesterday's
+// data and, after 07:00, a false "no run today" warning (14 Nov 2026).
+{
+  const STAMP = (document.querySelector('script[src^="data.js?v="]') || {src: ""}).src.replace(/.*v=/, "");
+  let lastActivity = Date.now(), newer = false;
+  ["pointerdown", "keydown", "wheel", "touchstart"].forEach(ev => addEventListener(ev, () => { lastActivity = Date.now(); }, {passive: true}));
+  const maybeReload = () => { if (newer && (document.hidden || Date.now() - lastActivity > 3 * 60e3)) location.reload(); };
+  const check = async () => {
+    if (!STAMP) return;
+    try {
+      const html = await (await fetch(location.pathname + "?stamp=" + Date.now(), {cache: "no-store"})).text();
+      const m = /data\.js\?v=(\d+)/.exec(html);
+      if (m && m[1] !== STAMP) { newer = true; maybeReload(); }
+    } catch (e) {}
+  };
+  setInterval(check, 5 * 60e3);
+  setInterval(maybeReload, 30e3);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) check(); });
+}
 // the page head is sticky and its height varies with the width (the tabs wrap), so the sub-menu's offset follows it
 { const ph = document.querySelector(".pagehead"); const setH = () => document.documentElement.style.setProperty("--headh", ph.offsetHeight + "px"); setH(); if (window.ResizeObserver) new ResizeObserver(setH).observe(ph); }
 $$(".rangeSeg").forEach(seg => seg.querySelectorAll("button").forEach(b => b.onclick = () => { seg.querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b)); RANGE[seg.dataset.for] = b.dataset.v; if (seg.dataset.for === "aside") drawI44(); else DRAW[currentTab()](); }));
