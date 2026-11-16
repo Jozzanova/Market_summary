@@ -1,6 +1,23 @@
 {
- "updated": "2026-11-15T05:07:26Z",
+ "updated": "2026-11-16T05:06:54Z",
  "events": [
+  {
+   "id": "^KS11:2026-11-16",
+   "time": "2026-11-16T05:05:00Z",
+   "severity": "medium",
+   "kind": "equity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/%5EKS11",
+   "text_en": "The KOSPI fell 3.2 per cent to 5,122 on 16 November 2026.",
+   "text_no": "KOSPI falt 3,2 prosent til 5 122 2026-11-16.",
+   "value": {
+    "symbol": "^KS11",
+    "last": 5121.52,
+    "d1": -3.195,
+    "unit": "%"
+   }
+  },
   {
    "id": "TTF=F:2026-11-12",
    "time": "2026-11-12T21:43:00Z",
@@ -321,23 +338,6 @@
     "symbol": "^IXIC",
     "last": 24315.0,
     "d1": -5.523,
-    "unit": "%"
-   }
-  },
-  {
-   "id": "^SOX:2026-11-05",
-   "time": "2026-11-05T22:15:00Z",
-   "severity": "high",
-   "kind": "equity",
-   "origin": "data",
-   "source": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/quote/%5ESOX",
-   "text_en": "The SOX semiconductor index fell 12.2 per cent to 9,011 on 5 November 2026.",
-   "text_no": "Halvlederindeksen SOX falt 12,2 prosent til 9 011 2026-11-05.",
-   "value": {
-    "symbol": "^SOX",
-    "last": 9011.139648,
-    "d1": -12.246,
     "unit": "%"
    }
   }
