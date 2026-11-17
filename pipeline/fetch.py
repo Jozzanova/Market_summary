@@ -1305,6 +1305,18 @@ def main():
         (DATA / "data.json").write_text(json.dumps(prev, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
         log(f"wrote data/data.json from the previous run ({prev.get('asof')}), nothing refreshed")
         return 0
+    if "--nb-only" in sys.argv:
+        # the Norges Bank refresh (pipeline/nb_refresh.py, weekday afternoons): only the nb block is fetched, everything else
+        # stays as the last run left it on the live site; the caller compares the dates and deploys only on new figures
+        if not prev:
+            log("!! --nb-only: no previous data"); return 1
+        nb = fetch_nb()
+        prev["nb"] = nb
+        prev["asof"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+        prev["kept_from_previous"] = [k for k in prev.get("kept_from_previous", []) if k != "nb"]
+        (DATA / "data.json").write_text(json.dumps(prev, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+        log("wrote data/data.json with a fresh Norges Bank block: " + ", ".join(f"{k} {v.get('last_date')}" for k, v in nb.items()))
+        return 0
     kept = []
     # Yahoo: the full year of every instrument only with --full, on Sundays (a weekly heal) or without previous data; otherwise
     # the last month (the morning run) or five days (--intraday) in four requests, spliced onto the previous run's history

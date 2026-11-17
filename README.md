@@ -32,6 +32,7 @@ python -X utf8 pipeline/fetch.py --refresh   # Yahoo (last month, spliced onto t
 python -X utf8 pipeline/fetch.py --refresh --full   # the full year of every instrument from Yahoo (done by itself on Sundays)
 python -X utf8 pipeline/fetch.py --refresh --intraday   # prices only, in a few requests (the intraday routines); daily blocks as the morning run left them
 python -X utf8 pipeline/fetch.py --offline   # the previous run's data (from the live site) as data.json, when every source is down
+python -X utf8 pipeline/nb_refresh.py        # Norges Bank only: fetch, and rebuild + deploy if a series has a newer observation (routine, weekday afternoons)
 python -X utf8 pipeline/brief.py             # the numbers for the reports, as text
 
 When Yahoo refuses the cloud address (HTTP 429, a shared egress address), `fetch.py` stops asking after four refusals and takes the prices from the reserve sources, CNBC's quote service and then TradingView (delayed up to 15 minutes), spliced onto the previous run's history; the brief and the data-quality list say so.
