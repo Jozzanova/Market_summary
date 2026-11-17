@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-16",
+ "updated": "2026-11-17",
  "items": [
   {
    "bank": "Federal Reserve",
@@ -198,14 +198,14 @@
   {
    "bank": "Reserve Bank of Australia",
    "kind": "minutes",
-   "title": "Minutes of the Monetary Policy Board Meeting, 28 and 29 September 2026",
-   "date": "2026-10-13",
-   "url": "https://www.rba.gov.au/monetary-policy/rba-board-minutes/2026/2026-09-29.html",
-   "summary_en": "At the meeting of 28–29 September the Board decided unanimously to raise the cash rate target by 25 basis points to 4.60 per cent, judging that inflation remained too high and that several upside risks had materialised: higher oil prices from the re-escalated Middle East conflict, cost pressures from the global AI boom, and less domestic spare capacity than assumed. Members considered the case for holding, centred on the housing downturn, Middle East uncertainty and lagged effects of earlier tightening, but judged it weaker. Financial conditions were assessed as somewhat restrictive but uncertain given sharply higher real bond yields. Members acknowledged a worsened inflation–employment trade-off and said the Board would do what is necessary to meet its mandate, including further increases if required. The minutes of the 3 November meeting are due around 17 November.",
-   "summary_no": "På møtet 28.–29. september besluttet komiteen enstemmig å heve styringsrenten med 25 basispunkter til 4,60 prosent, ettersom inflasjonen fortsatt var for høy og flere oppsiderisikoer hadde slått til: høyere oljepriser etter opptrappingen i Midtøsten, kostnadspress fra den globale KI-bølgen og mindre ledig kapasitet innenlands enn antatt. Medlemmene vurderte argumentene for å holde renten, knyttet til boligprisfallet, usikkerheten rundt Midtøsten og forsinkede virkninger av tidligere innstramming, men fant dem svakere. De finansielle forholdene ble vurdert som noe innstrammende, men usikre gitt den kraftige oppgangen i realrentene på statsobligasjoner. Medlemmene erkjente en forverret avveining mellom inflasjon og sysselsetting og sa komiteen vil gjøre det som er nødvendig for å oppfylle mandatet, inkludert ytterligere hevinger om nødvendig. Referatet fra møtet 3. november ventes rundt 17. november.",
+   "title": "Minutes of the Monetary Policy Board Meeting, 2 and 3 November 2026",
+   "date": "2026-11-17",
+   "url": "https://www.rba.gov.au/monetary-policy/rba-board-minutes/2026/2026-11-03.html",
+   "summary_en": "The Board raised the cash rate target by 25 basis points to 4.85 per cent by six votes to three; the minority preferred to hold at 4.60 per cent. The majority pointed to September-quarter inflation well above target and stronger than expected, greater domestic capacity pressures after a higher staff estimate of the NAIRU, broad-based cost pressures and the possibility that financial conditions were not restrictive enough. The minority argued that the 100 basis points of earlier tightening had not yet fully passed through, that unemployment had risen faster than expected and that the housing downturn could weigh more on activity, and gave more weight to the risk of a sharper downturn. Inflation is forecast to stay above 3 per cent until late 2027; the Board will continue to do what it considers necessary to return inflation to target.",
+   "summary_no": "Komiteen hevet styringsrenten med 25 basispunkter til 4,85 prosent med seks mot tre stemmer; mindretallet ville holde renten på 4,60 prosent. Flertallet viste til at prisveksten i tredje kvartal var klart over målet og høyere enn ventet, til større kapasitetspress etter at staben hadde oppjustert anslaget for NAIRU, til bredt kostnadspress og til at de finansielle forholdene kanskje ikke var stramme nok. Mindretallet pekte på at de 100 basispunktene med tidligere hevinger ennå ikke hadde fått full virkning, at arbeidsledigheten hadde steget raskere enn ventet og at nedgangen i boligmarkedet kunne dempe aktiviteten mer, og la større vekt på risikoen for en markert nedgang. Prisveksten ventes å holde seg over 3 prosent til sent i 2027; komiteen vil fortsatt gjøre det den anser nødvendig for å bringe prisveksten tilbake til målet.",
    "quotes": [
-    "The Board decided unanimously to raise the cash rate target by 25 basis points to 4.60 per cent.",
-    "including increasing the cash rate target further if required."
+    "The Board decided to raise the cash rate target to 4.85 per cent.",
+    "The Board agreed to continue to do what it considers necessary to bring inflation sustainably back to target."
    ]
   },
   {
