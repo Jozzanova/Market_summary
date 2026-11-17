@@ -257,7 +257,38 @@ TV_SYM = {"^GSPC": "SP:SPX", "^IXIC": "NASDAQ:IXIC", "^DJI": "DJ:DJI", "^RUT": "
           "EURSEK=X": "FX:EURSEK", "BTC-USD": "BITSTAMP:BTCUSD", "DKKNOK=X": "FX_IDC:DKKNOK", "NZDNOK=X": "FX_IDC:NZDNOK", "GBPNOK=X": "FX_IDC:GBPNOK",
           "SEKNOK=X": "FX_IDC:SEKNOK", "CHFNOK=X": "FX_IDC:CHFNOK", "JPYNOK=X": "FX_IDC:JPYNOK", "CADNOK=X": "FX_IDC:CADNOK", "AUDNOK=X": "FX_IDC:AUDNOK",
           "USDCNY=X": "FX_IDC:USDCNY", "ES=F": "CME_MINI:ES1!", "NQ=F": "CME_MINI:NQ1!", "YM=F": "CBOT_MINI:YM1!", "RTY=F": "CME_MINI:RTY1!",
-          "SPY": "AMEX:SPY", "QQQ": "NASDAQ:QQQ", "DIA": "AMEX:DIA", "IWM": "AMEX:IWM"}
+          "SPY": "AMEX:SPY", "QQQ": "NASDAQ:QQQ", "DIA": "AMEX:DIA", "IWM": "AMEX:IWM",
+          "NO10Y": "TVC:NO10Y", "NO05Y": "TVC:NO05Y", "NO01Y": "TVC:NO01Y"}
+NB_LIVE = [("NO10Y", "Norway 10-year (live)", "Norge 10 år (løpende)", "nok_10y"), ("NO05Y", "Norway 5-year (live)", "Norge 5 år (løpende)", None),
+           ("NO01Y", "Norway 1-year (live)", "Norge 1 år (løpende)", None)]
+
+
+def fetch_nb_live(prev, nb):
+    """Live Norwegian government yields from TradingView, appended day by day to the series kept from the previous run (the
+    10-year seeded from Norges Bank's official series the first time, so the week, month and year changes exist from day
+    one). Norges Bank publishes its daily yields the next business day, so at 06:05 the official series is two business
+    days old (user, 17 Nov 2026); the morning run gets yesterday's close here."""
+    q = tradingview_quotes([k for k, _, _, _ in NB_LIVE])
+    out = {}
+    for key, en, no, seed in NB_LIVE:
+        e, pv = q.get(key), (prev or {}).get(key) or {}
+        dates, vals = list(pv.get("dates", [])), list(pv.get("values", []))
+        seeded = False
+        if not dates and seed and (nb or {}).get(seed):
+            dates, vals, seeded = list(nb[seed]["dates"]), list(nb[seed]["values"]), True
+        if e:
+            if dates and dates[-1] == e["date"]:
+                vals[-1] = e["last"]
+            elif not dates or e["date"] > dates[-1]:
+                dates.append(e["date"]); vals.append(e["last"])
+        if not dates:
+            continue
+        s = {"dates": dates[-260:], "values": vals[-260:], "last": None, "last_time": None}
+        out[key] = {"group": "nok_live", "name_en": en, "name_no": no, "kind": "yield", "decimals": "3", "currency": "NOK",
+                    "last_time": e["time"] if e else pv.get("last_time"), **s, "last": vals[-1], "last_date": dates[-1], "unit": "bp", **stats(s, "yield"),
+                    "source": "TradingView" + (", history seeded from Norges Bank's official series" if seeded or "seeded" in (pv.get("source") or "") else "")}
+    log("nb live: " + ", ".join(f"{k} {v.get('last')} ({v.get('last_date')})" for k, v in out.items()) + (f"; refused: {[k for k, *_ in NB_LIVE if k not in q]}" if len(q) < len(NB_LIVE) else ""))
+    return out
 
 
 def _num(x):
@@ -1330,8 +1361,16 @@ def main():
             kept.append(name)
     if intraday:
         blocks["ppr"] = prev.get("ppr", {})
+        blocks["nb_live"] = prev.get("nb_live", {})
         kept.append(f"daily blocks (FRED, ECB, Norges Bank, SSB, BIS, macro, fed funds, government curves, MPR) as the morning run left them ({prev.get('asof')}); intraday run")
         log("daily blocks: as the morning run left them")
+    if not intraday:
+        try:
+            blocks["nb_live"] = fetch_nb_live(prev.get("nb_live", {}), blocks.get("nb", {}))
+        except Exception as e:
+            log(f"  !! nb live failed: {repr(e)[:160]}; keeping the previous data")
+            blocks["nb_live"] = prev.get("nb_live", {})
+            kept.append("nb_live")
     else:
         try:
             fetch_r12m(blocks)

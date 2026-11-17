@@ -194,8 +194,10 @@ politics 250-450 words.
   indices (US, Europe, Norway, Asia this morning) and the single stocks or sectors that stood out, with the numbers.
   (2) **Government bonds** / **Statsrenter**: the US 10-year and 5-year (the live CBOE prints in the brief; the 5-year is
   always mentioned when it moved 5 basis points or more, or more than the 10-year, as it carries the policy expectations),
-  the euro-area AAA 10-year and the Norwegian 10-year, in basis points, and what the market prices for the next Fed and
-  ECB meetings when it changed (named: "Fed", "ESB"). The brief also carries German and Japanese
+  the euro-area AAA 10-year and the Norwegian 10-year (the live TradingView print in the brief, "Norway 10-year (live)";
+  Norges Bank's official series is published the next business day and is two business days old at 06:05, so never quote
+  it as yesterday's), in basis points, and what the market prices for the next Fed and ECB meetings when it changed
+  (named: "Fed", "ESB"). The brief also carries German and Japanese
   2-, 10- and 30-year yields, the euro-area all-issuer curve and the periphery spread (all issuers minus AAA at 10 years),
   5y5y forwards for the US and the euro area, the US 5y5y inflation expectation, the overnight rates SOFR, €STR and SONIA,
   and a column with every change since Norges Bank's last Monetary Policy Report: use them when they carry the story

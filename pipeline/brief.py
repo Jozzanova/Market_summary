@@ -104,7 +104,9 @@ def main():
             for v in us["futures"].values():
                 print(f"{v['name_en']:<26} {f(v.get('last')):>9} {v.get('last_time') or '':>17} {ch(v.get('d1'), '%'):>8}")
     table([(v["name_en"], v) for v in D.get("fred", {}).values() if v["group"] == "rates"] + [(v["name_en"], v) for v in D.get("ecb", {}).values()] + [(v["name_en"], v) for v in D.get("nb", {}).values()],
-          "Government yields and policy rate, official daily fixes (FRED, ECB AAA curve, Norges Bank; one day behind the live prints)")
+          "Government yields and policy rate, official daily fixes (FRED, ECB AAA curve, Norges Bank; one day behind the live prints; Norges Bank's yields two business days behind at 06:05)")
+    if D.get("nb_live"):
+        table([(v["name_en"], v) for v in D["nb_live"].values()], "Norwegian government yields, live prints (TradingView; yesterday's close at 06:05: quote these, not Norges Bank's lagged series)")
     table([(v["name_en"], v) for v in D.get("fred", {}).values() if v["group"] == "credit"], "Credit spreads, ICE BofA option-adjusted spreads in per cent (FRED)")
     if MPR_LAST:
         print(f"\nNorges Bank's last Monetary Policy Report was published {MPR_LAST}; the sinceMPR column is the change since then.")

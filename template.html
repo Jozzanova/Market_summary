@@ -504,7 +504,7 @@ function drawTiles(name) {
     const pool = [...group("equity"), ...group("commodity"), ...group("fx"), ...group("nok")].filter(v => v.d1 != null && isFinite(v.d1) && !minor.has(v.sym)).sort((a, b) => Math.abs(b.d1) - Math.abs(a.d1));
     html = `<div class="tiles-cap">${t("tl_movers")}</div>` + pool.slice(0, 6).map(v => instrTile(v.sym)).join("");
   } else if (name === "equities") html = syms(["^GSPC", "^IXIC", "^STOXX", "OSEBX.OL", "^N225", "^VIX"]);
-  else if (name === "rates") html = syms(["^TNX", "^FVX", "EA_SR_10Y", "nok_10y", "BAMLH0A0HYM2"]) + instrTile("diff_nok_eur_12m", t("tl_diff12"));
+  else if (name === "rates") html = syms(["^TNX", "^FVX", "EA_SR_10Y", "NO10Y", "BAMLH0A0HYM2"]) + instrTile("diff_nok_eur_12m", t("tl_diff12"));
   else if (name === "commodities") html = syms(["BZ=F", "CL=F", "TTF=F", "NG=F", "GC=F", "HG=F"]);      // the weekly Dated Brent and NBP series lag a week and stay out of the tiles
   else if (name === "fx") html = syms(["DX-Y.NYB", "EURUSD=X", "USDJPY=X", "EURNOK=X", "USDNOK=X", "nok_i44"]);
   else if (name === "central") {
@@ -622,7 +622,8 @@ const RANGE = {eq: "1y", sec: "d1", rt: "1y", cm: "1y", fx: "1y", aside: "1y", c
 
 /* ---------- data helpers ---------- */
 const Y = D.yahoo || {}, FR = D.fred || {}, EC = D.ecb || {}, NB = D.nb || {}, SSB = D.ssb || {}, CB = D.bis || {}, GOV = D.gov || {}, DV = D.derived || {}, EER = D.eer || {}, CURVES = D.curves || {}, MPR = D.mpr || {};
-const bySym = s => Y[s] || FR[s] || EC[s] || NB[s] || SSB[s] || GOV[s] || DV[s] || EER[s] || DIFF[s] || (s.startsWith("cb_") ? CB[s.slice(3)] : s.startsWith("mc:") ? mcSym(s) : undefined);
+const NBL = D.nb_live || {};
+const bySym = s => Y[s] || FR[s] || EC[s] || NB[s] || NBL[s] || SSB[s] || GOV[s] || DV[s] || EER[s] || DIFF[s] || (s.startsWith("cb_") ? CB[s.slice(3)] : s.startsWith("mc:") ? mcSym(s) : undefined);
 // an OECD series as "mc:<area>.<indicator>", e.g. mc:USA.cpi (the macro block is read lazily, it is defined further down)
 function mcSym(s) { const [area, ind] = s.slice(3).split("."); const sr = ((D.macro || {}).series || {})[area]; const v = sr && sr[ind]; if (!v || !v.dates) return;
   const a = ((D.macro || {}).areas || []).find(x => x.code === area) || {}; const nm = (MC_IND.find(x => x[0] === ind) || [ind, ind, ind]);
@@ -825,10 +826,10 @@ function drawLetterFigs(root) {
   });
 }
 // the snapshot table beside the letter: four groups, short names
-const SNAP_GROUPS = [["g_equities", ["^GSPC", "^IXIC", "^SOX", "^STOXX", "OSEBX.OL", "^N225", "^HSI", "^VIX"]], ["g_bonds", ["^TNX", "^FVX", "EA_SR_10Y", "nok_10y", "BAMLH0A0HYM2"]], ["g_diff", ["diff_nok_eur_policy", "diff_nok_eur_12m", "diff_nok_eur_10y", "diff_nok_usd_policy", "diff_nok_usd_12m", "diff_nok_usd_10y"]],
+const SNAP_GROUPS = [["g_equities", ["^GSPC", "^IXIC", "^SOX", "^STOXX", "OSEBX.OL", "^N225", "^HSI", "^VIX"]], ["g_bonds", ["^TNX", "^FVX", "EA_SR_10Y", "NO10Y", "BAMLH0A0HYM2"]], ["g_diff", ["diff_nok_eur_policy", "diff_nok_eur_12m", "diff_nok_eur_10y", "diff_nok_usd_policy", "diff_nok_usd_12m", "diff_nok_usd_10y"]],
   ["g_commodities", ["BZ=F", "GC=F", "HG=F", "TTF=F"]], ["g_fx", ["DX-Y.NYB", "EURUSD=X", "USDJPY=X", "EURNOK=X", "USDNOK=X", "nok_i44"]]];
 const SHORT = {"^GSPC": ["S&P 500", "S&P 500"], "^IXIC": ["Nasdaq", "Nasdaq"], "^STOXX": ["STOXX 600", "STOXX 600"], "^SOX": ["SOX (semis)", "SOX (halvledere)"], "OSEBX.OL": ["OSEBX", "OSEBX"], "^N225": ["Nikkei 225", "Nikkei 225"], "^HSI": ["Hang Seng", "Hang Seng"], "^VIX": ["VIX", "VIX"],
-  "^TNX": ["US 10y (live)", "USA 10 år (løpende)"], "^FVX": ["US 5y (live)", "USA 5 år (løpende)"], "DGS2": ["US 2y", "USA 2 år"], "EA_SR_10Y": ["Euro area 10y", "Euroområdet 10 år"], "nok_10y": ["Norway 10y", "Norge 10 år"], "BAMLH0A0HYM2": ["US HY spread", "USA, høyrentepåslag"],
+  "^TNX": ["US 10y (live)", "USA 10 år (løpende)"], "^FVX": ["US 5y (live)", "USA 5 år (løpende)"], "DGS2": ["US 2y", "USA 2 år"], "EA_SR_10Y": ["Euro area 10y", "Euroområdet 10 år"], "nok_10y": ["Norway 10y", "Norge 10 år"], "NO10Y": ["Norway 10y (live)", "Norge 10 år (løpende)"], "BAMLH0A0HYM2": ["US HY spread", "USA, høyrentepåslag"],
   "BZ=F": ["Brent, USD/bbl", "Brent, USD/fat"], BRENT_DATED: ["Dated Brent, USD/bbl", "Dated Brent, USD/fat"], UK_SAP: ["UK gas NBP, p/therm", "Britisk gass NBP, p/therm"], "GC=F": ["Gold, USD/oz", "Gull, USD/unse"], "HG=F": ["Copper, USD/lb", "Kobber, USD/pund"], "TTF=F": ["TTF gas, EUR/MWh", "TTF-gass, EUR/MWh"],
   diff_nok_eur_policy: ["EUR, policy rate", "EUR, styringsrente"], diff_nok_eur_short: ["EUR, short end (3y − 2y)", "EUR, kort ende (3 år − 2 år)"], diff_nok_eur_12m: ["EUR, 12-month gov. rates", "EUR, 12 md. statsrenter"], diff_nok_eur_10y: ["EUR, 10-year", "EUR, 10 år"],
   diff_nok_usd_policy: ["USD, policy rate (upper)", "USD, styringsrente (øvre)"], diff_nok_usd_short: ["USD, short end (3y − 2y)", "USD, kort ende (3 år − 2 år)"], diff_nok_usd_12m: ["USD, 12-month gov. rates", "USD, 12 md. statsrenter"], diff_nok_usd_10y: ["USD, 10-year", "USD, 10 år"],
@@ -1065,7 +1066,8 @@ function drawRates() {
     {section: no ? "USA, offisielle sluttnoteringer (det amerikanske finansdepartementet via FRED, én virkedag bak)" : "United States, official closes (Treasury via FRED, one business day behind)"}, ...fix,
     {section: no ? "Euroområdet (ESBs rentekurver og €STR)" : "Euro area (ECB yield curves and €STR)"}, ...ea, {section: no ? "Tyskland (Bundesbank)" : "Germany (Bundesbank)"}, ...de,
     {section: no ? "Japan (Finansdepartementet)" : "Japan (Ministry of Finance)"}, ...jp, {section: no ? "Storbritannia (Bank of England)" : "United Kingdom (Bank of England)"}, ...uk,
-    {section: no ? "Norge (Norges Bank)" : "Norway (Norges Bank)"}, ...nok, {section: no ? "Kreditt (prosentenheter)" : "Credit (percentage points)"}, ...cr, {section: no ? "Finansielle forhold" : "Financial conditions"}, ...fc];
+    {section: no ? "Norge, løpende noteringer (TradingView; kan omfatte inneværende handelsdag)" : "Norway, live prints (TradingView; can include the current session)"}, ...["NO10Y", "NO05Y", "NO01Y"].map(s => NBL[s] && {...NBL[s], sym: s}).filter(Boolean),
+    {section: no ? "Norge, offisielle noteringer (Norges Bank, publiseres neste virkedag)" : "Norway, official fixes (Norges Bank, published the next business day)"}, ...nok, {section: no ? "Kreditt (prosentenheter)" : "Credit (percentage points)"}, ...cr, {section: no ? "Finansielle forhold" : "Financial conditions"}, ...fc];
   $("#rtTable").innerHTML = instrTable(rows);
   plot("#rt10Plot", levelTraces(["DGS10", "EA_SR_10Y", "DE_10Y", "JP_10Y", "nok_10y"], RANGE.rt), {yaxis: {ticksuffix: " %"}});
   plot("#rt2Plot", levelTraces(["DGS2", "EA_SR_2Y", "DE_2Y", "nok_3y", "nok_policy"], RANGE.rt), {yaxis: {ticksuffix: " %"}});
@@ -1404,6 +1406,7 @@ function drawQuality() {
   add(no ? "Amerikanske statsrenter (offisielle sluttnoteringer) og kredittpåslag" : "US Treasury closes and credit spreads", "FRED", Object.entries(FR).filter(([k]) => k !== "NFCI").map(([, v]) => v), {tol: 4, kept: kept.includes("fred")});
   if (FR.NFCI) add(no ? "Finansielle forhold (NFCI)" : "Financial conditions (NFCI)", "Chicago Fed via FRED", [FR.NFCI], {lag: true, note: no ? "ukentlig" : "weekly"});
   add(no ? "Euroområdets rentekurver og €STR" : "Euro-area yield curves and €STR", "ECB", Object.values(EC), {tol: 4, kept: kept.includes("ecb")});
+  if (Object.keys(NBL).length) add(no ? "Norske statsrenter, løpende" : "Norwegian yields, live prints", "TradingView", Object.values(NBL), {tol: 3, kept: kept.includes("nb_live"), note: no ? "lagt til dag for dag fra 17. november 2026" : "appended day by day from 17 November 2026"});
   add(no ? "Norske statsrenter, styringsrente og I-44" : "Norwegian yields, policy rate and I-44", "Norges Bank", Object.values(NB), {tol: 4, kept: kept.includes("nb"), note: NB.nok_i44 && NB.nok_i44.live_fix ? (no ? "I-44 hentet løpende " : "I-44 live fix ") + NB.nok_i44.live_fix : ""});
   add(no ? "Tyske og japanske statsrenter, SONIA" : "German and Japanese yields, SONIA", "Bundesbank, MoF, BoE", Object.values(GOV), {tol: 4, kept: kept.includes("gov")});
   add(no ? "Avledede serier (5 år om 5 år, periferipåslag)" : "Derived series (5y5y, periphery spread)", no ? "beregnet" : "computed", Object.values(DV), {tol: 4});
