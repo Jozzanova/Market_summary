@@ -5,12 +5,56 @@
     python -X utf8 pipeline/brief.py
 
 Reads data/data.json (written by fetch.py), data/policy_rates.csv, data/events.csv and the letters folder."""
-import json
+import json, sys
 from datetime import date, datetime, timezone, timedelta
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 D = json.loads((ROOT / "data" / "data.json").read_text(encoding="utf-8"))
+
+
+def rewind(D, asof):
+    """`--asof YYYY-MM-DD`: every series cut at that date and its columns recomputed from the stored closes, so a report can
+    be written for an earlier day (the weekly report for a past Saturday, 18 Nov 2026). The live prints are dropped: the
+    last close on or before the date is the "last"; 1w, 1m and ytd are against the close on or before the date minus 7
+    and 30 days and the last close of the previous year."""
+    cut = date.fromisoformat(asof)
+    def at(dates, vals, d):
+        x = None
+        for dd, v in zip(dates, vals):
+            if dd <= d:
+                x = v
+            else:
+                break
+        return x
+    n = 0
+    for block in ("yahoo", "fred", "ecb", "nb", "gov", "nb_live", "derived"):
+        for v in (D.get(block) or {}).values():
+            if not isinstance(v, dict) or not v.get("dates"):
+                continue
+            pairs = [(d, x) for d, x in zip(v["dates"], v["values"]) if d <= asof and x is not None]
+            if len(pairs) < 2:
+                v.update(last=None, last_date=None, prev=None, d1=None, w1=None, m1=None, ytd=None)
+                continue
+            dates, vals = [p[0] for p in pairs], [p[1] for p in pairs]
+            v["dates"], v["values"], v["last"], v["last_date"], v["prev"], v["last_time"] = dates, vals, vals[-1], dates[-1], vals[-2], None
+            u = v.get("unit")
+            chg = (lambda b: None if b is None else round(100 * (vals[-1] - b), 1)) if u == "bp" else (lambda b: None if b is None else round(vals[-1] - b, 3)) if u == "pt" \
+                  else (lambda b: None if not b else round(100 * (vals[-1] / b - 1), 3))
+            ld = date.fromisoformat(dates[-1])
+            v["d1"], v["w1"], v["m1"] = chg(vals[-2]), chg(at(dates, vals, (ld - timedelta(days=7)).isoformat())), chg(at(dates, vals, (ld - timedelta(days=30)).isoformat()))
+            v["ytd"] = chg(at(dates, vals, f"{ld.year - 1}-12-31"))
+            n += 1
+    D["asof"] = asof + " (rewound: columns recomputed from the stored closes on or before this date)"
+    D["yahoo_asof"] = D["asof"]
+    D["yahoo_status"] = {}
+    D["kept_from_previous"] = []
+    D["us_session"] = {}
+    return n
+
+
+if "--asof" in sys.argv:
+    REWOUND = rewind(D, sys.argv[sys.argv.index("--asof") + 1])
 
 
 def f(x, dec=2):

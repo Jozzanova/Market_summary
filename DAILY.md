@@ -48,8 +48,8 @@ Friday close in the US and Europe (the brief's 1-day column is Friday against Th
 and everything that happened from Friday evening to Monday morning that matters for the open: speeches and interviews
 by central bankers, election results, government decisions, sanctions, geopolitics, company news, Norwegian news (the
 weekend press, NRK, E24, DN), and the Asian session this morning with the futures. Say in the summary paragraph of the
-key points and the markets report that the reports cover Friday and the weekend. The Sunday run covers Saturday's news
-and may be short.
+key points and the markets report that the reports cover Friday and the weekend. There is no Sunday run (switched off 18
+Nov 2026): the routine runs Monday to Saturday.
 
 **Saturdays: the weekly report.** On Saturdays the five reports are not a daily review but the weekly report: the week
 from the previous Friday's close to this Friday's close, written for a reader who did not follow it day by day (user, 18
