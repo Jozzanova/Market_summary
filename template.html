@@ -1620,11 +1620,30 @@ function docModel() {
   return {date, blocks, name: `${LANG === "no" ? "markedsoppsummering" : "market_summary"}_${date}_${LANG}`};
 }
 function loadScript(src) { return new Promise((res, rej) => { if (document.querySelector(`script[src="${src}"]`)) return res(); const s = document.createElement("script"); s.src = src; s.onload = res; s.onerror = () => rej(new Error("could not load " + src)); document.head.appendChild(s); }); }
+// pdfmake on first use, verified: a main script that arrived truncated or as a block page still fires onload, and the font
+// file then leaves a pdfMake object without createPdf ("pdfMake.createPdf is not a function", a reader on 18 Nov 2026). So
+// the library is checked after each load, a bad load is discarded, and a second CDN is tried with a fresh download.
+async function loadPdfMake() {
+  const CDNS = [["https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.12/pdfmake.min.js", "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.12/vfs_fonts.min.js"],
+                ["https://cdn.jsdelivr.net/npm/pdfmake@0.2.12/build/pdfmake.min.js", "https://cdn.jsdelivr.net/npm/pdfmake@0.2.12/build/vfs_fonts.js"]];
+  const ok = () => window.pdfMake && typeof window.pdfMake.createPdf === "function" && window.pdfMake.vfs && Object.keys(window.pdfMake.vfs).length > 0;
+  for (let i = 0; i < CDNS.length && !ok(); i++) {
+    const [main, vfs] = CDNS[i];
+    document.querySelectorAll('script[src*="pdfmake"], script[src*="vfs_fonts"]').forEach(s => s.remove());
+    try { delete window.pdfMake; } catch (e) { window.pdfMake = undefined; }
+    const bust = i === 0 ? "" : "?r=" + Date.now();      // the second attempt bypasses a bad cached copy
+    try { await loadScript(main + bust); } catch (e) { continue; }
+    if (!window.pdfMake || typeof window.pdfMake.createPdf !== "function") continue;
+    try { await loadScript(vfs + bust); } catch (e) { continue; }
+  }
+  if (!ok()) throw new Error(LANG === "no" ? "PDF-biblioteket kunne ikke lastes fra noen av de to kildene (blokkert av nettverket eller nettleseren). Prøv igjen senere, eller bruk Word-knappen."
+                                            : "The PDF library could not be loaded from either source (blocked by the network or the browser). Try again later, or use the Word button.");
+}
 async function exportPdf() {
   const btn = $("#pdfBtn"), label0 = btn.textContent; btn.disabled = true;
   try {
     const m = docModel();
-    if (!window.pdfMake) { await loadScript("https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.12/pdfmake.min.js"); await loadScript("https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.12/vfs_fonts.min.js"); }
+    await loadPdfMake();
     await renderPdfFigs(m, btn);
     pdfMake.createPdf(await pdfDefinition(m)).download(m.name + ".pdf");
   } finally { btn.disabled = false; btn.textContent = label0; }
