@@ -34,7 +34,7 @@ def rewind(D, asof):
                 continue
             pairs = [(d, x) for d, x in zip(v["dates"], v["values"]) if d <= asof and x is not None]
             if len(pairs) < 2:
-                v.update(last=None, last_date=None, prev=None, d1=None, w1=None, m1=None, ytd=None)
+                v.update(last=None, last_date="", prev=None, d1=None, w1=None, m1=None, ytd=None)   # too little history before the date
                 continue
             dates, vals = [p[0] for p in pairs], [p[1] for p in pairs]
             v["dates"], v["values"], v["last"], v["last_date"], v["prev"], v["last_time"] = dates, vals, vals[-1], dates[-1], vals[-2], None
