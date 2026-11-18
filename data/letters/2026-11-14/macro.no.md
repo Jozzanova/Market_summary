@@ -1,33 +1,43 @@
-# Makro, lørdag 14. november 2026
+# Makro, ukerapport uke 46 (6.–13. november 2026)
 
-**Fredagens tall styrket inntrykket av at prispresset i USA er bredt, og at økonomien i euroområdet tåler ytterligere innstramming. Produsentprisene i USA steg noe mindre enn ventet fra måneden før, men kjerneprisene steg mer, og tolvmånedersveksten er den høyeste siden 2022; veksten i euroområdet holdt seg godt oppe i tredje kvartal. Sentralbankfolk på begge sider av Atlanteren tok til orde for mer innstramming, og markedet regner nå en heving fra Fed i desember som avgjort.**
+**Ingen G10-sentralbank endret renten i løpet av uken, men kommunikasjonen fra Federal Reserve dreide klart i retning av innstramming. En tredje måned på rad med 0,3 prosent vekst i kjerneprisene i USA, høye produsentpriser og en rekke taler fra representanter for Fed med ulike ståsteder gjorde en heving 9. desember til markedets faste forventning; diskusjonen har flyttet seg til januar. I Europa peker solid vekst i tredje kvartal og uttalelser fra Bundesbank-president Joachim Nagel mot en heving fra ESB i desember, og oppsummeringen fra Bank of Japans oktobermøte peker samme vei.**
 
-## Sentralbanker
+## Ukens nøkkeltall
 
-| Sentralbank | Styringsrente | Neste møte | Markedsprising |
+| Publisering | Utfall | Ventet |
+|---|---|---|
+| KPI USA, oktober | +0,4 % m/m, kjerne +0,3 % ([BLS](https://www.bls.gov/news.release/cpi.nr0.htm)) | +0,3 %, kjerne +0,2 % |
+| PPI USA, oktober | +0,3 % m/m, 6,5 % år/år, kjerne +0,5 % ([BLS](https://www.bls.gov/news.release/ppi.nr0.htm)) | +0,4 %, 6,6 % år/år |
+| Nye ledighetstrygdsøknader USA, uken til 7. nov. | 200 000 ([CNBC](https://www.cnbc.com/2026/11/11/stock-market-today-live-updates.html)) | 195 000 |
+| Boligsalg USA (bruktboliger), oktober | −5,5 %, 3,75 mill. årlig rate ([FT](https://www.ft.com/content/1e08661e-1db0-4ff7-8236-77254bb05790)) | |
+| BNP Storbritannia, 3. kv. | +0,7 % k/k ([CNBC](https://www.cnbc.com/2026/11/12/uk-gdp-third-quarter-2026.html)) | +0,7 % |
+| BNP euroområdet, 3. kv. | +0,4 % k/k, 1,3 % år/år ([Eurostat](https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-13112026-ap)) | |
+| Eksport Kina, oktober | +35,2 % år/år ([CNBC](https://www.cnbc.com/2026/11/10/china-trade-october-exports-imports-surplus-.html)) | |
+| KPI Norge, oktober | 3,6 % år/år, KPI-JAE 2,7 % ([SSB](https://www.ssb.no/priser-og-prisindekser/konsumpriser/statistikk/konsumprisindeksen)) | 3,7 %, 2,7 % |
+
+{bars: KPI USA, oktober, prosent fra måneden før | KPI i alt 0,4; Kjerne 0,3; Boutgifter 0,3; Energi 0,7; Mat 0,5; Bruktbiler −1,2 | | BLS}
+
+**USA.** Kjerneprisene har nå steget 0,3 prosent i måneden i tre måneder, som tilsvarer en årlig rate på om lag 3,5–4 prosent; boutgifter sto for mer enn 30 prosent av oppgangen i oktober, og ingen tolvmånedersvekst ble publisert fordi oktober 2025 ikke ble målt under nedstengningen. Produsentprisene steg 6,5 prosent på tolv måneder, den høyeste veksten siden 2022, med stigende vare- og transportkostnader, noe som tyder på fortsatt press på konsumprisene de nærmeste månedene. For Feds eget mål foreligger tallene for september: PCE-prisveksten var 3,6 prosent og kjerne-PCE 3,1 prosent. Aktiviteten avtar særlig i boligmarkedet, der salget av bruktboliger er det laveste siden 2010.
+
+**Euroområdet og Storbritannia.** Veksten i euroområdet avtok til 0,4 prosent fra 0,6 prosent, med 0,6 prosent i Spania, 0,2 prosent i Tyskland og −0,1 prosent i Frankrike; Bloomberg tolker tallene som at ESB har rom for å stramme ytterligere inn ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/euro-zone-shows-solid-growth-as-ecb-weighs-another-rate-hike)).
+
+## Sentralbankene
+
+**Federal Reserve.** Etter KPI-tallene sa styremedlem Christopher Waller at en heving på 50 basispunkter «bør vurderes» i desember ([CNBC](https://www.cnbc.com/2026/11/10/fed-governor-waller-sees-december-hike-likely.html)), Dallas Fed-president Lorie Logan gikk inn for minst to hevinger på 25 basispunkter til ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-10/fed-s-waller-backs-december-rate-hike-says-open-to-larger-move)), og Chicago Fed-president Austan Goolsbee kalte tallene «borderline disturbing» ([PBS NewsHour](https://www.pbs.org/newshour/show/u-s-inflation-report-highlights-strain-of-rising-food-energy-and-housing-costs)). Torsdag sa New York Fed-president John Williams at prisveksten er «far too high» ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/fed-s-williams-says-inflation-far-too-high-still-work-to-do)), San Francisco Fed-president Mary Daly at flere hevinger trolig trengs ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-12/fed-s-daly-says-more-rate-hikes-likely-needed-to-cool-inflation)), og Cleveland Fed-president Beth Hammack at det trengs en strammere rente ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-12/fed-s-hammack-says-more-restrictive-rates-are-needed)). Fredag sa Goolsbee at Fed må gjenvinne troverdigheten om prisstabilitet ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/goolsbee-says-fed-must-reestablish-its-inflation-credibility)).
+
+**ESB og Bank of England.** ESBs sjeføkonom Philip Lane sa at en heving vil være «prudent» dersom tallene ikke endrer seg, og visesentralbanksjef Clare Lombardelli i Bank of England mente det trolig er grunnlag for en ny heving på kort sikt ([Bloomberg](https://www.spokesman.com/stories/2026/nov/10/officials-from-major-central-banks-signal-more-rat/)). Nagel kalte en ny heving fra ESB «svært sannsynlig» fredag ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/nagel-says-highly-probable-that-ecb-will-have-to-act-again)).
+
+**Bank of Japan.** Oppsummeringen fra oktobermøtet viste at mange medlemmer mener en heving er nødvendig på kort sikt ([Bank of Japan](https://www.boj.or.jp/en/mopo/mpmsche_minu/opinion_2026/opi261030.pdf)); styremedlem Toichiro Asada, som har argumentert for å holde renten lav lenger, tok til orde for et forsiktig tempo ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-12/boj-s-dovish-member-calls-for-caution-on-pace-of-rate-increases)).
+
+## Markedsprisingen gjennom uken
+
+| Sentralbank | Neste møte | Ved ukens start | Ved ukens slutt |
 |---|---|---|---|
-| Fed | 3,75–4,00 % | 9. desember | [heving fullt priset: om lag 87 % for 25 bp, 13 % for 50 bp](https://www.cnbc.com/2026/11/12/stock-market-today-live-updates.html) |
-| ESB | 2,50 % | 17. desember | [72 % for 25 bp 4. nov.](https://www.cnbc.com/2026/11/04/euro-zone-cpi-inflation-october-ecb-rate-hike.html); ikke nyere tall |
-| Bank of England | 4,00 % | 17. desember | 73 % for en heving (12. nov.); ikke nyere tall |
-| Norges Bank | 4,50 % | 17. desember | om lag 35 % for en heving (Handelsbanken, 5. nov.) |
-
-**Federal Reserve.** Chicago Fed-president Austan Goolsbee sa at sentralbanken må gjøre mer for å få ned prisveksten og gjenvinne troverdigheten om prisstabilitet ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/goolsbee-says-fed-must-reestablish-its-inflation-credibility)). Han slutter seg dermed til New York Fed-president John Williams og andre som tok til orde for ytterligere innstramming torsdag ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/fed-s-williams-says-inflation-far-too-high-still-work-to-do)). Dallas Fed-president Lorie Logan talte om det operative rammeverket og tok til orde for et klarere skille mellom markedsoperasjoner og pengepolitikken ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/fed-s-logan-calls-for-clearer-separation-of-market-operations)). Bloomberg skriver at diskusjonen, med desember ansett som avgjort, har flyttet seg til om Fed hever igjen i januar ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/fed-set-to-raise-interest-rates-next-month-as-debate-moves-to-january)).
-
-**ESB.** Bundesbank-president Joachim Nagel sa at det er «svært sannsynlig» at ESB må heve renten igjen som følge av oppadgående press på konsumprisene ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/nagel-says-highly-probable-that-ecb-will-have-to-act-again)). Forbundskansler Merz sa at Tyskland neste uke vil legge frem et forslag til en pakke for tre toppstillinger i ESB, blant dem presidentvervet ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/germany-to-make-proposal-for-top-ecb-jobs-next-week-merz-says)), men ifølge FT holder uenighet i koalisjonen avtalen tilbake ([FT](https://www.ft.com/content/bcfa33cc-535a-4692-ae5f-39e144b78799)).
-
-**Bank of England.** Sentralbanksjef Andrew Bailey advarte om at privat kreditt og stablecoins kan bli systemrisikoer før de når systemisk størrelse ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/private-credit-stablecoins-pose-risks-beyond-size-bailey-warns)); uttalelsene gjaldt finansiell stabilitet, ikke rentebanen.
-
-## Nøkkeltall
-
-{bars: PPI USA, oktober, prosent fra måneden før | Sluttetterspørsel 0,3; Kjerne 0,5; Varer 0,5; Mat 1,3; Energi −0,1; Tjenester 0,2 | | BLS}
-**Produsentpriser i USA.** Produsentprisene for sluttetterspørsel steg 0,3 prosent i oktober mot ventet 0,4 prosent, og 6,5 prosent på tolv måneder, den høyeste veksten siden 2022 ([BLS](https://www.bls.gov/news.release/ppi.nr0.htm), [CNBC](https://www.cnbc.com/2026/11/12/stock-market-today-live-updates.html)). Kjerneindeksen utenom mat, energi og handel steg 0,5 prosent fra måneden før og 4,9 prosent på tolv måneder. Vareprisene steg 0,5 prosent, trukket opp av mat (+1,3 prosent), mens energi falt litt; tjenester steg 0,2 prosent, med transport og lagring opp 2,0 prosent. Den brede oppgangen i vare- og transportkostnader tyder på fortsatt press på konsumprisene de nærmeste månedene. For Feds eget mål foreligger PCE-tallene for september: 3,6 prosent for PCE og 3,1 prosent for kjerne-PCE.
-
-**Euroområdet.** BNP steg 0,4 prosent i tredje kvartal, etter 0,6 prosent i andre, og 1,3 prosent fra samme kvartal i fjor; sysselsettingen var uendret fra kvartalet før ([Eurostat](https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-13112026-ap)). Spania vokste 0,6 prosent og Tyskland 0,2 prosent, Italia hadde nullvekst og Frankrike falt 0,1 prosent. Bloomberg tolker tallene som at ESB har handlingsrom til å stramme ytterligere inn ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/euro-zone-shows-solid-growth-as-ecb-weighs-another-rate-hike)). Underskuddet i varehandelen var 10,3 milliarder euro i september ([Eurostat](https://ec.europa.eu/eurostat/web/products-euro-indicators/w/6-13112026-bp)).
-
-**Kina.** Kredittveksten ble lavere enn ventet i oktober, og utlånene falt for tredje gang i år, ettersom økt politisk støtte ikke veide opp for svak lånetterspørsel ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/china-s-credit-growth-disappoints-despite-greater-policy-support)).
-
-**Tyskland.** Forbundsdagen vedtok et budsjett for 2027 med låneopptak og utgifter over de første anslagene, for å finansiere infrastruktur og forsvar ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/german-lawmakers-sign-off-on-higher-borrowing-spending-for-2027)). Det øker tilbudet av tyske statsobligasjoner og kan bidra til å forklare at trettiårsrenten steg mest fredag.
+| Fed | 9. desember | om lag 80 % for en heving ([CME](https://www.cmegroup.com/markets/interest-rates/cme-fedwatch-tool.html)) | fullt priset; om lag 13 % for 50 bp ([CNBC](https://www.cnbc.com/2026/11/12/stock-market-today-live-updates.html)) |
+| ESB | 17. desember | 72 % for 25 bp (4. nov.) | ingen nyere rapportert anslag |
+| Bank of England | 17. desember | om lag 70 % for 25 bp (10. nov.) | om lag 73 % ([CNBC](https://www.cnbc.com/2026/11/12/uk-gdp-third-quarter-2026.html)) |
+| Norges Bank | 17. desember | om lag 35 % for en heving (5. nov.) | ingen nyere rapportert anslag |
 
 ## Vurdering
 
-Risikobildet er ikke endret gjennom uken, men det har blitt tydeligere. I USA peker både konsum- og produsentprisene mot en prisvekst som ikke avtar, og Feds kommunikasjon støtter nå en heving i desember; det åpne spørsmålet er tempoet deretter. I euroområdet gjør solid vekst og en tolvmånedersvekst i konsumprisene på 4,0 prosent i oktober en heving i desember sannsynlig, og Nagels uttalelser peker i samme retning. Svak kredittvekst i Kina og et oljemarked i overskudd, slik IEA nå beskriver det ([FT](https://www.ft.com/content/20b68fe2-9d60-4c0c-b714-1f3e03015823)), er de viktigste kreftene som trekker prisveksten ned. For Norge betyr innstramming ute at rentedifferansen snevres inn, noe som isolert sett svekker kronen, mens høy oljepris bidrar til å styrke den.
+Uken tydeliggjorde retningen på pengepolitikken ute mer enn den endret den. I USA tyder både konsum- og produsentprisene på en prisvekst som ikke avtar, og Feds kommunikasjon støtter nå en heving i desember; det åpne spørsmålet er tempoet deretter. Risikoen for dette bildet kommer fra aktiviteten, der boligmarkedet svekkes, og fra et uordnet fall i AI-relaterte aksjer, som i seg selv ville strammet inn de finansielle forholdene. Lavere oljepris enn for en uke siden trekker prisveksten ned. For Norge bidrar innstrammingen ute til å snevre inn renteforskjellen overfor utlandet og trekker dermed i retning av en svakere krone.

@@ -1,33 +1,43 @@
-# Macro, Saturday 14 November 2026
+# Macro, weekly report week 46 (6–13 November 2026)
 
-**Friday's data added to the evidence that price pressure is broad in the United States and that the euro-area economy can absorb further tightening. US producer prices rose somewhat less than expected on the month, but core producer prices rose faster and the annual rate is the highest since 2022; euro-area growth held up in the third quarter. Officials on both sides of the Atlantic argued for more tightening, and the market now treats a Fed hike in December as settled.**
+**No G10 central bank changed rates during the week, but the communication of the Federal Reserve moved decisively towards tightening. A third consecutive month of 0.3 per cent core inflation in the United States, firm producer prices and a series of speeches from Fed officials across the spectrum made a hike on 9 December the market's settled expectation; the debate has moved on to January. In Europe, solid third-quarter growth and comments from Bundesbank president Joachim Nagel point to an ECB hike in December, and the Bank of Japan's summary of opinions points the same way.**
+
+## The week's data
+
+| Release | Outcome | Expected |
+|---|---|---|
+| US CPI, October | +0.4 % m/m, core +0.3 % ([BLS](https://www.bls.gov/news.release/cpi.nr0.htm)) | +0.3 %, core +0.2 % |
+| US PPI, October | +0.3 % m/m, 6.5 % y/y, core +0.5 % ([BLS](https://www.bls.gov/news.release/ppi.nr0.htm)) | +0.4 %, 6.6 % y/y |
+| US initial jobless claims, week to 7 Nov | 200,000 ([CNBC](https://www.cnbc.com/2026/11/11/stock-market-today-live-updates.html)) | 195,000 |
+| US existing home sales, October | −5.5 %, 3.75 million annualised ([FT](https://www.ft.com/content/1e08661e-1db0-4ff7-8236-77254bb05790)) | |
+| UK GDP, Q3 | +0.7 % q/q ([CNBC](https://www.cnbc.com/2026/11/12/uk-gdp-third-quarter-2026.html)) | +0.7 % |
+| Euro area GDP, Q3 | +0.4 % q/q, 1.3 % y/y ([Eurostat](https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-13112026-ap)) | |
+| China exports, October | +35.2 % y/y ([CNBC](https://www.cnbc.com/2026/11/10/china-trade-october-exports-imports-surplus-.html)) | |
+| Norway CPI, October | 3.6 % y/y, CPI-ATE 2.7 % ([SSB](https://www.ssb.no/priser-og-prisindekser/konsumpriser/statistikk/konsumprisindeksen)) | 3.7 %, 2.7 % |
+
+{bars: US CPI, October, per cent on the month | All items 0.4; Core 0.3; Shelter 0.3; Energy 0.7; Food 0.5; Used cars −1.2 | | BLS}
+
+**United States.** Core consumer prices have now risen 0.3 per cent a month for three months, an annualised pace of about 3.5–4 per cent; shelter accounted for more than 30 per cent of the October rise, and no twelve-month rate was published because October 2025 was not collected during the shutdown. Producer prices rose 6.5 per cent on the year, the highest since 2022, with goods and transport costs rising, which points to continued pressure on consumer prices in the coming months. On the Fed's own measure, the latest figures are for September: PCE inflation of 3.6 per cent and core PCE of 3.1 per cent. Activity is cooling mainly in housing, where existing home sales are the lowest since 2010.
+
+**Euro area and United Kingdom.** Euro-area growth slowed to 0.4 per cent from 0.6 per cent, with Spain at 0.6 per cent, Germany 0.2 per cent and France −0.1 per cent; Bloomberg reads the figures as leaving the ECB room to tighten ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/euro-zone-shows-solid-growth-as-ecb-weighs-another-rate-hike)).
 
 ## Central banks
 
-| Bank | Policy rate | Next meeting | Market pricing |
+**Federal Reserve.** After the CPI print, Governor Christopher Waller said a 50 basis point hike "should be considered" in December ([CNBC](https://www.cnbc.com/2026/11/10/fed-governor-waller-sees-december-hike-likely.html)), Dallas Fed president Lorie Logan backed at least two further quarter-point increases ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-10/fed-s-waller-backs-december-rate-hike-says-open-to-larger-move)) and Chicago Fed president Austan Goolsbee called the report "borderline disturbing" ([PBS NewsHour](https://www.pbs.org/newshour/show/u-s-inflation-report-highlights-strain-of-rising-food-energy-and-housing-costs)). On Thursday New York Fed president John Williams said inflation is "far too high" ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/fed-s-williams-says-inflation-far-too-high-still-work-to-do)), San Francisco Fed president Mary Daly said more increases are likely to be needed ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-12/fed-s-daly-says-more-rate-hikes-likely-needed-to-cool-inflation)) and Cleveland Fed president Beth Hammack that more restrictive rates are needed ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-12/fed-s-hammack-says-more-restrictive-rates-are-needed)). On Friday Goolsbee said the Fed must re-establish its inflation credibility ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/goolsbee-says-fed-must-reestablish-its-inflation-credibility)).
+
+**ECB and Bank of England.** ECB chief economist Philip Lane said a hike would be "prudent" if the data do not change, and Bank of England deputy governor Clare Lombardelli saw a case for a further increase in the near term ([Bloomberg](https://www.spokesman.com/stories/2026/nov/10/officials-from-major-central-banks-signal-more-rat/)). Nagel called a further ECB hike "highly probable" on Friday ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/nagel-says-highly-probable-that-ecb-will-have-to-act-again)).
+
+**Bank of Japan.** The summary of opinions from October showed many members judging a hike necessary in the near term ([Bank of Japan](https://www.boj.or.jp/en/mopo/mpmsche_minu/opinion_2026/opi261030.pdf)); board member Toichiro Asada, who has argued for keeping rates low for longer, called for caution on the pace ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-12/boj-s-dovish-member-calls-for-caution-on-pace-of-rate-increases)).
+
+## What pricing did over the week
+
+| Central bank | Next meeting | Start of week | End of week |
 |---|---|---|---|
-| Fed | 3.75–4.00 % | 9 December | [hike fully priced: about 87 % for 25 bp, 13 % for 50 bp](https://www.cnbc.com/2026/11/12/stock-market-today-live-updates.html) |
-| ECB | 2.50 % | 17 December | [72 % for 25 bp on 4 Nov](https://www.cnbc.com/2026/11/04/euro-zone-cpi-inflation-october-ecb-rate-hike.html); no newer figure |
-| Bank of England | 4.00 % | 17 December | 73 % for a hike (12 Nov); no newer figure |
-| Norges Bank | 4.50 % | 17 December | about 35 % for a hike (Handelsbanken, 5 Nov) |
-
-**Federal Reserve.** Chicago Fed president Austan Goolsbee said the Fed must take more action to bring down inflation and re-establish its credibility on prices ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/goolsbee-says-fed-must-reestablish-its-inflation-credibility)). He joins New York Fed president John Williams and others who argued for further tightening on Thursday ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/fed-s-williams-says-inflation-far-too-high-still-work-to-do)). Dallas Fed president Lorie Logan spoke on the operating framework, calling for a clearer separation of market operations from monetary policy ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/fed-s-logan-calls-for-clearer-separation-of-market-operations)). Bloomberg reports that with December regarded as decided, the debate has moved on to whether the Fed raises again in January ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/fed-set-to-raise-interest-rates-next-month-as-debate-moves-to-january)).
-
-**ECB.** Bundesbank president Joachim Nagel said it is "highly probable" that the ECB will have to raise rates again because of upward pressure on consumer prices ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/nagel-says-highly-probable-that-ecb-will-have-to-act-again)). Chancellor Merz said Germany will propose a package for three top ECB posts, including the presidency, next week ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/germany-to-make-proposal-for-top-ecb-jobs-next-week-merz-says)), although the FT reports that disagreements in the coalition are holding up the deal ([FT](https://www.ft.com/content/bcfa33cc-535a-4692-ae5f-39e144b78799)).
-
-**Bank of England.** Governor Andrew Bailey warned that private credit and stablecoins can become systemic risks before they reach systemic size ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/private-credit-stablecoins-pose-risks-beyond-size-bailey-warns)); the remarks concerned financial stability, not the rate path.
-
-## Data
-
-{bars: US PPI, October, per cent on the month | Final demand 0.3; Core 0.5; Goods 0.5; Foods 1.3; Energy −0.1; Services 0.2 | | BLS}
-**US producer prices.** Producer prices for final demand rose 0.3 per cent in October against an expected 0.4 per cent, and 6.5 per cent over twelve months, the highest since 2022 ([BLS](https://www.bls.gov/news.release/ppi.nr0.htm), [CNBC](https://www.cnbc.com/2026/11/12/stock-market-today-live-updates.html)). The core measure excluding food, energy and trade rose 0.5 per cent on the month and 4.9 per cent on the year. Goods prices rose 0.5 per cent, driven by food (+1.3 per cent), while energy fell slightly; services rose 0.2 per cent, with transport and warehousing up 2.0 per cent. The broad rise in goods and transport costs suggests continued pressure on consumer prices in the coming months. For the Fed's own measure, the latest PCE figures are for September: 3.6 per cent for PCE and 3.1 per cent for core PCE.
-
-**Euro area.** GDP rose 0.4 per cent in the third quarter, after 0.6 per cent in the second, and 1.3 per cent on the year; employment was unchanged on the quarter ([Eurostat](https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-13112026-ap)). Spain grew 0.6 per cent and Germany 0.2 per cent, Italy was flat and France contracted 0.1 per cent. Bloomberg reads the figures as giving the ECB leeway to tighten further ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/euro-zone-shows-solid-growth-as-ecb-weighs-another-rate-hike)). The euro-area trade deficit in goods was 10.3 billion euros in September ([Eurostat](https://ec.europa.eu/eurostat/web/products-euro-indicators/w/6-13112026-bp)).
-
-**China.** Credit growth fell short of expectations in October and loans contracted for the third time this year, as policy support failed to offset weak borrowing demand ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/china-s-credit-growth-disappoints-despite-greater-policy-support)).
-
-**Germany.** The Bundestag approved a 2027 budget with borrowing and spending above the first estimates, to finance infrastructure and defence ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/german-lawmakers-sign-off-on-higher-borrowing-spending-for-2027)), which adds to the supply of Bunds and may help explain why the 30-year yield rose most on Friday.
+| Fed | 9 December | about 80 % for a hike ([CME](https://www.cmegroup.com/markets/interest-rates/cme-fedwatch-tool.html)) | fully priced; about 13 % for 50 bp ([CNBC](https://www.cnbc.com/2026/11/12/stock-market-today-live-updates.html)) |
+| ECB | 17 December | 72 % for 25 bp (4 Nov) | no newer figure reported |
+| Bank of England | 17 December | about 70 % for 25 bp (10 Nov) | about 73 % ([CNBC](https://www.cnbc.com/2026/11/12/uk-gdp-third-quarter-2026.html)) |
+| Norges Bank | 17 December | about 35 % for a hike (5 Nov) | no newer figure reported |
 
 ## Assessment
 
-The balance of risks has not changed over the week, but it has become clearer. In the United States, consumer and producer prices both point to inflation that is not abating, and the Fed's communication now supports a hike in December; the open question is the pace thereafter. In the euro area, solid growth and an inflation rate of 4.0 per cent in October make a December hike likely, and Nagel's comments point the same way. Weak credit in China and a surplus in the oil market, as the IEA now describes it ([FT](https://www.ft.com/content/20b68fe2-9d60-4c0c-b714-1f3e03015823)), are the main forces working against inflation. For Norway, tightening abroad narrows the rate differential and thus works against the krone, while firm oil prices support it.
+The week clarified the direction of policy abroad more than it changed it. In the United States, consumer and producer prices both indicate inflation that is not easing, and the Fed's communication now supports a hike in December; the open question is the pace thereafter. The risks to that view come from activity, where housing is weakening, and from a disorderly fall in AI-related equities, which would tighten financial conditions on its own. Lower oil than a week ago works against inflation. For Norway, tightening abroad narrows the rate differential and thus works against the krone.

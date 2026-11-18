@@ -1,34 +1,33 @@
-# Politikk, lørdag 14. november 2026
+# Politikk, ukerapport uke 46 (6.–13. november 2026)
 
-**Den politiske utviklingen siden fredag morgen påvirker markedene særlig gjennom forholdet mellom USA og Kina og eksportpolitikken for AI-brikker, og et trepartsmøte mellom presidentene Trump, Xi og Putin er nå bekreftet til 19. november. I Norge stanser ikke Høyesteretts dom om tre oljefelt produksjonen, men den legger et nytt saksbehandlingskrav på fremtidige godkjenninger.**
-
-## USA
-
-**Toppmøtediplomati.** Det hvite hus opplyste at president Trump møter Xi Jinping og Vladimir Putin 19. november i forbindelse med APEC-toppmøtet i Shenzhen ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/trump-to-meet-with-xi-putin-nov-19-in-china-white-house-says)). Ifølge kilder FT har snakket med, vil presidenten ikke ta opp spionasjespørsmålene rundt Nvidia med Xi ([FT](https://www.ft.com/content/6034dd16-8c7d-4b3e-bc4e-942a6c8529dd)). Kanalene til markedene er våpenhvilen i handelen mellom USA og Kina, som utløper i januar, og utsiktene til en løsning i Ukraina, som påvirker risikopremien i europeisk gass.
-
-**Eksportkontroll.** Finansminister Scott Bessent sa at hans departement lenge har støttet å føre Megaspeed International opp på handelssvartelisten, men at ansvaret lå hos handelsminister Howard Lutnick ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/bessent-says-treasury-favored-megaspeed-on-trade-blacklist)). Striden i administrasjonen øker sannsynligheten for strengere kontroll med brikkeeksporten, noe som tynget brikkeaksjene i USA og kinesiske AI-aksjer ([FT](https://www.ft.com/content/0d4e93e4-895e-4ae0-a01b-833a3ed440a8)).
-
-**Administrasjon og infrastruktur.** Lederen for Det nasjonale økonomiske rådet, Kevin Hassett, avviste en rapport om at han planlegger å gå av ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/kevin-hassett-says-he-will-remain-as-trump-economic-adviser)). Fredag kveld stanset luftfartsmyndigheten alle flyavganger i landet etter en kommunikasjonssvikt i flygeledertjenesten; ordren ble opphevet i løpet av natten ([FT](https://www.ft.com/content/c9b119ff-d1da-46a7-b2b3-4ad0544fff6b)). Virkningen på flyselskapsaksjene vil vise seg mandag.
-
-## Europa
-
-**Ukraina.** Moskva sa at Europa må velge en utsending dersom det vil ha en plass ved forhandlingsbordet; EUs utenrikssjef Kaja Kallas sa at president Putin ikke vil snakke med henne ([FT](https://www.ft.com/content/4c1f5051-94eb-4d20-b154-c45f4538a2a2)).
-
-**Tyskland og Italia.** Forbundsdagen vedtok et budsjett for 2027 med høyere låneopptak ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/german-lawmakers-sign-off-on-higher-borrowing-spending-for-2027)), og Tyskland vil foreslå kandidater til toppstillingene i ESB neste uke ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/germany-to-make-proposal-for-top-ecb-jobs-next-week-merz-says)). S&P Global beholdt de positive utsiktene for Italias kredittvurdering, slik at en oppgradering fortsatt er mulig ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/meloni-keeps-hope-of-italy-upgrade-at-s-p-to-highest-since-2011)); det vil i så fall bidra til et lavere rentepåslag for periferilandene.
+**To politiske temaer nådde markedene i løpet av uken. USAs linje overfor Iran skiftet to ganger, først slik at risikopremien i olje falt og deretter slik at den steg, mens Hormuzstredet forble stengt. Nvidia-saken ble et spørsmål om nasjonal sikkerhet og eksportkontroll i Washington og tynget halvlederaksjene i USA og Kina i forkant av et møte mellom Trump, Xi og Putin 19. november. Diplomatiet om Ukraina ble gjenopptatt, men uten gjennombrudd.**
 
 ## Midtøsten og energi
 
-Iran sendte en drone mot Bahrain, det første kjente angrepet mot landet på to måneder; USA opplyste at den ble skutt ned ([WSJ](https://www.wsj.com/world/middle-east/iran-escalates-low-level-conflict-with-a-shot-at-bahrain-73ff9b51)). Oljeprisen reagerte lite, noe som tyder på at markedet legger mer vekt på IEAs konklusjon om et overskudd ettersom skipningene fra Gulfen tar seg opp ([FT](https://www.ft.com/content/20b68fe2-9d60-4c0c-b714-1f3e03015823)), enn på enkeltstående hendelser.
+**Iran.** Søndag og mandag sa president Trump at nye angrep på Iran var «very unlikely», og Brent falt om lag 6 dollar mandag ([E24](https://e24.no/boers-og-finans/i/0B5rAG/braatt-fall-i-oljeprisen)). Teheran avviste at det foregikk samtaler og gjentok at stredet forblir stengt til landets vilkår er oppfylt ([Reuters](https://www.yahoo.com/news/politics/articles/irans-top-security-official-says-165926144.html)). Torsdag skrev Trump at USA ikke trenger en avtale med Iran, noe FT tolker som slutten på visepresident Vances forsøk på en fredsavtale ([FT](https://www.ft.com/content/3c1727bb-2966-4e5c-808b-873d14854fa2)), og Brent steg 3,3 prosent. Fredag sendte Iran en drone mot Bahrain, som USA skjøt ned ([WSJ](https://www.wsj.com/world/middle-east/iran-escalates-low-level-conflict-with-a-shot-at-bahrain-73ff9b51)); oljeprisen reagerte lite. Kanalen til markedene er risikopremien i olje: det fysiske tilbudet var uendret gjennom uken, slik at prisen fulgte den oppfattede sannsynligheten for opptrapping, mens IEAs konklusjon om et overskudd ettersom skipningene fra Gulfen tar seg opp, begrenser oppsiden ([FT](https://www.ft.com/content/20b68fe2-9d60-4c0c-b714-1f3e03015823)). For Norge virker oljeprisen gjennom bytteforholdet og kronekursen.
+
+## USA
+
+**Nvidia og eksportkontroll.** Trump sa mandag at FBI «ser på» Jensen Huangs forhold til en påstått kinesisk spion ([FT](https://www.ft.com/content/cbabf2da-2079-4b69-88e3-0ba84cf8d6fd)). To demokratiske senatorer ba administrasjonen ta vare på all dokumentasjon om brikkeeksport til Kina ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-12/senators-ask-trump-administration-to-preserve-nvidia-documents)), kongressmedlemmer krevde svar fra handelsminister Howard Lutnick om salg til et selskap med forbindelse til saken ([FT](https://www.ft.com/content/190e5eea-7461-4b26-8b69-17a3288e31d4)), og finansminister Scott Bessent sa at hans departement lenge hadde ønsket å svarteliste Megaspeed International ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/bessent-says-treasury-favored-megaspeed-on-trade-blacklist)). Kina advarte mot å bruke saken som påskudd for nye restriksjoner ([FT](https://www.ft.com/content/66e7337e-3696-4259-84f4-57533bc185bd)). Kanalen er sannsynligheten for strengere kontroll med AI-brikker, som tynget halvlederaksjer utover Nvidia fredag.
+
+**Kongressen og finanspolitikken.** Representantenes hus stemte 211–204 for å blokkere et riksrettsforslag mot forsvarsminister Pete Hegseth ([TIME](https://time.com/article/2026/11/10/hegseth-impeachment-procedural-vote-house/)), og Demokratene vant et senatsete i Mississippi ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-11/democrat-colom-wins-mississippi-senate-race-cnn-projects)). Den føderale bevilgningen utløper 11. desember, to dager etter Feds møte. Trump truet med å doble tollsatsene mot Mexico ([FT](https://www.ft.com/content/b4bb6e99-97c8-4392-a227-b7b74853ba26)), og en representant for Det hvite hus sa om tollpolitikken at «we are just getting started» ([CNBC](https://www.cnbc.com/2026/11/10/trump-tariffs-midterms-gary-cohn-inflation.html)), noe som holder vareprisene oppe mens Fed strammer inn.
+
+## Asia
+
+Det hvite hus bekreftet fredag at Trump møter Xi Jinping og Vladimir Putin 19. november i forbindelse med APEC i Shenzhen ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/trump-to-meet-with-xi-putin-nov-19-in-china-white-house-says)). Bessent beskrev målet som å redusere risiko, ikke å koble landene fra hverandre ([AP](https://www.wsbtv.com/news/business/treasury-secretary/3FCJH7SWIAZG3CV42VJI55YFNM/)). Våpenhvilen i handelen mellom USA og Kina utløper i januar; en forlengelse vil redusere risikoen for ny toll og for forstyrrelser i leverandørkjeden for halvledere. Kinas handelsoverskudd passerte 1 000 milliarder dollar for januar–oktober ([FT](https://www.ft.com/content/a267d321-a489-4426-940e-1e4be712dc09)).
+
+## Europa
+
+Russland og Ukraina holdt sine første samtaler med amerikansk mekling på ni måneder i Abu Dhabi, som endte med en fangeutveksling, men uten gjennombrudd ([FT](https://www.ft.com/content/39254048-0d84-47b8-bb97-4b9d9e1f2b92)); deretter møtte amerikanske utsendinger president Putin ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-12/zelenskyy-hails-progress-after-witkoff-kushner-meet-putin)). En troverdig vei mot våpenhvile vil redusere risikopremien i europeisk gass. Forbundsdagen vedtok et budsjett for 2027 med høyere låneopptak ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/german-lawmakers-sign-off-on-higher-borrowing-spending-for-2027)), som øker tilbudet av tyske statsobligasjoner, og Tyskland vil foreslå kandidater til toppstillingene i ESB neste uke ([Bloomberg](https://www.bloomberg.com/news/articles/2026-11-13/germany-to-make-proposal-for-top-ecb-jobs-next-week-merz-says)).
 
 ## Norge
 
-**Klimasøksmålet.** Høyesterett kom med 6–5 stemmer til at godkjenningene av Tyrving, Breidablikk og Yggdrasil er ugyldige fordi utslippene ikke ble vurdert samlet med resten av sokkelen ([E24](https://e24.no/energi-og-klima/i/M5gz2r/klimasoeksmaalet-tillatelser-maa-behandles-paa-nytt), [FT](https://www.ft.com/content/8535fe3e-f48b-43ac-b14c-946cd5aa1d51)). Staten må behandle godkjenningene på nytt, men driften fortsetter; Aker BP holder fast ved målet om produksjonsstart på Yggdrasil sommeren 2027, og energiminister Terje Aasland sa at petroleumspolitikken ligger fast. Dommen vil trolig gjøre fremtidige godkjenningsprosesser lengre, en moderat nedside for petroleumsinvesteringene etter 2027; Aker BP-aksjen steg likevel fredag.
+Høyesterett slo fredag fast med 6–5 stemmer at godkjenningene av Tyrving, Breidablikk og Yggdrasil er ugyldige fordi utslippene ikke ble vurdert samlet; staten må behandle dem på nytt, men produksjonen fortsetter ([E24](https://e24.no/energi-og-klima/i/M5gz2r/klimasoeksmaalet-tillatelser-maa-behandles-paa-nytt)). Dommen vil trolig gjøre fremtidige godkjenningsprosesser lengre. Det ble ikke rapportert noen enighet i budsjettforhandlingene for 2027; drivstoffavgiftene og Norgespris er de viktigste stridstemaene ([NTB](https://www.adressa.no/nyheter/innenriks/i/64r2we/fakta-om-budsjettsamtalene)).
 
-**Budsjettet.** Arbeiderpartiets frist for en budsjettavtale for 2027 med de andre partiene er fredag 20. november; ingen rapport om en avtale lot seg finne.
-
-## Datoer å følge
+## Datoer
 
 - **17. november:** Nvidias resultat.
-- **18.–19. november:** APEC-toppmøtet i Shenzhen; møte mellom Trump, Xi og Putin 19. november.
-- **20. november:** frist for budsjettavtale i Norge.
-- **9. desember:** rentebeslutning i Fed.
+- **18.–19. november:** APEC i Shenzhen; møte mellom Trump, Xi og Putin 19. november.
+- **20. november:** Arbeiderpartiets frist for en budsjettavtale.
+- **11. desember:** frist for føderale bevilgninger i USA.
+- **17.–18. desember:** Det europeiske råd; presidentvervet i ESB.
