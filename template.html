@@ -847,7 +847,7 @@ function snapshot() {
 function drawLetters() {
   { const hasWeek = !!((LETTERS[LDATE] || {}).week); $("#kindWeek").style.display = hasWeek ? "" : "none"; if (KIND === "week" && !hasWeek) KIND = "highlights"; }
   $$("#kindSeg button").forEach(b => b.classList.toggle("on", b.dataset.v === KIND));
-  const sel = $("#letterDate"); sel.innerHTML = DATES.map(d => `<option value="${d}"${d === LDATE ? " selected" : ""}>${fmtDateLong(d)}</option>`).join("") || `<option>–</option>`;
+  const sel = $("#letterDate"); sel.innerHTML = DATES.map(d => `<option value="${d}"${d === LDATE ? " selected" : ""}>${fmtDateLong(d)}${weeklyOf(d) ? (LANG === "no" ? " (ukerapport)" : " (weekly report)") : ""}</option>`).join("") || `<option>–</option>`;
   sel.onchange = () => { LDATE = sel.value; drawLetters(); };
   $("#snapCard").style.display = KIND === "markets" || KIND === "highlights" ? "" : "none";
   if (KIND === "markets" || KIND === "highlights") $("#snapTable").innerHTML = snapshot();
@@ -1588,9 +1588,13 @@ function runsOf(node) {
   node.childNodes.forEach(c => walk(c, {}));
   return out;
 }
+// the Saturday reports are the weekly report: its heading carries the week ("… ukerapport uke 47 (13.–20. november 2026)"),
+// which names the day in the date list and the PDF
+const weeklyOf = d => { const e = (LETTERS[d] || {}).highlights; const text = e && (e[LANG] || e.en || e.no) || ""; const m = /^#[^\n]*?,\s*((?:weekly report|ukerapport)[^\n]*?\))/im.exec(text); return m ? m[1][0].toUpperCase() + m[1].slice(1) : null; };
+const dateLabel = d => weeklyOf(d) || fmtDateLong(d);
 function docModel() {
   const date = LDATE; const blocks = [];
-  blocks.push({type: "title", text: `${t("title")}`}, {type: "meta", text: `${fmtDateLong(date)} · market-summary.jskjeltorp.workers.dev · ${LANG === "no" ? "skrevet av en automatisk agent ut fra offentlige markedsdata og dagens nyheter" : "written by a scheduled agent from public market data and the day's news"}`});
+  blocks.push({type: "title", text: `${t("title")}`}, {type: "meta", text: `${dateLabel(date)} · market-summary.jskjeltorp.workers.dev · ${LANG === "no" ? "skrevet av en automatisk agent ut fra offentlige markedsdata og dagens nyheter" : "written by a scheduled agent from public market data and the day's news"}`});
   const sn = snapRows(); blocks.push({type: "h2", runs: [{text: t("snap_title")}]}, {type: "table", head: sn.head, num: sn.num, rows: sn.rows}, {type: "figs", figs: PDF_FIGS.front, front: true});
   let first = true;
   for (const kind of DOC_KINDS) {
@@ -1855,7 +1859,7 @@ async function pdfDefinition(m) {
     // the first page opens on a sky-tinted band, as Norges Bank's own publications do; letter pages get a hairline between the columns
     background: page => page === 1 ? {canvas: [{type: "rect", x: 0, y: 0, w: PW, h: 168, color: SKY}, {type: "rect", x: 0, y: 168, w: PW, h: 3, color: SAND}]}
       : pageInfo[page] ? {canvas: [{type: "line", x1: MX + COLW + GAP / 2, y1: pageInfo[page].colTop, x2: MX + COLW + GAP / 2, y2: PH - MY, lineWidth: 0.4, lineColor: GRAY}]} : null,
-    header: page => page === 1 ? null : {text: `${t("title")} · ${fmtDateLong(m.date)}`, style: "meta", alignment: "right", margin: [MX, 28, MX, 0]},
+    header: page => page === 1 ? null : {text: `${t("title")} · ${dateLabel(m.date)}`, style: "meta", alignment: "right", margin: [MX, 28, MX, 0]},
     footer: (cur, total) => ({text: `${cur} / ${total}`, style: "meta", alignment: "right", margin: [MX, 24, MX, 0]}),
     content, defaultStyle, styles};
   return dd;
