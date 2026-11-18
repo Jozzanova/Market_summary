@@ -1,0 +1,31 @@
+# Markets, Wednesday 18 November 2026
+
+**Equities fell for a fourth day on Tuesday, but the weakness moved from chip makers to software, banks and Europe, where the STOXX 600 had its largest one-day fall since March. Nvidia's results after the close were well above expectations and lifted its shares in after-hours trading, yet the relief in Asia this morning has been partial. Rates gave equities a little support: Treasury and Bund yields edged lower, while Fed officials argued about the pace of tightening rather than its direction.**
+
+## Equities
+
+**United States.** The S&P 500 fell 1.03 per cent, the Nasdaq Composite 0.74 per cent and the Dow 1.65 per cent; all eleven S&P sectors fell, and the S&P 500 and the Nasdaq recorded their first four-day losing streak since September ([Reuters](https://www.marketscreener.com/news/wall-street-ends-lower-ahead-of-nvidia-results-focus-turns-to-anthropic-debut-ce785edcdc81fe2d)). Software and banks led the decline: Salesforce, Workday, Intuit and Adobe fell between 4.3 and 9.5 per cent, Microsoft 2.3 per cent and JPMorgan 2.4 per cent. Unlike on Monday, semiconductors held up: SOX rose 0.34 per cent, while NYSE FANG+ fell 0.76 per cent, the Magnificent Seven ETF 0.78 per cent and the AI ETF AIQ 1.72 per cent. Financials (−1.91 per cent) were the weakest sector and energy (−0.52 per cent) the strongest. VIX rose 2.6 points to 25.5.
+
+**Nvidia.** Revenue rose 103 per cent from a year earlier to 115.8 billion dollars, against 109.3 billion expected, and the company guided to about 130 billion dollars for the fourth quarter, excluding data-centre sales to China; it raised its revenue-growth forecast for next year to 75 per cent from 70 per cent ([E24](https://e24.no/boers-og-finans/i/Oypzbq/nvidia-oekte-inntektene-til-115-8-milliarder-dollar-i-tredje-kvartal-bedre-enn-ventet)). The shares rose as much as 3 per cent in extended trading ([Reuters](https://www.marketscreener.com/news/wall-street-ends-lower-ahead-of-nvidia-results-focus-turns-to-anthropic-debut-ce785edcdc81fe2d)) and nearly 5 per cent later in the evening ([AFP](https://www.france24.com/en/live-news/20261118-stocks-drop-as-booming-nvidia-results-drowned-by-spy-scandal)). The board said it has no plans to reinstate Jensen Huang as chief executive.
+
+**Europe and Norway.** STOXX Europe 600 fell 1.75 per cent, its largest fall since 20 March; technology fell 3.9 per cent, with ASML down 5.3 per cent, and Deutsche Bank fell 6 per cent after media reports based on leaked documents about its dealings with clients ([Reuters](https://www.marketscreener.com/news/european-stocks-mark-worst-day-in-eight-months-on-ai-jitters-deutsche-bank-slides-ce785edcdd8df723)). The DAX fell 2.08 per cent, the Euro Stoxx 50 2.15 per cent and the FTSE 100 1.76 per cent. Oslo Børs fell only 0.34 per cent, supported by a firmer oil price: Equinor rose 0.99 per cent, while Reach Subsea fell 22.9 per cent after weak quarterly figures and Tomra 4.3 per cent ([E24](https://e24.no/boers-og-finans/i/8PmPEr/nedgang-paa-oslo-boers)). After the close Equinor reported an ongoing cyber-attack on certain IT systems, with no effect on operations or production ([Equinor](https://www.marketscreener.com/news/equinor-detected-cyber-attack-ce785edcdd8cf427)).
+
+**Asia this morning.** The gains at the open after Nvidia's results faded during the session ([AFP](https://www.france24.com/en/live-news/20261118-stocks-drop-as-booming-nvidia-results-drowned-by-spy-scandal)); KOSPI is up 1.2 per cent and the Nikkei 0.4 per cent, while the Hang Seng is down 1.1 per cent and the Shanghai Composite 0.4 per cent.
+
+{chart: ^GSPC,^SOX,^STOXX,OSEBX.OL,^KS11 | 1m | indexed}
+
+## Fixed income and credit
+
+The US 10-year yield fell 2 basis points to 5.10 per cent and the 5-year 3.5 basis points to 4.90 per cent. Retail sales rose 0.2 per cent in October, but 0.6 per cent excluding autos ([Census Bureau](https://www.census.gov/retail/marts/www/marts_current.pdf)), and Fed officials continued to argue for tightening; fed funds futures price a Fed hike of about 24 basis points on 9 December and a further 19 basis points by 27 January, unchanged from Monday. The German 10-year yield fell 3 basis points to 3.42 per cent and the 2-year 5 basis points to 3.11 per cent. The Norwegian 10-year yield (live) rose 2 basis points to 4.41 per cent, against the global move; no source explains it.
+
+## Commodities and currencies
+
+**Energy.** Brent rose slightly on Tuesday, as reports of tanker attacks in the Strait of Hormuz offset the prospect of a supply surplus ([Reuters](https://www.brecorder.com/news/40449308/oil-prices-caught-between-rising-mideast-exports-and-tanker-attacks)), and is 92.48 dollars this morning, 0.7 per cent lower. Brent has fallen about 21 per cent this month. TTF gas rose 0.8 per cent to 85.40 euros.
+
+**Metals.** Gold is down 2.0 per cent at 3,787 dollars and silver 3.1 per cent, as the dollar and higher real rates continue to weigh; copper is down 1.5 per cent.
+
+**Currencies.** The dollar index is 103.62, EUR/USD 1.0991 and USD/JPY 159.15. The krone is slightly stronger this morning: EUR/NOK is 10.590, 0.25 per cent below Tuesday's close, and USD/NOK 9.637, while I-44 (a rise is a weaker krone) was 109.63 at Tuesday's fix, little changed. The firmer oil price on Tuesday and the smaller fall on Oslo Børs than abroad are consistent with a steady krone. The 12-month differential in government rates against the euro area is 1.79 percentage points.
+
+## Today
+
+UK consumer prices for October are published at 08:00 Oslo time, after unemployment fell to 4.6 per cent and regular pay growth to 3.5 per cent in the three months to September ([ONS](https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/bulletins/uklabourmarket/november2026)). Statistics Norway publishes the labour cost index for the third quarter at 08:00, the final euro-area HICP for October follows at 11:00 (flash 4.0 per cent), Governor Bailey speaks at 16:00 and the FOMC minutes of the October meeting are released at 20:00. Anthropic's listing on Nasdaq is expected on Thursday ([AFP](https://www.france24.com/en/live-news/20261118-stocks-drop-as-booming-nvidia-results-drowned-by-spy-scandal)).
