@@ -1383,7 +1383,7 @@ def main():
             log(f"  !! nb live failed: {repr(e)[:160]}; keeping the previous data")
             blocks["nb_live"] = prev.get("nb_live", {})
             kept.append("nb_live")
-    else:
+        # the 12-month rates, US PCE and the MPR projections belong to the morning run too (an else here hid them since 16 Nov)
         try:
             fetch_r12m(blocks)
         except Exception as e:
