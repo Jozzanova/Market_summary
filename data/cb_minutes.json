@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-18",
+ "updated": "2026-11-19",
  "items": [
   {
    "bank": "Federal Reserve",
@@ -17,14 +17,14 @@
   {
    "bank": "Federal Reserve",
    "kind": "minutes",
-   "title": "Minutes of the Federal Open Market Committee, September 15–16, 2026",
-   "date": "2026-10-07",
-   "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260916.htm",
-   "summary_en": "The minutes of the 15–16 September meeting record a unanimous decision to raise the federal funds target range by 25 bp to 3.75–4.00 per cent. Participants judged inflation still too high, with energy prices and AI-related demand adding pressure, staff estimates of August PCE inflation at 3.8 per cent headline and 3.4 per cent core, and short-term inflation expectations elevated, while the labour market was seen as stable and near full employment with unemployment at 4.1 per cent. Most participants expected another increase by year-end but stressed data dependence; many saw a higher rate path as insurance against persistent inflation, and several judged policy only modestly restrictive or not restrictive. Risks to inflation were seen as skewed to the upside (a prolonged energy shock, AI demand, tariffs, de-anchoring after five years above target), with labour-market risks broadly balanced. The minutes of the 27–28 October meeting are due around 18 November.",
-   "summary_no": "Referatet fra møtet 15.–16. september viser en enstemmig beslutning om å heve målintervallet med 25 basispunkter til 3,75–4,00 prosent. Deltakerne mente inflasjonen fortsatt var for høy, drevet av energipriser og KI-relatert etterspørsel; stabens anslag for PCE-inflasjonen i august var 3,8 prosent totalt og 3,4 prosent for kjerneinflasjonen, og kortsiktige inflasjonsforventninger var forhøyede, mens arbeidsmarkedet ble vurdert som stabilt og nær full sysselsetting med 4,1 prosent ledighet. De fleste deltakerne ventet enda en heving før årsskiftet, men understreket at beslutningene avhenger av dataene; mange så en høyere rentebane som forsikring mot vedvarende inflasjon, og flere mente politikken bare var moderat innstrammende eller ikke innstrammende. Risikoen for inflasjonen ble vurdert som skjev oppover (langvarig energisjokk, KI-etterspørsel, toll, forankringsrisiko etter fem år over målet), mens risikoen for arbeidsmarkedet var balansert. Referatet fra møtet 27.–28. oktober ventes rundt 18. november.",
+   "title": "Minutes of the Federal Open Market Committee, October 27–28, 2026",
+   "date": "2026-11-18",
+   "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20261028.htm",
+   "summary_en": "The minutes of the 27–28 October meeting record a 10–2 decision to keep the federal funds target range at 3.75–4.00 per cent; Lisa Cook and Beth Hammack dissented in favour of a 25 basis point increase. Most participants supported a pause to learn more about AI-related investment demand, financing conditions, the effects of the September increase and geopolitical developments, and a few called it a close call. Almost all participants judged that further increases in the target range would likely be appropriate under their baseline outlooks, and a couple said a move of more than 25 basis points could be considered at the next meeting if inflation data were unfavourable. The vast majority saw upside risks to inflation from energy prices, supply constraints and AI-related demand, while risks to the labour market were seen as broadly balanced; participants also flagged AI-related debt, hedge fund leverage and cyber risk.",
+   "summary_no": "Referatet fra møtet 27.–28. oktober viser at målintervallet for styringsrenten ble holdt uendret på 3,75–4,00 prosent med 10 mot 2 stemmer; Lisa Cook og Beth Hammack ville heve med 25 basispunkter. De fleste deltakerne støttet en pause for å få mer informasjon om KI-relatert investeringsetterspørsel, finansieringsforholdene, virkningen av hevingen i september og geopolitiske forhold, og noen få mente beslutningen var vanskelig. Nesten alle deltakerne mente at ytterligere hevinger trolig vil være riktig gitt deres hovedscenario, og et par deltakere sa at en heving på mer enn 25 basispunkter kunne vurderes på neste møte dersom prisveksttallene blir ugunstige. Det store flertallet så risiko for høyere prisvekst som følge av energipriser, kapasitetsskranker og KI-relatert etterspørsel, mens risikoen for arbeidsmarkedet ble vurdert som balansert; deltakerne pekte også på KI-relatert gjeld, giring i hedgefond og digital risiko.",
    "quotes": [
-    "Participants generally assessed that economic activity was expanding at a solid pace.",
-    "Participants generally viewed the upside and downside risks to the labor market as broadly balanced."
+    "The Committee will deliver price stability.",
+    "an increase of more than 25 basis points could warrant consideration at the next meeting"
    ]
   },
   {
