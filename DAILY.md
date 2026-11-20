@@ -206,6 +206,16 @@ Norwegian text has the same register: "endret seg forholdsvis lite", "steg marke
 morgentimene", "handelsvektet", "reprising". Length: key points 250-380 words, markets 400-600 words, macro 400-600 words,
 politics 250-450 words.
 
+Explain the mechanism (user, 20 Nov 2026): a technical term or market mechanism is never left as a bare label. Whenever
+a report gives a cause that the reader cannot follow without knowing how it works, add a clause or a short sentence that
+says what happens and why it moves the price. Not "gold fell on margin calls" / "krav om sikkerhetsstillelse", but
+"investors who had lost money on equities had to post more collateral with their brokers and sold gold to raise the cash"
+/ "investorer med tap på aksjer måtte stille mer sikkerhet hos meglerne sine og solgte gull for å skaffe likvider". The
+same goes for terms such as short squeeze, basis trade, carry trade, gamma hedging, term premium, convexity hedging,
+swap spreads, repo stress, rebalancing flows, stop-loss selling. One clause is enough; the key points may be a little
+longer for it. Ordinary terms the reader uses daily (basis points, yield curve, policy rate, rate differential) need no
+explanation.
+
 - **Key points** (`highlights`, Norwegian title `Hovedtrekk`; the first and default report on the page, its button is red): six
   short paragraphs with bold lead-ins, always in this order and always all six, nothing else, no chart. One market per
   paragraph, so the reader can find each market in the same place every day. (1) **Equities** / **Aksjer**: the broad
