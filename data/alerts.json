@@ -1,6 +1,91 @@
 {
- "updated": "2026-11-19T05:08:03Z",
+ "updated": "2026-11-20T05:08:28Z",
  "events": [
+  {
+   "id": "^GSPC:2026-11-19",
+   "time": "2026-11-20T05:05:00Z",
+   "severity": "medium",
+   "kind": "equity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/%5EGSPC",
+   "text_en": "The S&P 500 fell 2.0 per cent to 7,176 on 19 November 2026 (live print, session not closed).",
+   "text_no": "S&P 500 falt 2,0 prosent til 7 176 2026-11-19 (løpende kurs, handelen ikke avsluttet).",
+   "value": {
+    "symbol": "^GSPC",
+    "last": 7175.83,
+    "d1": -2.018,
+    "unit": "%"
+   }
+  },
+  {
+   "id": "^N225:2026-11-20",
+   "time": "2026-11-20T05:05:00Z",
+   "severity": "high",
+   "kind": "equity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/%5EN225",
+   "text_en": "The Nikkei 225 fell 4.9 per cent to 56,557 on 20 November 2026.",
+   "text_no": "Nikkei 225 falt 4,9 prosent til 56 557 2026-11-20.",
+   "value": {
+    "symbol": "^N225",
+    "last": 56556.64,
+    "d1": -4.858,
+    "unit": "%"
+   }
+  },
+  {
+   "id": "^KS11:2026-11-20",
+   "time": "2026-11-20T05:05:00Z",
+   "severity": "high",
+   "kind": "equity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/%5EKS11",
+   "text_en": "The KOSPI fell 5.1 per cent to 4,875 on 20 November 2026.",
+   "text_no": "KOSPI falt 5,1 prosent til 4 875 2026-11-20.",
+   "value": {
+    "symbol": "^KS11",
+    "last": 4875.17,
+    "d1": -5.113,
+    "unit": "%"
+   }
+  },
+  {
+   "id": "^VIX:2026-11-19",
+   "time": "2026-11-20T05:05:00Z",
+   "severity": "medium",
+   "kind": "equity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/%5EVIX",
+   "text_en": "The VIX rose 3.9 points to 28.4 on 19 November 2026 (live print, session not closed).",
+   "text_no": "VIX steg 3,9 poeng til 28,4 2026-11-19 (løpende kurs, handelen ikke avsluttet).",
+   "value": {
+    "symbol": "^VIX",
+    "last": 28.44,
+    "d1": 3.88,
+    "unit": "pt"
+   }
+  },
+  {
+   "id": "GC=F:2026-11-20",
+   "time": "2026-11-20T05:05:00Z",
+   "severity": "medium",
+   "kind": "commodity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/GC%3DF",
+   "text_en": "Gold fell 4.1 per cent to 3,534 on 20 November 2026.",
+   "text_no": "Gull falt 4,1 prosent til 3 534 2026-11-20.",
+   "value": {
+    "symbol": "GC=F",
+    "last": 3533.8,
+    "d1": -4.116,
+    "unit": "%"
+   }
+  },
   {
    "id": "^SOX:2026-11-16",
    "time": "2026-11-17T05:05:00Z",
@@ -253,91 +338,6 @@
     "symbol": "USDNOK=X",
     "last": 9.44045,
     "d1": 1.51,
-    "unit": "%"
-   }
-  },
-  {
-   "id": "^N225:2026-11-09",
-   "time": "2026-11-09T04:50:00Z",
-   "severity": "medium",
-   "kind": "equity",
-   "origin": "data",
-   "source": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/quote/%5EN225",
-   "text_en": "The Nikkei 225 rose 3.2 per cent to 59,276 on 9 November 2026.",
-   "text_no": "Nikkei 225 steg 3,2 prosent til 59 276 2026-11-09.",
-   "value": {
-    "symbol": "^N225",
-    "last": 59276.5,
-    "d1": 3.207,
-    "unit": "%"
-   }
-  },
-  {
-   "id": "USDNOK=X:2026-11-07",
-   "time": "2026-11-07T00:07:00Z",
-   "severity": "high",
-   "kind": "fx",
-   "origin": "data",
-   "source": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/quote/USDNOK%3DX",
-   "text_en": "USD/NOK rose 1.7 per cent to 9.4537 on 7 November 2026. A rise is a weaker krone.",
-   "text_no": "USD/NOK steg 1,7 prosent til 9,4537 2026-11-07. Oppgang betyr svakere krone.",
-   "value": {
-    "symbol": "USDNOK=X",
-    "last": 9.4537,
-    "d1": 1.653,
-    "unit": "%"
-   }
-  },
-  {
-   "id": "^SOX:2026-11-06",
-   "time": "2026-11-06T22:15:00Z",
-   "severity": "medium",
-   "kind": "equity",
-   "origin": "data",
-   "source": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/quote/%5ESOX",
-   "text_en": "The SOX semiconductor index rose 4.2 per cent to 9,390 on 6 November 2026.",
-   "text_no": "Halvlederindeksen SOX steg 4,2 prosent til 9 390 2026-11-06.",
-   "value": {
-    "symbol": "^SOX",
-    "last": 9390.25,
-    "d1": 4.207,
-    "unit": "%"
-   }
-  },
-  {
-   "id": "USDNOK=X:2026-11-06",
-   "time": "2026-11-06T11:13:00Z",
-   "severity": "medium",
-   "kind": "fx",
-   "origin": "data",
-   "source": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/quote/USDNOK%3DX",
-   "text_en": "USD/NOK rose 1.0 per cent to 9.3887 on 6 November 2026. A rise is a weaker krone.",
-   "text_no": "USD/NOK steg 1,0 prosent til 9,3887 2026-11-06. Oppgang betyr svakere krone.",
-   "value": {
-    "symbol": "USDNOK=X",
-    "last": 9.38867,
-    "d1": 1.014,
-    "unit": "%"
-   }
-  },
-  {
-   "id": "^N225:2026-11-06",
-   "time": "2026-11-06T06:45:00Z",
-   "severity": "high",
-   "kind": "equity",
-   "origin": "data",
-   "source": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/quote/%5EN225",
-   "text_en": "The Nikkei 225 fell 6.0 per cent to 57,435 on 6 November 2026.",
-   "text_no": "Nikkei 225 falt 6,0 prosent til 57 435 2026-11-06.",
-   "value": {
-    "symbol": "^N225",
-    "last": 57434.769531,
-    "d1": -5.965,
     "unit": "%"
    }
   }
