@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-19",
+ "updated": "2026-11-21",
  "items": [
   {
    "bank": "Federal Reserve",
@@ -224,14 +224,14 @@
   {
    "bank": "Bank of Canada",
    "kind": "minutes",
-   "title": "Summary of Governing Council deliberations: fixed announcement date of September 2, 2026",
-   "date": "2026-09-16",
-   "url": "https://www.bankofcanada.ca/2026/09/summary-of-governing-council-deliberations-fixed-announcement-date-of-september-2-2026/",
-   "summary_en": "The summary covers the 2 September decision to hold the policy rate at 2.25 %. Governing Council judged that the economy and inflation were evolving broadly as forecast in July, with a soft but improving labour market and the economy still in excess supply, although members held a range of views on the degree of slack and on how far new US tariffs would weigh on growth. CPI inflation had hovered around 3 % on gasoline prices, with core near 2 % and little evidence so far of spillover; members nonetheless agreed that the risk of inflation spreading had risen as the Middle East conflict kept oil prices high. Members agreed that spillover into other CPI components could require a monetary policy response to prevent broad-based inflation. The summary of the 28 October deliberations is due around 11–12 November.",
-   "summary_no": "Oppsummeringen dekker beslutningen 2. september om å holde styringsrenten på 2,25 prosent. Rådet vurderte at økonomien og inflasjonen utviklet seg om lag som anslått i juli, med et svakt, men bedret arbeidsmarked og fortsatt ledig kapasitet i økonomien, selv om medlemmene hadde ulike syn på hvor stort produksjonsgapet var og hvor mye nye amerikanske tollsatser ville tynge veksten. KPI-inflasjonen hadde ligget rundt 3 prosent på grunn av bensinprisene, med kjerneinflasjon nær 2 prosent og lite tegn så langt til smitte; medlemmene var likevel enige om at risikoen for at inflasjonen sprer seg hadde økt fordi Midtøsten-konflikten holdt oljeprisene høye. Medlemmene var enige om at smitte til andre KPI-komponenter kunne kreve en pengepolitisk respons for å hindre bredt basert inflasjon. Oppsummeringen fra møtet 28. oktober ventes rundt 11.–12. november.",
+   "title": "Summary of Governing Council deliberations: decision of 28 October 2026",
+   "date": "2026-11-10",
+   "url": "https://www.bankofcanada.ca/2026/11/summary-of-governing-council-deliberations-fixed-announcement-date-of-october-28-2026/",
+   "summary_en": "The Governing Council raised the policy rate by 25 basis points to 2.5 per cent on 28 October. Persistently high energy prices were feeding into business costs, and businesses expected to pass more of them on to consumers, raising the risk of broad and lasting inflation; a more resilient economy left less slack to offset these pressures. Members said further increases could be needed but would decide one meeting at a time. No formal dissent is reported, but views differed on how fully costs would pass through and on the underlying strength of the labour market.",
+   "summary_no": "Styret hevet styringsrenten med 25 basispunkter til 2,5 prosent 28. oktober. Vedvarende høye energipriser slo ut i bedriftenes kostnader, og bedriftene ventet å velte mer av dem over på forbrukerne, noe som økte risikoen for bred og varig prisvekst; en mer robust økonomi ga mindre ledig kapasitet til å dempe presset. Medlemmene mente det kan bli behov for ytterligere hevinger, men vil avgjøre fra møte til møte. Ingen formell dissens er referert, men synene var delte på hvor fullt kostnadene vil slå ut i prisene og på den underliggende styrken i arbeidsmarkedet.",
    "quotes": [
-    "Governing Council decided to leave the policy interest rate unchanged at 2.25%.",
-    "members agreed that the risk that inflation spreads to other goods and services had risen."
+    "there could be a need to increase the policy rate further",
+    "one meeting at a time with the benefit of the best available information"
    ]
   },
   {
