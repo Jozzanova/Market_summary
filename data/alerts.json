@@ -1,6 +1,23 @@
 {
- "updated": "2026-11-21T05:07:06Z",
+ "updated": "2026-11-23T05:07:45Z",
  "events": [
+  {
+   "id": "^KS11:2026-11-23",
+   "time": "2026-11-23T05:06:00Z",
+   "severity": "medium",
+   "kind": "equity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/%5EKS11",
+   "text_en": "The KOSPI fell 3.2 per cent to 4,713 on 23 November 2026.",
+   "text_no": "KOSPI falt 3,2 prosent til 4 713 2026-11-23.",
+   "value": {
+    "symbol": "^KS11",
+    "last": 4712.97,
+    "d1": -3.224,
+    "unit": "%"
+   }
+  },
   {
    "id": "^GSPC:2026-11-20",
    "time": "2026-11-21T05:05:00Z",
@@ -321,23 +338,6 @@
     "symbol": "^KS11",
     "last": 5210.259766,
     "d1": 3.814,
-    "unit": "%"
-   }
-  },
-  {
-   "id": "^VIX:2026-11-09",
-   "time": "2026-11-09T21:15:00Z",
-   "severity": "medium",
-   "kind": "equity",
-   "origin": "data",
-   "source": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/quote/%5EVIX",
-   "text_en": "The VIX fell 22.3 per cent to 19.9 on 9 November 2026.",
-   "text_no": "VIX falt 22,3 prosent til 19,9 2026-11-09.",
-   "value": {
-    "symbol": "^VIX",
-    "last": 19.92,
-    "d1": -22.309,
     "unit": "%"
    }
   }
