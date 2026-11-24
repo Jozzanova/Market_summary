@@ -1,6 +1,108 @@
 {
- "updated": "2026-11-23T05:07:45Z",
+ "updated": "2026-11-24T05:09:47Z",
  "events": [
+  {
+   "id": "^GSPC:2026-11-23",
+   "time": "2026-11-24T05:06:00Z",
+   "severity": "high",
+   "kind": "equity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/%5EGSPC",
+   "text_en": "The S&P 500 rose 4.7 per cent to 7,237 on 23 November 2026 (live print, session not closed).",
+   "text_no": "S&P 500 steg 4,7 prosent til 7 237 2026-11-23 (løpende kurs, handelen ikke avsluttet).",
+   "value": {
+    "symbol": "^GSPC",
+    "last": 7237.17,
+    "d1": 4.729,
+    "unit": "%"
+   }
+  },
+  {
+   "id": "^IXIC:2026-11-23",
+   "time": "2026-11-24T05:06:00Z",
+   "severity": "high",
+   "kind": "equity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/%5EIXIC",
+   "text_en": "The Nasdaq Composite rose 6.5 per cent to 24,090 on 23 November 2026 (live print, session not closed).",
+   "text_no": "Nasdaq Composite steg 6,5 prosent til 24 090 2026-11-23 (løpende kurs, handelen ikke avsluttet).",
+   "value": {
+    "symbol": "^IXIC",
+    "last": 24089.5577,
+    "d1": 6.507,
+    "unit": "%"
+   }
+  },
+  {
+   "id": "^SOX:2026-11-23",
+   "time": "2026-11-24T05:06:00Z",
+   "severity": "high",
+   "kind": "equity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/%5ESOX",
+   "text_en": "The SOX semiconductor index rose 14.0 per cent to 9,588 on 23 November 2026 (live print, session not closed).",
+   "text_no": "Halvlederindeksen SOX steg 14,0 prosent til 9 588 2026-11-23 (løpende kurs, handelen ikke avsluttet).",
+   "value": {
+    "symbol": "^SOX",
+    "last": 9588.0498,
+    "d1": 14.027,
+    "unit": "%"
+   }
+  },
+  {
+   "id": "^N225:2026-11-24",
+   "time": "2026-11-24T05:06:00Z",
+   "severity": "medium",
+   "kind": "equity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/%5EN225",
+   "text_en": "The Nikkei 225 rose 4.0 per cent to 58,675 on 24 November 2026.",
+   "text_no": "Nikkei 225 steg 4,0 prosent til 58 675 2026-11-24.",
+   "value": {
+    "symbol": "^N225",
+    "last": 58674.72,
+    "d1": 3.966,
+    "unit": "%"
+   }
+  },
+  {
+   "id": "^KS11:2026-11-24",
+   "time": "2026-11-24T05:06:00Z",
+   "severity": "high",
+   "kind": "equity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/%5EKS11",
+   "text_en": "The KOSPI rose 7.0 per cent to 5,043 on 24 November 2026.",
+   "text_no": "KOSPI steg 7,0 prosent til 5 043 2026-11-24.",
+   "value": {
+    "symbol": "^KS11",
+    "last": 5042.93,
+    "d1": 7.001,
+    "unit": "%"
+   }
+  },
+  {
+   "id": "^VIX:2026-11-23",
+   "time": "2026-11-24T05:06:00Z",
+   "severity": "high",
+   "kind": "equity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/%5EVIX",
+   "text_en": "The VIX fell 9.3 points to 26.6 on 23 November 2026 (live print, session not closed).",
+   "text_no": "VIX falt 9,3 poeng til 26,6 2026-11-23 (løpende kurs, handelen ikke avsluttet).",
+   "value": {
+    "symbol": "^VIX",
+    "last": 26.61,
+    "d1": -9.28,
+    "unit": "pt"
+   }
+  },
   {
    "id": "^KS11:2026-11-23",
    "time": "2026-11-23T05:06:00Z",
@@ -236,108 +338,6 @@
     "symbol": "TTF=F",
     "last": 95.045,
     "d1": 8.972,
-    "unit": "%"
-   }
-  },
-  {
-   "id": "GC=F:2026-11-12",
-   "time": "2026-11-12T21:43:00Z",
-   "severity": "medium",
-   "kind": "commodity",
-   "origin": "data",
-   "source": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/quote/GC%3DF",
-   "text_en": "Gold fell 3.0 per cent to 3,879 on 12 November 2026.",
-   "text_no": "Gull falt 3,0 prosent til 3 879 2026-11-12.",
-   "value": {
-    "symbol": "GC=F",
-    "last": 3878.7,
-    "d1": -3.045,
-    "unit": "%"
-   }
-  },
-  {
-   "id": "^SOX:2026-11-11",
-   "time": "2026-11-11T16:09:00Z",
-   "severity": "medium",
-   "kind": "equity",
-   "origin": "data",
-   "source": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/quote/%5ESOX",
-   "text_en": "The SOX semiconductor index rose 6.0 per cent to 10,599 on 11 November 2026.",
-   "text_no": "Halvlederindeksen SOX steg 6,0 prosent til 10 599 2026-11-11.",
-   "value": {
-    "symbol": "^SOX",
-    "last": 10598.860352,
-    "d1": 6.006,
-    "unit": "%"
-   }
-  },
-  {
-   "id": "USDNOK=X:2026-11-11",
-   "time": "2026-11-11T05:06:00Z",
-   "severity": "medium",
-   "kind": "fx",
-   "origin": "data",
-   "source": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/quote/USDNOK%3DX",
-   "text_en": "USD/NOK rose 1.0 per cent to 9.4974 on 11 November 2026. A rise is a weaker krone.",
-   "text_no": "USD/NOK steg 1,0 prosent til 9,4974 2026-11-11. Oppgang betyr svakere krone.",
-   "value": {
-    "symbol": "USDNOK=X",
-    "last": 9.49735,
-    "d1": 1.025,
-    "unit": "%"
-   }
-  },
-  {
-   "id": "DGS2:2026-11-10",
-   "time": "2026-11-10T22:00:00Z",
-   "severity": "medium",
-   "kind": "rates",
-   "origin": "data",
-   "source": "FRED",
-   "url": "https://fred.stlouisfed.org/series/DGS2",
-   "text_en": "The US 2-year Treasury yield rose 17 basis points to 4.73 per cent on 10 November 2026.",
-   "text_no": "Den amerikanske toårsrenten steg 17 basispunkter til 4,73 prosent 2026-11-10.",
-   "value": {
-    "symbol": "DGS2",
-    "last": 4.73,
-    "d1": 17.0,
-    "unit": "bp"
-   }
-  },
-  {
-   "id": "^N225:2026-11-10",
-   "time": "2026-11-10T04:50:00Z",
-   "severity": "medium",
-   "kind": "equity",
-   "origin": "data",
-   "source": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/quote/%5EN225",
-   "text_en": "The Nikkei 225 rose 2.6 per cent to 60,277 on 10 November 2026.",
-   "text_no": "Nikkei 225 steg 2,6 prosent til 60 277 2026-11-10.",
-   "value": {
-    "symbol": "^N225",
-    "last": 60277.089844,
-    "d1": 2.555,
-    "unit": "%"
-   }
-  },
-  {
-   "id": "^KS11:2026-11-10",
-   "time": "2026-11-10T04:45:00Z",
-   "severity": "medium",
-   "kind": "equity",
-   "origin": "data",
-   "source": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/quote/%5EKS11",
-   "text_en": "The KOSPI rose 3.8 per cent to 5,210 on 10 November 2026.",
-   "text_no": "KOSPI steg 3,8 prosent til 5 210 2026-11-10.",
-   "value": {
-    "symbol": "^KS11",
-    "last": 5210.259766,
-    "d1": 3.814,
     "unit": "%"
    }
   }
