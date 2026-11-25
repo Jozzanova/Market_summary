@@ -1,6 +1,6 @@
 # Markedet, onsdag 25. november 2026
 
-**Mandagens oppgang i AI-aksjene holdt ikke: halvlederaksjene ga tilbake det meste tirsdag, og kursfallet har spredt seg til Seoul, Tokyo og Taipei i morgentimene, mens aksjer utenfor teknologi steg og Dow gikk opp. Meldinger om at Washington snart vil innføre ny toll på varer fra Kina, EU og fjorten andre økonomier bidro til forsiktigheten. Statsrentene falt litt, oljeprisen tok seg opp etter nye angrep på skipsfarten i Hormuzstredet, og kronen svekket seg noe.**
+**Mandagens oppgang i AI-aksjene holdt ikke: halvlederaksjene tapte tirsdag det meste av det de steg dagen før, og kursfallet har spredt seg til Seoul, Tokyo og Taipei i morgentimene, mens Dow og aksjer utenfor teknologi steg. Meldinger om at Washington snart vil innføre ny toll på varer fra Kina, EU og fjorten andre økonomier dempet også risikoviljen. Statsrentene falt litt, oljeprisen tok seg opp etter nye angrep på skipsfarten i Hormuzstredet, og kronen svekket seg noe.**
 
 {chart: ^GSPC,^SOX,^KS11,OSEBX.OL | 1m | indexed}
 

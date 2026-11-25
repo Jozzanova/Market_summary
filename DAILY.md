@@ -160,7 +160,7 @@ the name or the argument. The same in English: name the official and say what th
 Market English does not translate word for word; use the Norwegian a central-bank economist would: "firm inflation" is
 "vedvarende høy inflasjon" (never "fast"), "sticky" is "seig" or "treg", "elevated" is "høy", "soft data" is "svake tall",
 "hawkish/dovish" is "haukete/duete", "rally" is "oppgang", "sell-off" is "kursfall", "risk-off" is "flukt til trygge
-plasseringer", "repricing" is "reprising", "front-loaded" is "framskyndet", "the curve steepened" is "kurven ble brattere". "Rotated out of / into" is "roterte ut av / inn i" (never "rullerte"); "unwind" is "avvikle" or "reversere".
+plasseringer", "repricing" is "reprising", "front-loaded" is "framskyndet", "the curve steepened" is "kurven ble brattere". "Rotated out of / into" is "roterte ut av / inn i" (never "rullerte"); "unwind" is "avvikle" or "reversere". "Gave back (gains)" is "tapte det meste av oppgangen" or "falt tilbake" (never "ga tilbake"); "added to the caution" / "the cautious mood" is "dempet risikoviljen" or "gjorde investorene mer forsiktige" (never "bidro til forsiktigheten": Norwegian does not make a definite noun of a mood that has not been introduced). An index, share or price "steg" or "falt", never "gikk opp" or "gikk ned".
 Format: Markdown with a `# Title, weekday day month year` heading, where the title is just the name of the piece, never
 "report", "rapport", "letter" or "brev": `Key points` / `Hovedtrekk`, `Markets` / `Markedet`, `Macro` / `Makro`, `Politics` / `Politikk`,
 `Norges Bank` / `Norges Bank` (for example `# Markedet, tirsdag 10. november 2026`); `##` sections, bullets, bold lead-ins, Markdown tables
