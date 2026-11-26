@@ -1,0 +1,32 @@
+# Politics, Thursday 26 November 2026
+
+**Washington set out its proposed Section 301 tariffs on Wednesday: rates of 15 to 35 per cent for fourteen economies, but no effective date before late January, which appears to explain why the reaction in markets was smaller than the headlines. In the Middle East, Houthi strikes on Saudi Red Sea ports and continued attacks on tankers near Hormuz keep a risk premium in oil ahead of Sunday's OPEC+ meeting. In Norway, four parties agreed on the 2027 budget, but without a majority in the Storting.**
+
+## United States
+
+- **Tariff proposals, not yet tariffs.** The US Trade Representative found that the practices of fourteen economies relating to "structural excess capacity" are "unreasonable and burden or restrict US commerce", and proposed duties of up to 20 per cent on China, 15 per cent on the European Union (including the ordinary MFN tariff), up to 15 per cent on Japan, Korea, Switzerland and Taiwan, up to 20 per cent on Singapore, up to 25 per cent on India and up to 35 per cent on Vietnam ([USTR](https://ustr.gov/about/policy-offices/press-office/press-releases/2026/november/ustr-makes-determinations-and-proposes-actions-14-section-301-investigations-relating-structural)). Comments are due by 5 January and a hearing is set for 25 January. Trade Representative Jamieson Greer said the duties "top up a few percentage points" and none will take effect "earlier than a couple months from now" ([CNBC](https://www.cnbc.com/2026/11/25/us-tariffs-trump-section-301.html)). No determination was made for Norway and Mexico, whose investigations continue. *Market channel:* the 15 per cent ceiling agreed with the EU, Japan and Korea is kept, and the Chinese rate fits within the trade truce that expires on 10 January, so the near-term effect on prices and trade is limited; the risk lies in the fallback rates if consultations fail.
+- **Reactions.** China's foreign ministry called "overcapacity" "a false issue" without announcing countermeasures, and the European Commission said it "strongly reject[s] the premise that Europe is a source of structural overcapacity" ([Al Jazeera](https://www.aljazeera.com/economy/2026/11/25/world-reacts-to-trumps-new-tariffs-as-us-stocks-tumble)). Singapore's trade ministry said it was "very disappointed" ([MTI Singapore](https://www.meti.gov.sg/newsroom/meti-media-statement-on-the-office-of-the-united-states-trade-representative--ustr--s-findings-and-proposed-actions-in-section-301-investigation-into-structural-excess-capacity/)). Brazil, which faces a separate 10 per cent tariff on Embraer aircraft, said it "will not yield to this type of threat" ([Al Jazeera](https://www.aljazeera.com/news/2026/11/26/brazil-blasts-unacceptable-new-us-tariff-proposals)).
+- **Nvidia.** President Trump said a pardon for Jensen Huang is "always an option" but that he does not expect one to be necessary ([CNBC](https://www.cnbc.com/2026/11/25/trump-huang-pardon-politics.html)). Huang meets the House Foreign Affairs Committee behind closed doors on 1 December, and the Senate Banking Committee holds a public hearing on 3 December ([CNBC](https://www.cnbc.com/2026/11/24/trump-jensen-huang-nvidia.html)). *Market channel:* the hearings keep governance and export-control risk around the largest AI stock in view.
+- **Funding.** Congress must fund the government by 11 December; the House has passed three of twelve appropriations bills and a continuing resolution into the new year is expected ([Deseret News](https://www.deseret.com/politics/2026/11/22/will-there-be-a-government-shutdown/)).
+
+## Middle East and energy
+
+- **Red Sea and Hormuz.** The Houthis claimed strikes on Jeddah and Jazan ports on Wednesday; the Saudi-led coalition reported minor damage at Jazan and no casualties ([AFP](https://www.timesofisrael.com/yemens-houthis-say-they-hit-two-saudi-ports-in-response-to-coalition-strikes/)). Tanker transits through Hormuz fell by more than 40 per cent in the week to 23 November compared with early November ([Al Jazeera](https://www.aljazeera.com/news/2026/11/24/hormuz-oil-traffic-is-down-40-percent-are-irans-tanker-attacks-working)). *Market channel:* attacks on export infrastructure raise the risk premium in oil, which supports the krone through the terms of trade.
+- **OPEC+.** Ministers meet on Sunday with quotas expiring at year-end; members must agree capacity baselines before setting 2027 output, and Rystad expects a surplus even if output is rolled over ([Rigzone](https://www.rigzone.com/news/opec_will_see_one_of_most_complicated_meetings_in_years-25-nov-2026-185164-article/)).
+
+## Europe
+
+- **Spain** votes on Sunday; polls published on 22 November put the PP narrowly ahead of PSOE, with PP and Vox projected at 190–210 seats against 176 needed for a majority ([Euronews](https://www.aol.co.uk/articles/polls-put-spains-pp-ahead-192841000.html)). The Bundestag votes on Germany's 2027 budget on Friday ([DPA](https://www.yahoo.com/news/world/articles/merz-warns-germany-cant-afford-111823195.html)).
+
+## Norway
+
+- **Budget deal without a majority.** Labour, the Centre Party, the Socialist Left and Red agreed on the 2027 budget on Wednesday, while the Greens stayed out; the deal raises the use of oil revenue by 7.4 billion kroner to 615.8 billion and cuts the diesel tax ([Aftenposten](https://www.aftenposten.no/norge/politikk/i/0vn14B/fire-partier-enige-om-statsbudsjett-kutter-i-drivstoffavgift)). Green leader Ingrid Liland said "vi vil fortsatt forhandle" ([Dagbladet](https://www.dagbladet.no/nyheter/vi-vil-fortsatt-forhandle/85468241)). NTB puts the use of oil revenue at about 2.75 per cent of the fund, up from about 2.7 ([NTB](https://sol.no/nyheter/hjelper-ikke-norges-bank/85469395)). *Market channel:* a slightly more expansionary budget adds marginally to demand and to the case for keeping the policy rate high; the sums are small.
+- **Tariffs.** Norway was not given a tariff rate, as its investigation continues; Foreign Minister Espen Barth Eide said Norwegian companies "produce in response to market demand" ([Al Jazeera](https://www.aljazeera.com/economy/2026/11/25/world-reacts-to-trumps-new-tariffs-as-us-stocks-tumble)).
+
+## Dates to watch
+
+- **27 November:** Bundestag vote on the German budget.
+- **29 November:** OPEC+ ministerial meeting; Spanish general election.
+- **30 November:** the Storting finance committee's budget recommendation.
+- **1 and 3 December:** Jensen Huang before the House and the Senate Banking Committee.
+- **11 December:** US federal funding deadline.
