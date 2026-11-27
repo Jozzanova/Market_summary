@@ -1,6 +1,40 @@
 {
- "updated": "2026-11-26T05:08:12Z",
+ "updated": "2026-11-27T05:08:53Z",
  "events": [
+  {
+   "id": "GC=F:2026-11-26",
+   "time": "2026-11-27T05:06:00Z",
+   "severity": "medium",
+   "kind": "commodity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/GC%3DF",
+   "text_en": "Gold rose 3.5 per cent to 3,659 on 26 November 2026 (live print, session not closed).",
+   "text_no": "Gull steg 3,5 prosent til 3 659 2026-11-26 (løpende kurs, handelen ikke avsluttet).",
+   "value": {
+    "symbol": "GC=F",
+    "last": 3659.1,
+    "d1": 3.487,
+    "unit": "%"
+   }
+  },
+  {
+   "id": "HG=F:2026-11-26",
+   "time": "2026-11-27T05:06:00Z",
+   "severity": "medium",
+   "kind": "commodity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/HG%3DF",
+   "text_en": "Copper rose 5.6 per cent to 5.633 on 26 November 2026 (live print, session not closed).",
+   "text_no": "Kobber steg 5,6 prosent til 5,633 2026-11-26 (løpende kurs, handelen ikke avsluttet).",
+   "value": {
+    "symbol": "HG=F",
+    "last": 5.6335,
+    "d1": 5.645,
+    "unit": "%"
+   }
+  },
   {
    "id": "^SOX:2026-11-24",
    "time": "2026-11-25T05:06:00Z",
@@ -305,40 +339,6 @@
     "last": 28.44,
     "d1": 3.88,
     "unit": "pt"
-   }
-  },
-  {
-   "id": "GC=F:2026-11-20",
-   "time": "2026-11-20T05:05:00Z",
-   "severity": "medium",
-   "kind": "commodity",
-   "origin": "data",
-   "source": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/quote/GC%3DF",
-   "text_en": "Gold fell 4.1 per cent to 3,534 on 20 November 2026.",
-   "text_no": "Gull falt 4,1 prosent til 3 534 2026-11-20.",
-   "value": {
-    "symbol": "GC=F",
-    "last": 3533.8,
-    "d1": -4.116,
-    "unit": "%"
-   }
-  },
-  {
-   "id": "^SOX:2026-11-16",
-   "time": "2026-11-17T05:05:00Z",
-   "severity": "medium",
-   "kind": "equity",
-   "origin": "data",
-   "source": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/quote/%5ESOX",
-   "text_en": "The SOX semiconductor index fell 5.3 per cent to 9,611 on 16 November 2026 (live print, session not closed).",
-   "text_no": "Halvlederindeksen SOX falt 5,3 prosent til 9 611 2026-11-16 (løpende kurs, handelen ikke avsluttet).",
-   "value": {
-    "symbol": "^SOX",
-    "last": 9610.65,
-    "d1": -5.279,
-    "unit": "%"
    }
   }
  ]

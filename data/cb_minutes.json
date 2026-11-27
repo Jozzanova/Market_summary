@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-21",
+ "updated": "2026-11-27",
  "items": [
   {
    "bank": "Federal Reserve",
@@ -43,14 +43,14 @@
   {
    "bank": "ECB",
    "kind": "minutes",
-   "title": "Account of the monetary policy meeting of the Governing Council held in Berlin on 9–10 September 2026",
-   "date": "2026-10-08",
-   "url": "https://www.ecb.europa.eu/press/accounts/2026/html/ecb.mg261008~a10153d090.en.html",
-   "summary_en": "The account of the 9–10 September meeting shows that all members supported Chief Economist Lane's proposal to raise the three key rates by 25 bp, lifting the deposit facility rate from 2.25 to 2.50 per cent; no member argued for holding or for a larger move. Members agreed the inflation outlook had deteriorated as the energy shock proved more persistent, with headline HICP at 3.3 per cent in August, energy inflation at 14.3 per cent and core inflation projected above 2 per cent throughout the horizon, while growth was revised up to 0.9 per cent for 2026 and 1.4 per cent for 2027. The hike was judged robust across the mild, adverse and severe scenarios, and the 2.50 per cent deposit rate was seen as still within the estimated neutral range. Members agreed on neutral communication: the move was neither the start of a predetermined tightening cycle nor the final increase. The account of the 29 October meeting is due around 26 November.",
-   "summary_no": "Referatet fra møtet 9.–10. september viser at alle medlemmene støttet sjeføkonom Lanes forslag om å heve de tre styringsrentene med 25 basispunkter, slik at innskuddsrenten gikk fra 2,25 til 2,50 prosent; ingen argumenterte for å holde renten eller for et større skritt. Medlemmene var enige om at inflasjonsutsiktene hadde forverret seg fordi energisjokket viste seg mer varig, med HICP-inflasjon på 3,3 prosent i august, energiinflasjon på 14,3 prosent og kjerneinflasjon anslått over 2 prosent gjennom hele prognoseperioden, mens veksten ble oppjustert til 0,9 prosent for 2026 og 1,4 prosent for 2027. Hevingen ble vurdert som robust på tvers av det milde, det ugunstige og det alvorlige scenarioet, og en innskuddsrente på 2,50 prosent ble ansett å ligge innenfor det anslåtte nøytrale intervallet. Medlemmene var enige om nøytral kommunikasjon: hevingen var verken starten på en forhåndsbestemt innstrammingssyklus eller den siste hevingen. Referatet fra møtet 29. oktober ventes rundt 26. november.",
+   "title": "Account of the monetary policy meeting of the Governing Council held in Frankfurt am Main on 28–29 October 2026",
+   "date": "2026-11-26",
+   "url": "https://www.ecb.europa.eu/press/accounts/2026/html/ecb.mg261126~ccf28c8071.en.html",
+   "summary_en": "The account of the 28–29 October meeting shows that all members agreed with Chief Economist Lane's proposal to keep the three key rates unchanged, with the deposit facility rate at 2.50 per cent, after the hikes in June and September. A large number of members said the incoming data had confirmed the case for further tightening and that they could have supported a hike at the meeting, arguing that energy prices had moved above the adverse scenario, that the option value of waiting was small and that a hike would only frontload the necessary tightening. All members, including these, supported the hold on the condition that communication stressed that the direction of travel was clear unless the inflation outlook improved significantly. Members noted that underlying inflation was broadly stable, that there were so far no material second-round effects and that financial conditions had tightened, which would weigh on demand and inflation; the December staff projections were seen as important for calibrating the next step.",
+   "summary_no": "Referatet fra møtet 28.–29. oktober viser at alle medlemmene sluttet seg til sjeføkonom Lanes forslag om å holde de tre styringsrentene uendret, med innskuddsrenten på 2,50 prosent, etter hevingene i juni og september. Et stort antall medlemmer mente at dataene siden septembermøtet hadde bekreftet behovet for ytterligere innstramming, og at de kunne ha støttet en heving allerede på møtet, fordi energiprisene hadde steget over nivåene i det ugunstige scenarioet, fordi verdien av å vente var liten og fordi en heving bare ville framskynde den nødvendige innstrammingen. Alle medlemmene, også disse, støttet beslutningen om uendret rente på betingelse av at kommunikasjonen understreket at retningen var klar med mindre utsiktene for prisveksten ble vesentlig bedre. Medlemmene pekte på at den underliggende prisveksten var stabil, at det så langt ikke var tegn til vesentlige andrerundeeffekter og at finansielle forhold var strammet til, noe som vil dempe etterspørselen og prisveksten; desemberprojeksjonene ble ansett som viktige for å avpasse neste steg.",
    "quotes": [
-    "all members supported the proposal made by Mr Lane to raise the three key ECB interest rates by 25 basis points.",
-    "The outlook – and therefore the baseline of the September staff projections – remained highly uncertain."
+    "Since a further interest rate hike was necessary, unless the inflation outlook improved significantly, the only issue was timing.",
+    "A hike at the current meeting would simply frontload the necessary monetary policy tightening."
    ]
   },
   {
