@@ -1,6 +1,40 @@
 {
- "updated": "2026-11-27T05:08:53Z",
+ "updated": "2026-11-28T05:07:02Z",
  "events": [
+  {
+   "id": "^SOX:2026-11-27",
+   "time": "2026-11-28T05:05:00Z",
+   "severity": "medium",
+   "kind": "equity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/%5ESOX",
+   "text_en": "The SOX semiconductor index rose 4.7 per cent to 9,187 on 27 November 2026 (live print, session not closed).",
+   "text_no": "Halvlederindeksen SOX steg 4,7 prosent til 9 187 2026-11-27 (løpende kurs, handelen ikke avsluttet).",
+   "value": {
+    "symbol": "^SOX",
+    "last": 9186.71,
+    "d1": 4.694,
+    "unit": "%"
+   }
+  },
+  {
+   "id": "^KS11:2026-11-27",
+   "time": "2026-11-28T05:05:00Z",
+   "severity": "medium",
+   "kind": "equity",
+   "origin": "data",
+   "source": "Yahoo Finance",
+   "url": "https://finance.yahoo.com/quote/%5EKS11",
+   "text_en": "The KOSPI rose 4.3 per cent to 4,916 on 27 November 2026 (live print, session not closed).",
+   "text_no": "KOSPI steg 4,3 prosent til 4 916 2026-11-27 (løpende kurs, handelen ikke avsluttet).",
+   "value": {
+    "symbol": "^KS11",
+    "last": 4915.68,
+    "d1": 4.34,
+    "unit": "%"
+   }
+  },
   {
    "id": "GC=F:2026-11-26",
    "time": "2026-11-27T05:06:00Z",
@@ -305,40 +339,6 @@
     "last": 56556.64,
     "d1": -4.858,
     "unit": "%"
-   }
-  },
-  {
-   "id": "^KS11:2026-11-20",
-   "time": "2026-11-20T05:05:00Z",
-   "severity": "high",
-   "kind": "equity",
-   "origin": "data",
-   "source": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/quote/%5EKS11",
-   "text_en": "The KOSPI fell 5.1 per cent to 4,875 on 20 November 2026.",
-   "text_no": "KOSPI falt 5,1 prosent til 4 875 2026-11-20.",
-   "value": {
-    "symbol": "^KS11",
-    "last": 4875.17,
-    "d1": -5.113,
-    "unit": "%"
-   }
-  },
-  {
-   "id": "^VIX:2026-11-19",
-   "time": "2026-11-20T05:05:00Z",
-   "severity": "medium",
-   "kind": "equity",
-   "origin": "data",
-   "source": "Yahoo Finance",
-   "url": "https://finance.yahoo.com/quote/%5EVIX",
-   "text_en": "The VIX rose 3.9 points to 28.4 on 19 November 2026 (live print, session not closed).",
-   "text_no": "VIX steg 3,9 poeng til 28,4 2026-11-19 (løpende kurs, handelen ikke avsluttet).",
-   "value": {
-    "symbol": "^VIX",
-    "last": 28.44,
-    "d1": 3.88,
-    "unit": "pt"
    }
   }
  ]

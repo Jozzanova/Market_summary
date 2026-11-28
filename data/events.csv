@@ -1,7 +1,4 @@
 date,time_oslo,region,category,event,event_no,importance,note_en,note_no,source_url
-2026-11-26,,UK,central bank,Bank of England Financial Stability Report,Bank of England: finansiell stabilitetsrapport,medium,,,https://www.bankofengland.co.uk/events/upcoming-events
-2026-11-26,,US,markets,Thanksgiving: US stock and bond markets closed,"USA: Thanksgiving, aksje- og obligasjonsmarkedene stengt",low,Early close on Friday 27 November,Tidlig stengning fredag 27. november,https://www.nyse.com/markets/hours-calendars
-2026-11-26,08:00,NO,data,"Statistics Norway: national accounts, Q3 (mainland GDP)","SSB: nasjonalregnskap, 3. kvartal (BNP Fastlands-Norge)",high,,,https://www.ssb.no/en/kalender
 2026-11-27,,EA,politics,German Bundestag final vote on the 2027 federal budget,Tyskland: Forbundsdagen stemmer over statsbudsjettet for 2027,low,Budget of about 560 billion euros,Budsjett på om lag 560 milliarder euro,https://www.yahoo.com/news/world/articles/merz-warns-germany-cant-afford-111823195.html
 2026-11-27,08:00,NO,data,"Statistics Norway: retail trade, October","SSB: varehandelsindeksen, oktober",medium,,,https://www.ssb.no/kalender
 2026-11-27,08:00,NO,data,"NAV: registered unemployment, November","NAV: hovedtall om arbeidsmarkedet, november",medium,,,https://www.nav.no/no/nav-og-samfunn/statistikk/publiseringskalender
